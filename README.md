@@ -20,6 +20,7 @@ A modern, responsive personal website built with Next.js and Tailwind CSS.
 - TypeScript
 - Tailwind CSS
 - ESLint
+- abhishek
 
 ## Getting Started
 
