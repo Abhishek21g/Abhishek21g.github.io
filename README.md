@@ -1,3 +1,6 @@
+# abhishekenaguthi.github.io
+This is a public website and portfolio of Abhishek Enaguthi
+
 # Personal Website
 
 A modern, responsive personal website built with Next.js and Tailwind CSS.
