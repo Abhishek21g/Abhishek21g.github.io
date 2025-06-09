@@ -64,6 +64,7 @@ const Starfield: React.FC<{ className?: string }> = ({ className }) => {
     let lastShootingStar = Date.now();
 
     function draw() {
+      if (!ctx) return;
       ctx.clearRect(0, 0, width, height);
 
       // Draw stars

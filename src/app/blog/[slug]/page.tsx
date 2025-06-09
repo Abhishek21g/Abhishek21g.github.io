@@ -41,4 +41,13 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
       </div>
     </main>
   );
+}
+
+export async function generateStaticParams() {
+  // Replace this with your actual slugs source (e.g., from a CMS, file system, etc.)
+  return [
+    { slug: 'first-post' },
+    { slug: 'second-post' },
+    { slug: 'third-post' },
+  ];
 } 
