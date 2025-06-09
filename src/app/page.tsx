@@ -25,8 +25,8 @@ export default function Home() {
           />
         </div>
         <div className="w-full md:w-1/2 text-center md:text-left text-white">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">Abhishek Enaguthi</h1>
-          <p className="text-xl md:text-2xl text-gray-300 mb-6">Software Engineer | Compilers | GPU Programming | HPC | Systems</p>
+          <h1 className="text-4xl md:text-6xl font-bold mb-4">Software Engineer specializing in Compilers, GPU Programming, and HPC</h1>
+          <p className="text-xl md:text-2xl text-gray-300 mb-6">Abhishek Enaguthi</p>
           <div className="flex flex-col md:flex-row gap-4 justify-center md:justify-start">
             <Link href="/blog" className="px-6 py-3 bg-white text-black rounded-full font-semibold hover:bg-gray-200 transition">Read My Blog</Link>
             <Link href="/gallery" className="px-6 py-3 border border-white text-white rounded-full font-semibold hover:bg-white/10 transition">View Gallery</Link>
