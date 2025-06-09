@@ -25,6 +25,9 @@ jobs:
       - name: Build static site
         run: npx next build
 
+      - name: Copy CNAME to out directory
+        run: cp public/CNAME out/CNAME
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
