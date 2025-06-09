@@ -4,22 +4,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Starfield from '../../components/Starfield'
 
-const posts = [
-  {
-    slug: 'skydiving-adventure',
-    title: 'Skydiving Adventure',
-    excerpt: 'Jumped out of a plane. 10/10 would recommend. Read for the full adrenaline rush.',
-    date: 'March 2024',
-    image: '/images/skydiving.jpg',
-  },
-  {
-    slug: 'sc24-experience',
-    title: 'Supercomputing Conference 2024',
-    excerpt: 'Represented OSU at SC24, presenting our digital twin project and connecting with global leaders in HPC and AI.',
-    date: 'November 2024',
-    image: '/images/IMG_9530.JPG',
-  },
-];
+type BlogPost = {
+  slug: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  image: string;
+};
+const posts: BlogPost[] = [];
 
 export default function BlogPage() {
   return (
