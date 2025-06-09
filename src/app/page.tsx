@@ -16,7 +16,7 @@ export default function Home() {
       <section className="flex flex-col md:flex-row items-center justify-center py-16 md:py-32 px-4 md:px-0 fade-in relative z-10">
         <div className="w-full md:w-1/2 flex justify-center mb-8 md:mb-0">
           <Image
-            src="/images/oracle image .jpeg"
+            src={require("../assets/images/oracle image .jpeg").default}
             alt="Abhishek Enaguthi at Oracle"
             width={400}
             height={400}

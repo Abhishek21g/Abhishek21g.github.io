@@ -1,10 +1,10 @@
 import Image from 'next/image'
 
 const photos = [
-  '/images/IMG_9530.JPG',
-  '/images/IMG_7597 2.jpg',
-  '/images/IMG_7596 2.jpg',
-  '/images/IMG_4193 2.jpg',
+  require('../../assets/images/IMG_9530.JPG').default,
+  require('../../assets/images/IMG_7597 2.jpg').default,
+  require('../../assets/images/IMG_7596 2.jpg').default,
+  require('../../assets/images/IMG_4193 2.jpg').default,
 ];
 
 export default function UnemployedAdventuresPage() {
