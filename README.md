@@ -6,7 +6,7 @@ Visit the live site: [enaguthi.com](https://enaguthi.com)
 
 ## 🌟 Features
 
-- **Modern Design**: Clean, minimalist interface inspired by Apple's design language
+- **Modern Design**: Clean, minimalist interface
 - **Responsive Layout**: Seamless experience across all devices
 - **Interactive Elements**: 
   - Dynamic starfield background
