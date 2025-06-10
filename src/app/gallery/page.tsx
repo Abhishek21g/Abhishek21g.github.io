@@ -1,24 +1,13 @@
 import Image from 'next/image'
 
-const photos = [
-  require('../../assets/images/IMG_9530.JPG').default,
-  require('../../assets/images/IMG_7597 2.jpg').default,
-  require('../../assets/images/IMG_7596 2.jpg').default,
-  require('../../assets/images/IMG_4193 2.jpg').default,
-];
-
-export default function UnemployedAdventuresPage() {
+export default function GalleryPage() {
   return (
     <main className="min-h-screen bg-black px-4 py-12">
-      <h1 className="text-4xl font-bold mb-10 text-center text-white">Unemployed Adventures</h1>
+      <h1 className="text-4xl font-bold mb-10 text-center text-white">Gallery</h1>
       <div className="flex flex-col gap-12 max-w-2xl mx-auto">
-        {photos.map((src, i) => (
-          <div key={i} className="flex flex-col items-center">
-            <div className="relative w-full max-w-lg aspect-[3/2] rounded-2xl overflow-hidden shadow-lg">
-              <Image src={src} alt={`Unemployed Adventure ${i + 1}`} fill className="object-cover w-full h-full" />
-            </div>
-          </div>
-        ))}
+        <div className="text-center text-gray-300">
+          <p className="text-xl">Coming soon...</p>
+        </div>
       </div>
     </main>
   );
