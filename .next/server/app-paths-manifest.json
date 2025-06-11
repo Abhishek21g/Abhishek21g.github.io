@@ -1,3 +1,7 @@
 {
-  "/page": "app/page.js"
+  "/_not-found": "app/_not-found.js",
+  "/blog/supercomputing-2024/page": "app/blog/supercomputing-2024/page.js",
+  "/blog/lightning-talk/page": "app/blog/lightning-talk/page.js",
+  "/page": "app/page.js",
+  "/gallery/page": "app/gallery/page.js"
 }

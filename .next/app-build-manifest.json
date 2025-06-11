@@ -1,15 +1,51 @@
 {
   "pages": {
-    "/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/page.js"
+    "/_not-found": [
+      "static/chunks/webpack-9ac89f2bd505cfd1.js",
+      "static/chunks/fd9d1056-127cb4d9d8c0d7d8.js",
+      "static/chunks/69-d9b29a2f52c895e0.js",
+      "static/chunks/main-app-5df171357be90578.js",
+      "static/chunks/app/_not-found-d6bbeaa2ce5205ad.js"
     ],
     "/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/layout.css",
-      "static/chunks/app/layout.js"
+      "static/chunks/webpack-9ac89f2bd505cfd1.js",
+      "static/chunks/fd9d1056-127cb4d9d8c0d7d8.js",
+      "static/chunks/69-d9b29a2f52c895e0.js",
+      "static/chunks/main-app-5df171357be90578.js",
+      "static/css/e963772abec988e7.css",
+      "static/chunks/app/layout-54517651669bd457.js"
+    ],
+    "/blog/supercomputing-2024/page": [
+      "static/chunks/webpack-9ac89f2bd505cfd1.js",
+      "static/chunks/fd9d1056-127cb4d9d8c0d7d8.js",
+      "static/chunks/69-d9b29a2f52c895e0.js",
+      "static/chunks/main-app-5df171357be90578.js",
+      "static/chunks/901-80f2450e44fa15bb.js",
+      "static/chunks/app/blog/supercomputing-2024/page-6037f649a02770f6.js"
+    ],
+    "/blog/lightning-talk/page": [
+      "static/chunks/webpack-9ac89f2bd505cfd1.js",
+      "static/chunks/fd9d1056-127cb4d9d8c0d7d8.js",
+      "static/chunks/69-d9b29a2f52c895e0.js",
+      "static/chunks/main-app-5df171357be90578.js",
+      "static/chunks/901-80f2450e44fa15bb.js",
+      "static/chunks/app/blog/lightning-talk/page-871da16250b0acde.js"
+    ],
+    "/page": [
+      "static/chunks/webpack-9ac89f2bd505cfd1.js",
+      "static/chunks/fd9d1056-127cb4d9d8c0d7d8.js",
+      "static/chunks/69-d9b29a2f52c895e0.js",
+      "static/chunks/main-app-5df171357be90578.js",
+      "static/chunks/901-80f2450e44fa15bb.js",
+      "static/chunks/703-c2c022aab67cb7e7.js",
+      "static/chunks/app/page-6da7ab2ba1c4451e.js"
+    ],
+    "/gallery/page": [
+      "static/chunks/webpack-9ac89f2bd505cfd1.js",
+      "static/chunks/fd9d1056-127cb4d9d8c0d7d8.js",
+      "static/chunks/69-d9b29a2f52c895e0.js",
+      "static/chunks/main-app-5df171357be90578.js",
+      "static/chunks/app/gallery/page-b26437ba10ea9389.js"
     ]
   }
 }
