@@ -1,0 +1,248 @@
+---
+title: "AI Week at OSU: Digital Twins, The CIC, and Our Omniverse Demo"
+date: "2024-03-20"
+author: "Abhishek Enaguthi"
+category: "Presentations"
+tags: ["HPC", "Omniverse", "NVIDIA", "Research", "Digital Twins", "OSU", "AI Week"]
+---
+
+# AI Week at OSU: Digital Twins, The CIC, and Our Omniverse Demo
+
+Last week during OSU's AI Week, I got to share our work at the new Jen-Hsun Huang & Lori Mills Huang Collaborative Innovation Complex (yeah, it's a mouthful—everyone just calls it the CIC). If you haven't heard, this building is OSU's latest flex: it's packed with next-gen research labs, supercomputing power, and basically sets the standard for how tech buildings should be built.
+
+Our project? We're building a digital twin of the CIC's main server room using NVIDIA Omniverse. That means we're making a full virtual replica—down to the racks, sensors, and sliding doors—that can simulate everything from airflow to security to how people interact with the space.
+
+It's not just for show. With this setup, we can test layouts, run AI-powered cooling simulations, and find ways to make the whole place more efficient (and way less chaotic) before anyone touches real hardware.
+
+At AI Week, I gave a quick lightning talk about how we made all this happen—and showed off our Omniverse poster. The crowd favorite? The smart sliding door. I scripted it to open on its own if you walk up, and for some reason, everyone thought that was the coolest thing ever.
+
+This project is about making campus tech smarter and more future-proof, and honestly, it's just getting started. Stay tuned.
+
+## Event Photos
+
+<div class="image-gallery" style="
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+  padding: 1rem;
+">
+  <div class="image-container" style="
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  ">
+    <img 
+      src="/Blog1/IMG_4170.jpeg" 
+      alt="AI Week Presentation" 
+      style="
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        display: block;
+      "
+    />
+    <div style="
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 0.5rem;
+      font-size: 0.9rem;
+    ">
+      AI Week Presentation
+    </div>
+  </div>
+
+  <div class="image-container" style="
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  ">
+    <img 
+      src="/Blog1/IMG_4171.jpeg" 
+      alt="CIC Server Room" 
+      style="
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        display: block;
+      "
+    />
+    <div style="
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 0.5rem;
+      font-size: 0.9rem;
+    ">
+      CIC Server Room
+    </div>
+  </div>
+
+  <div class="image-container" style="
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  ">
+    <img 
+      src="/Blog1/IMG_7984.jpg" 
+      alt="Digital Twin Demo" 
+      style="
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        display: block;
+      "
+    />
+    <div style="
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 0.5rem;
+      font-size: 0.9rem;
+    ">
+      Digital Twin Demo
+    </div>
+  </div>
+
+  <div class="image-container" style="
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  ">
+    <img 
+      src="/Blog1/IMG_8855.jpg" 
+      alt="Omniverse Setup" 
+      style="
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        display: block;
+      "
+    />
+    <div style="
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 0.5rem;
+      font-size: 0.9rem;
+    ">
+      Omniverse Setup
+    </div>
+  </div>
+
+  <div class="image-container" style="
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  ">
+    <img 
+      src="/Blog1/IMG_1111.jpg" 
+      alt="AI Week Event" 
+      style="
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        display: block;
+      "
+    />
+    <div style="
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 0.5rem;
+      font-size: 0.9rem;
+    ">
+      AI Week Event
+    </div>
+  </div>
+</div>
+
+<style>
+  .image-container:hover {
+    transform: scale(1.02);
+  }
+</style>
+
+## Presentation
+
+<div class="presentation-container">
+  <iframe
+    src="/Blog1/Omniverse_Lightning_Talk.pdf#toolbar=0&navpanes=0&scrollbar=0&view=FitH&page=1"
+    width="100%"
+    height="600px"
+    style="border: none; border-radius: 12px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"
+    id="presentation-frame"
+  ></iframe>
+</div>
+
+<script>
+  let currentPage = 1;
+  const totalPages = 20; // Adjust this number based on your actual number of slides
+  
+  function advanceSlide() {
+    currentPage = (currentPage % totalPages) + 1;
+    const frame = document.getElementById('presentation-frame');
+    frame.src = `/Blog1/Omniverse_Lightning_Talk.pdf#toolbar=0&navpanes=0&scrollbar=0&view=FitH&page=${currentPage}`;
+  }
+  
+  // Advance slides every 2 seconds
+  setInterval(advanceSlide, 2000);
+</script>
+
+## Project Demo Video
+
+<div class="video-container" style="
+  max-width: 800px;
+  margin: 2rem auto;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+">
+  <video 
+    controls 
+    width="100%" 
+    style="display: block;"
+  >
+    <source src="/Blog1/Project X.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+</div>
+
+## Key Takeaways
+
+- Digital twin technology is revolutionizing how we plan and optimize server room infrastructure
+- NVIDIA Omniverse provides powerful tools for creating interactive, physics-accurate simulations
+- The CIC represents a new standard in research facility design and capabilities
+- Smart automation features, like the interactive sliding door, demonstrate the practical applications of digital twin technology
+
+## Resources
+
+- [Presentation PDF](/Blog1/Omniverse_Lightning_Talk.pdf)
+- [NVIDIA Omniverse](https://www.nvidia.com/en-us/omniverse/)
+- [OSU CIC](https://cic.oregonstate.edu/) 

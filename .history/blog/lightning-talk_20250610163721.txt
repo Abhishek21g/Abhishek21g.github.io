@@ -1,0 +1,41 @@
+---
+title: "AI Week at OSU: Digital Twins, The CIC, and Our Omniverse Demo"
+date: "2024-03-20"
+author: "Abhishek Enaguthi"
+category: "Presentations"
+tags: ["HPC", "Omniverse", "NVIDIA", "Research", "Digital Twins", "OSU", "AI Week"]
+---
+
+# AI Week at OSU: Digital Twins, The CIC, and Our Omniverse Demo
+
+Last week during OSU's AI Week, I got to share our work at the new Jen-Hsun Huang & Lori Mills Huang Collaborative Innovation Complex (yeah, it's a mouthful—everyone just calls it the CIC). If you haven't heard, this building is OSU's latest flex: it's packed with next-gen research labs, supercomputing power, and basically sets the standard for how tech buildings should be built.
+
+Our project? We're building a digital twin of the CIC's main server room using NVIDIA Omniverse. That means we're making a full virtual replica—down to the racks, sensors, and sliding doors—that can simulate everything from airflow to security to how people interact with the space.
+
+It's not just for show. With this setup, we can test layouts, run AI-powered cooling simulations, and find ways to make the whole place more efficient (and way less chaotic) before anyone touches real hardware.
+
+At AI Week, I gave a quick lightning talk about how we made all this happen—and showed off our Omniverse poster. The crowd favorite? The smart sliding door. I scripted it to open on its own if you walk up, and for some reason, everyone thought that was the coolest thing ever.
+
+This project is about making campus tech smarter and more future-proof, and honestly, it's just getting started. Stay tuned.
+
+## Presentation
+
+<iframe
+  src="/Omniverse_Lightning_Talk.pdf"
+  width="100%"
+  height="600px"
+  style="border: none;"
+></iframe>
+
+## Key Takeaways
+
+- Digital twin technology is revolutionizing how we plan and optimize server room infrastructure
+- NVIDIA Omniverse provides powerful tools for creating interactive, physics-accurate simulations
+- The CIC represents a new standard in research facility design and capabilities
+- Smart automation features, like the interactive sliding door, demonstrate the practical applications of digital twin technology
+
+## Resources
+
+- [Presentation PDF](/Omniverse_Lightning_Talk.pdf)
+- [NVIDIA Omniverse](https://www.nvidia.com/en-us/omniverse/)
+- [OSU CIC](https://cic.oregonstate.edu/) 

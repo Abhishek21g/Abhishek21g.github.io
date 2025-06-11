@@ -1,34 +1,25 @@
 {
   "pages": {
-    "/_not-found": [
-      "static/chunks/webpack-8746fa7e32e6072a.js",
-      "static/chunks/fd9d1056-28d8581e6e02654e.js",
-      "static/chunks/69-031fd2685a2db38c.js",
-      "static/chunks/main-app-5df171357be90578.js",
-      "static/chunks/app/_not-found-05ee067b5398f6a6.js"
+    "/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/page.js"
     ],
     "/layout": [
-      "static/chunks/webpack-8746fa7e32e6072a.js",
-      "static/chunks/fd9d1056-28d8581e6e02654e.js",
-      "static/chunks/69-031fd2685a2db38c.js",
-      "static/chunks/main-app-5df171357be90578.js",
-      "static/css/22f97c1b3c037aa6.css",
-      "static/chunks/app/layout-45fa63fc242ec6f6.js"
-    ],
-    "/page": [
-      "static/chunks/webpack-8746fa7e32e6072a.js",
-      "static/chunks/fd9d1056-28d8581e6e02654e.js",
-      "static/chunks/69-031fd2685a2db38c.js",
-      "static/chunks/main-app-5df171357be90578.js",
-      "static/chunks/607-5d0442b0111d479b.js",
-      "static/chunks/app/page-88762a35f2436699.js"
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/layout.css",
+      "static/chunks/app/layout.js"
     ],
     "/gallery/page": [
-      "static/chunks/webpack-8746fa7e32e6072a.js",
-      "static/chunks/fd9d1056-28d8581e6e02654e.js",
-      "static/chunks/69-031fd2685a2db38c.js",
-      "static/chunks/main-app-5df171357be90578.js",
-      "static/chunks/app/gallery/page-2fc50de5f1cf09ec.js"
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/gallery/page.js"
+    ],
+    "/blog/lightning-talk/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/blog/lightning-talk/page.js"
     ]
   }
 }
