@@ -7,6 +7,10 @@ export type VisitorProfile = {
   language: string;
   isReturning: boolean;
   interaction: 'calm' | 'energetic' | 'normal';
+  location?: {
+    city?: string;
+    country?: string;
+  };
 };
 
 export function useVisitorProfile() {
@@ -17,6 +21,7 @@ export function useVisitorProfile() {
     language: 'en',
     isReturning: false,
     interaction: 'normal',
+    location: undefined,
   });
 
   useEffect(() => {
@@ -37,52 +42,56 @@ export function useVisitorProfile() {
     // Language
     const language = navigator.language || 'en';
 
-    // First-time/returning
+    // Returning visitor
     let isReturning = false;
     try {
-      if (window.localStorage.getItem('hasVisited')) {
-        isReturning = true;
-      } else {
-        window.localStorage.setItem('hasVisited', 'true');
-      }
+      isReturning = !!localStorage.getItem('visited');
+      localStorage.setItem('visited', 'true');
     } catch {}
 
-    // Interaction style
+    // Interaction style (default to normal)
     let interaction: VisitorProfile['interaction'] = 'normal';
-    let lastScroll = 0;
-    let lastClick = 0;
-    let scrolls = 0;
-    let clicks = 0;
+
+    setProfile((prev) => ({
+      ...prev,
+      timeOfDay,
+      device,
+      referrer,
+      language,
+      isReturning,
+      interaction,
+    }));
+
+    // Geolocation (ipinfo.io, free, privacy-respecting)
+    fetch('https://ipinfo.io/json?token=demo')
+      .then((res) => res.json())
+      .then((data) => {
+        setProfile((prev) => ({
+          ...prev,
+          location: {
+            city: data.city,
+            country: data.country,
+          },
+        }));
+      })
+      .catch(() => {});
+  }, []);
+
+  // Track interaction style (energetic/calm)
+  useEffect(() => {
+    let lastScroll = window.scrollY;
+    let lastTime = Date.now();
+    let energetic = false;
     const handleScroll = () => {
       const now = Date.now();
-      if (now - lastScroll < 500) scrolls++;
-      lastScroll = now;
-      if (scrolls > 10) interaction = 'energetic';
+      const delta = Math.abs(window.scrollY - lastScroll);
+      if (delta > 100 && now - lastTime < 300) energetic = true;
+      lastScroll = window.scrollY;
+      lastTime = now;
+      setProfile((prev) => ({ ...prev, interaction: energetic ? 'energetic' : 'normal' }));
     };
-    const handleClick = () => {
-      const now = Date.now();
-      if (now - lastClick < 500) clicks++;
-      lastClick = now;
-      if (clicks > 10) interaction = 'energetic';
-    };
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('click', handleClick);
-    // After 5s, decide if calm/energetic
-    setTimeout(() => {
-      if (scrolls < 2 && clicks < 2) interaction = 'calm';
-      setProfile({
-        timeOfDay,
-        device,
-        referrer,
-        language,
-        isReturning,
-        interaction,
-      });
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('click', handleClick);
-    }, 5000);
-    // Initial set
-    setProfile((p) => ({ ...p, timeOfDay, device, referrer, language, isReturning }));
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return profile;

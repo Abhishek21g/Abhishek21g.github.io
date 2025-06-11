@@ -81,7 +81,22 @@ export default function Home() {
   // Pick a new theme on remix (never repeat the same theme)
   const [remixTheme, setRemixTheme] = React.useState<ThemeKey | null>(null);
   const theme: ThemeKey = remixTheme || exp.theme;
-  const greeting = remixTheme ? 'Remixed! Enjoy a surprise vibe.' : exp.greeting;
+  // Enhanced greeting
+  let greeting = remixTheme ? 'Remixed! Enjoy a surprise vibe.' : exp.greeting;
+  if (!remixTheme) {
+    let timeGreeting = '';
+    switch (profile.timeOfDay) {
+      case 'morning': timeGreeting = 'Good morning'; break;
+      case 'afternoon': timeGreeting = 'Good afternoon'; break;
+      case 'evening': timeGreeting = 'Good evening'; break;
+      case 'night': timeGreeting = 'Good night'; break;
+    }
+    let locationStr = '';
+    if (profile.location?.country) {
+      locationStr = ` from ${profile.location.city ? profile.location.city + ', ' : ''}${profile.location.country}`;
+    }
+    greeting = `${timeGreeting}${locationStr ? locationStr : ''}! ${exp.greeting}`;
+  }
   const themeBg = themeBgMap[theme];
   const isDark = themeIsDark[theme];
   const textColor = isDark ? 'text-white' : 'text-black';
@@ -99,7 +114,7 @@ export default function Home() {
   };
 
   return (
-    <main className={`min-h-screen relative transition-colors duration-500 ${themeBg}`}>
+    <main className={`min-h-screen relative transition-colors duration-500 ${themeBg} overflow-x-hidden w-full`}>
       {/* Animated, auto-hiding greeting */}
       <GreetingBanner message={greeting} theme={theme} isDark={isDark} />
       {/* Remix button */}

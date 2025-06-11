@@ -12,8 +12,13 @@ export default function GreetingBanner({ message, theme, isDark }: GreetingBanne
 
   useEffect(() => {
     setMounted(true);
-    const timer = setTimeout(() => setVisible(false), 4000);
-    return () => clearTimeout(timer);
+    setVisible(true);
+    // Hide on scroll
+    const handleScroll = () => setVisible(false);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, [message, theme]);
 
   const greetingBg = isDark ? 'bg-black/80 text-white' : 'bg-white/80 text-black';
