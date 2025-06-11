@@ -1,51 +1,51 @@
 {
   "pages": {
     "/_not-found": [
-      "static/chunks/webpack-70cecbacd3637d25.js",
+      "static/chunks/webpack-74b95ef0cf32e6b3.js",
       "static/chunks/fd9d1056-127cb4d9d8c0d7d8.js",
-      "static/chunks/69-118484bbdb7f18fa.js",
+      "static/chunks/69-4d667d41a82f1450.js",
       "static/chunks/main-app-5df171357be90578.js",
       "static/chunks/app/_not-found-d6bbeaa2ce5205ad.js"
     ],
     "/layout": [
-      "static/chunks/webpack-70cecbacd3637d25.js",
+      "static/chunks/webpack-74b95ef0cf32e6b3.js",
       "static/chunks/fd9d1056-127cb4d9d8c0d7d8.js",
-      "static/chunks/69-118484bbdb7f18fa.js",
+      "static/chunks/69-4d667d41a82f1450.js",
       "static/chunks/main-app-5df171357be90578.js",
-      "static/css/d6670d45efddf746.css",
-      "static/chunks/app/layout-95e76603d79eaddb.js"
+      "static/css/531af5e9a231129e.css",
+      "static/chunks/app/layout-515fa73cdee4a421.js"
     ],
     "/blog/supercomputing-2024/page": [
-      "static/chunks/webpack-70cecbacd3637d25.js",
+      "static/chunks/webpack-74b95ef0cf32e6b3.js",
       "static/chunks/fd9d1056-127cb4d9d8c0d7d8.js",
-      "static/chunks/69-118484bbdb7f18fa.js",
+      "static/chunks/69-4d667d41a82f1450.js",
       "static/chunks/main-app-5df171357be90578.js",
       "static/chunks/901-80f2450e44fa15bb.js",
-      "static/chunks/app/blog/supercomputing-2024/page-efecd865601427d8.js"
+      "static/chunks/app/blog/supercomputing-2024/page-bc28d5ac638f80ad.js"
     ],
     "/page": [
-      "static/chunks/webpack-70cecbacd3637d25.js",
+      "static/chunks/webpack-74b95ef0cf32e6b3.js",
       "static/chunks/fd9d1056-127cb4d9d8c0d7d8.js",
-      "static/chunks/69-118484bbdb7f18fa.js",
+      "static/chunks/69-4d667d41a82f1450.js",
       "static/chunks/main-app-5df171357be90578.js",
       "static/chunks/901-80f2450e44fa15bb.js",
-      "static/chunks/703-5a54df0ddf0a4c13.js",
-      "static/chunks/app/page-9b0627d2e81a7d48.js"
-    ],
-    "/gallery/page": [
-      "static/chunks/webpack-70cecbacd3637d25.js",
-      "static/chunks/fd9d1056-127cb4d9d8c0d7d8.js",
-      "static/chunks/69-118484bbdb7f18fa.js",
-      "static/chunks/main-app-5df171357be90578.js",
-      "static/chunks/app/gallery/page-b93c0933ea27e55c.js"
+      "static/chunks/703-8ccc219d89532c35.js",
+      "static/chunks/app/page-35a1a9cc0b031eb8.js"
     ],
     "/blog/lightning-talk/page": [
-      "static/chunks/webpack-70cecbacd3637d25.js",
+      "static/chunks/webpack-74b95ef0cf32e6b3.js",
       "static/chunks/fd9d1056-127cb4d9d8c0d7d8.js",
-      "static/chunks/69-118484bbdb7f18fa.js",
+      "static/chunks/69-4d667d41a82f1450.js",
       "static/chunks/main-app-5df171357be90578.js",
       "static/chunks/901-80f2450e44fa15bb.js",
-      "static/chunks/app/blog/lightning-talk/page-82c5edabcdae797f.js"
+      "static/chunks/app/blog/lightning-talk/page-695b493dc515e7e5.js"
+    ],
+    "/gallery/page": [
+      "static/chunks/webpack-74b95ef0cf32e6b3.js",
+      "static/chunks/fd9d1056-127cb4d9d8c0d7d8.js",
+      "static/chunks/69-4d667d41a82f1450.js",
+      "static/chunks/main-app-5df171357be90578.js",
+      "static/chunks/app/gallery/page-84f0cb5da0d0ab04.js"
     ]
   }
 }
