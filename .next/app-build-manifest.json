@@ -1,51 +1,51 @@
 {
   "pages": {
     "/_not-found": [
-      "static/chunks/webpack-9ac89f2bd505cfd1.js",
+      "static/chunks/webpack-70cecbacd3637d25.js",
       "static/chunks/fd9d1056-127cb4d9d8c0d7d8.js",
-      "static/chunks/69-d9b29a2f52c895e0.js",
+      "static/chunks/69-118484bbdb7f18fa.js",
       "static/chunks/main-app-5df171357be90578.js",
       "static/chunks/app/_not-found-d6bbeaa2ce5205ad.js"
     ],
     "/layout": [
-      "static/chunks/webpack-9ac89f2bd505cfd1.js",
+      "static/chunks/webpack-70cecbacd3637d25.js",
       "static/chunks/fd9d1056-127cb4d9d8c0d7d8.js",
-      "static/chunks/69-d9b29a2f52c895e0.js",
+      "static/chunks/69-118484bbdb7f18fa.js",
       "static/chunks/main-app-5df171357be90578.js",
-      "static/css/e963772abec988e7.css",
-      "static/chunks/app/layout-54517651669bd457.js"
-    ],
-    "/blog/lightning-talk/page": [
-      "static/chunks/webpack-9ac89f2bd505cfd1.js",
-      "static/chunks/fd9d1056-127cb4d9d8c0d7d8.js",
-      "static/chunks/69-d9b29a2f52c895e0.js",
-      "static/chunks/main-app-5df171357be90578.js",
-      "static/chunks/901-80f2450e44fa15bb.js",
-      "static/chunks/app/blog/lightning-talk/page-82c5edabcdae797f.js"
+      "static/css/d6670d45efddf746.css",
+      "static/chunks/app/layout-95e76603d79eaddb.js"
     ],
     "/blog/supercomputing-2024/page": [
-      "static/chunks/webpack-9ac89f2bd505cfd1.js",
+      "static/chunks/webpack-70cecbacd3637d25.js",
       "static/chunks/fd9d1056-127cb4d9d8c0d7d8.js",
-      "static/chunks/69-d9b29a2f52c895e0.js",
+      "static/chunks/69-118484bbdb7f18fa.js",
       "static/chunks/main-app-5df171357be90578.js",
       "static/chunks/901-80f2450e44fa15bb.js",
       "static/chunks/app/blog/supercomputing-2024/page-efecd865601427d8.js"
     ],
-    "/gallery/page": [
-      "static/chunks/webpack-9ac89f2bd505cfd1.js",
+    "/page": [
+      "static/chunks/webpack-70cecbacd3637d25.js",
       "static/chunks/fd9d1056-127cb4d9d8c0d7d8.js",
-      "static/chunks/69-d9b29a2f52c895e0.js",
+      "static/chunks/69-118484bbdb7f18fa.js",
+      "static/chunks/main-app-5df171357be90578.js",
+      "static/chunks/901-80f2450e44fa15bb.js",
+      "static/chunks/703-5a54df0ddf0a4c13.js",
+      "static/chunks/app/page-9b0627d2e81a7d48.js"
+    ],
+    "/gallery/page": [
+      "static/chunks/webpack-70cecbacd3637d25.js",
+      "static/chunks/fd9d1056-127cb4d9d8c0d7d8.js",
+      "static/chunks/69-118484bbdb7f18fa.js",
       "static/chunks/main-app-5df171357be90578.js",
       "static/chunks/app/gallery/page-b93c0933ea27e55c.js"
     ],
-    "/page": [
-      "static/chunks/webpack-9ac89f2bd505cfd1.js",
+    "/blog/lightning-talk/page": [
+      "static/chunks/webpack-70cecbacd3637d25.js",
       "static/chunks/fd9d1056-127cb4d9d8c0d7d8.js",
-      "static/chunks/69-d9b29a2f52c895e0.js",
+      "static/chunks/69-118484bbdb7f18fa.js",
       "static/chunks/main-app-5df171357be90578.js",
       "static/chunks/901-80f2450e44fa15bb.js",
-      "static/chunks/703-c2c022aab67cb7e7.js",
-      "static/chunks/app/page-9b0627d2e81a7d48.js"
+      "static/chunks/app/blog/lightning-talk/page-82c5edabcdae797f.js"
     ]
   }
 }
