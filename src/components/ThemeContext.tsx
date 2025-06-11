@@ -9,6 +9,7 @@ export const THEMES = [
   'night', // dark, relaxed
   'professional', // clean, OSU
   'surprise', // random
+  'homecoming'
 ] as const;
 
 type Theme = typeof THEMES[number];
@@ -50,6 +51,19 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       return THEMES[(idx + 1) % THEMES.length];
     });
   };
+
+  useEffect(() => {
+    // Load theme from localStorage on mount
+    const savedTheme = localStorage.getItem('theme') as Theme;
+    if (savedTheme && THEMES.includes(savedTheme)) {
+      setTheme(savedTheme);
+    }
+  }, []);
+
+  useEffect(() => {
+    // Save theme to localStorage when it changes
+    localStorage.setItem('theme', theme);
+  }, [theme]);
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme, cycleTheme }}>
