@@ -1,25 +1,51 @@
 {
   "pages": {
-    "/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/page.js"
+    "/_not-found": [
+      "static/chunks/webpack-0ba1d695fead7cb4.js",
+      "static/chunks/fd9d1056-28d8581e6e02654e.js",
+      "static/chunks/69-031fd2685a2db38c.js",
+      "static/chunks/main-app-5df171357be90578.js",
+      "static/chunks/app/_not-found-05ee067b5398f6a6.js"
     ],
     "/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/layout.css",
-      "static/chunks/app/layout.js"
-    ],
-    "/gallery/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/gallery/page.js"
+      "static/chunks/webpack-0ba1d695fead7cb4.js",
+      "static/chunks/fd9d1056-28d8581e6e02654e.js",
+      "static/chunks/69-031fd2685a2db38c.js",
+      "static/chunks/main-app-5df171357be90578.js",
+      "static/css/9e7ad53fbed37995.css",
+      "static/chunks/app/layout-94544c86b114464e.js"
     ],
     "/blog/lightning-talk/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/blog/lightning-talk/page.js"
+      "static/chunks/webpack-0ba1d695fead7cb4.js",
+      "static/chunks/fd9d1056-28d8581e6e02654e.js",
+      "static/chunks/69-031fd2685a2db38c.js",
+      "static/chunks/main-app-5df171357be90578.js",
+      "static/chunks/901-9437ee07dded5394.js",
+      "static/chunks/app/blog/lightning-talk/page-e32d18affac0b91a.js"
+    ],
+    "/blog/supercomputing-2024/page": [
+      "static/chunks/webpack-0ba1d695fead7cb4.js",
+      "static/chunks/fd9d1056-28d8581e6e02654e.js",
+      "static/chunks/69-031fd2685a2db38c.js",
+      "static/chunks/main-app-5df171357be90578.js",
+      "static/chunks/901-9437ee07dded5394.js",
+      "static/chunks/app/blog/supercomputing-2024/page-a2c13116014fe6a7.js"
+    ],
+    "/gallery/page": [
+      "static/chunks/webpack-0ba1d695fead7cb4.js",
+      "static/chunks/fd9d1056-28d8581e6e02654e.js",
+      "static/chunks/69-031fd2685a2db38c.js",
+      "static/chunks/main-app-5df171357be90578.js",
+      "static/chunks/app/gallery/page-2fc50de5f1cf09ec.js"
+    ],
+    "/page": [
+      "static/chunks/webpack-0ba1d695fead7cb4.js",
+      "static/chunks/fd9d1056-28d8581e6e02654e.js",
+      "static/chunks/69-031fd2685a2db38c.js",
+      "static/chunks/main-app-5df171357be90578.js",
+      "static/chunks/901-9437ee07dded5394.js",
+      "static/chunks/703-5966773c3508ea82.js",
+      "static/chunks/app/page-cf020a6e51875548.js"
     ]
   }
 }
