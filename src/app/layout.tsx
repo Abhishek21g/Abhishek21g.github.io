@@ -6,8 +6,8 @@ import ThemeProviderWrapper from '../components/ThemeProviderWrapper'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Abhishek Enaguthi',
-  description: 'Personal website of Abhishek Enaguthi - Software Engineer specializing in Compilers, GPU Programming, and HPC',
+  title: 'Abhishek Enaguthi OS',
+  description: 'Interactive desktop portfolio for Abhishek Enaguthi.',
 }
 
 export default function RootLayout({
