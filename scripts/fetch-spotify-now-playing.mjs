@@ -37,43 +37,11 @@ function trackPayload(item, overrides = {}) {
   }
 }
 
-const tokenResponse = await fetch('https://accounts.spotify.com/api/token', {
-  method: 'POST',
-  headers: {
-    Authorization: `Basic ${Buffer.from(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`).toString('base64')}`,
-    'Content-Type': 'application/x-www-form-urlencoded',
-  },
-  body: new URLSearchParams({
-    grant_type: 'refresh_token',
-    refresh_token: process.env.SPOTIFY_REFRESH_TOKEN,
-  }),
-})
-
-if (!tokenResponse.ok) {
-  throw new Error(`Spotify token refresh failed: ${tokenResponse.status} ${await tokenResponse.text()}`)
-}
-
-const token = await tokenResponse.json()
-const accessToken = token.access_token
-
-const current = await spotifyFetch('https://api.spotify.com/v1/me/player/currently-playing', accessToken)
-let payload = current?.item
-  ? trackPayload(current.item, {
-      isPlaying: !!current.is_playing,
-      progressMs: current.progress_ms || 0,
-    })
-  : null
-
-if (!payload) {
-  const recent = await spotifyFetch('https://api.spotify.com/v1/me/player/recently-played?limit=1', accessToken)
-  payload = trackPayload(recent?.items?.[0]?.track)
-}
-
-if (!payload) {
-  payload = {
+async function fallbackPayload(status) {
+  return {
     isPlaying: false,
     title: 'Systems work queue',
-    artist: 'Spotify connected, no recent track',
+    artist: status,
     album: 'Focus mode',
     image: '',
     url: 'https://open.spotify.com/',
@@ -81,6 +49,48 @@ if (!payload) {
     durationMs: 1,
     updatedAt: new Date().toISOString(),
   }
+}
+
+let payload
+try {
+  const tokenResponse = await fetch('https://accounts.spotify.com/api/token', {
+    method: 'POST',
+    headers: {
+      Authorization: `Basic ${Buffer.from(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`).toString('base64')}`,
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: new URLSearchParams({
+      grant_type: 'refresh_token',
+      refresh_token: process.env.SPOTIFY_REFRESH_TOKEN,
+    }),
+  })
+
+  if (!tokenResponse.ok) {
+    throw new Error(`Spotify token refresh failed: ${tokenResponse.status} ${await tokenResponse.text()}`)
+  }
+
+  const token = await tokenResponse.json()
+  const accessToken = token.access_token
+
+  const current = await spotifyFetch('https://api.spotify.com/v1/me/player/currently-playing', accessToken)
+  payload = current?.item
+    ? trackPayload(current.item, {
+        isPlaying: !!current.is_playing,
+        progressMs: current.progress_ms || 0,
+      })
+    : null
+
+  if (!payload) {
+    const recent = await spotifyFetch('https://api.spotify.com/v1/me/player/recently-played?limit=1', accessToken)
+    payload = trackPayload(recent?.items?.[0]?.track)
+  }
+
+  if (!payload) {
+    payload = await fallbackPayload('Spotify connected, no recent track')
+  }
+} catch (error) {
+  console.warn(error.message)
+  payload = await fallbackPayload('Spotify auth needs refresh')
 }
 
 await mkdir(dirname(outputPath), { recursive: true })
