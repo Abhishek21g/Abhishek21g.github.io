@@ -13,7 +13,7 @@
     document.documentElement.classList.add('mobile-preview');
   }
 </script>
-<script src="/claude-design/support.js"></script>
+<script src="/support.js"></script>
 </head>
 <body>
 <x-dc>
@@ -73,8 +73,12 @@
   .desktop-surface::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 84% 18%,rgba(246,242,234,.055),transparent 28%),linear-gradient(180deg,rgba(255,255,255,.02),transparent 42%);}
   .desktop-icon{transition:transform .16s ease,filter .16s ease;}
   .desktop-icon:hover{transform:translateY(-2px);filter:brightness(1.07);}
-  .gallery-main-photo{object-fit:contain;background:#14110D;}
-  .gallery-thumb-img{object-fit:cover;}
+  .desktop-hint{pointer-events:none;}
+  .gallery-main-photo{object-fit:contain;background:#0D0C09;}
+  .gallery-thumb-img{object-fit:contain;background:#14110D;}
+  .gallery-rail::-webkit-scrollbar,.window-body::-webkit-scrollbar{width:8px;height:8px;}
+  .gallery-rail::-webkit-scrollbar-thumb,.window-body::-webkit-scrollbar-thumb{background:rgba(226,98,27,0.34);border-radius:999px;}
+  .gallery-rail::-webkit-scrollbar-track,.window-body::-webkit-scrollbar-track{background:rgba(20,17,13,0.08);}
   .music-card{background:linear-gradient(135deg,#1DB954,#0B6F36)!important;color:#06180c!important;}
   .blog-list-item{transition:background .16s ease, border-color .16s ease;}
   .blog-list-item:hover{background:rgba(20,17,13,.055);}
@@ -140,7 +144,7 @@
   @media (max-width: 980px){
     .ambient-rail{display:none!important;}
   }
-  @media (max-width: 900px){
+  @media (max-width: 640px){
     .site-app{overflow:hidden;}
     .site-app .dv-card{transform-origin:top left;}
     .desktop-surface{width:100vw!important;height:calc(100dvh - 64px)!important;overflow-x:hidden!important;overflow-y:auto!important;display:flex!important;flex-direction:column!important;gap:16px!important;padding:14px 14px 24px!important;box-sizing:border-box!important;}
@@ -170,14 +174,15 @@
     .about-stats > div > div:first-child{font-size:34px!important;line-height:1!important;}
     .about-stats > div > div:last-child{font-size:9px!important;line-height:1.12!important;letter-spacing:0.06em!important;}
     .skill-pills{max-height:72px!important;overflow:hidden!important;}
-    .gallery-layout,.blog-layout{flex-direction:column!important;}
+    .gallery-layout{grid-template-columns:1fr!important;}
+    .blog-layout{flex-direction:column!important;}
     .resume-layout{grid-template-columns:1fr!important;height:100%!important;overflow:auto!important;}
     .resume-sidebar{border-right:0!important;border-bottom:1px solid rgba(20,17,13,0.10)!important;padding:18px!important;}
     .resume-preview{min-height:58vh!important;padding:10px!important;}
     .resume-paper{min-height:52vh!important;}
     .gallery-rail{width:auto!important;max-height:none!important;display:flex!important;flex-direction:row!important;overflow-x:auto!important;overflow-y:hidden!important;}
     .gallery-thumb{width:70px!important;min-width:70px!important;}
-    .gallery-stage{height:42vh!important;}
+    .gallery-stage{height:42vh!important;min-height:260px!important;}
     .blog-list{width:auto!important;max-height:170px!important;}
     .resize-grip{display:none!important;}
   }
@@ -210,14 +215,15 @@
   .mobile-preview .about-stats > div > div:first-child{font-size:34px!important;line-height:1!important;}
   .mobile-preview .about-stats > div > div:last-child{font-size:9px!important;line-height:1.12!important;letter-spacing:0.06em!important;}
   .mobile-preview .skill-pills{max-height:72px!important;overflow:hidden!important;}
-  .mobile-preview .gallery-layout,.mobile-preview .blog-layout{flex-direction:column!important;}
+  .mobile-preview .gallery-layout{grid-template-columns:1fr!important;}
+  .mobile-preview .blog-layout{flex-direction:column!important;}
   .mobile-preview .resume-layout{grid-template-columns:1fr!important;height:100%!important;overflow:auto!important;}
   .mobile-preview .resume-sidebar{border-right:0!important;border-bottom:1px solid rgba(20,17,13,0.10)!important;padding:18px!important;}
   .mobile-preview .resume-preview{min-height:58vh!important;padding:10px!important;}
   .mobile-preview .resume-paper{min-height:52vh!important;}
   .mobile-preview .gallery-rail{width:auto!important;max-height:none!important;display:flex!important;flex-direction:row!important;overflow-x:auto!important;overflow-y:hidden!important;}
   .mobile-preview .gallery-thumb{width:70px!important;min-width:70px!important;}
-  .mobile-preview .gallery-stage{height:42vh!important;}
+  .mobile-preview .gallery-stage{height:42vh!important;min-height:260px!important;}
   .mobile-preview .blog-list{width:auto!important;max-height:170px!important;}
   .mobile-preview .resize-grip{display:none!important;}
 </style>
@@ -257,11 +263,11 @@
 <section class="ambient-card" role="button" onClick="{{ openMusic }}">
 <div class="ambient-kicker">I. Now Playing</div>
 <div class="ambient-player">
-<div class="ambient-album">♪</div>
+<div class="ambient-album" style="{{ spotifyAlbumStyle }}">♪</div>
 <div>
-<div class="ambient-title" style="font-size:25px;">Systems work queue</div>
-<div class="ambient-meta">Spotify slot · tap to open</div>
-<div class="ambient-progress"><span></span></div>
+<div class="ambient-title" style="font-size:25px;">{{ spotifyTitle }}</div>
+<div class="ambient-meta">{{ spotifyArtist }} · {{ spotifyStatus }}</div>
+<div class="ambient-progress"><span style="width:{{ spotifyProgress }}%;"></span></div>
 </div>
 </div>
 </section>
@@ -326,7 +332,7 @@
 <div class="desktop-icon" onClick="{{ openGallery }}" style="position:absolute;left:40px;top:428px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
 <div style="width:56px;height:56px;position:relative;">
 <div style="position:absolute;width:46px;height:46px;background:#F6F2EA;border-radius:8px;transform:rotate(-8deg);top:7px;left:2px;box-shadow:0 4px 10px rgba(0,0,0,0.3);"></div>
-<div style="position:absolute;width:46px;height:46px;background-image:url('/claude-design/media/sc24-booth.jpg');background-size:cover;background-position:center;border-radius:8px;transform:rotate(5deg);top:3px;left:7px;box-shadow:0 6px 14px rgba(0,0,0,0.4);"></div>
+<div style="position:absolute;width:46px;height:46px;background-image:url('/media/sc24-booth.jpg');background-size:cover;background-position:center;border-radius:8px;transform:rotate(5deg);top:3px;left:7px;box-shadow:0 6px 14px rgba(0,0,0,0.4);"></div>
 </div>
 <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;text-shadow:0 1px 3px rgba(0,0,0,0.6);">Gallery</div>
 </div>
@@ -356,8 +362,8 @@
 <div class="desktop-hint" style="position:absolute;left:40px;bottom:20px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(246,242,234,0.32);">click an icon to open · drag a titlebar to move · resize from a corner</div>
 
 <sc-if value="{{ windows.about.open }}" hint-placeholder-val="{{ true }}">
-<div class="os-window about-window" onMouseDown="{{ focusAbout }}" style="position:absolute;left:{{ windows.about.x }}px;top:{{ windows.about.y }}px;width:{{ windows.about.w }}px;height:{{ windows.about.h }}px;z-index:{{ windows.about.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
-<div class="window-titlebar" onMouseDown="{{ dragAbout }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
+<div class="os-window about-window" data-window-id="about" onMouseDown="{{ focusAbout }}" style="position:absolute;left:{{ windows.about.x }}px;top:{{ windows.about.y }}px;width:{{ windows.about.w }}px;height:{{ windows.about.h }}px;z-index:{{ windows.about.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
+<div class="window-titlebar" data-drag-window="about" onMouseDown="{{ dragAbout }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
 <span onClick="{{ closeAbout }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#E2621B;cursor:pointer;display:inline-block;"></span>
 <span onClick="{{ minimizeAbout }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
 <span onClick="{{ zoomAbout }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
@@ -366,7 +372,7 @@
 <div class="window-body" style="padding:32px 36px;overflow-y:auto;">
 <div class="about-head" style="display:flex;gap:22px;align-items:flex-start;margin-bottom:22px;">
 <div class="about-photo" style="width:120px;height:150px;flex:none;overflow:hidden;background:#E4E0D3;border-radius:8px;">
-<img src="/claude-design/media/portrait.jpg" alt="Abhishek Enaguthi" style="width:100%;height:100%;object-fit:cover;display:block;" />
+<img src="/media/portrait.jpg" alt="Abhishek Enaguthi" style="width:100%;height:100%;object-fit:cover;display:block;" />
 </div>
 <div>
 <div class="nd-roman" style="margin:8px 0 10px;">I. Profile</div>
@@ -390,13 +396,13 @@
 <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:5px 11px;border-radius:20px;background:rgba(20,17,13,0.06);color:#5B5648;">AWS</span>
 </div>
 </div>
-<div class="resize-grip" onMouseDown="{{ resizeAbout }}"></div>
+<div class="resize-grip" data-resize-window="about" onMouseDown="{{ resizeAbout }}"></div>
 </div>
 </sc-if>
 
 <sc-if value="{{ windows.experience.open }}" hint-placeholder-val="{{ false }}">
-<div class="os-window experience-window" onMouseDown="{{ focusExperience }}" style="position:absolute;left:{{ windows.experience.x }}px;top:{{ windows.experience.y }}px;width:{{ windows.experience.w }}px;height:{{ windows.experience.h }}px;z-index:{{ windows.experience.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
-<div class="window-titlebar" onMouseDown="{{ dragExperience }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
+<div class="os-window experience-window" data-window-id="experience" onMouseDown="{{ focusExperience }}" style="position:absolute;left:{{ windows.experience.x }}px;top:{{ windows.experience.y }}px;width:{{ windows.experience.w }}px;height:{{ windows.experience.h }}px;z-index:{{ windows.experience.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
+<div class="window-titlebar" data-drag-window="experience" onMouseDown="{{ dragExperience }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
 <span onClick="{{ closeExperience }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#E2621B;cursor:pointer;display:inline-block;"></span>
 <span onClick="{{ minimizeExperience }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
 <span onClick="{{ zoomExperience }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
@@ -428,13 +434,13 @@
 <p style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:14px;line-height:1.65;color:#3B3529;margin:0;">Automated SLURM RPC and disk-usage monitoring, adopted by 100+ users daily across OSU's HPC. Benchmarked NCCL and MPI to land 20% faster collective communication and 15% higher memory throughput.</p>
 </div>
 </div>
-<div class="resize-grip" onMouseDown="{{ resizeExperience }}"></div>
+<div class="resize-grip" data-resize-window="experience" onMouseDown="{{ resizeExperience }}"></div>
 </div>
 </sc-if>
 
 <sc-if value="{{ windows.projects.open }}" hint-placeholder-val="{{ false }}">
-<div class="os-window projects-window" onMouseDown="{{ focusProjects }}" style="position:absolute;left:{{ windows.projects.x }}px;top:{{ windows.projects.y }}px;width:{{ windows.projects.w }}px;height:{{ windows.projects.h }}px;z-index:{{ windows.projects.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
-<div class="window-titlebar" onMouseDown="{{ dragProjects }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
+<div class="os-window projects-window" data-window-id="projects" onMouseDown="{{ focusProjects }}" style="position:absolute;left:{{ windows.projects.x }}px;top:{{ windows.projects.y }}px;width:{{ windows.projects.w }}px;height:{{ windows.projects.h }}px;z-index:{{ windows.projects.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
+<div class="window-titlebar" data-drag-window="projects" onMouseDown="{{ dragProjects }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
 <span onClick="{{ closeProjects }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#E2621B;cursor:pointer;display:inline-block;"></span>
 <span onClick="{{ minimizeProjects }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
 <span onClick="{{ zoomProjects }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
@@ -482,41 +488,41 @@
 <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;">Python · PyTorch · FAISS · MXBAI</div>
 </div>
 </div>
-<div class="resize-grip" onMouseDown="{{ resizeProjects }}"></div>
+<div class="resize-grip" data-resize-window="projects" onMouseDown="{{ resizeProjects }}"></div>
 </div>
 </sc-if>
 
 <sc-if value="{{ windows.gallery.open }}" hint-placeholder-val="{{ false }}">
-<div class="os-window gallery-window" onMouseDown="{{ focusGallery }}" style="position:absolute;left:{{ windows.gallery.x }}px;top:{{ windows.gallery.y }}px;width:{{ windows.gallery.w }}px;height:{{ windows.gallery.h }}px;z-index:{{ windows.gallery.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
-<div class="window-titlebar" onMouseDown="{{ dragGallery }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
+<div class="os-window gallery-window" data-window-id="gallery" onMouseDown="{{ focusGallery }}" style="position:absolute;left:{{ windows.gallery.x }}px;top:{{ windows.gallery.y }}px;width:{{ windows.gallery.w }}px;height:{{ windows.gallery.h }}px;z-index:{{ windows.gallery.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
+<div class="window-titlebar" data-drag-window="gallery" onMouseDown="{{ dragGallery }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
 <span onClick="{{ closeGallery }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#E2621B;cursor:pointer;display:inline-block;"></span>
 <span onClick="{{ minimizeGallery }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
 <span onClick="{{ zoomGallery }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
 <div style="flex:1;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;margin-right:33px;">Gallery</div>
 </div>
-<div class="window-body gallery-layout" style="padding:20px;display:flex;gap:14px;background:#F6F2EA;">
-<div class="gallery-rail" style="width:88px;flex:none;display:flex;flex-direction:column;gap:8px;max-height:100%;overflow-y:auto;">
+<div class="window-body gallery-layout" style="padding:18px;display:grid;grid-template-columns:136px minmax(0,1fr);gap:16px;background:#F6F2EA;">
+<div class="gallery-rail" style="width:136px;flex:none;display:grid;grid-template-columns:repeat(2,62px);align-content:start;gap:8px;max-height:100%;overflow-y:auto;padding-right:4px;">
 <sc-for list="{{ galleryPhotos }}" as="photo" hint-placeholder-count="6">
-<div class="gallery-thumb" onClick="{{ photo.select }}" style="height:68px;border-radius:7px;overflow:hidden;cursor:pointer;border:2px solid {{ photo.ringColor }};box-shadow:{{ photo.shadow }};background:#14110D;">
-<img class="gallery-thumb-img" src="{{ photo.src }}" alt="{{ photo.caption }}" style="width:100%;height:100%;object-fit:cover;display:block;" />
+<div class="gallery-thumb" onClick="{{ photo.select }}" title="{{ photo.caption }}" style="height:62px;border-radius:7px;overflow:hidden;cursor:pointer;border:2px solid {{ photo.ringColor }};box-shadow:{{ photo.shadow }};background:#14110D;">
+<img class="gallery-thumb-img" src="{{ photo.src }}" alt="{{ photo.caption }}" style="width:100%;height:100%;object-fit:contain;display:block;" />
 </div>
 </sc-for>
 </div>
-<div style="flex:1;display:flex;flex-direction:column;gap:10px;">
+<div style="min-width:0;display:flex;flex-direction:column;gap:10px;">
 <div class="nd-roman">II. Gallery · {{ galleryCount }} photos</div>
-<div class="gallery-stage" onClick="{{ openActiveLightbox }}" style="height:calc(100% - 56px);min-height:300px;border-radius:8px;overflow:hidden;background:#14110D;cursor:zoom-in;display:flex;align-items:center;justify-content:center;">
+<div class="gallery-stage" onClick="{{ openActiveLightbox }}" style="height:calc(100% - 62px);min-height:360px;border-radius:8px;overflow:hidden;background:#0D0C09;cursor:zoom-in;display:flex;align-items:center;justify-content:center;">
 <img class="gallery-main-photo" src="{{ activeGalleryPhoto.src }}" alt="{{ activeGalleryPhoto.caption }}" style="width:100%;height:100%;object-fit:contain;display:block;" />
 </div>
 <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.6;color:#5B5648;margin:0;">{{ activeGalleryPhoto.caption }}</p>
 </div>
 </div>
-<div class="resize-grip" onMouseDown="{{ resizeGallery }}"></div>
+<div class="resize-grip" data-resize-window="gallery" onMouseDown="{{ resizeGallery }}"></div>
 </div>
 </sc-if>
 
 <sc-if value="{{ windows.contact.open }}" hint-placeholder-val="{{ false }}">
-<div class="os-window contact-window" onMouseDown="{{ focusContact }}" style="position:absolute;left:{{ windows.contact.x }}px;top:{{ windows.contact.y }}px;width:{{ windows.contact.w }}px;height:{{ windows.contact.h }}px;z-index:{{ windows.contact.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
-<div class="window-titlebar" onMouseDown="{{ dragContact }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
+<div class="os-window contact-window" data-window-id="contact" onMouseDown="{{ focusContact }}" style="position:absolute;left:{{ windows.contact.x }}px;top:{{ windows.contact.y }}px;width:{{ windows.contact.w }}px;height:{{ windows.contact.h }}px;z-index:{{ windows.contact.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
+<div class="window-titlebar" data-drag-window="contact" onMouseDown="{{ dragContact }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
 <span onClick="{{ closeContact }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#E2621B;cursor:pointer;display:inline-block;"></span>
 <span onClick="{{ minimizeContact }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
 <span onClick="{{ zoomContact }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
@@ -526,20 +532,20 @@
 <div class="nd-roman" style="margin-bottom:12px;">III. Contact</div>
 <p style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:24px;font-weight:700;line-height:1.25;color:#14110D;margin:0 0 28px;">If you are building compilers, GPU systems, or where HPC meets AI, I am listening.</p>
 <div style="display:flex;flex-direction:column;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:14px;">
-<a href="/cdn-cgi/l/email-protection#cca9a2adabb9b8a4a5adaea4a5bfa4a9a78caba1ada5a0e2afa3a1" style="color:#E2621B;text-decoration:none;"><span class="__cf_email__" data-cfemail="8aefe4ebedfffee2e3ebe8e2e3f9e2efe1caede7ebe3e6a4e9e5e7">[email&#160;protected]</span></a>
+<a href="mailto:enaguthiabhishek@gmail.com" style="color:#E2621B;text-decoration:none;">enaguthiabhishek@gmail.com</a>
 <a href="https://linkedin.com/in/abhishekenaguthi" target="_blank" rel="noopener noreferrer" style="color:#E2621B;text-decoration:none;">linkedin.com/in/abhishekenaguthi</a>
 <a href="https://github.com/Abhishek21g" target="_blank" rel="noopener noreferrer" style="color:#E2621B;text-decoration:none;">github.com/Abhishek21g</a>
 <button onClick="{{ openResume }}" style="appearance:none;border:0;background:transparent;color:#E2621B;text-decoration:none;text-align:left;font:inherit;padding:0;cursor:pointer;">open resume viewer</button>
 <a class="coffee-link" href="https://www.buymeacoffee.com/enaguthi" target="_blank" rel="noopener noreferrer">Buy me a coffee</a>
 </div>
 </div>
-<div class="resize-grip" onMouseDown="{{ resizeContact }}"></div>
+<div class="resize-grip" data-resize-window="contact" onMouseDown="{{ resizeContact }}"></div>
 </div>
 </sc-if>
 
 <sc-if value="{{ windows.resume.open }}" hint-placeholder-val="{{ false }}">
-<div class="os-window resume-window" onMouseDown="{{ focusResume }}" style="position:absolute;left:{{ windows.resume.x }}px;top:{{ windows.resume.y }}px;width:{{ windows.resume.w }}px;height:{{ windows.resume.h }}px;z-index:{{ windows.resume.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
-<div class="window-titlebar" onMouseDown="{{ dragResume }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
+<div class="os-window resume-window" data-window-id="resume" onMouseDown="{{ focusResume }}" style="position:absolute;left:{{ windows.resume.x }}px;top:{{ windows.resume.y }}px;width:{{ windows.resume.w }}px;height:{{ windows.resume.h }}px;z-index:{{ windows.resume.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
+<div class="window-titlebar" data-drag-window="resume" onMouseDown="{{ dragResume }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
 <span onClick="{{ closeResume }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#E2621B;cursor:pointer;display:inline-block;"></span>
 <span onClick="{{ minimizeResume }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
 <span onClick="{{ zoomResume }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
@@ -570,13 +576,13 @@
 </div>
 </section>
 </div>
-<div class="resize-grip" onMouseDown="{{ resizeResume }}"></div>
+<div class="resize-grip" data-resize-window="resume" onMouseDown="{{ resizeResume }}"></div>
 </div>
 </sc-if>
 
 <sc-if value="{{ windows.terminal.open }}" hint-placeholder-val="{{ false }}">
-<div class="os-window terminal-window" onMouseDown="{{ focusTerminal }}" style="position:absolute;left:{{ windows.terminal.x }}px;top:{{ windows.terminal.y }}px;width:{{ windows.terminal.w }}px;height:{{ windows.terminal.h }}px;z-index:{{ windows.terminal.z }};background:#0A0A0A;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.55);">
-<div class="window-titlebar" onMouseDown="{{ dragTerminal }}" style="height:36px;background:#111111;border-bottom:1px solid rgba(231,231,228,0.14);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
+<div class="os-window terminal-window" data-window-id="terminal" data-drag-window="terminal" onMouseDown="{{ focusTerminal }}" style="position:absolute;left:{{ windows.terminal.x }}px;top:{{ windows.terminal.y }}px;width:{{ windows.terminal.w }}px;height:{{ windows.terminal.h }}px;z-index:{{ windows.terminal.z }};background:#0A0A0A;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.55);">
+<div class="window-titlebar" data-drag-window="terminal" onMouseDown="{{ dragTerminal }}" style="height:36px;background:#111111;border-bottom:1px solid rgba(231,231,228,0.14);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
 <span onClick="{{ closeTerminal }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#E2621B;cursor:pointer;display:inline-block;"></span>
 <span onClick="{{ minimizeTerminal }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#2c2c2a;display:inline-block;"></span>
 <span onClick="{{ zoomTerminal }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#2c2c2a;display:inline-block;"></span>
@@ -598,13 +604,13 @@
 <input value="{{ osInputValue }}" onChange="{{ onOsInputChange }}" onKeyDown="{{ onOsKeyDown }}" ref="{{ osInputRef }}" placeholder="type 'help'" style="flex:1;background:transparent;border:none;outline:none;color:#E7E7E4;font-family:'JetBrains Mono',monospace;font-size:13px;caret-color:#E2621B;" />
 </div>
 </div>
-<div class="resize-grip resize-grip-dark" onMouseDown="{{ resizeTerminal }}"></div>
+<div class="resize-grip resize-grip-dark" data-resize-window="terminal" onMouseDown="{{ resizeTerminal }}"></div>
 </div>
 </sc-if>
 
 <sc-if value="{{ windows.blog.open }}" hint-placeholder-val="{{ false }}">
-<div class="os-window blog-window" onMouseDown="{{ focusBlog }}" style="position:absolute;left:{{ windows.blog.x }}px;top:{{ windows.blog.y }}px;width:{{ windows.blog.w }}px;height:{{ windows.blog.h }}px;z-index:{{ windows.blog.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
-<div class="window-titlebar" onMouseDown="{{ dragBlog }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
+<div class="os-window blog-window" data-window-id="blog" onMouseDown="{{ focusBlog }}" style="position:absolute;left:{{ windows.blog.x }}px;top:{{ windows.blog.y }}px;width:{{ windows.blog.w }}px;height:{{ windows.blog.h }}px;z-index:{{ windows.blog.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
+<div class="window-titlebar" data-drag-window="blog" onMouseDown="{{ dragBlog }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
 <span onClick="{{ closeBlog }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#E2621B;cursor:pointer;display:inline-block;"></span>
 <span onClick="{{ minimizeBlog }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
 <span onClick="{{ zoomBlog }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
@@ -637,13 +643,13 @@
 </div>
 </div>
 </div>
-<div class="resize-grip" onMouseDown="{{ resizeBlog }}"></div>
+<div class="resize-grip" data-resize-window="blog" onMouseDown="{{ resizeBlog }}"></div>
 </div>
 </sc-if>
 
 <sc-if value="{{ windows.music.open }}" hint-placeholder-val="{{ false }}">
-<div class="os-window music-window" onMouseDown="{{ focusMusic }}" style="position:absolute;left:{{ windows.music.x }}px;top:{{ windows.music.y }}px;width:{{ windows.music.w }}px;height:{{ windows.music.h }}px;z-index:{{ windows.music.z }};background:#0B0F0C;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.55);">
-<div class="window-titlebar" onMouseDown="{{ dragMusic }}" style="height:36px;background:#0F1711;border-bottom:1px solid rgba(246,242,234,0.12);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
+<div class="os-window music-window" data-window-id="music" onMouseDown="{{ focusMusic }}" style="position:absolute;left:{{ windows.music.x }}px;top:{{ windows.music.y }}px;width:{{ windows.music.w }}px;height:{{ windows.music.h }}px;z-index:{{ windows.music.z }};background:#0B0F0C;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.55);">
+<div class="window-titlebar" data-drag-window="music" onMouseDown="{{ dragMusic }}" style="height:36px;background:#0F1711;border-bottom:1px solid rgba(246,242,234,0.12);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
 <span onClick="{{ closeMusic }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#1DB954;cursor:pointer;display:inline-block;"></span>
 <span onClick="{{ minimizeMusic }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(246,242,234,0.16);display:inline-block;"></span>
 <span onClick="{{ zoomMusic }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(246,242,234,0.16);display:inline-block;"></span>
@@ -651,24 +657,26 @@
 </div>
 <div class="window-body" style="padding:28px;overflow-y:auto;color:#F6F2EA;">
 <div style="display:flex;align-items:center;gap:18px;margin-bottom:22px;">
-<div class="music-card" style="width:86px;height:86px;border-radius:18px;display:flex;align-items:center;justify-content:center;flex:none;">
+<div class="music-card" style="width:86px;height:86px;border-radius:18px;display:flex;align-items:center;justify-content:center;flex:none;{{ spotifyAlbumStyle }}">
 <span style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:34px;color:#06180c;">♪</span>
 </div>
 <div>
-<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#1DB954;margin-bottom:6px;">Spotify / focus mode</div>
-<h3 style="font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:32px;line-height:1.0;margin:0;color:#F6F2EA;">Systems work playlist</h3>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#1DB954;margin-bottom:6px;">Spotify / {{ spotifyStatus }}</div>
+<h3 style="font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:32px;line-height:1.0;margin:0;color:#F6F2EA;">{{ spotifyTitle }}</h3>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(246,242,234,0.58);margin-top:8px;">{{ spotifyArtist }}</div>
 </div>
 </div>
-<p style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:14px;line-height:1.7;color:rgba(246,242,234,0.72);margin:0 0 18px;">A small app slot for music while exploring the desktop. We can wire this to an embedded Spotify playlist once you pick the playlist URL.</p>
-<a href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer" style="display:inline-flex;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#1DB954;text-decoration:none;border:1px solid rgba(29,185,84,0.35);border-radius:999px;padding:9px 12px;">open Spotify ↗</a>
+<p style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:14px;line-height:1.7;color:rgba(246,242,234,0.72);margin:0 0 18px;">{{ spotifyDescription }}</p>
+<div class="ambient-progress" style="margin-bottom:14px;"><span style="width:{{ spotifyProgress }}%;"></span></div>
+<a href="{{ spotifyUrl }}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#1DB954;text-decoration:none;border:1px solid rgba(29,185,84,0.35);border-radius:999px;padding:9px 12px;">open Spotify ↗</a>
 </div>
 <div class="resize-grip resize-grip-dark" onMouseDown="{{ resizeMusic }}"></div>
 </div>
 </sc-if>
 
 <sc-if value="{{ windows.onboarding.open }}" hint-placeholder-val="{{ false }}">
-<div class="os-window onboarding-window" onMouseDown="{{ focusOnboarding }}" style="position:absolute;left:{{ windows.onboarding.x }}px;top:{{ windows.onboarding.y }}px;width:{{ windows.onboarding.w }}px;height:{{ windows.onboarding.h }}px;z-index:{{ windows.onboarding.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
-<div class="window-titlebar" onMouseDown="{{ dragOnboarding }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
+<div class="os-window onboarding-window" data-window-id="onboarding" onMouseDown="{{ focusOnboarding }}" style="position:absolute;left:{{ windows.onboarding.x }}px;top:{{ windows.onboarding.y }}px;width:{{ windows.onboarding.w }}px;height:{{ windows.onboarding.h }}px;z-index:{{ windows.onboarding.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
+<div class="window-titlebar" data-drag-window="onboarding" onMouseDown="{{ dragOnboarding }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
 <span onClick="{{ closeOnboarding }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#E2621B;cursor:pointer;display:inline-block;"></span>
 <span onClick="{{ minimizeOnboarding }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
 <span onClick="{{ zoomOnboarding }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
@@ -685,7 +693,7 @@
 <button onClick="{{ openGallery }}" style="border:1px solid rgba(20,17,13,0.12);background:white;border-radius:7px;padding:9px 10px;text-align:left;cursor:pointer;">open Gallery</button>
 </div>
 </div>
-<div class="resize-grip" onMouseDown="{{ resizeOnboarding }}"></div>
+<div class="resize-grip" data-resize-window="onboarding" onMouseDown="{{ resizeOnboarding }}"></div>
 </div>
 </sc-if>
 
@@ -707,7 +715,7 @@
   <text x="128" y="150" text-anchor="middle" font-family="IBM Plex Mono, JetBrains Mono, ui-monospace, monospace" font-size="76" font-weight="700" fill="#14110D">AE</text>
 </svg>
 </template>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="text/x-dc" data-dc-script>
+<script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
   state = {
     lines: [
@@ -726,7 +734,7 @@ class Component extends DCLogic {
       music: { open: false, x: 520, y: 260, w: 440, h: 330, minW: 340, minH: 260, z: 1 },
       onboarding: { open: false, x: 930, y: 92, w: 360, h: 390, minW: 320, minH: 300, z: 1 }
     },
-    zCounter: 4,
+    zCounter: 100,
     time: '',
     abhiTime: '',
     visitorTime: '',
@@ -739,7 +747,18 @@ class Component extends DCLogic {
     shellPath: '~',
     blogIndex: 0,
     selectedPhoto: null,
-    photoCaption: ''
+    photoCaption: '',
+    spotify: {
+      isPlaying: false,
+      title: 'Systems work queue',
+      artist: 'Spotify sync ready',
+      album: 'Focus mode',
+      image: '',
+      url: 'https://open.spotify.com/',
+      progressMs: 0,
+      durationMs: 1,
+      updatedAt: ''
+    }
   };
 
   outputRef = React.createRef();
@@ -893,8 +912,20 @@ class Component extends DCLogic {
 
   componentDidMount() {
     this.updateClock();
+    this.loadSpotify();
     this.layoutForViewport(true);
     this._clockTimer = setInterval(this.updateClock, 30000);
+    this._spotifyTimer = setInterval(this.loadSpotify, 60000);
+    this._onDocMouseDown = (e) => {
+      if (e.target && e.target.tagName === 'SPAN' && e.target.closest('.window-titlebar')) return;
+      const grip = e.target && e.target.closest ? e.target.closest('[data-resize-window]') : null;
+      if (grip) {
+        this.startResize(grip.getAttribute('data-resize-window'), e);
+        return;
+      }
+      const bar = e.target && e.target.closest ? e.target.closest('[data-drag-window]') : null;
+      if (bar) this.startDrag(bar.getAttribute('data-drag-window'), e);
+    };
     this._onDocMouseMove = (e) => {
       if (this.resizeInfo) {
         const { id, startClientX, startClientY, startW, startH } = this.resizeInfo;
@@ -916,16 +947,23 @@ class Component extends DCLogic {
     };
     this._onDocMouseUp = () => { this.dragInfo = null; this.resizeInfo = null; };
     this._onWindowResize = () => this.layoutForViewport();
+    document.addEventListener('mousedown', this._onDocMouseDown);
     document.addEventListener('mousemove', this._onDocMouseMove);
     document.addEventListener('mouseup', this._onDocMouseUp);
+    document.addEventListener('mouseleave', this._onDocMouseUp);
     window.addEventListener('resize', this._onWindowResize);
+    window.addEventListener('blur', this._onDocMouseUp);
   }
 
   componentWillUnmount() {
     clearInterval(this._clockTimer);
+    clearInterval(this._spotifyTimer);
+    document.removeEventListener('mousedown', this._onDocMouseDown);
     document.removeEventListener('mousemove', this._onDocMouseMove);
     document.removeEventListener('mouseup', this._onDocMouseUp);
+    document.removeEventListener('mouseleave', this._onDocMouseUp);
     window.removeEventListener('resize', this._onWindowResize);
+    window.removeEventListener('blur', this._onDocMouseUp);
   }
 
   updateClock = () => {
@@ -935,6 +973,28 @@ class Component extends DCLogic {
       visitorTime: this.formatTime(),
       visitorZone: this.formatZone()
     });
+  };
+
+  loadSpotify = () => {
+    fetch('/spotify/now-playing.json', { cache: 'no-store' })
+      .then((res) => res.ok ? res.json() : null)
+      .then((data) => {
+        if (!data || !data.title) return;
+        this.setState({
+          spotify: {
+            isPlaying: !!data.isPlaying,
+            title: data.title || 'Systems work queue',
+            artist: data.artist || 'Spotify sync ready',
+            album: data.album || 'Focus mode',
+            image: data.image || '',
+            url: data.url || 'https://open.spotify.com/',
+            progressMs: Number(data.progressMs || 0),
+            durationMs: Math.max(1, Number(data.durationMs || 1)),
+            updatedAt: data.updatedAt || ''
+          }
+        });
+      })
+      .catch(() => {});
   };
 
   formatTime(timeZone) {
@@ -958,7 +1018,7 @@ class Component extends DCLogic {
 
   clampWindow(win) {
     const bounds = this.getDesktopBounds();
-    const isMobile = bounds.width < 900;
+    const isMobile = bounds.width < 640;
     const minW = win.minW || 360;
     const minH = win.minH || 260;
     const maxW = Math.max(minW, bounds.width - (isMobile ? 20 : 150));
@@ -975,7 +1035,7 @@ class Component extends DCLogic {
     const bounds = this.getDesktopBounds();
     this.setState((s) => {
       const windows = { ...s.windows };
-      if (bounds.width < 900) {
+      if (bounds.width < 640) {
         Object.keys(windows).forEach((id) => {
           const shouldOpen = initial ? id === 'about' : windows[id].open;
           windows[id] = this.clampWindow({ ...windows[id], open: shouldOpen, x: 10, y: 74, w: bounds.width - 20, h: bounds.height - 108 });
@@ -988,6 +1048,10 @@ class Component extends DCLogic {
         if (bounds.width >= 1400) {
           windows.projects = this.clampWindow({ ...windows.projects, open: initial ? false : windows.projects.open, x: bounds.width - 750, y: 96, w: 700, h: Math.min(600, bounds.height - 130) });
           windows.resume = this.clampWindow({ ...windows.resume, x: Math.max(220, bounds.width - 900), y: 118, w: Math.min(820, bounds.width - 360), h: Math.min(650, bounds.height - 150) });
+        }
+        if (bounds.width < 1000) {
+          windows.terminal = this.clampWindow({ ...windows.terminal, x: 150, y: 132, w: Math.min(580, bounds.width - 190), h: 330 });
+          windows.gallery = this.clampWindow({ ...windows.gallery, x: 116, y: 92, w: Math.min(660, bounds.width - 150), h: Math.min(560, bounds.height - 126) });
         }
         if (bounds.width >= 1800) {
           windows.terminal = this.clampWindow({ ...windows.terminal, open: initial ? false : windows.terminal.open, x: bounds.width - 770, y: Math.max(390, bounds.height - 430), w: 720, h: 340 });
@@ -1014,7 +1078,7 @@ class Component extends DCLogic {
 
   zoomWindow = (id, e) => {
     if (e) e.stopPropagation();
-    if (window.innerWidth < 900) return;
+    if (window.innerWidth < 640) return;
     this.setState((s) => {
       const win = s.windows[id];
       const bounds = this.getDesktopBounds();
@@ -1046,15 +1110,22 @@ class Component extends DCLogic {
   };
 
   startDrag = (id, e) => {
-    if (window.innerWidth < 900) return;
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    if (window.innerWidth < 640) return;
     const w = this.state.windows[id];
     this.dragInfo = { id, startClientX: e.clientX, startClientY: e.clientY, startX: w.x, startY: w.y };
     this.focusWindow(id);
   };
 
   startResize = (id, e) => {
-    if (e) e.stopPropagation();
-    if (window.innerWidth < 900) return;
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    if (window.innerWidth < 640) return;
     const w = this.state.windows[id];
     this.resizeInfo = { id, startClientX: e.clientX, startClientY: e.clientY, startW: w.w, startH: w.h };
     this.focusWindow(id);
@@ -1068,7 +1139,10 @@ class Component extends DCLogic {
   openGallery = () => this.openWindow('gallery');
   openContact = () => this.openWindow('contact');
   openResume = () => this.openWindow('resume');
-  openTerminal = () => this.openWindow('terminal');
+  openTerminal = () => {
+    this.openWindow('terminal');
+    setTimeout(this.focusOsInput, 0);
+  };
   openBlog = () => this.openWindow('blog');
   openMusic = () => this.openWindow('music');
   openOnboarding = () => this.openWindow('onboarding');
@@ -1139,25 +1213,37 @@ class Component extends DCLogic {
   resizeMusic = (e) => this.startResize('music', e);
   resizeOnboarding = (e) => this.startResize('onboarding', e);
 
-  selectPhoto1 = () => this.setState({ selectedPhoto: '/claude-design/media/sc24-booth.jpg', photoCaption: 'Link Oregon booth — SC24, Atlanta' });
-  selectPhoto2 = () => this.setState({ selectedPhoto: '/claude-design/media/sc24-vr.jpg', photoCaption: 'SC24 show floor' });
-  selectPhoto3 = () => this.setState({ selectedPhoto: '/claude-design/media/sc24-robot.jpg', photoCaption: 'SC24 show floor' });
-  selectPhoto4 = () => this.setState({ selectedPhoto: '/claude-design/media/sc24-crowd.jpg', photoCaption: 'SC24 show floor' });
-  selectPhoto5 = () => this.setState({ selectedPhoto: '/claude-design/media/aiweek-wide.jpg', photoCaption: 'AI Week lightning talk — OSU' });
-  selectPhoto6 = () => this.setState({ selectedPhoto: '/claude-design/media/aiweek-close.jpg', photoCaption: 'AI Week lightning talk — OSU' });
+  selectPhoto1 = () => this.setState({ selectedPhoto: '/media/sc24-booth.jpg', photoCaption: 'Link Oregon booth — SC24, Atlanta' });
+  selectPhoto2 = () => this.setState({ selectedPhoto: '/media/sc24-vr.jpg', photoCaption: 'SC24 show floor' });
+  selectPhoto3 = () => this.setState({ selectedPhoto: '/media/sc24-robot.jpg', photoCaption: 'SC24 show floor' });
+  selectPhoto4 = () => this.setState({ selectedPhoto: '/media/sc24-crowd.jpg', photoCaption: 'SC24 show floor' });
+  selectPhoto5 = () => this.setState({ selectedPhoto: '/media/aiweek-wide.jpg', photoCaption: 'AI Week lightning talk — OSU' });
+  selectPhoto6 = () => this.setState({ selectedPhoto: '/media/aiweek-close.jpg', photoCaption: 'AI Week lightning talk — OSU' });
   closePhoto = () => this.setState({ selectedPhoto: null, photoCaption: '' });
 
   galleryData = [
-    { src: '/claude-design/media/sc24-booth.jpg', caption: "Link Oregon booth, SC24 — OSU's first year at the conference" },
-    { src: '/claude-design/media/sc24-vr.jpg', caption: 'Demoing the Omniverse digital twin on the show floor' },
-    { src: '/claude-design/media/sc24-robot.jpg', caption: 'Supercomputing 2024 show floor, Atlanta' },
-    { src: '/claude-design/media/sc24-crowd.jpg', caption: 'Talking digital twins — NVIDIA, Dell and Google folks stopped by' },
-    { src: '/claude-design/media/aiweek-wide.jpg', caption: 'Lightning talk at OSU AI Week — the self-opening door stole the show' },
-    { src: '/claude-design/media/aiweek-close.jpg', caption: 'AI Week 2025, presenting the CIC digital twin' },
+    { src: '/media/sc24-booth.jpg', caption: "Link Oregon booth, SC24 — OSU's first year at the conference" },
+    { src: '/media/sc24-vr.jpg', caption: 'Demoing the Omniverse digital twin on the show floor' },
+    { src: '/media/sc24-robot.jpg', caption: 'Supercomputing 2024 show floor, Atlanta' },
+    { src: '/media/sc24-crowd.jpg', caption: 'Talking digital twins — NVIDIA, Dell and Google folks stopped by' },
+    { src: '/media/aiweek-wide.jpg', caption: 'Lightning talk at OSU AI Week — wide stage view' },
+    { src: '/media/aiweek-close.jpg', caption: 'AI Week 2025 — presenting the CIC digital twin' },
+    { src: '/Blog1/IMG_1111.jpg', caption: 'AI Week room and demo setup' },
     { src: '/Blog1/IMG_4170.jpeg', caption: 'AI Week project table and poster setup' },
     { src: '/Blog1/IMG_4171.jpeg', caption: 'Digital twin demo details from AI Week' },
+    { src: '/Blog1/IMG_7984.jpg', caption: 'Research demo moment with the OSU crowd' },
+    { src: '/Blog1/IMG_8855.jpg', caption: 'AI Week closing notes and project walkthroughs' },
+    { src: '/blog2/IMG_6506.jpg', caption: 'SC24 travel notes — systems week on the road' },
+    { src: '/blog2/IMG_6509.jpg', caption: 'SC24 show floor and conference texture' },
+    { src: '/blog2/IMG_6755%202.jpg', caption: 'Supercomputing week field notes' },
+    { src: '/blog2/IMG_6914%202.jpg', caption: 'After-hours systems conversations' },
+    { src: '/blog2/IMG_6937.jpg', caption: 'SC24 booth and collaboration moments' },
+    { src: '/blog2/IMG_7034.jpg', caption: 'Supercomputing week, after-hours systems conversations' },
     { src: '/blog2/IMG_7595%202.jpg', caption: 'SC24 travel notes and show-floor moments' },
-    { src: '/blog2/IMG_7034.jpg', caption: 'Supercomputing week, after-hours systems conversations' }
+    { src: '/blog2/IMG_7596%202.jpg', caption: 'Conference floor detail from SC24' },
+    { src: '/blog2/IMG_7597%202.jpg', caption: 'Wide conference moment from SC24' },
+    { src: '/blog2/6067EE10-FF09-4E2C-BDC9-8B4712056532%202.JPG', caption: 'Portrait frame from the research travel set' },
+    { src: '/blog2/IMG_4816.jpg', caption: 'Travel and build-week gallery note' }
   ];
 
   setGalleryIndex = (i) => this.setState({ galleryIndex: i });
@@ -1167,7 +1253,7 @@ class Component extends DCLogic {
       title: 'AI Week: Digital Twins, the CIC, and Our Omniverse Demo',
       date: 'April 2025',
       meta: 'OSU AI Week · Omniverse',
-      hero: '/claude-design/media/aiweek-wide.jpg',
+      hero: '/media/aiweek-wide.jpg',
       tags: ['digital twin', 'omniverse', 'ai week'],
       paragraphs: [
         "At Oregon State's AI Week, I shared our work on a digital twin of the Jen-Hsun Huang and Lori Mills Huang Collaborative Innovation Complex server room.",
@@ -1180,7 +1266,7 @@ class Component extends DCLogic {
       title: 'Repping OSU at Supercomputing 2024',
       date: 'November 2024',
       meta: 'SC24 Atlanta · CIC Digital Twin',
-      hero: '/claude-design/media/sc24-booth.jpg',
+      hero: '/media/sc24-booth.jpg',
       tags: ['hpc', 'supercomputing', 'digital twin'],
       paragraphs: [
         "SC24 was the first time we brought the CIC digital twin work onto a national supercomputing floor, representing Oregon State at the Link Oregon booth.",
@@ -1294,6 +1380,19 @@ class Component extends DCLogic {
 
       windows: this.state.windows,
       ambientRailClass: this.hasActiveWorkspaceWindow() ? 'is-hidden' : '',
+      spotifyTitle: this.state.spotify.title,
+      spotifyArtist: this.state.spotify.artist,
+      spotifyStatus: this.state.spotify.isPlaying ? 'listening now' : 'recent track',
+      spotifyDescription: this.state.spotify.isPlaying
+        ? ('Abhi is listening to ' + this.state.spotify.title + ' by ' + this.state.spotify.artist + '.')
+        : (this.state.spotify.updatedAt
+          ? ('Last synced from Spotify at ' + this.state.spotify.updatedAt + '.')
+          : "Music signal is ready. Once connected, this panel shows Abhi's current track."),
+      spotifyProgress: Math.min(100, Math.max(0, Math.round((this.state.spotify.progressMs / Math.max(1, this.state.spotify.durationMs)) * 100))),
+      spotifyUrl: this.state.spotify.url || 'https://open.spotify.com/',
+      spotifyAlbumStyle: this.state.spotify.image
+        ? ("background-image:linear-gradient(135deg,rgba(29,185,84,.22),rgba(226,98,27,.16)),url('" + this.state.spotify.image + "');background-size:cover;background-position:center;color:transparent;")
+        : '',
       time: this.state.time,
       abhiTime: this.state.abhiTime,
       visitorTime: this.state.visitorTime,
@@ -1411,6 +1510,115 @@ class Component extends DCLogic {
     };
   }
 }
+</script>
+<script>
+(() => {
+  const placements = {};
+  let active = null;
+  let z = 100;
+
+  const surfaceFor = (win) => win.closest('.desktop-surface') || win.parentElement || document.body;
+  const px = (value, fallback = 0) => {
+    const parsed = parseFloat(value);
+    return Number.isFinite(parsed) ? parsed : fallback;
+  };
+  const clamp = (value, min, max) => Math.min(Math.max(value, min), Math.max(min, max));
+  const applyPlacement = (id) => {
+    const next = placements[id];
+    if (!next) return;
+    const win = document.querySelector(`[data-window-id="${id}"]`);
+    if (!win) return;
+    if (Number.isFinite(next.left)) win.style.left = `${next.left}px`;
+    if (Number.isFinite(next.top)) win.style.top = `${next.top}px`;
+    if (Number.isFinite(next.width)) win.style.width = `${next.width}px`;
+    if (Number.isFinite(next.height)) win.style.height = `${next.height}px`;
+    if (Number.isFinite(next.z)) win.style.zIndex = `${next.z}`;
+  };
+  const remember = (id, patch) => {
+    placements[id] = { ...(placements[id] || {}), ...patch };
+    requestAnimationFrame(() => applyPlacement(id));
+  };
+
+  const handleDown = (event) => {
+    if (window.innerWidth < 640) return;
+    if (event.target.closest('.window-titlebar > span')) return;
+    if (event.target.closest('input, a, button')) return;
+    const grip = event.target.closest('[data-resize-window]');
+    const bar = event.target.closest('.window-titlebar[data-drag-window], .terminal-window[data-drag-window]');
+    const id = grip?.getAttribute('data-resize-window') || bar?.getAttribute('data-drag-window');
+    if (!id) return;
+    const win = event.target.closest('.os-window');
+    if (!win) return;
+    const surface = surfaceFor(win);
+    const bounds = surface.getBoundingClientRect();
+    const left = px(win.style.left, win.getBoundingClientRect().left - bounds.left);
+    const top = px(win.style.top, win.getBoundingClientRect().top - bounds.top);
+    const width = win.offsetWidth;
+    const height = win.offsetHeight;
+    const mode = grip ? 'resize' : 'drag';
+    active = {
+      id,
+      mode,
+      win,
+      surface,
+      startX: event.clientX,
+      startY: event.clientY,
+      left,
+      top,
+      width,
+      height,
+      minW: px(win.style.minWidth, 360),
+      minH: px(win.style.minHeight, 260),
+    };
+    z += 1;
+    remember(id, { left, top, width, height, z });
+    event.preventDefault();
+  };
+
+  const handleMove = (event) => {
+    if (!active) return;
+    const bounds = active.surface.getBoundingClientRect();
+    const dx = event.clientX - active.startX;
+    const dy = event.clientY - active.startY;
+    if (active.mode === 'drag') {
+      const left = clamp(active.left + dx, 10, bounds.width - active.width - 10);
+      const top = clamp(active.top + dy, 10, bounds.height - active.height - 10);
+      remember(active.id, { left, top, z: placements[active.id]?.z || z });
+    } else {
+      const width = clamp(active.width + dx, active.minW, bounds.width - active.left - 10);
+      const height = clamp(active.height + dy, active.minH, bounds.height - active.top - 10);
+      remember(active.id, { width, height, z: placements[active.id]?.z || z });
+    }
+  };
+
+  const stop = () => { active = null; };
+  const bindSurfaces = () => {
+    document.querySelectorAll('.desktop-surface').forEach((surface) => {
+      if (surface.dataset.dragBound === 'true') return;
+      surface.dataset.dragBound = 'true';
+      surface.addEventListener('mousedown', handleDown, true);
+      surface.addEventListener('mousemove', handleMove);
+      surface.addEventListener('mouseup', stop);
+      surface.addEventListener('mouseleave', stop);
+    });
+    document.querySelectorAll('[data-drag-window],[data-resize-window]').forEach((el) => {
+      if (el.dataset.directDragBound === 'true') return;
+      el.dataset.directDragBound = 'true';
+      el.addEventListener('mousedown', handleDown, true);
+    });
+  };
+  bindSurfaces();
+  document.addEventListener('mousemove', handleMove);
+  document.addEventListener('mouseup', stop);
+  window.addEventListener('blur', stop);
+  new MutationObserver(() => {
+    bindSurfaces();
+    Object.keys(placements).forEach(applyPlacement);
+  }).observe(document.documentElement, {
+    childList: true,
+    subtree: true,
+  });
+})();
 </script>
 </body>
 </html>
