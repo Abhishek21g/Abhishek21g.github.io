@@ -5,8 +5,30 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>
   var initialSearch = location.search;
+  var spotifyAuthParams = new URLSearchParams(initialSearch);
+  var spotifyAuthCode = spotifyAuthParams.get('code');
+  var spotifyAuthError = spotifyAuthParams.get('error');
+  if (spotifyAuthCode || spotifyAuthError) {
+    document.documentElement.classList.add('spotify-callback');
+    window.__spotifyAuthCode = spotifyAuthCode;
+    window.__spotifyAuthError = spotifyAuthError;
+    window.addEventListener('DOMContentLoaded', function () {
+      document.body.innerHTML =
+        '<main style="min-height:100vh;display:grid;place-items:center;background:#11100C;color:#F6F2EA;padding:24px;box-sizing:border-box;font-family:IBM Plex Mono,monospace;">' +
+          '<section style="width:min(720px,100%);border:1px solid rgba(246,242,234,.18);border-radius:18px;background:rgba(246,242,234,.08);box-shadow:0 32px 90px rgba(0,0,0,.45);padding:28px;box-sizing:border-box;">' +
+            '<div style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#E2621B;margin-bottom:12px;">Spotify setup</div>' +
+            '<h1 style="font-family:Georgia,serif;font-weight:400;font-size:40px;line-height:1;margin:0 0 16px;">Send this to Codex.</h1>' +
+            '<p style="font:16px/1.6 system-ui,sans-serif;color:rgba(246,242,234,.78);margin:0 0 18px;">This one-time code lets the site create the real refresh token for your now-playing card.</p>' +
+            '<textarea readonly style="width:100%;min-height:120px;box-sizing:border-box;border-radius:12px;border:1px solid rgba(246,242,234,.22);background:#F6F2EA;color:#14110D;padding:14px;font:13px/1.5 IBM Plex Mono,monospace;">' +
+              (window.__spotifyAuthError ? ('Spotify error: ' + window.__spotifyAuthError) : window.location.href) +
+            '</textarea>' +
+            '<p style="font-size:12px;line-height:1.6;color:rgba(246,242,234,.52);margin:14px 0 0;">Paste the full URL or just the code back into Codex.</p>' +
+          '</section>' +
+        '</main>';
+    });
+  }
   if (window.top === window.self) {
-    var shouldCleanUrl = location.pathname !== '/' || location.search || location.hash;
+    var shouldCleanUrl = !spotifyAuthCode && !spotifyAuthError && (location.pathname !== '/' || location.search || location.hash);
     if (shouldCleanUrl) history.replaceState(null, '', '/');
   }
   if (/[?&](mobile|mobile-launcher|mobile-preview)(=|&|$)/.test(initialSearch)) {
