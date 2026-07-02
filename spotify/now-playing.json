@@ -1,11 +1,11 @@
 {
-  "isPlaying": false,
-  "title": "Systems work queue",
-  "artist": "Spotify sync ready",
-  "album": "Focus mode",
-  "image": "",
-  "url": "https://open.spotify.com/",
-  "progressMs": 0,
-  "durationMs": 1,
-  "updatedAt": ""
+  "isPlaying": true,
+  "title": "Yevevo",
+  "artist": "Anup Rubens, Akhil Akkineni, Jonita Gandhi",
+  "album": "Hello!",
+  "image": "https://i.scdn.co/image/ab67616d0000b273fd4f824649ef418577f50a55",
+  "url": "https://open.spotify.com/track/6etzAPMmAqj1OsXuOrHZ65",
+  "progressMs": 132573,
+  "durationMs": 293750,
+  "updatedAt": "2026-07-02T10:38:33.032Z"
 }
