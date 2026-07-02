@@ -897,6 +897,7 @@ class Component extends DCLogic {
   todayData = {
     title: 'Portfolio OS build log',
     summary: 'Today is about making the site feel alive: live Spotify, visible windows, a daily update surface, and terminal commands that make the desktop feel like Abhi is actively building here.',
+    date: '2026-07-02',
     buildCount: '04',
     shipCount: '02',
     streak: '01',
@@ -962,11 +963,18 @@ class Component extends DCLogic {
   }
 
   todayStamp() {
-    return new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date());
+    return new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric', year: 'numeric' }).format(this.todayDate());
   }
 
   todayShortStamp() {
-    return new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric' }).format(new Date());
+    return new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric' }).format(this.todayDate());
+  }
+
+  todayDate() {
+    const raw = this.todayData.date;
+    const parts = raw && /^(\d{4})-(\d{2})-(\d{2})$/.exec(raw);
+    if (parts) return new Date(Number(parts[1]), Number(parts[2]) - 1, Number(parts[3]));
+    return raw ? new Date(raw) : new Date();
   }
 
   catFile(name) {
@@ -1053,6 +1061,7 @@ class Component extends DCLogic {
 
   componentDidMount() {
     this.updateClock();
+    this.loadToday();
     this.loadSpotify();
     this.layoutForViewport(true);
     this._clockTimer = setInterval(this.updateClock, 30000);
@@ -1134,6 +1143,25 @@ class Component extends DCLogic {
             updatedAt: data.updatedAt || ''
           }
         });
+      })
+      .catch(() => {});
+  };
+
+  loadToday = () => {
+    fetch('/updates/today.json', { cache: 'no-store' })
+      .then((res) => res.ok ? res.json() : null)
+      .then((data) => {
+        if (!data || !data.title) return;
+        this.todayData = {
+          title: data.title || this.todayData.title,
+          summary: data.summary || this.todayData.summary,
+          date: data.date || this.todayData.date,
+          buildCount: data.buildCount || this.todayData.buildCount,
+          shipCount: data.shipCount || this.todayData.shipCount,
+          streak: data.streak || this.todayData.streak,
+          items: Array.isArray(data.items) && data.items.length ? data.items : this.todayData.items
+        };
+        this.forceUpdate();
       })
       .catch(() => {});
   };

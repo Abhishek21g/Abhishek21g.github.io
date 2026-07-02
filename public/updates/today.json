@@ -1,0 +1,30 @@
+{
+  "title": "Portfolio OS build log",
+  "summary": "Today is about tightening the OS: cleaner glass widgets, real data surfaces, a daily update file, and an agent plan for the next portfolio passes.",
+  "date": "2026-07-02",
+  "buildCount": "07",
+  "shipCount": "03",
+  "streak": "01",
+  "items": [
+    {
+      "kind": "ship",
+      "text": "Made the Now.log rail card compact so the desktop feels calmer."
+    },
+    {
+      "kind": "ship",
+      "text": "Fixed GitHub Pages output by removing generated template-placeholder files."
+    },
+    {
+      "kind": "live",
+      "text": "Spotify refresh is wired through a static JSON workflow and safe fallback copy."
+    },
+    {
+      "kind": "agent",
+      "text": "Split the remaining work into design polish, Today.txt, mobile, terminal, live data, integration, and admin monitoring agents."
+    },
+    {
+      "kind": "next",
+      "text": "Wire GitHub activity and sanitized agent-runtime metrics into the OS rail."
+    }
+  ]
+}
