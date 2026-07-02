@@ -16,20 +16,20 @@
 <meta name="design_doc_mode" content="canvas">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=National+Park:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  body{margin:0;background:#EDEAE2;font-family:'IBM Plex Sans',sans-serif;}
+  body{margin:0;background:#EDEAE2;font-family:'National Park','IBM Plex Sans',sans-serif;}
   .dv-turn{padding:48px 48px 72px;}
   .dv-thd{display:flex;align-items:baseline;gap:12px;margin:0 0 28px;}
   .dv-tid{font:600 11px 'IBM Plex Mono',monospace;padding:4px 8px;background:#14110D;color:#fff;border-radius:4px;text-decoration:none;}
-  .dv-tname{font:600 14px/1.3 'IBM Plex Sans',sans-serif;color:#14110D;}
+  .dv-tname{font:600 14px/1.3 'National Park','IBM Plex Sans',sans-serif;color:#14110D;}
   .dv-opts{display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start;}
   .dv-opt{flex:none;display:flex;flex-direction:column;gap:12px;scroll-margin-top:20px;}
   .dv-oid{font:600 11px 'IBM Plex Mono',monospace;padding:4px 8px;background:rgba(20,17,13,0.08);color:#14110D;border-radius:5px;text-decoration:none;}
-  .dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 12px/1.3 'IBM Plex Sans',sans-serif;color:rgba(20,17,13,0.55);}
+  .dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 12px/1.3 'National Park','IBM Plex Sans',sans-serif;color:rgba(20,17,13,0.55);}
   .dv-card{max-width:100%;overflow:hidden;}
   .dv-opt:target .dv-oid{background:#1E3A8A;color:#fff;}
-  .dv-next{margin:28px 0 0;font:12px/1.6 'IBM Plex Sans',sans-serif;color:rgba(20,17,13,0.5);}
+  .dv-next{margin:28px 0 0;font:12px/1.6 'National Park','IBM Plex Sans',sans-serif;color:rgba(20,17,13,0.5);}
   @keyframes blinkcursor{0%,49%{opacity:1;}50%,100%{opacity:0;}}
 </style>
 
@@ -44,29 +44,75 @@
   .window-body{height:calc(100% - 36px);overflow:auto;}
   .resize-grip{position:absolute;right:0;bottom:0;width:18px;height:18px;cursor:nwse-resize;background:linear-gradient(135deg,transparent 0 45%,rgba(20,17,13,0.24) 45% 52%,transparent 52% 62%,rgba(20,17,13,0.24) 62% 69%,transparent 69%);opacity:.75;}
   .resize-grip-dark{background:linear-gradient(135deg,transparent 0 45%,rgba(246,242,234,0.26) 45% 52%,transparent 52% 62%,rgba(246,242,234,0.26) 62% 69%,transparent 69%);}
+  .os-window > div:first-child > span:nth-child(-n+3){position:relative!important;width:18px!important;height:18px!important;border-radius:50%!important;background:transparent!important;border:0!important;box-sizing:border-box;display:inline-flex!important;align-items:center;justify-content:center;cursor:pointer;transition:transform .14s ease,filter .14s ease;}
+  .os-window > div:first-child > span:nth-child(-n+3)::before{content:"";width:12px;height:12px;border-radius:50%;display:block;box-shadow:inset 0 0 0 1px rgba(20,17,13,0.12);}
+  .os-window > div:first-child > span:nth-child(1)::before{background:#ff5f57;}
+  .os-window > div:first-child > span:nth-child(2)::before{background:#febc2e;}
+  .os-window > div:first-child > span:nth-child(3)::before{background:#28c840;}
+  .os-window > div:first-child > span:nth-child(-n+3)::after{position:absolute;left:50%;top:50%;transform:translate(-50%,-54%);font:700 10px/1 'IBM Plex Mono',monospace;color:rgba(20,17,13,0.58);opacity:.72;pointer-events:none;}
+  .os-window > div:first-child > span:nth-child(1)::after{content:"×";}
+  .os-window > div:first-child > span:nth-child(2)::after{content:"−";font-size:11px;}
+  .os-window > div:first-child > span:nth-child(3)::after{content:"+";font-size:9px;}
+  .os-window > div:first-child > span:nth-child(-n+3):hover{transform:scale(1.06);filter:saturate(1.1);}
+  .os-window > div:first-child > span:nth-child(-n+3):active{transform:scale(.94);}
   .gallery-main-photo{object-fit:contain;background:#14110D;}
   .gallery-thumb-img{object-fit:cover;}
   .music-card{background:linear-gradient(135deg,#1DB954,#0B6F36)!important;color:#06180c!important;}
   .blog-list-item{transition:background .16s ease, border-color .16s ease;}
   .blog-list-item:hover{background:rgba(20,17,13,.055);}
+  .ambient-rail{position:absolute;right:22px;top:62px;width:270px;display:grid;gap:12px;z-index:1;pointer-events:none;}
+  .ambient-card{pointer-events:auto;padding:14px;border-radius:14px;background:linear-gradient(135deg,rgba(246,242,234,0.20),rgba(246,242,234,0.055));border:1px solid rgba(246,242,234,0.24);box-shadow:0 18px 44px rgba(0,0,0,0.28),inset 0 1px 0 rgba(255,255,255,0.12);backdrop-filter:blur(26px) saturate(1.35);-webkit-backdrop-filter:blur(26px) saturate(1.35);color:#F6F2EA;font-family:'National Park','IBM Plex Sans',sans-serif;transition:transform .18s ease,border-color .18s ease,background .18s ease,box-shadow .18s ease;}
+  .ambient-card:hover{transform:translateY(-2px);background:linear-gradient(135deg,rgba(246,242,234,0.26),rgba(246,242,234,0.08));border-color:rgba(246,242,234,0.34);box-shadow:0 24px 58px rgba(0,0,0,0.34),inset 0 1px 0 rgba(255,255,255,0.16);}
+  .ambient-kicker{font:600 10px 'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:0.08em;color:rgba(246,242,234,0.48);margin-bottom:8px;}
+  .ambient-title{font-size:14px;line-height:1.35;color:#F6F2EA;}
+  .ambient-row{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:13px;color:rgba(246,242,234,0.72);}
+  .ambient-row strong{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;font-weight:600;text-align:right;}
+  .ambient-meta{margin-top:8px;font:11px 'IBM Plex Mono',monospace;color:rgba(246,242,234,0.46);}
+  .ambient-pill{display:inline-flex;margin-top:10px;padding:5px 8px;border-radius:999px;background:rgba(29,185,84,0.18);color:#8EF0AE;font:600 10px 'IBM Plex Mono',monospace;}
+  .projects-window .window-body{background:linear-gradient(180deg,#F8F5EC 0%,#EEE9DD 100%);}
+  .projects-window .window-body>div{border:1px solid rgba(20,17,13,0.08)!important;border-radius:12px!important;background:rgba(255,252,244,0.72);padding:18px!important;margin-bottom:14px!important;box-shadow:0 10px 28px rgba(20,17,13,0.06);}
+  .projects-window .window-body>div:hover{background:#FFFDF7;transform:translateY(-1px);box-shadow:0 14px 34px rgba(20,17,13,0.10);}
+  .projects-window .window-body>div{transition:transform .16s ease,background .16s ease,box-shadow .16s ease;}
+  @media (min-width: 1300px){
+    .os-window{max-width:calc(100vw - 320px);}
+  }
   @media (min-width: 1600px){
-    .os-window{max-width:calc(100vw - 220px);}
+    .os-window{max-width:calc(100vw - 360px);}
+  }
+  @media (max-width: 1099px){
+    .ambient-rail{display:none!important;}
   }
   @media (max-width: 900px){
+    .site-app{overflow:hidden;}
     .site-app .dv-card{transform-origin:top left;}
-    .desktop-surface{width:100vw!important;height:calc(100dvh - 40px)!important;}
+    .desktop-surface{width:100vw!important;height:calc(100dvh - 40px)!important;overflow-x:hidden!important;overflow-y:auto!important;display:flex!important;flex-direction:column!important;gap:16px!important;padding:14px 14px 24px!important;box-sizing:border-box!important;}
     .desktop-tagline{display:none!important;}
-    .top-links{gap:10px!important;font-size:10px!important;}
-    .top-links a{display:none!important;}
+    .top-links{gap:8px!important;font-size:10px!important;}
+    .top-links a{display:inline-flex!important;}
+    .top-links span:nth-last-child(2),.top-links span:last-child{display:none!important;}
     .desktop-icon{left:auto!important;top:auto!important;position:relative!important;width:78px!important;min-height:86px!important;}
     .desktop-icon > div:first-child{width:52px!important;height:52px!important;}
     .desktop-icon > div:last-child{font-size:10px!important;text-align:center!important;max-width:78px!important;overflow:hidden!important;text-overflow:ellipsis!important;}
-    .desktop-icons{position:absolute!important;left:18px!important;right:18px!important;top:74px!important;display:grid!important;grid-template-columns:repeat(3,78px)!important;justify-content:center!important;gap:18px 18px!important;overflow:visible!important;padding-bottom:0!important;}
+    .desktop-icons{position:relative!important;left:auto!important;right:auto!important;top:auto!important;order:2!important;display:grid!important;grid-template-columns:repeat(3,minmax(70px,78px))!important;justify-content:center!important;gap:16px 14px!important;overflow:visible!important;padding:0 0 8px!important;flex:none!important;}
     .desktop-hint{display:none!important;}
-    .dock{left:10px!important;right:10px!important;bottom:10px!important;transform:none!important;justify-content:center!important;gap:10px!important;padding:10px!important;border-radius:16px!important;overflow-x:auto!important;}
+    .ambient-rail{position:relative!important;left:auto!important;right:auto!important;top:auto!important;order:3!important;width:100%!important;display:grid!important;grid-template-columns:1fr!important;gap:10px!important;z-index:1!important;pointer-events:auto!important;}
+    .ambient-card{padding:13px!important;border-radius:16px!important;background:linear-gradient(135deg,rgba(246,242,234,0.18),rgba(246,242,234,0.06))!important;}
+    .dock{display:none!important;}
     .dock > div{width:40px!important;height:40px!important;flex:0 0 40px;}
-    .os-window{left:10px!important;top:58px!important;width:calc(100vw - 20px)!important;height:calc(100dvh - 190px)!important;max-width:none!important;max-height:none!important;border-radius:10px!important;}
-    .about-window .about-head{flex-direction:row!important;align-items:center!important;}
+    .about-window{position:relative!important;left:auto!important;top:auto!important;order:1!important;width:100%!important;max-width:none!important;height:auto!important;min-height:0!important;max-height:none!important;flex:none!important;z-index:2!important;border-radius:18px!important;overflow:hidden!important;box-shadow:0 18px 42px rgba(0,0,0,0.38)!important;}
+    .about-window > div:first-child{display:none!important;}
+    .about-window .window-body{height:auto!important;max-height:none!important;padding:18px!important;overflow:visible!important;}
+    .os-window:not(.about-window){position:fixed!important;inset:48px 10px max(10px,env(safe-area-inset-bottom)) 10px!important;width:auto!important;height:auto!important;max-width:none!important;max-height:none!important;border-radius:10px!important;z-index:90!important;}
+    .os-window:not(.about-window) > div:first-child > span:nth-child(-n+3){width:24px!important;height:24px!important;}
+    .os-window:not(.about-window) > div:first-child > span:nth-child(-n+3)::before{width:13px;height:13px;}
+    .about-window .about-head{display:grid!important;grid-template-columns:96px minmax(0,1fr)!important;gap:14px!important;align-items:center!important;margin-bottom:18px!important;}
+    .about-photo{width:96px!important;height:116px!important;border-radius:12px!important;}
+    .about-name{font-size:clamp(30px,10vw,38px)!important;line-height:0.98!important;margin:0!important;max-width:100%!important;overflow-wrap:anywhere!important;}
+    .about-copy{font-size:14px!important;line-height:1.62!important;margin-bottom:13px!important;}
+    .about-stats{display:grid!important;grid-template-columns:1fr 1fr!important;gap:14px!important;margin-bottom:18px!important;}
+    .about-stats > div > div:first-child{font-size:34px!important;line-height:1!important;}
+    .about-stats > div > div:last-child{font-size:9px!important;line-height:1.12!important;letter-spacing:0.06em!important;}
+    .skill-pills{max-height:72px!important;overflow:hidden!important;}
     .gallery-layout,.blog-layout{flex-direction:column!important;}
     .gallery-rail{width:auto!important;max-height:none!important;display:flex!important;flex-direction:row!important;overflow-x:auto!important;overflow-y:hidden!important;}
     .gallery-thumb{width:70px!important;min-width:70px!important;}
@@ -76,18 +122,34 @@
   }
   .mobile-preview .site-app{width:min(433px,100vw);max-width:433px;margin:0 auto;}
   .mobile-preview .dv-card{width:min(433px,100vw)!important;height:100dvh!important;}
-  .mobile-preview .desktop-surface{width:min(433px,100vw)!important;height:calc(100dvh - 40px)!important;}
+  .mobile-preview .desktop-surface{width:min(433px,100vw)!important;height:calc(100dvh - 40px)!important;overflow-x:hidden!important;overflow-y:auto!important;display:flex!important;flex-direction:column!important;gap:16px!important;padding:14px 14px 24px!important;box-sizing:border-box!important;}
   .mobile-preview .desktop-tagline{display:none!important;}
-  .mobile-preview .top-links{gap:10px!important;font-size:10px!important;}
-  .mobile-preview .top-links a{display:none!important;}
+  .mobile-preview .top-links{gap:8px!important;font-size:10px!important;}
+  .mobile-preview .top-links a{display:inline-flex!important;}
+  .mobile-preview .top-links span:nth-last-child(2),.mobile-preview .top-links span:last-child{display:none!important;}
   .mobile-preview .desktop-icon{left:auto!important;top:auto!important;position:relative!important;width:78px!important;min-height:86px!important;}
   .mobile-preview .desktop-icon > div:first-child{width:52px!important;height:52px!important;}
   .mobile-preview .desktop-icon > div:last-child{font-size:10px!important;text-align:center!important;max-width:78px!important;overflow:hidden!important;text-overflow:ellipsis!important;}
-  .mobile-preview .desktop-icons{position:absolute!important;left:18px!important;right:18px!important;top:74px!important;display:grid!important;grid-template-columns:repeat(3,78px)!important;justify-content:center!important;gap:18px 18px!important;overflow:visible!important;padding-bottom:0!important;}
+  .mobile-preview .desktop-icons{position:relative!important;left:auto!important;right:auto!important;top:auto!important;order:2!important;display:grid!important;grid-template-columns:repeat(3,minmax(70px,78px))!important;justify-content:center!important;gap:16px 14px!important;overflow:visible!important;padding:0 0 8px!important;flex:none!important;}
   .mobile-preview .desktop-hint{display:none!important;}
-  .mobile-preview .dock{left:10px!important;right:10px!important;bottom:10px!important;transform:none!important;justify-content:center!important;gap:10px!important;padding:10px!important;border-radius:16px!important;overflow-x:auto!important;}
+  .mobile-preview .ambient-rail{position:relative!important;left:auto!important;right:auto!important;top:auto!important;order:3!important;width:100%!important;display:grid!important;grid-template-columns:1fr!important;gap:10px!important;z-index:1!important;pointer-events:auto!important;}
+  .mobile-preview .ambient-card{padding:13px!important;border-radius:16px!important;background:linear-gradient(135deg,rgba(246,242,234,0.18),rgba(246,242,234,0.06))!important;}
+  .mobile-preview .dock{display:none!important;}
   .mobile-preview .dock > div{width:40px!important;height:40px!important;flex:0 0 40px;}
-  .mobile-preview .os-window{left:10px!important;top:58px!important;width:calc(min(433px,100vw) - 20px)!important;height:calc(100dvh - 190px)!important;max-width:none!important;max-height:none!important;border-radius:10px!important;}
+  .mobile-preview .about-window{position:relative!important;left:auto!important;top:auto!important;order:1!important;width:100%!important;max-width:none!important;height:auto!important;min-height:0!important;max-height:none!important;flex:none!important;z-index:2!important;border-radius:18px!important;overflow:hidden!important;box-shadow:0 18px 42px rgba(0,0,0,0.38)!important;}
+  .mobile-preview .about-window > div:first-child{display:none!important;}
+  .mobile-preview .about-window .window-body{height:auto!important;max-height:none!important;padding:18px!important;overflow:visible!important;}
+  .mobile-preview .os-window:not(.about-window){position:fixed!important;inset:48px 10px max(10px,env(safe-area-inset-bottom)) 10px!important;width:auto!important;height:auto!important;max-width:none!important;max-height:none!important;border-radius:10px!important;z-index:90!important;}
+  .mobile-preview .os-window:not(.about-window) > div:first-child > span:nth-child(-n+3){width:24px!important;height:24px!important;}
+  .mobile-preview .os-window:not(.about-window) > div:first-child > span:nth-child(-n+3)::before{width:13px;height:13px;}
+  .mobile-preview .about-window .about-head{display:grid!important;grid-template-columns:96px minmax(0,1fr)!important;gap:14px!important;align-items:center!important;margin-bottom:18px!important;}
+  .mobile-preview .about-photo{width:96px!important;height:116px!important;border-radius:12px!important;}
+  .mobile-preview .about-name{font-size:clamp(30px,10vw,38px)!important;line-height:0.98!important;margin:0!important;max-width:100%!important;overflow-wrap:anywhere!important;}
+  .mobile-preview .about-copy{font-size:14px!important;line-height:1.62!important;margin-bottom:13px!important;}
+  .mobile-preview .about-stats{display:grid!important;grid-template-columns:1fr 1fr!important;gap:14px!important;margin-bottom:18px!important;}
+  .mobile-preview .about-stats > div > div:first-child{font-size:34px!important;line-height:1!important;}
+  .mobile-preview .about-stats > div > div:last-child{font-size:9px!important;line-height:1.12!important;letter-spacing:0.06em!important;}
+  .mobile-preview .skill-pills{max-height:72px!important;overflow:hidden!important;}
   .mobile-preview .gallery-layout,.mobile-preview .blog-layout{flex-direction:column!important;}
   .mobile-preview .gallery-rail{width:auto!important;max-height:none!important;display:flex!important;flex-direction:row!important;overflow-x:auto!important;overflow-y:hidden!important;}
   .mobile-preview .gallery-thumb{width:70px!important;min-width:70px!important;}
@@ -114,6 +176,26 @@
 
 <div class="desktop-surface" style="position:relative;width:1440px;height:860px;background:#14110D;overflow:hidden;">
 <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(135deg, rgba(246,242,234,0.015) 0px, rgba(246,242,234,0.015) 1px, transparent 1px, transparent 40px);pointer-events:none;"></div>
+
+<div class="ambient-rail" aria-label="Ambient status widgets">
+<section class="ambient-card">
+<div class="ambient-kicker">now playing</div>
+<div class="ambient-title">Abhi's systems queue</div>
+<div class="ambient-meta">Spotify live hook ready · needs token</div>
+<span class="ambient-pill">glass module</span>
+</section>
+<section class="ambient-card">
+<div class="ambient-kicker">investments</div>
+<div class="ambient-row"><span>Watchlist</span><strong>AMD · NVDA · TSM</strong></div>
+<div class="ambient-row" style="margin-top:8px;"><span>Thesis</span><strong>AI infra</strong></div>
+<div class="ambient-meta">static snapshot · no live prices</div>
+</section>
+<section class="ambient-card">
+<div class="ambient-kicker">watch later</div>
+<div class="ambient-title">GPU kernels, compiler talks, systems papers</div>
+<div class="ambient-meta">YouTube hook-ready card</div>
+</section>
+</div>
 
 <div class="desktop-icons">
 <div class="desktop-icon" onClick="{{ openAbout }}" style="position:absolute;left:40px;top:32px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
@@ -218,18 +300,18 @@
 </div>
 <div class="window-body" style="padding:32px 36px;overflow-y:auto;">
 <div class="about-head" style="display:flex;gap:22px;align-items:flex-start;margin-bottom:22px;">
-<div style="width:120px;height:150px;flex:none;overflow:hidden;background:#E4E0D3;border-radius:8px;">
+<div class="about-photo" style="width:120px;height:150px;flex:none;overflow:hidden;background:#E4E0D3;border-radius:8px;">
 <img src="media/portrait.jpg" alt="Abhishek Enaguthi" style="width:100%;height:100%;object-fit:cover;display:block;" />
 </div>
-<h2 style="font-family:'Instrument Serif',serif;font-weight:400;font-size:38px;line-height:1.08;color:#14110D;margin:14px 0 0;">Abhishek<br/>Enaguthi</h2>
+<h2 class="about-name" style="font-family:'National Park','IBM Plex Sans',sans-serif;font-weight:400;font-size:38px;line-height:1.08;color:#14110D;margin:14px 0 0;">Abhishek<br/>Enaguthi</h2>
 </div>
-<p style="font-family:'IBM Plex Sans',sans-serif;font-size:16px;line-height:1.7;color:#3B3529;margin:0 0 16px;">I live in the layer underneath the framework — compiler backends, kernel-level debugging, distributed systems at HPC scale.</p>
-<p style="font-family:'IBM Plex Sans',sans-serif;font-size:16px;line-height:1.7;color:#5B5648;margin:0 0 28px;">M.S. in Artificial Intelligence (Thesis) &amp; B.S. Computer Science (AI), Minor in Finance — Oregon State University, expected June 2026.</p>
-<div style="display:flex;gap:44px;margin-bottom:28px;">
-<div><div style="font-family:'Instrument Serif',serif;font-size:38px;color:#E2621B;">4.0</div><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#5B5648;margin-top:4px;">GPA · M.S. Artificial Intelligence</div></div>
-<div><div style="font-family:'Instrument Serif',serif;font-size:38px;color:#E2621B;">$1M</div><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#5B5648;margin-top:4px;">AMD / IBM research grant secured</div></div>
+<p class="about-copy" style="font-family:'National Park','IBM Plex Sans',sans-serif;font-size:16px;line-height:1.7;color:#3B3529;margin:0 0 16px;">I live in the layer underneath the framework — compiler backends, kernel-level debugging, distributed systems at HPC scale.</p>
+<p class="about-copy" style="font-family:'National Park','IBM Plex Sans',sans-serif;font-size:16px;line-height:1.7;color:#5B5648;margin:0 0 28px;">M.S. in Artificial Intelligence (Thesis) &amp; B.S. Computer Science (AI), Minor in Finance — Oregon State University, expected June 2026.</p>
+<div class="about-stats" style="display:flex;gap:44px;margin-bottom:28px;">
+<div><div style="font-family:'National Park','IBM Plex Sans',sans-serif;font-size:38px;color:#E2621B;">4.0</div><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#5B5648;margin-top:4px;">GPA · M.S. Artificial Intelligence</div></div>
+<div><div style="font-family:'National Park','IBM Plex Sans',sans-serif;font-size:38px;color:#E2621B;">$1M</div><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#5B5648;margin-top:4px;">AMD / IBM research grant secured</div></div>
 </div>
-<div style="display:flex;flex-wrap:wrap;gap:8px;">
+<div class="skill-pills" style="display:flex;flex-wrap:wrap;gap:8px;">
 <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:5px 11px;border-radius:20px;background:rgba(20,17,13,0.06);color:#5B5648;">Python</span>
 <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:5px 11px;border-radius:20px;background:rgba(20,17,13,0.06);color:#5B5648;">C++</span>
 <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:5px 11px;border-radius:20px;background:rgba(20,17,13,0.06);color:#5B5648;">Rust</span>
@@ -254,28 +336,28 @@
 </div>
 <div class="window-body" style="padding:32px 36px;overflow-y:auto;">
 <div style="margin-bottom:28px;padding-bottom:28px;border-bottom:1px solid rgba(20,17,13,0.08);">
-<h3 style="font-family:'Instrument Serif',serif;font-weight:400;font-size:24px;color:#14110D;margin:0 0 4px;">AI Research Engineer</h3>
+<h3 style="font-family:'National Park','IBM Plex Sans',sans-serif;font-weight:400;font-size:24px;color:#14110D;margin:0 0 4px;">AI Research Engineer</h3>
 <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#E2621B;margin-bottom:4px;">Mar 2024 — Present</div>
-<p style="font-family:'IBM Plex Sans',sans-serif;font-size:13px;color:#5B5648;margin:0 0 12px;">Research Advanced Computing, Oregon State University</p>
-<p style="font-family:'IBM Plex Sans',sans-serif;font-size:14px;line-height:1.65;color:#3B3529;margin:0;">Secured a $1M joint research grant from AMD and IBM for heterogeneous GPU compiler tech. Published compiler research enabling ROCm cross-compilation to x86. Led a team to SC25, placing top 3 of 50+ teams in the IndySCC student cluster competition.</p>
+<p style="font-family:'National Park','IBM Plex Sans',sans-serif;font-size:13px;color:#5B5648;margin:0 0 12px;">Research Advanced Computing, Oregon State University</p>
+<p style="font-family:'National Park','IBM Plex Sans',sans-serif;font-size:14px;line-height:1.65;color:#3B3529;margin:0;">Secured a $1M joint research grant from AMD and IBM for heterogeneous GPU compiler tech. Published compiler research enabling ROCm cross-compilation to x86. Led a team to SC25, placing top 3 of 50+ teams in the IndySCC student cluster competition.</p>
 </div>
 <div style="margin-bottom:28px;padding-bottom:28px;border-bottom:1px solid rgba(20,17,13,0.08);">
-<h3 style="font-family:'Instrument Serif',serif;font-weight:400;font-size:24px;color:#14110D;margin:0 0 4px;">LLM Research Intern</h3>
+<h3 style="font-family:'National Park','IBM Plex Sans',sans-serif;font-weight:400;font-size:24px;color:#14110D;margin:0 0 4px;">LLM Research Intern</h3>
 <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#E2621B;margin-bottom:4px;">Jun — Sep 2025</div>
-<p style="font-family:'IBM Plex Sans',sans-serif;font-size:13px;color:#5B5648;margin:0 0 12px;">University of Washington</p>
-<p style="font-family:'IBM Plex Sans',sans-serif;font-size:14px;line-height:1.65;color:#3B3529;margin:0;">Built multi-turn synthetic QA generation for NVIDIA NeMo and deployed LLaMA-3 70B and Mistral inference via vLLM on NVIDIA H200 clusters — production RAG pipelines on a 50-node, 20TB system for 20+ staff.</p>
+<p style="font-family:'National Park','IBM Plex Sans',sans-serif;font-size:13px;color:#5B5648;margin:0 0 12px;">University of Washington</p>
+<p style="font-family:'National Park','IBM Plex Sans',sans-serif;font-size:14px;line-height:1.65;color:#3B3529;margin:0;">Built multi-turn synthetic QA generation for NVIDIA NeMo and deployed LLaMA-3 70B and Mistral inference via vLLM on NVIDIA H200 clusters — production RAG pipelines on a 50-node, 20TB system for 20+ staff.</p>
 </div>
 <div style="margin-bottom:28px;padding-bottom:28px;border-bottom:1px solid rgba(20,17,13,0.08);">
-<h3 style="font-family:'Instrument Serif',serif;font-weight:400;font-size:24px;color:#14110D;margin:0 0 4px;">Systems Software Engineer</h3>
+<h3 style="font-family:'National Park','IBM Plex Sans',sans-serif;font-weight:400;font-size:24px;color:#14110D;margin:0 0 4px;">Systems Software Engineer</h3>
 <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#E2621B;margin-bottom:4px;">Jun 2024 — Present</div>
-<p style="font-family:'IBM Plex Sans',sans-serif;font-size:13px;color:#5B5648;margin:0 0 12px;">College of Earth Science, Oregon State University</p>
-<p style="font-family:'IBM Plex Sans',sans-serif;font-size:14px;line-height:1.65;color:#3B3529;margin:0;">Presented a physics-based digital twin of data centers at Supercomputing '24 using NVIDIA Omniverse and Isaac Sim. Wrote LLVM passes, kernel optimizations, and custom backends — a 30% boost to ML and data processing performance.</p>
+<p style="font-family:'National Park','IBM Plex Sans',sans-serif;font-size:13px;color:#5B5648;margin:0 0 12px;">College of Earth Science, Oregon State University</p>
+<p style="font-family:'National Park','IBM Plex Sans',sans-serif;font-size:14px;line-height:1.65;color:#3B3529;margin:0;">Presented a physics-based digital twin of data centers at Supercomputing '24 using NVIDIA Omniverse and Isaac Sim. Wrote LLVM passes, kernel optimizations, and custom backends — a 30% boost to ML and data processing performance.</p>
 </div>
 <div>
-<h3 style="font-family:'Instrument Serif',serif;font-weight:400;font-size:24px;color:#14110D;margin:0 0 4px;">HPC Performance Engineer</h3>
+<h3 style="font-family:'National Park','IBM Plex Sans',sans-serif;font-weight:400;font-size:24px;color:#14110D;margin:0 0 4px;">HPC Performance Engineer</h3>
 <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#E2621B;margin-bottom:4px;">Mar 2024 — Present</div>
-<p style="font-family:'IBM Plex Sans',sans-serif;font-size:13px;color:#5B5648;margin:0 0 12px;">Oregon State University</p>
-<p style="font-family:'IBM Plex Sans',sans-serif;font-size:14px;line-height:1.65;color:#3B3529;margin:0;">Automated SLURM RPC and disk-usage monitoring, adopted by 100+ users daily across OSU's HPC. Benchmarked NCCL and MPI to land 20% faster collective communication and 15% higher memory throughput.</p>
+<p style="font-family:'National Park','IBM Plex Sans',sans-serif;font-size:13px;color:#5B5648;margin:0 0 12px;">Oregon State University</p>
+<p style="font-family:'National Park','IBM Plex Sans',sans-serif;font-size:14px;line-height:1.65;color:#3B3529;margin:0;">Automated SLURM RPC and disk-usage monitoring, adopted by 100+ users daily across OSU's HPC. Benchmarked NCCL and MPI to land 20% faster collective communication and 15% higher memory throughput.</p>
 </div>
 </div>
 <div class="resize-grip" onMouseDown="{{ resizeExperience }}"></div>
@@ -292,8 +374,8 @@
 </div>
 <div class="window-body" style="padding:32px 36px;overflow-y:auto;">
 <div style="margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid rgba(20,17,13,0.1);">
-<h3 style="font-family:'IBM Plex Sans',sans-serif;font-weight:600;font-size:18px;color:#14110D;margin:0 0 8px;">Mocki — Multi-Agent Interview Coaching</h3>
-<p style="font-family:'IBM Plex Sans',sans-serif;font-size:13px;line-height:1.6;color:#3B3529;margin:0 0 10px;">Coordinator → Interviewer → Evaluator → Report Generator, adaptive difficulty via the NVIDIA NIM API. 1st place, NVIDIA Nemotron track at BeaverHacks 2026 (RTX 5070 prize), out of 50+ teams.</p>
+<h3 style="font-family:'National Park','IBM Plex Sans',sans-serif;font-weight:600;font-size:18px;color:#14110D;margin:0 0 8px;">Mocki — Multi-Agent Interview Coaching</h3>
+<p style="font-family:'National Park','IBM Plex Sans',sans-serif;font-size:13px;line-height:1.6;color:#3B3529;margin:0 0 10px;">Coordinator → Interviewer → Evaluator → Report Generator, adaptive difficulty via the NVIDIA NIM API. 1st place, NVIDIA Nemotron track at BeaverHacks 2026 (RTX 5070 prize), out of 50+ teams.</p>
 <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
 <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;">React · Node.js · NVIDIA Nemotron · NIM API</div>
 <div style="display:flex;gap:14px;font-family:'IBM Plex Mono',monospace;font-size:11px;">
@@ -303,32 +385,32 @@
 </div>
 </div>
 <div style="margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid rgba(20,17,13,0.1);">
-<h3 style="font-family:'IBM Plex Sans',sans-serif;font-weight:600;font-size:18px;color:#14110D;margin:0 0 8px;">bluestart — ROCm on POWER9</h3>
-<p style="font-family:'IBM Plex Sans',sans-serif;font-size:13px;line-height:1.6;color:#3B3529;margin:0 0 10px;">Configuring ROCm for compatibility with the IBM POWER9 architecture, enabling CUDA code to run on AMD GPUs via HIPify.</p>
+<h3 style="font-family:'National Park','IBM Plex Sans',sans-serif;font-weight:600;font-size:18px;color:#14110D;margin:0 0 8px;">bluestart — ROCm on POWER9</h3>
+<p style="font-family:'National Park','IBM Plex Sans',sans-serif;font-size:13px;line-height:1.6;color:#3B3529;margin:0 0 10px;">Configuring ROCm for compatibility with the IBM POWER9 architecture, enabling CUDA code to run on AMD GPUs via HIPify.</p>
 <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
 <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;">ROCm · HIPify · CUDA · POWER9</div>
 <a href="https://github.com/Abhishek21g/bluestart" target="_blank" rel="noopener noreferrer" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;text-decoration:none;">github ↗</a>
 </div>
 </div>
 <div style="margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid rgba(20,17,13,0.1);">
-<h3 style="font-family:'IBM Plex Sans',sans-serif;font-weight:600;font-size:18px;color:#14110D;margin:0 0 8px;">compile-your-language</h3>
-<p style="font-family:'IBM Plex Sans',sans-serif;font-size:13px;line-height:1.6;color:#3B3529;margin:0 0 10px;">A from-scratch programming language implementation, with an educational guide walking through modern compiler techniques.</p>
+<h3 style="font-family:'National Park','IBM Plex Sans',sans-serif;font-weight:600;font-size:18px;color:#14110D;margin:0 0 8px;">compile-your-language</h3>
+<p style="font-family:'National Park','IBM Plex Sans',sans-serif;font-size:13px;line-height:1.6;color:#3B3529;margin:0 0 10px;">A from-scratch programming language implementation, with an educational guide walking through modern compiler techniques.</p>
 <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
 <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;">Compilers · LLVM · Systems</div>
 <a href="https://github.com/Abhishek21g/compile-your-language" target="_blank" rel="noopener noreferrer" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;text-decoration:none;">github ↗</a>
 </div>
 </div>
 <div style="margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid rgba(20,17,13,0.1);">
-<h3 style="font-family:'IBM Plex Sans',sans-serif;font-weight:600;font-size:18px;color:#14110D;margin:0 0 8px;">TreeHacks — GenAI Research Assistant</h3>
-<p style="font-family:'IBM Plex Sans',sans-serif;font-size:13px;line-height:1.6;color:#3B3529;margin:0 0 10px;">A GenAI-powered assistant for academic research, using InterSystems IRIS vector search to surface and cite relevant papers.</p>
+<h3 style="font-family:'National Park','IBM Plex Sans',sans-serif;font-weight:600;font-size:18px;color:#14110D;margin:0 0 8px;">TreeHacks — GenAI Research Assistant</h3>
+<p style="font-family:'National Park','IBM Plex Sans',sans-serif;font-size:13px;line-height:1.6;color:#3B3529;margin:0 0 10px;">A GenAI-powered assistant for academic research, using InterSystems IRIS vector search to surface and cite relevant papers.</p>
 <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
 <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;">Python · Vector Search · InterSystems IRIS</div>
 <a href="https://github.com/Abhishek21g/treehacks-intersystems" target="_blank" rel="noopener noreferrer" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;text-decoration:none;">github ↗</a>
 </div>
 </div>
 <div>
-<h3 style="font-family:'IBM Plex Sans',sans-serif;font-weight:600;font-size:18px;color:#14110D;margin:0 0 8px;">Retrieval-Augmented Generation Pipeline</h3>
-<p style="font-family:'IBM Plex Sans',sans-serif;font-size:13px;line-height:1.6;color:#3B3529;margin:0 0 10px;">Scaled embedding generation to 235K embeddings from 65K Wikipedia articles using PyTorch DDP across multi-GPU nodes.</p>
+<h3 style="font-family:'National Park','IBM Plex Sans',sans-serif;font-weight:600;font-size:18px;color:#14110D;margin:0 0 8px;">Retrieval-Augmented Generation Pipeline</h3>
+<p style="font-family:'National Park','IBM Plex Sans',sans-serif;font-size:13px;line-height:1.6;color:#3B3529;margin:0 0 10px;">Scaled embedding generation to 235K embeddings from 65K Wikipedia articles using PyTorch DDP across multi-GPU nodes.</p>
 <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;">Python · PyTorch · FAISS · MXBAI</div>
 </div>
 </div>
@@ -372,7 +454,7 @@
 <div style="flex:1;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;margin-right:33px;">Contact</div>
 </div>
 <div class="window-body" style="padding:32px 36px;overflow-y:auto;">
-<p style="font-family:'Instrument Serif',serif;font-style:italic;font-size:22px;line-height:1.5;color:#14110D;margin:0 0 28px;">Say hi, or don't — but if you're building compilers, GPU systems, or wherever HPC meets AI, I'm listening.</p>
+<p style="font-family:'National Park','IBM Plex Sans',sans-serif;font-style:italic;font-size:22px;line-height:1.5;color:#14110D;margin:0 0 28px;">Say hi, or don't — but if you're building compilers, GPU systems, or wherever HPC meets AI, I'm listening.</p>
 <div style="display:flex;flex-direction:column;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:14px;">
 <a href="/cdn-cgi/l/email-protection#cca9a2adabb9b8a4a5adaea4a5bfa4a9a78caba1ada5a0e2afa3a1" style="color:#E2621B;text-decoration:none;"><span class="__cf_email__" data-cfemail="8aefe4ebedfffee2e3ebe8e2e3f9e2efe1caede7ebe3e6a4e9e5e7">[email&#160;protected]</span></a>
 <a href="https://linkedin.com/in/abhishekenaguthi" target="_blank" rel="noopener noreferrer" style="color:#E2621B;text-decoration:none;">linkedin.com/in/abhishekenaguthi</a>
@@ -423,12 +505,12 @@
 <div class="blog-list" style="width:220px;flex:none;display:flex;flex-direction:column;gap:10px;overflow-y:auto;">
 <a href="/blog/" target="_top" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#E2621B;text-decoration:none;border:1px solid rgba(226,98,27,0.25);border-radius:999px;padding:8px 10px;text-align:center;">all posts ↗</a>
 <sc-for list="{{ blogPosts }}" as="post" hint-placeholder-count="2">
-<div class="blog-list-item" onClick="{{ post.select }}" style="border:1px solid {{ post.borderColor }};border-radius:8px;padding:12px;cursor:pointer;background:{{ post.background }};">
+<a class="blog-list-item" href="{{ post.href }}" target="_top" style="display:block;border:1px solid {{ post.borderColor }};border-radius:8px;padding:12px;cursor:pointer;background:{{ post.background }};text-decoration:none;">
 <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#E2621B;margin-bottom:6px;">{{ post.date }}</div>
-<div style="font-family:'IBM Plex Sans',sans-serif;font-weight:600;font-size:13px;line-height:1.3;color:#14110D;">{{ post.title }}</div>
+<div style="font-family:'National Park','IBM Plex Sans',sans-serif;font-weight:600;font-size:13px;line-height:1.3;color:#14110D;">{{ post.title }}</div>
 <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#7A7162;margin-top:8px;">{{ post.meta }}</div>
-<a href="{{ post.href }}" target="_top" onClick="{{ stopProp }}" style="display:inline-flex;margin-top:10px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:#E2621B;text-decoration:none;">open page ↗</a>
-</div>
+<div style="display:inline-flex;margin-top:10px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:#E2621B;">open page ↗</div>
+</a>
 </sc-for>
 </div>
 <div style="flex:1;min-width:0;overflow-y:auto;padding-right:4px;">
@@ -436,9 +518,9 @@
 <img src="{{ activeBlogPost.hero }}" alt="{{ activeBlogPost.title }}" style="width:100%;height:100%;object-fit:cover;display:block;" />
 </div>
 <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#E2621B;margin-bottom:8px;">{{ activeBlogPost.date }} · {{ activeBlogPost.meta }}</div>
-<h3 style="font-family:'Instrument Serif',serif;font-weight:400;font-size:30px;line-height:1.05;color:#14110D;margin:0 0 14px;">{{ activeBlogPost.title }}</h3>
+<h3 style="font-family:'National Park','IBM Plex Sans',sans-serif;font-weight:400;font-size:30px;line-height:1.05;color:#14110D;margin:0 0 14px;">{{ activeBlogPost.title }}</h3>
 <sc-for list="{{ activeBlogPost.paragraphs }}" as="paragraph" hint-placeholder-count="4">
-<p style="font-family:'IBM Plex Sans',sans-serif;font-size:14px;line-height:1.7;color:#3B3529;margin:0 0 14px;">{{ paragraph }}</p>
+<p style="font-family:'National Park','IBM Plex Sans',sans-serif;font-size:14px;line-height:1.7;color:#3B3529;margin:0 0 14px;">{{ paragraph }}</p>
 </sc-for>
 <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;">
 <sc-for list="{{ activeBlogPost.tags }}" as="tag" hint-placeholder-count="3">
@@ -467,10 +549,10 @@
 </div>
 <div>
 <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#1DB954;margin-bottom:6px;">Spotify / focus mode</div>
-<h3 style="font-family:'Instrument Serif',serif;font-weight:400;font-size:32px;line-height:1.05;margin:0;color:#F6F2EA;">Systems work playlist</h3>
+<h3 style="font-family:'National Park','IBM Plex Sans',sans-serif;font-weight:400;font-size:32px;line-height:1.05;margin:0;color:#F6F2EA;">Systems work playlist</h3>
 </div>
 </div>
-<p style="font-family:'IBM Plex Sans',sans-serif;font-size:14px;line-height:1.7;color:rgba(246,242,234,0.72);margin:0 0 18px;">A small app slot for music while exploring the desktop. We can wire this to an embedded Spotify playlist once you pick the playlist URL.</p>
+<p style="font-family:'National Park','IBM Plex Sans',sans-serif;font-size:14px;line-height:1.7;color:rgba(246,242,234,0.72);margin:0 0 18px;">A small app slot for music while exploring the desktop. We can wire this to an embedded Spotify playlist once you pick the playlist URL.</p>
 <a href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer" style="display:inline-flex;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#1DB954;text-decoration:none;border:1px solid rgba(29,185,84,0.35);border-radius:999px;padding:9px 12px;">open Spotify ↗</a>
 </div>
 <div class="resize-grip resize-grip-dark" onMouseDown="{{ resizeMusic }}"></div>
@@ -486,8 +568,8 @@
 <div style="flex:1;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;margin-right:33px;">Start here</div>
 </div>
 <div class="window-body" style="padding:24px;overflow-y:auto;">
-<h3 style="font-family:'Instrument Serif',serif;font-weight:400;font-size:30px;line-height:1.05;color:#14110D;margin:0 0 14px;">Welcome to the desktop.</h3>
-<p style="font-family:'IBM Plex Sans',sans-serif;font-size:14px;line-height:1.7;color:#3B3529;margin:0 0 16px;">Open apps from the icons or dock. Drag titlebars, resize corners, and use Terminal commands like <span style="font-family:'IBM Plex Mono',monospace;color:#E2621B;">projects</span>, <span style="font-family:'IBM Plex Mono',monospace;color:#E2621B;">blog</span>, and <span style="font-family:'IBM Plex Mono',monospace;color:#E2621B;">gallery</span>.</p>
+<h3 style="font-family:'National Park','IBM Plex Sans',sans-serif;font-weight:400;font-size:30px;line-height:1.05;color:#14110D;margin:0 0 14px;">Welcome to the desktop.</h3>
+<p style="font-family:'National Park','IBM Plex Sans',sans-serif;font-size:14px;line-height:1.7;color:#3B3529;margin:0 0 16px;">Open apps from the icons or dock. Drag titlebars, resize corners, and use Terminal commands like <span style="font-family:'IBM Plex Mono',monospace;color:#E2621B;">projects</span>, <span style="font-family:'IBM Plex Mono',monospace;color:#E2621B;">blog</span>, and <span style="font-family:'IBM Plex Mono',monospace;color:#E2621B;">gallery</span>.</p>
 <div style="display:grid;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;">
 <button onClick="{{ openProjects }}" style="border:1px solid rgba(20,17,13,0.12);background:white;border-radius:7px;padding:9px 10px;text-align:left;cursor:pointer;">open Projects/</button>
 <button onClick="{{ openBlog }}" style="border:1px solid rgba(20,17,13,0.12);background:white;border-radius:7px;padding:9px 10px;text-align:left;cursor:pointer;">open Blog</button>
@@ -692,7 +774,8 @@ class Component extends DCLogic {
       const windows = { ...s.windows };
       if (bounds.width < 900) {
         Object.keys(windows).forEach((id) => {
-          windows[id] = this.clampWindow({ ...windows[id], open: initial ? false : windows[id].open, x: 10, y: 58, w: bounds.width - 20, h: bounds.height - 84 });
+          const shouldOpen = initial ? id === 'about' : windows[id].open;
+          windows[id] = this.clampWindow({ ...windows[id], open: shouldOpen, x: 10, y: 58, w: bounds.width - 20, h: bounds.height - 84 });
         });
       } else {
         const aboutW = bounds.width >= 1600 ? 760 : 620;
