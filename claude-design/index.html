@@ -3,6 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+  if (/[?&](mobile|mobile-launcher|mobile-preview)(=|&|$)/.test(location.search)) {
+    document.documentElement.classList.add('mobile-preview');
+  }
+</script>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -31,13 +36,64 @@
 <style>
   html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#14110D;}
   #dc-root,#dc-root>.sc-host{width:100%;height:100%;}
-  .site-app{width:100vw;height:100vh;overflow:hidden;background:#14110D;}
-  .site-app .dv-card{width:100vw!important;height:100vh!important;max-width:none!important;border-radius:0!important;box-shadow:none!important;}
+  .site-app{width:100vw;height:100vh;height:100dvh;overflow:hidden;background:#14110D;}
+  .site-app .dv-card{width:100vw!important;height:100vh!important;height:100dvh!important;max-width:none!important;border-radius:0!important;box-shadow:none!important;}
   .site-app .dv-card>div:first-child{height:40px!important;}
-  .site-app .dv-card>div:nth-child(2){width:100%!important;height:calc(100vh - 40px)!important;}
+  .site-app .dv-card>div:nth-child(2){width:100%!important;height:calc(100dvh - 40px)!important;}
+  .os-window{max-width:calc(100vw - 150px);max-height:calc(100vh - 72px);}
+  .window-body{height:calc(100% - 36px);overflow:auto;}
+  .resize-grip{position:absolute;right:0;bottom:0;width:18px;height:18px;cursor:nwse-resize;background:linear-gradient(135deg,transparent 0 45%,rgba(20,17,13,0.24) 45% 52%,transparent 52% 62%,rgba(20,17,13,0.24) 62% 69%,transparent 69%);opacity:.75;}
+  .resize-grip-dark{background:linear-gradient(135deg,transparent 0 45%,rgba(246,242,234,0.26) 45% 52%,transparent 52% 62%,rgba(246,242,234,0.26) 62% 69%,transparent 69%);}
+  .gallery-main-photo{object-fit:contain;background:#14110D;}
+  .gallery-thumb-img{object-fit:cover;}
+  .music-card{background:linear-gradient(135deg,#1DB954,#0B6F36)!important;color:#06180c!important;}
+  .blog-list-item{transition:background .16s ease, border-color .16s ease;}
+  .blog-list-item:hover{background:rgba(20,17,13,.055);}
+  @media (min-width: 1600px){
+    .os-window{max-width:calc(100vw - 220px);}
+  }
   @media (max-width: 900px){
     .site-app .dv-card{transform-origin:top left;}
+    .desktop-surface{width:100vw!important;height:calc(100dvh - 40px)!important;}
+    .desktop-tagline{display:none!important;}
+    .top-links{gap:10px!important;font-size:10px!important;}
+    .top-links a{display:none!important;}
+    .desktop-icon{left:auto!important;top:auto!important;position:relative!important;width:78px!important;min-height:86px!important;}
+    .desktop-icon > div:first-child{width:52px!important;height:52px!important;}
+    .desktop-icon > div:last-child{font-size:10px!important;text-align:center!important;max-width:78px!important;overflow:hidden!important;text-overflow:ellipsis!important;}
+    .desktop-icons{position:absolute!important;left:18px!important;right:18px!important;top:74px!important;display:grid!important;grid-template-columns:repeat(3,78px)!important;justify-content:center!important;gap:18px 18px!important;overflow:visible!important;padding-bottom:0!important;}
+    .desktop-hint{display:none!important;}
+    .dock{left:10px!important;right:10px!important;bottom:10px!important;transform:none!important;justify-content:center!important;gap:10px!important;padding:10px!important;border-radius:16px!important;overflow-x:auto!important;}
+    .dock > div{width:40px!important;height:40px!important;flex:0 0 40px;}
+    .os-window{left:10px!important;top:58px!important;width:calc(100vw - 20px)!important;height:calc(100dvh - 190px)!important;max-width:none!important;max-height:none!important;border-radius:10px!important;}
+    .about-window .about-head{flex-direction:row!important;align-items:center!important;}
+    .gallery-layout,.blog-layout{flex-direction:column!important;}
+    .gallery-rail{width:auto!important;max-height:none!important;display:flex!important;flex-direction:row!important;overflow-x:auto!important;overflow-y:hidden!important;}
+    .gallery-thumb{width:70px!important;min-width:70px!important;}
+    .gallery-stage{height:42vh!important;}
+    .blog-list{width:auto!important;max-height:170px!important;}
+    .resize-grip{display:none!important;}
   }
+  .mobile-preview .site-app{width:min(433px,100vw);max-width:433px;margin:0 auto;}
+  .mobile-preview .dv-card{width:min(433px,100vw)!important;height:100dvh!important;}
+  .mobile-preview .desktop-surface{width:min(433px,100vw)!important;height:calc(100dvh - 40px)!important;}
+  .mobile-preview .desktop-tagline{display:none!important;}
+  .mobile-preview .top-links{gap:10px!important;font-size:10px!important;}
+  .mobile-preview .top-links a{display:none!important;}
+  .mobile-preview .desktop-icon{left:auto!important;top:auto!important;position:relative!important;width:78px!important;min-height:86px!important;}
+  .mobile-preview .desktop-icon > div:first-child{width:52px!important;height:52px!important;}
+  .mobile-preview .desktop-icon > div:last-child{font-size:10px!important;text-align:center!important;max-width:78px!important;overflow:hidden!important;text-overflow:ellipsis!important;}
+  .mobile-preview .desktop-icons{position:absolute!important;left:18px!important;right:18px!important;top:74px!important;display:grid!important;grid-template-columns:repeat(3,78px)!important;justify-content:center!important;gap:18px 18px!important;overflow:visible!important;padding-bottom:0!important;}
+  .mobile-preview .desktop-hint{display:none!important;}
+  .mobile-preview .dock{left:10px!important;right:10px!important;bottom:10px!important;transform:none!important;justify-content:center!important;gap:10px!important;padding:10px!important;border-radius:16px!important;overflow-x:auto!important;}
+  .mobile-preview .dock > div{width:40px!important;height:40px!important;flex:0 0 40px;}
+  .mobile-preview .os-window{left:10px!important;top:58px!important;width:calc(min(433px,100vw) - 20px)!important;height:calc(100dvh - 190px)!important;max-width:none!important;max-height:none!important;border-radius:10px!important;}
+  .mobile-preview .gallery-layout,.mobile-preview .blog-layout{flex-direction:column!important;}
+  .mobile-preview .gallery-rail{width:auto!important;max-height:none!important;display:flex!important;flex-direction:row!important;overflow-x:auto!important;overflow-y:hidden!important;}
+  .mobile-preview .gallery-thumb{width:70px!important;min-width:70px!important;}
+  .mobile-preview .gallery-stage{height:42vh!important;}
+  .mobile-preview .blog-list{width:auto!important;max-height:170px!important;}
+  .mobile-preview .resize-grip{display:none!important;}
 </style>
 </helmet>
 <div class="site-app">
@@ -46,9 +102,9 @@
 <div style="height:40px;background:rgba(10,9,7,0.94);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid rgba(246,242,234,0.08);">
 <div style="display:flex;align-items:center;gap:10px;">
 <div style="width:26px;height:26px;border-radius:7px;background:#E2621B;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:11px;color:#14110D;">AE</div>
-<div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,234,0.5);letter-spacing:0.04em;">CPU architecture & systems engineer — compilers · HPC</div>
+<div class="desktop-tagline" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,234,0.5);letter-spacing:0.04em;">CPU architecture & systems engineer — compilers · HPC</div>
 </div>
-<div style="display:flex;align-items:center;gap:18px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,234,0.6);">
+<div class="top-links" style="display:flex;align-items:center;gap:18px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,234,0.6);">
 <a href="https://github.com/Abhishek21g" target="_blank" rel="noopener noreferrer" style="color:rgba(246,242,234,0.6);text-decoration:none;">GitHub</a>
 <a href="https://linkedin.com/in/abhishekenaguthi" target="_blank" rel="noopener noreferrer" style="color:rgba(246,242,234,0.6);text-decoration:none;">LinkedIn</a>
 <span style="width:6px;height:6px;border-radius:50%;background:#E2621B;display:inline-block;"></span>
@@ -56,10 +112,11 @@
 </div>
 </div>
 
-<div style="position:relative;width:1440px;height:860px;background:#14110D;overflow:hidden;">
+<div class="desktop-surface" style="position:relative;width:1440px;height:860px;background:#14110D;overflow:hidden;">
 <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(135deg, rgba(246,242,234,0.015) 0px, rgba(246,242,234,0.015) 1px, transparent 1px, transparent 40px);pointer-events:none;"></div>
 
-<div onClick="{{ openAbout }}" style="position:absolute;left:40px;top:32px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
+<div class="desktop-icons">
+<div class="desktop-icon" onClick="{{ openAbout }}" style="position:absolute;left:40px;top:32px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
 <div style="width:56px;height:56px;border-radius:12px;background:#F6F2EA;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;box-shadow:0 6px 16px rgba(0,0,0,0.35);">
 <div style="width:28px;height:2px;background:#5B5648;"></div>
 <div style="width:28px;height:2px;background:#5B5648;"></div>
@@ -68,7 +125,7 @@
 <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;text-shadow:0 1px 3px rgba(0,0,0,0.6);">About.txt</div>
 </div>
 
-<div onClick="{{ openExperience }}" style="position:absolute;left:40px;top:136px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
+<div class="desktop-icon" onClick="{{ openExperience }}" style="position:absolute;left:40px;top:136px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
 <div style="width:56px;height:56px;border-radius:12px;background:#F6F2EA;display:flex;align-items:flex-end;justify-content:center;gap:4px;padding-bottom:9px;box-shadow:0 6px 16px rgba(0,0,0,0.35);">
 <div style="width:7px;height:16px;background:#E2621B;"></div>
 <div style="width:7px;height:26px;background:#E2621B;"></div>
@@ -77,14 +134,14 @@
 <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;text-shadow:0 1px 3px rgba(0,0,0,0.6);">Experience.log</div>
 </div>
 
-<div onClick="{{ openProjects }}" style="position:absolute;left:40px;top:240px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
+<div class="desktop-icon" onClick="{{ openProjects }}" style="position:absolute;left:40px;top:240px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
 <div style="width:56px;height:56px;border-radius:12px;background:#E2621B;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(0,0,0,0.35);">
 <span style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:15px;color:#14110D;">&lt;/&gt;</span>
 </div>
 <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;text-shadow:0 1px 3px rgba(0,0,0,0.6);">Projects/</div>
 </div>
 
-<div onClick="{{ openGallery }}" style="position:absolute;left:40px;top:344px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
+<div class="desktop-icon" onClick="{{ openGallery }}" style="position:absolute;left:40px;top:344px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
 <div style="width:56px;height:56px;position:relative;">
 <div style="position:absolute;width:46px;height:46px;background:#F6F2EA;border-radius:8px;transform:rotate(-8deg);top:7px;left:2px;box-shadow:0 4px 10px rgba(0,0,0,0.3);"></div>
 <div style="position:absolute;width:46px;height:46px;background-image:url('media/sc24-booth.jpg');background-size:cover;background-position:center;border-radius:8px;transform:rotate(5deg);top:3px;left:7px;box-shadow:0 6px 14px rgba(0,0,0,0.4);"></div>
@@ -92,30 +149,37 @@
 <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;text-shadow:0 1px 3px rgba(0,0,0,0.6);">Gallery</div>
 </div>
 
-<div onClick="{{ openContact }}" style="position:absolute;left:40px;top:448px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
+<div class="desktop-icon" onClick="{{ openContact }}" style="position:absolute;left:40px;top:448px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
 <div style="width:56px;height:56px;border-radius:12px;background:#F6F2EA;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(0,0,0,0.35);">
 <span style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:20px;color:#14110D;">@</span>
 </div>
 <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;text-shadow:0 1px 3px rgba(0,0,0,0.6);">Contact</div>
 </div>
 
-<div onClick="{{ openTerminal }}" style="position:absolute;left:40px;top:552px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
+<div class="desktop-icon" onClick="{{ openTerminal }}" style="position:absolute;left:40px;top:552px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
 <div style="width:56px;height:56px;border-radius:12px;background:#0A0A0A;border:1px solid rgba(246,242,234,0.15);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(0,0,0,0.35);">
 <span style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#E2621B;">&gt;_</span>
 </div>
 <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;text-shadow:0 1px 3px rgba(0,0,0,0.6);">Terminal</div>
 </div>
 
-<div onClick="{{ openBlog }}" style="position:absolute;left:40px;top:656px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
+<div class="desktop-icon" onClick="{{ openBlog }}" style="position:absolute;left:40px;top:656px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
 <div style="width:56px;height:56px;border-radius:12px;background:#F6F2EA;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(0,0,0,0.35);">
 <span style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:22px;color:#14110D;">¶</span>
 </div>
 <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;text-shadow:0 1px 3px rgba(0,0,0,0.6);">Blog</div>
 </div>
+<div class="desktop-icon" onClick="{{ openMusic }}" style="position:absolute;left:40px;top:760px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
+<div class="music-card" style="width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(0,0,0,0.35);">
+<span style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:22px;color:#06180c;">♪</span>
+</div>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;text-shadow:0 1px 3px rgba(0,0,0,0.6);">Music</div>
+</div>
+</div>
 
-<div style="position:absolute;left:40px;bottom:20px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(246,242,234,0.32);">click an icon to open · drag a titlebar to move</div>
+<div class="desktop-hint" style="position:absolute;left:40px;bottom:20px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(246,242,234,0.32);">click an icon to open · drag a titlebar to move · resize from a corner</div>
 
-<div style="position:absolute;left:50%;bottom:20px;transform:translateX(-50%);display:flex;gap:16px;padding:12px 20px;background:rgba(246,242,234,0.10);backdrop-filter:blur(20px);border:1px solid rgba(246,242,234,0.15);border-radius:20px;box-shadow:0 20px 50px rgba(0,0,0,0.4);">
+<div class="dock" style="position:absolute;left:50%;bottom:20px;transform:translateX(-50%);display:flex;gap:16px;padding:12px 20px;background:rgba(246,242,234,0.10);backdrop-filter:blur(20px);border:1px solid rgba(246,242,234,0.15);border-radius:20px;box-shadow:0 20px 50px rgba(0,0,0,0.4);">
 <div onClick="{{ openAbout }}" style-hover="transform:translateY(-6px) scale(1.1);" style="width:44px;height:44px;border-radius:10px;background:#F6F2EA;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;transition:transform 0.15s ease;">
 <div style="width:20px;height:1.5px;background:#5B5648;"></div>
 <div style="width:20px;height:1.5px;background:#5B5648;"></div>
@@ -139,18 +203,21 @@
 <div onClick="{{ openBlog }}" style-hover="transform:translateY(-6px) scale(1.1);" style="width:44px;height:44px;border-radius:10px;background:#F6F2EA;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform 0.15s ease;">
 <span style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:16px;color:#14110D;">¶</span>
 </div>
+<div class="music-card" onClick="{{ openMusic }}" style-hover="transform:translateY(-6px) scale(1.1);" style="width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform 0.15s ease;">
+<span style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:16px;color:#06180c;">♪</span>
+</div>
 </div>
 
 <sc-if value="{{ windows.about.open }}" hint-placeholder-val="{{ true }}">
-<div style="position:absolute;left:{{ windows.about.x }}px;top:{{ windows.about.y }}px;width:560px;z-index:{{ windows.about.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
+<div class="os-window about-window" onMouseDown="{{ focusAbout }}" style="position:absolute;left:{{ windows.about.x }}px;top:{{ windows.about.y }}px;width:{{ windows.about.w }}px;height:{{ windows.about.h }}px;z-index:{{ windows.about.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
 <div onMouseDown="{{ dragAbout }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
 <span onClick="{{ closeAbout }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#E2621B;cursor:pointer;display:inline-block;"></span>
 <span style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
 <span style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
 <div style="flex:1;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;margin-right:33px;">About.txt</div>
 </div>
-<div style="padding:32px 36px;max-height:500px;overflow-y:auto;">
-<div style="display:flex;gap:22px;align-items:flex-start;margin-bottom:22px;">
+<div class="window-body" style="padding:32px 36px;overflow-y:auto;">
+<div class="about-head" style="display:flex;gap:22px;align-items:flex-start;margin-bottom:22px;">
 <div style="width:120px;height:150px;flex:none;overflow:hidden;background:#E4E0D3;border-radius:8px;">
 <img src="media/portrait.jpg" alt="Abhishek Enaguthi" style="width:100%;height:100%;object-fit:cover;display:block;" />
 </div>
@@ -173,18 +240,19 @@
 <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:5px 11px;border-radius:20px;background:rgba(20,17,13,0.06);color:#5B5648;">AWS</span>
 </div>
 </div>
+<div class="resize-grip" onMouseDown="{{ resizeAbout }}"></div>
 </div>
 </sc-if>
 
 <sc-if value="{{ windows.experience.open }}" hint-placeholder-val="{{ false }}">
-<div style="position:absolute;left:{{ windows.experience.x }}px;top:{{ windows.experience.y }}px;width:620px;z-index:{{ windows.experience.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
+<div class="os-window experience-window" onMouseDown="{{ focusExperience }}" style="position:absolute;left:{{ windows.experience.x }}px;top:{{ windows.experience.y }}px;width:{{ windows.experience.w }}px;height:{{ windows.experience.h }}px;z-index:{{ windows.experience.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
 <div onMouseDown="{{ dragExperience }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
 <span onClick="{{ closeExperience }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#E2621B;cursor:pointer;display:inline-block;"></span>
 <span style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
 <span style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
 <div style="flex:1;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;margin-right:33px;">Experience.log</div>
 </div>
-<div style="padding:32px 36px;max-height:560px;overflow-y:auto;">
+<div class="window-body" style="padding:32px 36px;overflow-y:auto;">
 <div style="margin-bottom:28px;padding-bottom:28px;border-bottom:1px solid rgba(20,17,13,0.08);">
 <h3 style="font-family:'Instrument Serif',serif;font-weight:400;font-size:24px;color:#14110D;margin:0 0 4px;">AI Research Engineer</h3>
 <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#E2621B;margin-bottom:4px;">Mar 2024 — Present</div>
@@ -210,18 +278,19 @@
 <p style="font-family:'IBM Plex Sans',sans-serif;font-size:14px;line-height:1.65;color:#3B3529;margin:0;">Automated SLURM RPC and disk-usage monitoring, adopted by 100+ users daily across OSU's HPC. Benchmarked NCCL and MPI to land 20% faster collective communication and 15% higher memory throughput.</p>
 </div>
 </div>
+<div class="resize-grip" onMouseDown="{{ resizeExperience }}"></div>
 </div>
 </sc-if>
 
 <sc-if value="{{ windows.projects.open }}" hint-placeholder-val="{{ false }}">
-<div style="position:absolute;left:{{ windows.projects.x }}px;top:{{ windows.projects.y }}px;width:680px;z-index:{{ windows.projects.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
+<div class="os-window projects-window" onMouseDown="{{ focusProjects }}" style="position:absolute;left:{{ windows.projects.x }}px;top:{{ windows.projects.y }}px;width:{{ windows.projects.w }}px;height:{{ windows.projects.h }}px;z-index:{{ windows.projects.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
 <div onMouseDown="{{ dragProjects }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
 <span onClick="{{ closeProjects }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#E2621B;cursor:pointer;display:inline-block;"></span>
 <span style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
 <span style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
 <div style="flex:1;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;margin-right:33px;">Projects/</div>
 </div>
-<div style="padding:32px 36px;max-height:580px;overflow-y:auto;">
+<div class="window-body" style="padding:32px 36px;overflow-y:auto;">
 <div style="margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid rgba(20,17,13,0.1);">
 <h3 style="font-family:'IBM Plex Sans',sans-serif;font-weight:600;font-size:18px;color:#14110D;margin:0 0 8px;">Mocki — Multi-Agent Interview Coaching</h3>
 <p style="font-family:'IBM Plex Sans',sans-serif;font-size:13px;line-height:1.6;color:#3B3529;margin:0 0 10px;">Coordinator → Interviewer → Evaluator → Report Generator, adaptive difficulty via the NVIDIA NIM API. 1st place, NVIDIA Nemotron track at BeaverHacks 2026 (RTX 5070 prize), out of 50+ teams.</p>
@@ -263,44 +332,46 @@
 <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;">Python · PyTorch · FAISS · MXBAI</div>
 </div>
 </div>
+<div class="resize-grip" onMouseDown="{{ resizeProjects }}"></div>
 </div>
 </sc-if>
 
 <sc-if value="{{ windows.gallery.open }}" hint-placeholder-val="{{ false }}">
-<div style="position:absolute;left:{{ windows.gallery.x }}px;top:{{ windows.gallery.y }}px;width:600px;z-index:{{ windows.gallery.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
+<div class="os-window gallery-window" onMouseDown="{{ focusGallery }}" style="position:absolute;left:{{ windows.gallery.x }}px;top:{{ windows.gallery.y }}px;width:{{ windows.gallery.w }}px;height:{{ windows.gallery.h }}px;z-index:{{ windows.gallery.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
 <div onMouseDown="{{ dragGallery }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
 <span onClick="{{ closeGallery }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#E2621B;cursor:pointer;display:inline-block;"></span>
 <span style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
 <span style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
 <div style="flex:1;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;margin-right:33px;">Gallery</div>
 </div>
-<div style="padding:20px;display:flex;gap:14px;">
-<div style="width:76px;flex:none;display:flex;flex-direction:column;gap:8px;max-height:440px;overflow-y:auto;">
+<div class="window-body gallery-layout" style="padding:20px;display:flex;gap:14px;">
+<div class="gallery-rail" style="width:88px;flex:none;display:flex;flex-direction:column;gap:8px;max-height:100%;overflow-y:auto;">
 <sc-for list="{{ galleryPhotos }}" as="photo" hint-placeholder-count="6">
-<div onClick="{{ photo.select }}" style="height:56px;border-radius:6px;overflow:hidden;cursor:pointer;border:2px solid {{ photo.ringColor }};">
-<img src="{{ photo.src }}" style="width:100%;height:100%;object-fit:cover;display:block;" />
+<div class="gallery-thumb" onClick="{{ photo.select }}" style="height:68px;border-radius:7px;overflow:hidden;cursor:pointer;border:2px solid {{ photo.ringColor }};box-shadow:{{ photo.shadow }};background:#14110D;">
+<img class="gallery-thumb-img" src="{{ photo.src }}" alt="{{ photo.caption }}" style="width:100%;height:100%;object-fit:cover;display:block;" />
 </div>
 </sc-for>
 </div>
 <div style="flex:1;display:flex;flex-direction:column;gap:10px;">
-<div onClick="{{ openActiveLightbox }}" style="height:340px;border-radius:8px;overflow:hidden;background:#14110D;cursor:zoom-in;">
-<img src="{{ activeGalleryPhoto.src }}" style="width:100%;height:100%;object-fit:cover;display:block;" />
+<div class="gallery-stage" onClick="{{ openActiveLightbox }}" style="height:calc(100% - 56px);min-height:300px;border-radius:8px;overflow:hidden;background:#14110D;cursor:zoom-in;display:flex;align-items:center;justify-content:center;">
+<img class="gallery-main-photo" src="{{ activeGalleryPhoto.src }}" alt="{{ activeGalleryPhoto.caption }}" style="width:100%;height:100%;object-fit:contain;display:block;" />
 </div>
 <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.6;color:#5B5648;margin:0;">{{ activeGalleryPhoto.caption }}</p>
 </div>
 </div>
+<div class="resize-grip" onMouseDown="{{ resizeGallery }}"></div>
 </div>
 </sc-if>
 
 <sc-if value="{{ windows.contact.open }}" hint-placeholder-val="{{ false }}">
-<div style="position:absolute;left:{{ windows.contact.x }}px;top:{{ windows.contact.y }}px;width:520px;z-index:{{ windows.contact.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
+<div class="os-window contact-window" onMouseDown="{{ focusContact }}" style="position:absolute;left:{{ windows.contact.x }}px;top:{{ windows.contact.y }}px;width:{{ windows.contact.w }}px;height:{{ windows.contact.h }}px;z-index:{{ windows.contact.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
 <div onMouseDown="{{ dragContact }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
 <span onClick="{{ closeContact }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#E2621B;cursor:pointer;display:inline-block;"></span>
 <span style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
 <span style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
 <div style="flex:1;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;margin-right:33px;">Contact</div>
 </div>
-<div style="padding:32px 36px;">
+<div class="window-body" style="padding:32px 36px;overflow-y:auto;">
 <p style="font-family:'Instrument Serif',serif;font-style:italic;font-size:22px;line-height:1.5;color:#14110D;margin:0 0 28px;">Say hi, or don't — but if you're building compilers, GPU systems, or wherever HPC meets AI, I'm listening.</p>
 <div style="display:flex;flex-direction:column;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:14px;">
 <a href="/cdn-cgi/l/email-protection#cca9a2adabb9b8a4a5adaea4a5bfa4a9a78caba1ada5a0e2afa3a1" style="color:#E2621B;text-decoration:none;"><span class="__cf_email__" data-cfemail="8aefe4ebedfffee2e3ebe8e2e3f9e2efe1caede7ebe3e6a4e9e5e7">[email&#160;protected]</span></a>
@@ -308,11 +379,12 @@
 <a href="https://github.com/Abhishek21g" target="_blank" rel="noopener noreferrer" style="color:#E2621B;text-decoration:none;">github.com/Abhishek21g</a>
 </div>
 </div>
+<div class="resize-grip" onMouseDown="{{ resizeContact }}"></div>
 </div>
 </sc-if>
 
 <sc-if value="{{ windows.terminal.open }}" hint-placeholder-val="{{ false }}">
-<div style="position:absolute;left:{{ windows.terminal.x }}px;top:{{ windows.terminal.y }}px;width:680px;z-index:{{ windows.terminal.z }};background:#0A0A0A;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.55);">
+<div class="os-window terminal-window" onMouseDown="{{ focusTerminal }}" style="position:absolute;left:{{ windows.terminal.x }}px;top:{{ windows.terminal.y }}px;width:{{ windows.terminal.w }}px;height:{{ windows.terminal.h }}px;z-index:{{ windows.terminal.z }};background:#0A0A0A;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.55);">
 <div onMouseDown="{{ dragTerminal }}" style="height:36px;background:#111111;border-bottom:1px solid rgba(231,231,228,0.14);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
 <span onClick="{{ closeTerminal }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#E2621B;cursor:pointer;display:inline-block;"></span>
 <span style="width:11px;height:11px;border-radius:50%;background:#2c2c2a;display:inline-block;"></span>
@@ -320,7 +392,7 @@
 <div style="flex:1;text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;color:#7c7c78;margin-right:33px;">abhishek@enaguthi:~ — zsh</div>
 </div>
 <div onClick="{{ focusOsInput }}">
-<div ref="{{ osOutputRef }}" style="height:280px;overflow-y:auto;padding:20px 24px;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.7;">
+<div ref="{{ osOutputRef }}" style="height:calc({{ windows.terminal.h }}px - 86px);overflow-y:auto;padding:20px 24px;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.7;">
 <sc-for list="{{ osLines }}" as="line" hint-placeholder-count="2">
 <sc-if value="{{ line.isInput }}" hint-placeholder-val="{{ false }}">
 <div style="display:flex;gap:10px;color:#E7E7E4;"><span style="color:#E2621B;flex:none;">visitor@enaguthi:~$</span><span>{{ line.text }}</span></div>
@@ -335,35 +407,100 @@
 <input value="{{ osInputValue }}" onChange="{{ onOsInputChange }}" onKeyDown="{{ onOsKeyDown }}" ref="{{ osInputRef }}" placeholder="type 'help'" style="flex:1;background:transparent;border:none;outline:none;color:#E7E7E4;font-family:'JetBrains Mono',monospace;font-size:13px;caret-color:#E2621B;" />
 </div>
 </div>
+<div class="resize-grip resize-grip-dark" onMouseDown="{{ resizeTerminal }}"></div>
 </div>
 </sc-if>
 
 <sc-if value="{{ windows.blog.open }}" hint-placeholder-val="{{ false }}">
-<div style="position:absolute;left:{{ windows.blog.x }}px;top:{{ windows.blog.y }}px;width:540px;z-index:{{ windows.blog.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
+<div class="os-window blog-window" onMouseDown="{{ focusBlog }}" style="position:absolute;left:{{ windows.blog.x }}px;top:{{ windows.blog.y }}px;width:{{ windows.blog.w }}px;height:{{ windows.blog.h }}px;z-index:{{ windows.blog.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
 <div onMouseDown="{{ dragBlog }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
 <span onClick="{{ closeBlog }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#E2621B;cursor:pointer;display:inline-block;"></span>
 <span style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
 <span style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
 <div style="flex:1;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;margin-right:33px;">Blog</div>
 </div>
-<div style="padding:32px 36px;max-height:440px;overflow-y:auto;">
-<div style="margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid rgba(20,17,13,0.1);">
-<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#E2621B;margin-bottom:6px;">April 2025</div>
-<h3 style="font-family:'Instrument Serif',serif;font-weight:400;font-size:22px;color:#14110D;margin:0 0 8px;">AI Week: Digital Twins, the CIC, and Our Omniverse Demo</h3>
-<p style="font-family:'IBM Plex Sans',sans-serif;font-size:14px;line-height:1.6;color:#3B3529;margin:0;">Gave a lightning talk on the CIC's digital twin — a full virtual replica of the server room built in NVIDIA Omniverse. Crowd favorite: the smart sliding door that opens itself.</p>
+<div class="window-body blog-layout" style="padding:20px;display:flex;gap:18px;">
+<div class="blog-list" style="width:220px;flex:none;display:flex;flex-direction:column;gap:10px;overflow-y:auto;">
+<a href="/blog/" target="_top" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#E2621B;text-decoration:none;border:1px solid rgba(226,98,27,0.25);border-radius:999px;padding:8px 10px;text-align:center;">all posts ↗</a>
+<sc-for list="{{ blogPosts }}" as="post" hint-placeholder-count="2">
+<div class="blog-list-item" onClick="{{ post.select }}" style="border:1px solid {{ post.borderColor }};border-radius:8px;padding:12px;cursor:pointer;background:{{ post.background }};">
+<div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#E2621B;margin-bottom:6px;">{{ post.date }}</div>
+<div style="font-family:'IBM Plex Sans',sans-serif;font-weight:600;font-size:13px;line-height:1.3;color:#14110D;">{{ post.title }}</div>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#7A7162;margin-top:8px;">{{ post.meta }}</div>
+<a href="{{ post.href }}" target="_top" onClick="{{ stopProp }}" style="display:inline-flex;margin-top:10px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:#E2621B;text-decoration:none;">open page ↗</a>
+</div>
+</sc-for>
+</div>
+<div style="flex:1;min-width:0;overflow-y:auto;padding-right:4px;">
+<div style="height:180px;border-radius:8px;background:#14110D;overflow:hidden;margin-bottom:18px;display:flex;align-items:center;justify-content:center;">
+<img src="{{ activeBlogPost.hero }}" alt="{{ activeBlogPost.title }}" style="width:100%;height:100%;object-fit:cover;display:block;" />
+</div>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#E2621B;margin-bottom:8px;">{{ activeBlogPost.date }} · {{ activeBlogPost.meta }}</div>
+<h3 style="font-family:'Instrument Serif',serif;font-weight:400;font-size:30px;line-height:1.05;color:#14110D;margin:0 0 14px;">{{ activeBlogPost.title }}</h3>
+<sc-for list="{{ activeBlogPost.paragraphs }}" as="paragraph" hint-placeholder-count="4">
+<p style="font-family:'IBM Plex Sans',sans-serif;font-size:14px;line-height:1.7;color:#3B3529;margin:0 0 14px;">{{ paragraph }}</p>
+</sc-for>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;">
+<sc-for list="{{ activeBlogPost.tags }}" as="tag" hint-placeholder-count="3">
+<span style="font-family:'IBM Plex Mono',monospace;font-size:10px;padding:5px 9px;border-radius:999px;background:rgba(20,17,13,0.07);color:#5B5648;">{{ tag }}</span>
+</sc-for>
+</div>
+<a href="{{ activeBlogPost.href }}" target="_top" style="display:inline-flex;margin-top:20px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#E2621B;text-decoration:none;border:1px solid rgba(226,98,27,0.3);border-radius:999px;padding:8px 12px;">open full post ↗</a>
+</div>
+</div>
+<div class="resize-grip" onMouseDown="{{ resizeBlog }}"></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ windows.music.open }}" hint-placeholder-val="{{ false }}">
+<div class="os-window music-window" onMouseDown="{{ focusMusic }}" style="position:absolute;left:{{ windows.music.x }}px;top:{{ windows.music.y }}px;width:{{ windows.music.w }}px;height:{{ windows.music.h }}px;z-index:{{ windows.music.z }};background:#0B0F0C;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.55);">
+<div onMouseDown="{{ dragMusic }}" style="height:36px;background:#0F1711;border-bottom:1px solid rgba(246,242,234,0.12);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
+<span onClick="{{ closeMusic }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#1DB954;cursor:pointer;display:inline-block;"></span>
+<span style="width:11px;height:11px;border-radius:50%;background:rgba(246,242,234,0.16);display:inline-block;"></span>
+<span style="width:11px;height:11px;border-radius:50%;background:rgba(246,242,234,0.16);display:inline-block;"></span>
+<div style="flex:1;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(246,242,234,0.6);margin-right:33px;">Music</div>
+</div>
+<div class="window-body" style="padding:28px;overflow-y:auto;color:#F6F2EA;">
+<div style="display:flex;align-items:center;gap:18px;margin-bottom:22px;">
+<div class="music-card" style="width:86px;height:86px;border-radius:18px;display:flex;align-items:center;justify-content:center;flex:none;">
+<span style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:34px;color:#06180c;">♪</span>
 </div>
 <div>
-<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#E2621B;margin-bottom:6px;">November 2024</div>
-<h3 style="font-family:'Instrument Serif',serif;font-weight:400;font-size:22px;color:#14110D;margin:0 0 8px;">Repping OSU at Supercomputing 2024</h3>
-<p style="font-family:'IBM Plex Sans',sans-serif;font-size:14px;line-height:1.6;color:#3B3529;margin:0;">Took the CIC digital twin to SC24 in Atlanta — OSU's first year at the conference. Live sensor data, heat maps, rack-layout testing, and that now-legendary self-opening door, all running in NVIDIA Omniverse.</p>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#1DB954;margin-bottom:6px;">Spotify / focus mode</div>
+<h3 style="font-family:'Instrument Serif',serif;font-weight:400;font-size:32px;line-height:1.05;margin:0;color:#F6F2EA;">Systems work playlist</h3>
 </div>
 </div>
+<p style="font-family:'IBM Plex Sans',sans-serif;font-size:14px;line-height:1.7;color:rgba(246,242,234,0.72);margin:0 0 18px;">A small app slot for music while exploring the desktop. We can wire this to an embedded Spotify playlist once you pick the playlist URL.</p>
+<a href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer" style="display:inline-flex;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#1DB954;text-decoration:none;border:1px solid rgba(29,185,84,0.35);border-radius:999px;padding:9px 12px;">open Spotify ↗</a>
+</div>
+<div class="resize-grip resize-grip-dark" onMouseDown="{{ resizeMusic }}"></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ windows.onboarding.open }}" hint-placeholder-val="{{ false }}">
+<div class="os-window onboarding-window" onMouseDown="{{ focusOnboarding }}" style="position:absolute;left:{{ windows.onboarding.x }}px;top:{{ windows.onboarding.y }}px;width:{{ windows.onboarding.w }}px;height:{{ windows.onboarding.h }}px;z-index:{{ windows.onboarding.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
+<div onMouseDown="{{ dragOnboarding }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
+<span onClick="{{ closeOnboarding }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#E2621B;cursor:pointer;display:inline-block;"></span>
+<span style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
+<span style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
+<div style="flex:1;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;margin-right:33px;">Start here</div>
+</div>
+<div class="window-body" style="padding:24px;overflow-y:auto;">
+<h3 style="font-family:'Instrument Serif',serif;font-weight:400;font-size:30px;line-height:1.05;color:#14110D;margin:0 0 14px;">Welcome to the desktop.</h3>
+<p style="font-family:'IBM Plex Sans',sans-serif;font-size:14px;line-height:1.7;color:#3B3529;margin:0 0 16px;">Open apps from the icons or dock. Drag titlebars, resize corners, and use Terminal commands like <span style="font-family:'IBM Plex Mono',monospace;color:#E2621B;">projects</span>, <span style="font-family:'IBM Plex Mono',monospace;color:#E2621B;">blog</span>, and <span style="font-family:'IBM Plex Mono',monospace;color:#E2621B;">gallery</span>.</p>
+<div style="display:grid;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;">
+<button onClick="{{ openProjects }}" style="border:1px solid rgba(20,17,13,0.12);background:white;border-radius:7px;padding:9px 10px;text-align:left;cursor:pointer;">open Projects/</button>
+<button onClick="{{ openBlog }}" style="border:1px solid rgba(20,17,13,0.12);background:white;border-radius:7px;padding:9px 10px;text-align:left;cursor:pointer;">open Blog</button>
+<button onClick="{{ openGallery }}" style="border:1px solid rgba(20,17,13,0.12);background:white;border-radius:7px;padding:9px 10px;text-align:left;cursor:pointer;">open Gallery</button>
+</div>
+</div>
+<div class="resize-grip" onMouseDown="{{ resizeOnboarding }}"></div>
 </div>
 </sc-if>
 
 <sc-if value="{{ hasSelectedPhoto }}" hint-placeholder-val="{{ false }}">
 <div onClick="{{ closePhoto }}" style="position:absolute;inset:0;background:rgba(10,9,7,0.9);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;cursor:zoom-out;">
-<img src="{{ selectedPhoto }}" style="max-width:820px;max-height:600px;object-fit:contain;border-radius:6px;box-shadow:0 40px 100px rgba(0,0,0,0.6);" />
+<img src="{{ selectedPhoto }}" style="max-width:calc(100vw - 96px);max-height:calc(100vh - 120px);object-fit:contain;border-radius:6px;box-shadow:0 40px 100px rgba(0,0,0,0.6);" />
 <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,234,0.6);">{{ photoCaption }} · click to close</div>
 </div>
 </sc-if>
@@ -387,13 +524,15 @@ class Component extends DCLogic {
     ],
     input: '',
     windows: {
-      about: { open: true, x: 180, y: 90, z: 2 },
-      experience: { open: false, x: 540, y: 90, z: 1 },
-      projects: { open: false, x: 260, y: 160, z: 1 },
-      gallery: { open: false, x: 640, y: 130, z: 1 },
-      contact: { open: false, x: 380, y: 240, z: 1 },
-      terminal: { open: false, x: 140, y: 250, z: 1 },
-      blog: { open: false, x: 320, y: 300, z: 1 }
+      about: { open: true, x: 180, y: 90, w: 620, h: 560, minW: 420, minH: 390, z: 2 },
+      experience: { open: false, x: 540, y: 90, w: 660, h: 620, minW: 460, minH: 420, z: 1 },
+      projects: { open: false, x: 260, y: 160, w: 720, h: 640, minW: 500, minH: 430, z: 1 },
+      gallery: { open: false, x: 640, y: 130, w: 760, h: 560, minW: 480, minH: 380, z: 1 },
+      contact: { open: false, x: 380, y: 240, w: 520, h: 300, minW: 380, minH: 240, z: 1 },
+      terminal: { open: false, x: 140, y: 250, w: 720, h: 390, minW: 460, minH: 300, z: 1 },
+      blog: { open: false, x: 320, y: 300, w: 760, h: 560, minW: 470, minH: 380, z: 1 },
+      music: { open: false, x: 520, y: 260, w: 440, h: 330, minW: 340, minH: 260, z: 1 },
+      onboarding: { open: false, x: 930, y: 92, w: 360, h: 330, minW: 320, minH: 260, z: 3 }
     },
     zCounter: 2,
     time: '',
@@ -402,6 +541,7 @@ class Component extends DCLogic {
       { isInput: false, isOutput: true, text: "AE desktop — type 'help' to look around." }
     ],
     osInput: '',
+    blogIndex: 0,
     selectedPhoto: null,
     photoCaption: ''
   };
@@ -412,12 +552,15 @@ class Component extends DCLogic {
   osInputRef = React.createRef();
 
   commands = {
-    help: "available commands:\n\n  whoami        who i am\n  about         background\n  experience    work history\n  projects      things i've built\n  contact       how to reach me\n  clear         clear the screen",
+    help: "available commands:\n\n  whoami        who i am\n  about         background\n  experience    work history\n  projects      things i've built\n  gallery       open the photo app\n  blog          open the writing app\n  music         open Spotify slot\n  contact       how to reach me\n  clear         clear the screen",
     whoami: "abhishek_enaguthi\ncpu architecture & systems engineer — compiler backends, hpc performance\nM.S. Artificial Intelligence · B.S. Computer Science, Oregon State University",
     about: "M.S. Artificial Intelligence (Thesis) + B.S. Computer Science (AI), Minor in Finance — Oregon State University. GPA 4.0 / 3.95.\nI live in the layer underneath the framework — compiler backends, kernel-level debug, distributed HPC systems.\nSecured a $1M joint research grant from AMD + IBM to advance heterogeneous GPU compiler tech.",
     experience: "[Mar 2024 – Present] AI Research Engineer — Research Advanced Computing, OSU\n  - secured $1M grant from AMD + IBM for heterogeneous GPU compiler tech\n  - published compiler research enabling ROCm cross-compilation to x86\n  - led team to SC25, top 3/50+ in the IndySCC student cluster competition\n\n[Jun–Sep 2025] LLM Research Intern — University of Washington\n  - built multi-turn synthetic QA generation for NVIDIA NeMo\n  - deployed LLaMA-3 70B + Mistral via vLLM on NVIDIA H200 clusters\n\n[Jun 2024 – Present] Systems Software Engineer — CEOAS, OSU\n  - presented a physics-based digital twin at SC24 (NVIDIA Omniverse + Isaac Sim)\n  - wrote LLVM passes + kernel optimizations, 30% perf boost\n\n[Mar 2024 – Present] HPC Performance Engineer — OSU\n  - automated SLURM RPC + disk monitoring, adopted by 100+ daily users\n  - 20% faster collective comm, 15% higher memory throughput (NCCL/MPI)",
     projects: "mocki/                    multi-agent AI interview coaching — 1st place, NVIDIA Nemotron track @ BeaverHacks 2026\nbluestart/                ROCm on IBM POWER9, CUDA via HIPify\ncompile-your-language/    from-scratch language + compiler techniques guide\ntreehacks-intersystems/   GenAI research assistant, InterSystems IRIS vector search\nrag-pipeline/             235K embeddings, 65K Wikipedia articles, PyTorch DDP across multi-GPU nodes\n\ntype 'open <name>' for more (e.g. 'open mocki')",
-    contact: "email     enaguthiabhishek@gmail.com\nlinkedin  linkedin.com/in/abhishekenaguthi\ngithub    github.com/Abhishek21g"
+    contact: "email     enaguthiabhishek@gmail.com\nlinkedin  linkedin.com/in/abhishekenaguthi\ngithub    github.com/Abhishek21g",
+    gallery: "opening Gallery...",
+    blog: "opening Blog...",
+    music: "opening Music..."
   };
 
   openTargets = {
@@ -448,6 +591,15 @@ class Component extends DCLogic {
     let output;
     if (cmd === 'sudo make coffee') {
       output = "permission denied: coffee requires root and a functioning kitchen.";
+    } else if (cmd === 'gallery') {
+      this.openGallery();
+      output = this.commands.gallery;
+    } else if (cmd === 'blog') {
+      this.openBlog();
+      output = this.commands.blog;
+    } else if (cmd === 'music') {
+      this.openMusic();
+      output = this.commands.music;
     } else if (this.commands[cmd]) {
       output = this.commands[cmd];
     } else if (cmd.indexOf('open ') === 0) {
@@ -468,25 +620,39 @@ class Component extends DCLogic {
 
   componentDidMount() {
     this.setState({ time: this.formatTime() });
+    this.layoutForViewport(true);
     this._clockTimer = setInterval(() => this.setState({ time: this.formatTime() }), 30000);
     this._onDocMouseMove = (e) => {
+      if (this.resizeInfo) {
+        const { id, startClientX, startClientY, startW, startH } = this.resizeInfo;
+        const dx = e.clientX - startClientX;
+        const dy = e.clientY - startClientY;
+        this.setState((s) => {
+          const next = { ...s.windows[id], w: startW + dx, h: startH + dy };
+          return { windows: { ...s.windows, [id]: this.clampWindow(next) } };
+        });
+        return;
+      }
       if (!this.dragInfo) return;
       const { id, startClientX, startClientY, startX, startY } = this.dragInfo;
       const dx = e.clientX - startClientX;
       const dy = e.clientY - startClientY;
       this.setState((s) => ({
-        windows: { ...s.windows, [id]: { ...s.windows[id], x: startX + dx, y: startY + dy } }
+        windows: { ...s.windows, [id]: this.clampWindow({ ...s.windows[id], x: startX + dx, y: startY + dy }) }
       }));
     };
-    this._onDocMouseUp = () => { this.dragInfo = null; };
+    this._onDocMouseUp = () => { this.dragInfo = null; this.resizeInfo = null; };
+    this._onWindowResize = () => this.layoutForViewport();
     document.addEventListener('mousemove', this._onDocMouseMove);
     document.addEventListener('mouseup', this._onDocMouseUp);
+    window.addEventListener('resize', this._onWindowResize);
   }
 
   componentWillUnmount() {
     clearInterval(this._clockTimer);
     document.removeEventListener('mousemove', this._onDocMouseMove);
     document.removeEventListener('mouseup', this._onDocMouseUp);
+    window.removeEventListener('resize', this._onWindowResize);
   }
 
   formatTime() {
@@ -498,10 +664,57 @@ class Component extends DCLogic {
     return h + ':' + m + ' ' + ampm;
   }
 
+  getDesktopBounds() {
+    return {
+      width: Math.max(320, window.innerWidth || 1440),
+      height: Math.max(420, (window.innerHeight || 900) - 40)
+    };
+  }
+
+  clampWindow(win) {
+    const bounds = this.getDesktopBounds();
+    const isMobile = bounds.width < 900;
+    const minW = win.minW || 360;
+    const minH = win.minH || 260;
+    const maxW = Math.max(minW, bounds.width - (isMobile ? 20 : 150));
+    const maxH = Math.max(minH, bounds.height - (isMobile ? 76 : 32));
+    const w = Math.min(Math.max(win.w || minW, minW), maxW);
+    const h = Math.min(Math.max(win.h || minH, minH), maxH);
+    const margin = isMobile ? 10 : 14;
+    const x = Math.min(Math.max(win.x || margin, margin), Math.max(margin, bounds.width - w - margin));
+    const y = Math.min(Math.max(win.y || margin, margin), Math.max(margin, bounds.height - h - margin));
+    return { ...win, x, y, w, h };
+  }
+
+  layoutForViewport(initial = false) {
+    const bounds = this.getDesktopBounds();
+    this.setState((s) => {
+      const windows = { ...s.windows };
+      if (bounds.width < 900) {
+        Object.keys(windows).forEach((id) => {
+          windows[id] = this.clampWindow({ ...windows[id], open: initial ? false : windows[id].open, x: 10, y: 58, w: bounds.width - 20, h: bounds.height - 84 });
+        });
+      } else {
+        const aboutW = bounds.width >= 1600 ? 760 : 620;
+        const aboutX = bounds.width >= 1400 ? 180 : Math.round((bounds.width - aboutW) / 2);
+        windows.about = this.clampWindow({ ...windows.about, x: aboutX, y: 72, w: aboutW, h: Math.min(620, bounds.height - 110), open: initial ? true : windows.about.open });
+        windows.onboarding = this.clampWindow({ ...windows.onboarding, open: initial ? true : windows.onboarding.open, x: Math.min(bounds.width - 420, 930), y: 92 });
+        if (bounds.width >= 1400) {
+          windows.projects = this.clampWindow({ ...windows.projects, open: initial ? true : windows.projects.open, x: bounds.width - 750, y: 96, w: 700, h: Math.min(600, bounds.height - 130) });
+        }
+        if (bounds.width >= 1800) {
+          windows.terminal = this.clampWindow({ ...windows.terminal, open: initial ? true : windows.terminal.open, x: bounds.width - 770, y: Math.max(390, bounds.height - 430), w: 720, h: 340 });
+        }
+        Object.keys(windows).forEach((id) => { windows[id] = this.clampWindow(windows[id]); });
+      }
+      return { windows };
+    });
+  }
+
   openWindow = (id) => {
     this.setState((s) => {
       const z = s.zCounter + 1;
-      return { zCounter: z, windows: { ...s.windows, [id]: { ...s.windows[id], open: true, z } } };
+      return { zCounter: z, windows: { ...s.windows, [id]: this.clampWindow({ ...s.windows[id], open: true, z }) } };
     });
   };
 
@@ -518,8 +731,17 @@ class Component extends DCLogic {
   };
 
   startDrag = (id, e) => {
+    if (window.innerWidth < 900) return;
     const w = this.state.windows[id];
     this.dragInfo = { id, startClientX: e.clientX, startClientY: e.clientY, startX: w.x, startY: w.y };
+    this.focusWindow(id);
+  };
+
+  startResize = (id, e) => {
+    if (e) e.stopPropagation();
+    if (window.innerWidth < 900) return;
+    const w = this.state.windows[id];
+    this.resizeInfo = { id, startClientX: e.clientX, startClientY: e.clientY, startW: w.w, startH: w.h };
     this.focusWindow(id);
   };
 
@@ -532,6 +754,8 @@ class Component extends DCLogic {
   openContact = () => this.openWindow('contact');
   openTerminal = () => this.openWindow('terminal');
   openBlog = () => this.openWindow('blog');
+  openMusic = () => this.openWindow('music');
+  openOnboarding = () => this.openWindow('onboarding');
 
   closeAbout = (e) => this.closeWindow('about', e);
   closeExperience = (e) => this.closeWindow('experience', e);
@@ -540,6 +764,18 @@ class Component extends DCLogic {
   closeContact = (e) => this.closeWindow('contact', e);
   closeTerminal = (e) => this.closeWindow('terminal', e);
   closeBlog = (e) => this.closeWindow('blog', e);
+  closeMusic = (e) => this.closeWindow('music', e);
+  closeOnboarding = (e) => this.closeWindow('onboarding', e);
+
+  focusAbout = () => this.focusWindow('about');
+  focusExperience = () => this.focusWindow('experience');
+  focusProjects = () => this.focusWindow('projects');
+  focusGallery = () => this.focusWindow('gallery');
+  focusContact = () => this.focusWindow('contact');
+  focusTerminal = () => this.focusWindow('terminal');
+  focusBlog = () => this.focusWindow('blog');
+  focusMusic = () => this.focusWindow('music');
+  focusOnboarding = () => this.focusWindow('onboarding');
 
   dragAbout = (e) => this.startDrag('about', e);
   dragExperience = (e) => this.startDrag('experience', e);
@@ -548,6 +784,18 @@ class Component extends DCLogic {
   dragContact = (e) => this.startDrag('contact', e);
   dragTerminal = (e) => this.startDrag('terminal', e);
   dragBlog = (e) => this.startDrag('blog', e);
+  dragMusic = (e) => this.startDrag('music', e);
+  dragOnboarding = (e) => this.startDrag('onboarding', e);
+
+  resizeAbout = (e) => this.startResize('about', e);
+  resizeExperience = (e) => this.startResize('experience', e);
+  resizeProjects = (e) => this.startResize('projects', e);
+  resizeGallery = (e) => this.startResize('gallery', e);
+  resizeContact = (e) => this.startResize('contact', e);
+  resizeTerminal = (e) => this.startResize('terminal', e);
+  resizeBlog = (e) => this.startResize('blog', e);
+  resizeMusic = (e) => this.startResize('music', e);
+  resizeOnboarding = (e) => this.startResize('onboarding', e);
 
   selectPhoto1 = () => this.setState({ selectedPhoto: 'media/sc24-booth.jpg', photoCaption: 'Link Oregon booth — SC24, Atlanta' });
   selectPhoto2 = () => this.setState({ selectedPhoto: 'media/sc24-vr.jpg', photoCaption: 'SC24 show floor' });
@@ -563,10 +811,47 @@ class Component extends DCLogic {
     { src: 'media/sc24-robot.jpg', caption: 'Supercomputing 2024 show floor, Atlanta' },
     { src: 'media/sc24-crowd.jpg', caption: 'Talking digital twins — NVIDIA, Dell and Google folks stopped by' },
     { src: 'media/aiweek-wide.jpg', caption: 'Lightning talk at OSU AI Week — the self-opening door stole the show' },
-    { src: 'media/aiweek-close.jpg', caption: 'AI Week 2025, presenting the CIC digital twin' }
+    { src: 'media/aiweek-close.jpg', caption: 'AI Week 2025, presenting the CIC digital twin' },
+    { src: '/Blog1/IMG_4170.jpeg', caption: 'AI Week project table and poster setup' },
+    { src: '/Blog1/IMG_4171.jpeg', caption: 'Digital twin demo details from AI Week' },
+    { src: '/blog2/IMG_7595%202.jpg', caption: 'SC24 travel notes and show-floor moments' },
+    { src: '/blog2/IMG_7034.jpg', caption: 'Supercomputing week, after-hours systems conversations' }
   ];
 
   setGalleryIndex = (i) => this.setState({ galleryIndex: i });
+
+  blogData = [
+    {
+      title: 'AI Week: Digital Twins, the CIC, and Our Omniverse Demo',
+      date: 'April 2025',
+      meta: 'OSU AI Week · Omniverse',
+      hero: 'media/aiweek-wide.jpg',
+      href: '/blog/lightning-talk/',
+      tags: ['digital twin', 'omniverse', 'ai week'],
+      paragraphs: [
+        "At Oregon State's AI Week, I shared our work on a digital twin of the Jen-Hsun Huang and Lori Mills Huang Collaborative Innovation Complex server room.",
+        "The demo is a full virtual replica: racks, sensors, sliding doors, airflow, and the pieces you need to reason about a room before touching the real hardware.",
+        "The best part was how concrete the work felt. Instead of saying infrastructure can be smarter, people could see layout, cooling, and automation choices play out in a scene.",
+        "The crowd favorite was the self-opening sliding door. Small interaction, big reaction, and honestly a pretty good reminder that systems demos land best when the constraint is visible."
+      ]
+    },
+    {
+      title: 'Repping OSU at Supercomputing 2024',
+      date: 'November 2024',
+      meta: 'SC24 Atlanta · CIC Digital Twin',
+      hero: 'media/sc24-booth.jpg',
+      href: '/blog/supercomputing-2024/',
+      tags: ['hpc', 'supercomputing', 'digital twin'],
+      paragraphs: [
+        "SC24 was the first time we brought the CIC digital twin work onto a national supercomputing floor, representing Oregon State at the Link Oregon booth.",
+        "Visitors could inspect how live sensor data, heat maps, rack layout tests, and the Omniverse scene fit together as a practical data-center planning tool.",
+        "The trip itself was dense: long booth days, conversations with people from NVIDIA, Dell, Google, and a lot of late-night notes about where HPC is heading.",
+        "What stuck with me is that good systems work becomes easier to explain when the bottleneck has a visual shape. Memory, cooling, movement, scheduling: all of it gets less abstract."
+      ]
+    }
+  ];
+
+  setBlogIndex = (i) => this.setState({ blogIndex: i });
 
   openActiveLightbox = () => {
     const p = this.galleryData[this.state.galleryIndex];
@@ -574,12 +859,15 @@ class Component extends DCLogic {
   };
 
   osCommands = {
-    help: "commands:\n\n  whoami        who i am\n  about         background\n  experience    work history\n  projects      things i've built\n  contact       how to reach me\n  clear         clear the screen",
+    help: "commands:\n\n  whoami        who i am\n  about         background\n  experience    work history\n  projects      things i've built\n  gallery       open the photo app\n  blog          open the writing app\n  music         open Spotify slot\n  contact       how to reach me\n  clear         clear the screen",
     whoami: "abhishek_enaguthi\ncpu architecture & systems engineer — compiler backends, hpc performance\nM.S. Artificial Intelligence · B.S. Computer Science, Oregon State University",
     about: "M.S. Artificial Intelligence (Thesis) + B.S. Computer Science (AI), Minor in Finance — Oregon State University. GPA 4.0 / 3.95.\nI live in the layer underneath the framework — compiler backends, kernel-level debug, distributed HPC systems.\nSecured a $1M joint research grant from AMD + IBM to advance heterogeneous GPU compiler tech.",
     experience: "[Mar 2024 – Present] AI Research Engineer — Research Advanced Computing, OSU\n  - secured $1M grant from AMD + IBM for heterogeneous GPU compiler tech\n  - published compiler research enabling ROCm cross-compilation to x86\n  - led team to SC25, top 3/50+ in the IndySCC student cluster competition\n\n[Jun–Sep 2025] LLM Research Intern — University of Washington\n  - built multi-turn synthetic QA generation for NVIDIA NeMo\n  - deployed LLaMA-3 70B + Mistral via vLLM on NVIDIA H200 clusters\n\n[Jun 2024 – Present] Systems Software Engineer — CEOAS, OSU\n  - presented a physics-based digital twin at SC24 (NVIDIA Omniverse + Isaac Sim)\n  - wrote LLVM passes + kernel optimizations, 30% perf boost\n\n[Mar 2024 – Present] HPC Performance Engineer — OSU\n  - automated SLURM RPC + disk monitoring, adopted by 100+ daily users\n  - 20% faster collective comm, 15% higher memory throughput (NCCL/MPI)",
     projects: "mocki/                    multi-agent AI interview coaching — 1st place, NVIDIA Nemotron track @ BeaverHacks 2026\nbluestart/                ROCm on IBM POWER9, CUDA via HIPify\ncompile-your-language/    from-scratch language + compiler techniques guide\ntreehacks-intersystems/   GenAI research assistant, InterSystems IRIS vector search\nrag-pipeline/             235K embeddings, 65K Wikipedia articles, PyTorch DDP across multi-GPU nodes\n\ntype 'open <name>' for more (e.g. 'open mocki')",
-    contact: "email     enaguthiabhishek@gmail.com\nlinkedin  linkedin.com/in/abhishekenaguthi\ngithub    github.com/Abhishek21g"
+    contact: "email     enaguthiabhishek@gmail.com\nlinkedin  linkedin.com/in/abhishekenaguthi\ngithub    github.com/Abhishek21g",
+    gallery: "opening Gallery...",
+    blog: "opening Blog...",
+    music: "opening Music..."
   };
 
   osOpenTargets = {
@@ -608,6 +896,15 @@ class Component extends DCLogic {
     let output;
     if (cmd === 'sudo make coffee') {
       output = "permission denied: coffee requires root and a functioning kitchen.";
+    } else if (cmd === 'gallery') {
+      this.openGallery();
+      output = this.osCommands.gallery;
+    } else if (cmd === 'blog') {
+      this.openBlog();
+      output = this.osCommands.blog;
+    } else if (cmd === 'music') {
+      this.openMusic();
+      output = this.osCommands.music;
     } else if (this.osCommands[cmd]) {
       output = this.osCommands[cmd];
     } else if (cmd.indexOf('open ') === 0) {
@@ -654,6 +951,8 @@ class Component extends DCLogic {
       openContact: this.openContact,
       openTerminal: this.openTerminal,
       openBlog: this.openBlog,
+      openMusic: this.openMusic,
+      openOnboarding: this.openOnboarding,
       closeAbout: this.closeAbout,
       closeExperience: this.closeExperience,
       closeProjects: this.closeProjects,
@@ -661,6 +960,17 @@ class Component extends DCLogic {
       closeContact: this.closeContact,
       closeTerminal: this.closeTerminal,
       closeBlog: this.closeBlog,
+      closeMusic: this.closeMusic,
+      closeOnboarding: this.closeOnboarding,
+      focusAbout: this.focusAbout,
+      focusExperience: this.focusExperience,
+      focusProjects: this.focusProjects,
+      focusGallery: this.focusGallery,
+      focusContact: this.focusContact,
+      focusTerminal: this.focusTerminal,
+      focusBlog: this.focusBlog,
+      focusMusic: this.focusMusic,
+      focusOnboarding: this.focusOnboarding,
       dragAbout: this.dragAbout,
       dragExperience: this.dragExperience,
       dragProjects: this.dragProjects,
@@ -668,6 +978,17 @@ class Component extends DCLogic {
       dragContact: this.dragContact,
       dragTerminal: this.dragTerminal,
       dragBlog: this.dragBlog,
+      dragMusic: this.dragMusic,
+      dragOnboarding: this.dragOnboarding,
+      resizeAbout: this.resizeAbout,
+      resizeExperience: this.resizeExperience,
+      resizeProjects: this.resizeProjects,
+      resizeGallery: this.resizeGallery,
+      resizeContact: this.resizeContact,
+      resizeTerminal: this.resizeTerminal,
+      resizeBlog: this.resizeBlog,
+      resizeMusic: this.resizeMusic,
+      resizeOnboarding: this.resizeOnboarding,
       stopProp: this.stopProp,
       selectPhoto1: this.selectPhoto1,
       selectPhoto2: this.selectPhoto2,
@@ -682,8 +1003,19 @@ class Component extends DCLogic {
         src: p.src,
         caption: p.caption,
         ringColor: i === this.state.galleryIndex ? '#E2621B' : 'transparent',
+        shadow: i === this.state.galleryIndex ? '0 0 0 2px rgba(226,98,27,0.25)' : 'none',
         select: () => this.setGalleryIndex(i)
       })),
+      blogPosts: this.blogData.map((p, i) => ({
+        title: p.title,
+        date: p.date,
+        meta: p.meta,
+        href: p.href,
+        borderColor: i === this.state.blogIndex ? '#E2621B' : 'rgba(20,17,13,0.08)',
+        background: i === this.state.blogIndex ? 'rgba(226,98,27,0.09)' : 'rgba(255,255,255,0.32)',
+        select: () => this.setBlogIndex(i)
+      })),
+      activeBlogPost: this.blogData[this.state.blogIndex],
       selectedPhoto: this.state.selectedPhoto,
       hasSelectedPhoto: !!this.state.selectedPhoto,
       photoCaption: this.state.photoCaption,
