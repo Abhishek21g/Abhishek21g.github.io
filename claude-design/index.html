@@ -73,7 +73,8 @@
   .music-card{background:linear-gradient(135deg,#1DB954,#0B6F36)!important;color:#06180c!important;}
   .blog-list-item{transition:background .16s ease, border-color .16s ease;}
   .blog-list-item:hover{background:rgba(20,17,13,.055);}
-  .ambient-rail{position:absolute;right:22px;top:62px;width:330px;display:grid;gap:14px;z-index:20;pointer-events:none;}
+  .ambient-rail{position:absolute;right:22px;top:62px;width:330px;display:grid;gap:14px;z-index:1;pointer-events:none;transition:opacity .18s ease,transform .18s ease,filter .18s ease;}
+  .ambient-rail.is-hidden{opacity:0;transform:translateX(22px) scale(.98);filter:blur(6px);pointer-events:none;}
   .ambient-card{pointer-events:auto;position:relative;overflow:hidden;padding:16px;border-radius:18px;background:linear-gradient(145deg,rgba(255,255,255,0.22),rgba(246,242,234,0.07) 48%,rgba(226,98,27,0.09));border:1px solid rgba(246,242,234,0.30);box-shadow:0 24px 60px rgba(0,0,0,0.34),inset 0 1px 0 rgba(255,255,255,0.25),inset 0 -1px 0 rgba(255,255,255,0.07);backdrop-filter:blur(34px) saturate(1.35);-webkit-backdrop-filter:blur(34px) saturate(1.35);color:#F6F2EA;font-family:'Instrument Sans','Instrument Sans','National Park','IBM Plex Sans',sans-serif;transition:transform .18s ease,border-color .18s ease,background .18s ease,box-shadow .18s ease;}
   .ambient-card::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 18% 10%,rgba(255,255,255,.34),transparent 28%),linear-gradient(120deg,rgba(255,255,255,.16),transparent 42%);opacity:.78;pointer-events:none;}
   .ambient-card::after{content:"";position:absolute;right:-44px;bottom:-52px;width:140px;height:140px;border-radius:999px;background:rgba(255,255,255,0.10);filter:blur(2px);pointer-events:none;}
@@ -108,6 +109,8 @@
   .top-link-button{appearance:none;border:0;background:transparent;color:rgba(246,242,234,0.6);font:inherit;padding:0;cursor:pointer;}
   .top-link-button:hover{color:#F6F2EA;}
   .clock-short{display:none;white-space:nowrap;}
+  .coffee-link{display:inline-flex;align-items:center;justify-content:center;width:max-content;margin-top:6px;border:1px solid rgba(20,17,13,0.28);border-radius:8px;background:#FFDD00;color:#14110D!important;text-decoration:none!important;font:700 12px 'IBM Plex Mono',monospace;padding:10px 12px;box-shadow:0 8px 18px rgba(20,17,13,0.12);transition:transform .14s ease,filter .14s ease;}
+  .coffee-link:hover{transform:translateY(-1px);filter:saturate(1.08);}
   .resume-layout{height:calc(100% - 36px);display:grid;grid-template-columns:280px minmax(0,1fr);background:#F6F2EA;}
   .resume-sidebar{padding:24px 22px;border-right:1px solid rgba(20,17,13,0.10);overflow:auto;background:linear-gradient(180deg,#F6F2EA,#ECE7DB);}
   .resume-preview{min-width:0;background:#11100C;padding:14px;display:flex;flex-direction:column;gap:10px;}
@@ -245,7 +248,7 @@
 <div class="desktop-surface" style="position:relative;width:1440px;height:836px;background:#14110D;overflow:hidden;">
 <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(135deg, rgba(246,242,234,0.015) 0px, rgba(246,242,234,0.015) 1px, transparent 1px, transparent 40px);pointer-events:none;"></div>
 
-<div class="ambient-rail" aria-label="Ambient status widgets">
+<div class="ambient-rail {{ ambientRailClass }}" aria-label="Ambient status widgets">
 <section class="ambient-card" role="button" onClick="{{ openMusic }}">
 <div class="ambient-kicker">I. Now Playing</div>
 <div class="ambient-player">
@@ -522,6 +525,7 @@
 <a href="https://linkedin.com/in/abhishekenaguthi" target="_blank" rel="noopener noreferrer" style="color:#E2621B;text-decoration:none;">linkedin.com/in/abhishekenaguthi</a>
 <a href="https://github.com/Abhishek21g" target="_blank" rel="noopener noreferrer" style="color:#E2621B;text-decoration:none;">github.com/Abhishek21g</a>
 <button onClick="{{ openResume }}" style="appearance:none;border:0;background:transparent;color:#E2621B;text-decoration:none;text-align:left;font:inherit;padding:0;cursor:pointer;">open resume viewer</button>
+<a class="coffee-link" href="https://www.buymeacoffee.com/enaguthi" target="_blank" rel="noopener noreferrer">Buy me a coffee</a>
 </div>
 </div>
 <div class="resize-grip" onMouseDown="{{ resizeContact }}"></div>
@@ -717,7 +721,7 @@ class Component extends DCLogic {
       terminal: { open: false, x: 140, y: 250, w: 720, h: 390, minW: 460, minH: 300, z: 1 },
       blog: { open: false, x: 320, y: 300, w: 760, h: 560, minW: 470, minH: 380, z: 1 },
       music: { open: false, x: 520, y: 260, w: 440, h: 330, minW: 340, minH: 260, z: 1 },
-      onboarding: { open: false, x: 930, y: 92, w: 360, h: 330, minW: 320, minH: 260, z: 3 }
+      onboarding: { open: false, x: 930, y: 92, w: 360, h: 390, minW: 320, minH: 300, z: 1 }
     },
     zCounter: 4,
     time: '',
@@ -977,13 +981,13 @@ class Component extends DCLogic {
         const aboutW = bounds.width >= 1600 ? 760 : 620;
         const aboutX = bounds.width >= 1400 ? 180 : Math.round((bounds.width - aboutW) / 2);
         windows.about = this.clampWindow({ ...windows.about, x: aboutX, y: 72, w: aboutW, h: Math.min(620, bounds.height - 110), open: initial ? true : windows.about.open });
-        windows.onboarding = this.clampWindow({ ...windows.onboarding, open: initial ? true : windows.onboarding.open, x: Math.min(bounds.width - 420, 930), y: 92 });
+        windows.onboarding = this.clampWindow({ ...windows.onboarding, open: false, x: Math.min(bounds.width - 420, 930), y: 92 });
         if (bounds.width >= 1400) {
-          windows.projects = this.clampWindow({ ...windows.projects, open: initial ? true : windows.projects.open, x: bounds.width - 750, y: 96, w: 700, h: Math.min(600, bounds.height - 130) });
+          windows.projects = this.clampWindow({ ...windows.projects, open: initial ? false : windows.projects.open, x: bounds.width - 750, y: 96, w: 700, h: Math.min(600, bounds.height - 130) });
           windows.resume = this.clampWindow({ ...windows.resume, x: Math.max(220, bounds.width - 900), y: 118, w: Math.min(820, bounds.width - 360), h: Math.min(650, bounds.height - 150) });
         }
         if (bounds.width >= 1800) {
-          windows.terminal = this.clampWindow({ ...windows.terminal, open: initial ? true : windows.terminal.open, x: bounds.width - 770, y: Math.max(390, bounds.height - 430), w: 720, h: 340 });
+          windows.terminal = this.clampWindow({ ...windows.terminal, open: initial ? false : windows.terminal.open, x: bounds.width - 770, y: Math.max(390, bounds.height - 430), w: 720, h: 340 });
         }
         Object.keys(windows).forEach((id) => { windows[id] = this.clampWindow(windows[id]); });
       }
@@ -1272,6 +1276,11 @@ class Component extends DCLogic {
     }
   }
 
+  hasActiveWorkspaceWindow() {
+    const windows = this.state.windows;
+    return ['experience', 'projects', 'gallery', 'contact', 'resume', 'terminal', 'blog', 'music', 'onboarding'].some((id) => windows[id] && windows[id].open);
+  }
+
   renderVals() {
     return {
       lines: this.state.lines,
@@ -1283,6 +1292,7 @@ class Component extends DCLogic {
       focusInput: this.focusInput,
 
       windows: this.state.windows,
+      ambientRailClass: this.hasActiveWorkspaceWindow() ? 'is-hidden' : '',
       time: this.state.time,
       abhiTime: this.state.abhiTime,
       visitorTime: this.state.visitorTime,
