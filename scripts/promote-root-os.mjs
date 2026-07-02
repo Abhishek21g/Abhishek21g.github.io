@@ -1,4 +1,4 @@
-import { copyFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs'
+import { copyFileSync, existsSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
 const outDir = resolve('out')
@@ -19,7 +19,6 @@ const rootHtml = readFileSync(rootHtmlPath, 'utf8')
 
 writeFileSync(rootHtmlPath, rootHtml)
 
-const placeholderSource = resolve(outDir, 'media/portrait.jpg')
 const templateImageRequests = [
   '{{ photo.src }}',
   '{{ activeGalleryPhoto.src }}',
@@ -27,8 +26,9 @@ const templateImageRequests = [
   '{{ selectedPhoto }}',
 ]
 
-if (existsSync(placeholderSource)) {
-  for (const requestPath of templateImageRequests) {
-    copyFileSync(placeholderSource, resolve(outDir, requestPath))
+for (const requestPath of templateImageRequests) {
+  const badOutputPath = resolve(outDir, requestPath)
+  if (existsSync(badOutputPath)) {
+    rmSync(badOutputPath, { force: true })
   }
 }
