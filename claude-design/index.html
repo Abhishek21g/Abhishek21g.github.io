@@ -4,10 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>
-  if (window.top === window.self && location.pathname.indexOf('/claude-design/') !== -1) {
-    history.replaceState(null, '', '/' + location.search + location.hash);
+  var initialSearch = location.search;
+  if (window.top === window.self) {
+    var shouldCleanUrl = location.pathname !== '/' || location.search || location.hash;
+    if (shouldCleanUrl) history.replaceState(null, '', '/');
   }
-  if (/[?&](mobile|mobile-launcher|mobile-preview)(=|&|$)/.test(location.search)) {
+  if (/[?&](mobile|mobile-launcher|mobile-preview)(=|&|$)/.test(initialSearch)) {
     document.documentElement.classList.add('mobile-preview');
   }
 </script>
@@ -364,7 +366,7 @@
 <div class="window-body" style="padding:32px 36px;overflow-y:auto;">
 <div class="about-head" style="display:flex;gap:22px;align-items:flex-start;margin-bottom:22px;">
 <div class="about-photo" style="width:120px;height:150px;flex:none;overflow:hidden;background:#E4E0D3;border-radius:8px;">
-<img src="media/portrait.jpg" alt="Abhishek Enaguthi" style="width:100%;height:100%;object-fit:cover;display:block;" />
+<img src="/claude-design/media/portrait.jpg" alt="Abhishek Enaguthi" style="width:100%;height:100%;object-fit:cover;display:block;" />
 </div>
 <div>
 <div class="nd-roman" style="margin:8px 0 10px;">I. Profile</div>
@@ -610,14 +612,13 @@
 </div>
 <div class="window-body blog-layout" style="padding:20px;display:flex;gap:18px;background:#F6F2EA;">
 <div class="blog-list" style="width:220px;flex:none;display:flex;flex-direction:column;gap:10px;overflow-y:auto;">
-<a href="/blog/" target="_top" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#E2621B;text-decoration:none;border:1px solid rgba(226,98,27,0.25);border-radius:999px;padding:8px 10px;text-align:center;">all posts ↗</a>
 <sc-for list="{{ blogPosts }}" as="post" hint-placeholder-count="2">
-<a class="blog-list-item" href="{{ post.href }}" target="_top" style="display:block;border:1px solid {{ post.borderColor }};border-radius:8px;padding:12px;cursor:pointer;background:{{ post.background }};text-decoration:none;">
+<div class="blog-list-item" style="display:block;border:1px solid {{ post.borderColor }};border-radius:8px;padding:12px;background:{{ post.background }};">
 <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#E2621B;margin-bottom:6px;">{{ post.date }}</div>
 <div style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-weight:600;font-size:13px;line-height:1.3;color:#14110D;">{{ post.title }}</div>
 <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#7A7162;margin-top:8px;">{{ post.meta }}</div>
-<div style="display:inline-flex;margin-top:10px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:#E2621B;">open page ↗</div>
-</a>
+<div style="display:inline-flex;margin-top:10px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:#E2621B;">read in this window</div>
+</div>
 </sc-for>
 </div>
 <div style="flex:1;min-width:0;overflow-y:auto;padding-right:4px;">
@@ -634,7 +635,6 @@
 <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;padding:5px 9px;border-radius:999px;background:rgba(20,17,13,0.07);color:#5B5648;">{{ tag }}</span>
 </sc-for>
 </div>
-<a href="{{ activeBlogPost.href }}" target="_top" style="display:inline-flex;margin-top:20px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#E2621B;text-decoration:none;border:1px solid rgba(226,98,27,0.3);border-radius:999px;padding:8px 12px;">open full post ↗</a>
 </div>
 </div>
 <div class="resize-grip" onMouseDown="{{ resizeBlog }}"></div>
@@ -1139,21 +1139,21 @@ class Component extends DCLogic {
   resizeMusic = (e) => this.startResize('music', e);
   resizeOnboarding = (e) => this.startResize('onboarding', e);
 
-  selectPhoto1 = () => this.setState({ selectedPhoto: 'media/sc24-booth.jpg', photoCaption: 'Link Oregon booth — SC24, Atlanta' });
-  selectPhoto2 = () => this.setState({ selectedPhoto: 'media/sc24-vr.jpg', photoCaption: 'SC24 show floor' });
-  selectPhoto3 = () => this.setState({ selectedPhoto: 'media/sc24-robot.jpg', photoCaption: 'SC24 show floor' });
-  selectPhoto4 = () => this.setState({ selectedPhoto: 'media/sc24-crowd.jpg', photoCaption: 'SC24 show floor' });
-  selectPhoto5 = () => this.setState({ selectedPhoto: 'media/aiweek-wide.jpg', photoCaption: 'AI Week lightning talk — OSU' });
-  selectPhoto6 = () => this.setState({ selectedPhoto: 'media/aiweek-close.jpg', photoCaption: 'AI Week lightning talk — OSU' });
+  selectPhoto1 = () => this.setState({ selectedPhoto: '/claude-design/media/sc24-booth.jpg', photoCaption: 'Link Oregon booth — SC24, Atlanta' });
+  selectPhoto2 = () => this.setState({ selectedPhoto: '/claude-design/media/sc24-vr.jpg', photoCaption: 'SC24 show floor' });
+  selectPhoto3 = () => this.setState({ selectedPhoto: '/claude-design/media/sc24-robot.jpg', photoCaption: 'SC24 show floor' });
+  selectPhoto4 = () => this.setState({ selectedPhoto: '/claude-design/media/sc24-crowd.jpg', photoCaption: 'SC24 show floor' });
+  selectPhoto5 = () => this.setState({ selectedPhoto: '/claude-design/media/aiweek-wide.jpg', photoCaption: 'AI Week lightning talk — OSU' });
+  selectPhoto6 = () => this.setState({ selectedPhoto: '/claude-design/media/aiweek-close.jpg', photoCaption: 'AI Week lightning talk — OSU' });
   closePhoto = () => this.setState({ selectedPhoto: null, photoCaption: '' });
 
   galleryData = [
-    { src: 'media/sc24-booth.jpg', caption: "Link Oregon booth, SC24 — OSU's first year at the conference" },
-    { src: 'media/sc24-vr.jpg', caption: 'Demoing the Omniverse digital twin on the show floor' },
-    { src: 'media/sc24-robot.jpg', caption: 'Supercomputing 2024 show floor, Atlanta' },
-    { src: 'media/sc24-crowd.jpg', caption: 'Talking digital twins — NVIDIA, Dell and Google folks stopped by' },
-    { src: 'media/aiweek-wide.jpg', caption: 'Lightning talk at OSU AI Week — the self-opening door stole the show' },
-    { src: 'media/aiweek-close.jpg', caption: 'AI Week 2025, presenting the CIC digital twin' },
+    { src: '/claude-design/media/sc24-booth.jpg', caption: "Link Oregon booth, SC24 — OSU's first year at the conference" },
+    { src: '/claude-design/media/sc24-vr.jpg', caption: 'Demoing the Omniverse digital twin on the show floor' },
+    { src: '/claude-design/media/sc24-robot.jpg', caption: 'Supercomputing 2024 show floor, Atlanta' },
+    { src: '/claude-design/media/sc24-crowd.jpg', caption: 'Talking digital twins — NVIDIA, Dell and Google folks stopped by' },
+    { src: '/claude-design/media/aiweek-wide.jpg', caption: 'Lightning talk at OSU AI Week — the self-opening door stole the show' },
+    { src: '/claude-design/media/aiweek-close.jpg', caption: 'AI Week 2025, presenting the CIC digital twin' },
     { src: '/Blog1/IMG_4170.jpeg', caption: 'AI Week project table and poster setup' },
     { src: '/Blog1/IMG_4171.jpeg', caption: 'Digital twin demo details from AI Week' },
     { src: '/blog2/IMG_7595%202.jpg', caption: 'SC24 travel notes and show-floor moments' },
@@ -1167,8 +1167,7 @@ class Component extends DCLogic {
       title: 'AI Week: Digital Twins, the CIC, and Our Omniverse Demo',
       date: 'April 2025',
       meta: 'OSU AI Week · Omniverse',
-      hero: 'media/aiweek-wide.jpg',
-      href: '/blog/lightning-talk/',
+      hero: '/claude-design/media/aiweek-wide.jpg',
       tags: ['digital twin', 'omniverse', 'ai week'],
       paragraphs: [
         "At Oregon State's AI Week, I shared our work on a digital twin of the Jen-Hsun Huang and Lori Mills Huang Collaborative Innovation Complex server room.",
@@ -1181,8 +1180,7 @@ class Component extends DCLogic {
       title: 'Repping OSU at Supercomputing 2024',
       date: 'November 2024',
       meta: 'SC24 Atlanta · CIC Digital Twin',
-      hero: 'media/sc24-booth.jpg',
-      href: '/blog/supercomputing-2024/',
+      hero: '/claude-design/media/sc24-booth.jpg',
       tags: ['hpc', 'supercomputing', 'digital twin'],
       paragraphs: [
         "SC24 was the first time we brought the CIC digital twin work onto a national supercomputing floor, representing Oregon State at the Link Oregon booth.",
