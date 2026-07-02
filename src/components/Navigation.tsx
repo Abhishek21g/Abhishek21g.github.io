@@ -73,6 +73,14 @@ export default function Navigation() {
           >
             Blog
           </Link>
+          <a
+            href="/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-300 hover:text-white transition-colors"
+          >
+            Resume
+          </a>
         </div>
 
         {/* Mobile Menu Button */}
@@ -137,9 +145,18 @@ export default function Navigation() {
             >
               Blog
             </Link>
+            <a
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block px-3 py-2 text-gray-300 hover:text-white transition-colors"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Resume
+            </a>
           </div>
         </div>
       )}
     </nav>
   )
-} 
+}
