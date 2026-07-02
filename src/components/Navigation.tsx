@@ -66,9 +66,9 @@ export default function Navigation() {
             Contact
           </Link>
           <Link
-            href="/blog/lightning-talk"
+            href="/"
             className={`text-gray-300 hover:text-white transition-colors ${
-              isActive('/blog/lightning-talk') ? 'text-white' : ''
+              isActive('/') ? 'text-white' : ''
             }`}
           >
             Blog
@@ -147,7 +147,7 @@ export default function Navigation() {
               Contact
             </Link>
             <Link
-              href="/blog/lightning-talk"
+              href="/"
               className="block px-3 py-2 text-gray-300 hover:text-white transition-colors"
               onClick={() => setIsMobileMenuOpen(false)}
             >
