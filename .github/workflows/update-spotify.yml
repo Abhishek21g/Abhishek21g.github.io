@@ -2,6 +2,9 @@ name: Update Spotify now playing
 
 on:
   workflow_dispatch:
+  workflow_run:
+    workflows: ['Deploy to GitHub Pages']
+    types: [completed]
   schedule:
     - cron: '*/15 * * * *'
 
@@ -10,6 +13,7 @@ permissions:
 
 jobs:
   update-spotify:
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source
