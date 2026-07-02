@@ -18,3 +18,17 @@ const rootHtml = readFileSync(rootHtmlPath, 'utf8')
   )
 
 writeFileSync(rootHtmlPath, rootHtml)
+
+const placeholderSource = resolve(outDir, 'media/portrait.jpg')
+const templateImageRequests = [
+  '{{ photo.src }}',
+  '{{ activeGalleryPhoto.src }}',
+  '{{ activeBlogPost.hero }}',
+  '{{ selectedPhoto }}',
+]
+
+if (existsSync(placeholderSource)) {
+  for (const requestPath of templateImageRequests) {
+    copyFileSync(placeholderSource, resolve(outDir, requestPath))
+  }
+}

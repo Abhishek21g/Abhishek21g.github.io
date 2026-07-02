@@ -1,3 +1,5 @@
+import PortfolioDesktopFrame from '@/components/PortfolioDesktopFrame'
+
 export default function Home() {
-  return null
+  return <PortfolioDesktopFrame />
 }
