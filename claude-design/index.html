@@ -4,11 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>
+  if (window.top === window.self && location.pathname.indexOf('/claude-design/') !== -1) {
+    history.replaceState(null, '', '/' + location.search + location.hash);
+  }
   if (/[?&](mobile|mobile-launcher|mobile-preview)(=|&|$)/.test(location.search)) {
     document.documentElement.classList.add('mobile-preview');
   }
 </script>
-<script src="./support.js"></script>
+<script src="/claude-design/support.js"></script>
 </head>
 <body>
 <x-dc>
@@ -321,7 +324,7 @@
 <div class="desktop-icon" onClick="{{ openGallery }}" style="position:absolute;left:40px;top:428px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
 <div style="width:56px;height:56px;position:relative;">
 <div style="position:absolute;width:46px;height:46px;background:#F6F2EA;border-radius:8px;transform:rotate(-8deg);top:7px;left:2px;box-shadow:0 4px 10px rgba(0,0,0,0.3);"></div>
-<div style="position:absolute;width:46px;height:46px;background-image:url('media/sc24-booth.jpg');background-size:cover;background-position:center;border-radius:8px;transform:rotate(5deg);top:3px;left:7px;box-shadow:0 6px 14px rgba(0,0,0,0.4);"></div>
+<div style="position:absolute;width:46px;height:46px;background-image:url('/claude-design/media/sc24-booth.jpg');background-size:cover;background-position:center;border-radius:8px;transform:rotate(5deg);top:3px;left:7px;box-shadow:0 6px 14px rgba(0,0,0,0.4);"></div>
 </div>
 <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;text-shadow:0 1px 3px rgba(0,0,0,0.6);">Gallery</div>
 </div>
