@@ -125,6 +125,11 @@
   .ambient-row{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:13px;color:rgba(246,242,234,0.72);}
   .ambient-row strong{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;font-weight:600;text-align:right;}
   .ambient-meta{margin-top:8px;font:11px 'IBM Plex Mono',monospace;color:rgba(246,242,234,0.46);}
+  .compact-log{padding:13px 14px!important;}
+  .compact-log .ambient-kicker{margin-bottom:8px;}
+  .compact-log .ambient-title{font-size:20px!important;line-height:1.02;}
+  .daily-pills{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:11px;}
+  .daily-pills span{border:1px solid rgba(246,242,234,.15);border-radius:9px;background:rgba(20,17,13,.22);padding:7px 6px;font:700 10px 'IBM Plex Mono',monospace;color:rgba(246,242,234,.72);text-align:center;white-space:nowrap;}
   .ambient-pill{display:inline-flex;margin-top:10px;padding:5px 8px;border-radius:999px;background:rgba(29,185,84,0.18);color:#8EF0AE;font:600 10px 'IBM Plex Mono',monospace;}
   .ambient-player{display:grid;grid-template-columns:52px 1fr;gap:12px;align-items:center;margin-top:4px;}
   .ambient-album{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,#1DB954,#E2621B 70%,#F6F2EA);box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 14px 28px rgba(0,0,0,.28);display:flex;align-items:center;justify-content:center;color:#11100C;font:800 18px 'IBM Plex Mono',monospace;}
@@ -328,11 +333,16 @@
 </div>
 <div class="ambient-meta">type tokens, agent, or graph in Terminal</div>
 </section>
-<section class="ambient-card" role="button" onClick="{{ openToday }}">
+<section class="ambient-card compact-log" role="button" onClick="{{ openToday }}">
 <div class="ambient-kicker">IV. Now.log</div>
-<div class="ambient-title" style="font-size:24px;">{{ todayTitle }}</div>
-<div style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:13px;line-height:1.45;color:rgba(246,242,234,0.72);margin-top:8px;">{{ todaySummary }}</div>
-<div class="ambient-meta" style="margin-top:12px;">{{ todayStamp }} · tap to open Today.txt</div>
+<div class="ambient-row"><span>Daily update</span><strong>{{ todayShortStamp }}</strong></div>
+<div class="ambient-title">Today.txt is live</div>
+<div class="daily-pills">
+<span>{{ todayBuildCount }} notes</span>
+<span>{{ todayShipCount }} ships</span>
+<span>{{ todayStreak }} day</span>
+</div>
+<div class="ambient-meta">opens Today.txt · terminal: today</div>
 </section>
 </div>
 
@@ -953,6 +963,10 @@ class Component extends DCLogic {
     return new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date());
   }
 
+  todayShortStamp() {
+    return new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric' }).format(new Date());
+  }
+
   catFile(name) {
     const file = name.replace(/^.*\//, '');
     const files = {
@@ -1543,6 +1557,7 @@ class Component extends DCLogic {
       todayTitle: this.todayData.title,
       todaySummary: this.todayData.summary,
       todayStamp: this.todayStamp(),
+      todayShortStamp: this.todayShortStamp(),
       todayItems: this.todayData.items,
       todayBuildCount: this.todayData.buildCount,
       todayShipCount: this.todayData.shipCount,
