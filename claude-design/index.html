@@ -73,15 +73,51 @@
   .music-card{background:linear-gradient(135deg,#1DB954,#0B6F36)!important;color:#06180c!important;}
   .blog-list-item{transition:background .16s ease, border-color .16s ease;}
   .blog-list-item:hover{background:rgba(20,17,13,.055);}
-  .ambient-rail{position:absolute;right:22px;top:62px;width:310px;display:grid;gap:12px;z-index:1;pointer-events:none;}
-  .ambient-card{pointer-events:auto;padding:16px;border-radius:8px;background:linear-gradient(135deg,rgba(246,242,234,0.16),rgba(246,242,234,0.045));border:1px solid rgba(246,242,234,0.28);box-shadow:0 22px 55px rgba(0,0,0,0.26),inset 0 1px 0 rgba(255,255,255,0.12);backdrop-filter:blur(28px) saturate(1.2);-webkit-backdrop-filter:blur(28px) saturate(1.2);color:#F6F2EA;font-family:'Instrument Sans','Instrument Sans','National Park','IBM Plex Sans',sans-serif;transition:transform .18s ease,border-color .18s ease,background .18s ease,box-shadow .18s ease;}
-  .ambient-card:hover{transform:translateY(-2px);background:linear-gradient(135deg,rgba(246,242,234,0.22),rgba(246,242,234,0.07));border-color:rgba(246,242,234,0.42);box-shadow:0 28px 66px rgba(0,0,0,0.34),inset 0 1px 0 rgba(255,255,255,0.16);}
-  .ambient-kicker{font:700 10px 'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:0.08em;color:rgba(246,242,234,0.52);margin-bottom:10px;}
+  .ambient-rail{position:absolute;right:22px;top:62px;width:330px;display:grid;gap:14px;z-index:20;pointer-events:none;}
+  .ambient-card{pointer-events:auto;position:relative;overflow:hidden;padding:16px;border-radius:18px;background:linear-gradient(145deg,rgba(255,255,255,0.22),rgba(246,242,234,0.07) 48%,rgba(226,98,27,0.09));border:1px solid rgba(246,242,234,0.30);box-shadow:0 24px 60px rgba(0,0,0,0.34),inset 0 1px 0 rgba(255,255,255,0.25),inset 0 -1px 0 rgba(255,255,255,0.07);backdrop-filter:blur(34px) saturate(1.35);-webkit-backdrop-filter:blur(34px) saturate(1.35);color:#F6F2EA;font-family:'Instrument Sans','Instrument Sans','National Park','IBM Plex Sans',sans-serif;transition:transform .18s ease,border-color .18s ease,background .18s ease,box-shadow .18s ease;}
+  .ambient-card::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 18% 10%,rgba(255,255,255,.34),transparent 28%),linear-gradient(120deg,rgba(255,255,255,.16),transparent 42%);opacity:.78;pointer-events:none;}
+  .ambient-card::after{content:"";position:absolute;right:-44px;bottom:-52px;width:140px;height:140px;border-radius:999px;background:rgba(255,255,255,0.10);filter:blur(2px);pointer-events:none;}
+  .ambient-card:hover{transform:translateY(-3px) scale(1.01);background:linear-gradient(145deg,rgba(255,255,255,0.28),rgba(246,242,234,0.09) 48%,rgba(226,98,27,0.12));border-color:rgba(246,242,234,0.48);box-shadow:0 34px 74px rgba(0,0,0,0.42),inset 0 1px 0 rgba(255,255,255,0.32);}
+  .ambient-card > *{position:relative;z-index:1;}
+  .ambient-card[role="button"]{cursor:pointer;}
+  .ambient-card{ text-shadow:0 1px 12px rgba(0,0,0,0.42);}
+  .ambient-kicker{font:700 10px 'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:0.08em;color:rgba(246,242,234,0.58);margin-bottom:10px;}
   .ambient-title{font-family:'Instrument Serif',Georgia,serif;font-size:28px;font-weight:400;line-height:.96;color:#F6F2EA;}
   .ambient-row{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:13px;color:rgba(246,242,234,0.72);}
   .ambient-row strong{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;font-weight:600;text-align:right;}
   .ambient-meta{margin-top:8px;font:11px 'IBM Plex Mono',monospace;color:rgba(246,242,234,0.46);}
   .ambient-pill{display:inline-flex;margin-top:10px;padding:5px 8px;border-radius:999px;background:rgba(29,185,84,0.18);color:#8EF0AE;font:600 10px 'IBM Plex Mono',monospace;}
+  .ambient-player{display:grid;grid-template-columns:52px 1fr;gap:12px;align-items:center;margin-top:4px;}
+  .ambient-album{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,#1DB954,#E2621B 70%,#F6F2EA);box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 14px 28px rgba(0,0,0,.28);display:flex;align-items:center;justify-content:center;color:#11100C;font:800 18px 'IBM Plex Mono',monospace;}
+  .ambient-progress{height:4px;border-radius:999px;background:rgba(246,242,234,0.18);overflow:hidden;margin-top:9px;}
+  .ambient-progress span{display:block;width:58%;height:100%;border-radius:999px;background:linear-gradient(90deg,#1DB954,#F6F2EA);}
+  .ambient-chip-row{display:flex;gap:7px;margin-top:12px;overflow:hidden;}
+  .ambient-chip{white-space:nowrap;border-radius:999px;background:rgba(246,242,234,0.14);border:1px solid rgba(246,242,234,0.12);padding:5px 8px;font:700 10px 'IBM Plex Mono',monospace;color:rgba(246,242,234,0.72);}
+  .contrib-grid{display:grid;grid-template-columns:repeat(14,1fr);gap:4px;margin-top:12px;}
+  .contrib-cell{aspect-ratio:1;border-radius:3px;background:rgba(246,242,234,0.10);box-shadow:inset 0 1px 0 rgba(255,255,255,0.08);}
+  .contrib-cell[data-l="1"]{background:rgba(226,98,27,0.26);}
+  .contrib-cell[data-l="2"]{background:rgba(226,98,27,0.48);}
+  .contrib-cell[data-l="3"]{background:rgba(226,98,27,0.70);}
+  .contrib-cell[data-l="4"]{background:#E2621B;}
+  .token-meter{height:8px;border-radius:999px;background:rgba(246,242,234,0.15);overflow:hidden;margin-top:12px;border:1px solid rgba(246,242,234,0.10);}
+  .token-meter span{display:block;width:67%;height:100%;border-radius:999px;background:linear-gradient(90deg,#E2621B,#F6F2EA);}
+  .agent-stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;}
+  .agent-stat{border-radius:10px;background:rgba(20,17,13,0.18);border:1px solid rgba(246,242,234,0.16);padding:9px;}
+  .agent-stat strong{display:block;font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:24px;line-height:.95;color:#F6F2EA;}
+  .agent-stat span{display:block;margin-top:5px;font:700 9px/1.2 'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.06em;color:rgba(246,242,234,0.54);}
+  .top-link-button{appearance:none;border:0;background:transparent;color:rgba(246,242,234,0.6);font:inherit;padding:0;cursor:pointer;}
+  .top-link-button:hover{color:#F6F2EA;}
+  .clock-short{display:none;white-space:nowrap;}
+  .resume-layout{height:calc(100% - 36px);display:grid;grid-template-columns:280px minmax(0,1fr);background:#F6F2EA;}
+  .resume-sidebar{padding:24px 22px;border-right:1px solid rgba(20,17,13,0.10);overflow:auto;background:linear-gradient(180deg,#F6F2EA,#ECE7DB);}
+  .resume-preview{min-width:0;background:#11100C;padding:14px;display:flex;flex-direction:column;gap:10px;}
+  .resume-paper{flex:1;min-height:0;border-radius:8px;overflow:hidden;background:#F6F2EA;box-shadow:0 18px 48px rgba(0,0,0,0.34);}
+  .resume-paper iframe{width:100%;height:100%;border:0;background:#F6F2EA;display:block;}
+  .resume-action{display:inline-flex;align-items:center;justify-content:center;width:max-content;border:1px solid rgba(226,98,27,0.36);border-radius:7px;background:#E2621B;color:#14110D;text-decoration:none;font:700 11px 'IBM Plex Mono',monospace;padding:10px 12px;transition:transform .14s ease,filter .14s ease;}
+  .resume-action:hover{transform:translateY(-1px);filter:saturate(1.08);}
+  .resume-metric{border-top:1px solid rgba(20,17,13,0.14);padding:14px 0;}
+  .resume-metric strong{display:block;font-family:'Instrument Serif',Georgia,serif;font-size:34px;font-weight:400;line-height:.95;color:#E2621B;}
+  .resume-metric span{display:block;margin-top:5px;font:700 10px/1.25 'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.08em;color:#5B5648;}
   .projects-window .window-body{background:#F6F2EA;counter-reset:project;}
   .projects-window .window-body>div{position:relative;border:0!important;border-top:1px solid rgba(20,17,13,0.16)!important;border-radius:0!important;background:transparent;padding:18px 18px 18px 54px!important;margin-bottom:0!important;box-shadow:none;}
   .projects-window .window-body>div::before{counter-increment:project;content:counter(project, upper-roman);position:absolute;left:12px;top:20px;font:700 11px 'IBM Plex Mono',monospace;color:#E2621B;letter-spacing:.08em;}
@@ -103,16 +139,15 @@
     .desktop-tagline{display:none!important;}
     .top-links{gap:8px!important;font-size:10px!important;}
     .top-links a{display:inline-flex!important;}
-    .top-links span:nth-last-child(2),.top-links span:last-child{display:none!important;}
+    .top-links .status-dot,.top-links .clock-full{display:none!important;}
+    .top-links .clock-short{display:inline-flex!important;}
     .desktop-icon{left:auto!important;top:auto!important;position:relative!important;width:78px!important;min-height:86px!important;}
     .desktop-icon > div:first-child{width:52px!important;height:52px!important;}
-    .desktop-icon > div:last-child{font-size:10px!important;text-align:center!important;max-width:78px!important;overflow:hidden!important;text-overflow:ellipsis!important;}
+    .desktop-icon > div:last-child{font-size:10px!important;line-height:1.14!important;text-align:center!important;max-width:78px!important;overflow:visible!important;text-overflow:clip!important;white-space:normal!important;}
     .desktop-icons{position:relative!important;left:auto!important;right:auto!important;top:auto!important;order:2!important;display:grid!important;grid-template-columns:repeat(3,minmax(70px,78px))!important;justify-content:center!important;gap:16px 14px!important;overflow:visible!important;padding:0 0 8px!important;flex:none!important;}
     .desktop-hint{display:none!important;}
     .ambient-rail{position:relative!important;left:auto!important;right:auto!important;top:auto!important;order:3!important;width:100%!important;display:grid!important;grid-template-columns:1fr!important;gap:10px!important;z-index:1!important;pointer-events:auto!important;}
     .ambient-card{padding:13px!important;border-radius:16px!important;background:linear-gradient(135deg,rgba(246,242,234,0.18),rgba(246,242,234,0.06))!important;}
-    .dock{display:none!important;}
-    .dock > div{width:40px!important;height:40px!important;flex:0 0 40px;}
     .about-window{position:relative!important;left:auto!important;top:auto!important;order:1!important;width:100%!important;max-width:none!important;height:auto!important;min-height:0!important;max-height:none!important;flex:none!important;z-index:2!important;border-radius:18px!important;overflow:hidden!important;box-shadow:0 18px 42px rgba(0,0,0,0.38)!important;}
     .about-window > div:first-child{display:none!important;}
     .about-window .window-body{height:auto!important;max-height:none!important;padding:18px!important;overflow:visible!important;}
@@ -128,6 +163,10 @@
     .about-stats > div > div:last-child{font-size:9px!important;line-height:1.12!important;letter-spacing:0.06em!important;}
     .skill-pills{max-height:72px!important;overflow:hidden!important;}
     .gallery-layout,.blog-layout{flex-direction:column!important;}
+    .resume-layout{grid-template-columns:1fr!important;height:100%!important;overflow:auto!important;}
+    .resume-sidebar{border-right:0!important;border-bottom:1px solid rgba(20,17,13,0.10)!important;padding:18px!important;}
+    .resume-preview{min-height:58vh!important;padding:10px!important;}
+    .resume-paper{min-height:52vh!important;}
     .gallery-rail{width:auto!important;max-height:none!important;display:flex!important;flex-direction:row!important;overflow-x:auto!important;overflow-y:hidden!important;}
     .gallery-thumb{width:70px!important;min-width:70px!important;}
     .gallery-stage{height:42vh!important;}
@@ -140,16 +179,15 @@
   .mobile-preview .desktop-tagline{display:none!important;}
   .mobile-preview .top-links{gap:8px!important;font-size:10px!important;}
   .mobile-preview .top-links a{display:inline-flex!important;}
-  .mobile-preview .top-links span:nth-last-child(2),.mobile-preview .top-links span:last-child{display:none!important;}
+  .mobile-preview .top-links .status-dot,.mobile-preview .top-links .clock-full{display:none!important;}
+  .mobile-preview .top-links .clock-short{display:inline-flex!important;}
   .mobile-preview .desktop-icon{left:auto!important;top:auto!important;position:relative!important;width:78px!important;min-height:86px!important;}
   .mobile-preview .desktop-icon > div:first-child{width:52px!important;height:52px!important;}
-  .mobile-preview .desktop-icon > div:last-child{font-size:10px!important;text-align:center!important;max-width:78px!important;overflow:hidden!important;text-overflow:ellipsis!important;}
+  .mobile-preview .desktop-icon > div:last-child{font-size:10px!important;line-height:1.14!important;text-align:center!important;max-width:78px!important;overflow:visible!important;text-overflow:clip!important;white-space:normal!important;}
   .mobile-preview .desktop-icons{position:relative!important;left:auto!important;right:auto!important;top:auto!important;order:2!important;display:grid!important;grid-template-columns:repeat(3,minmax(70px,78px))!important;justify-content:center!important;gap:16px 14px!important;overflow:visible!important;padding:0 0 8px!important;flex:none!important;}
   .mobile-preview .desktop-hint{display:none!important;}
   .mobile-preview .ambient-rail{position:relative!important;left:auto!important;right:auto!important;top:auto!important;order:3!important;width:100%!important;display:grid!important;grid-template-columns:1fr!important;gap:10px!important;z-index:1!important;pointer-events:auto!important;}
   .mobile-preview .ambient-card{padding:13px!important;border-radius:16px!important;background:linear-gradient(135deg,rgba(246,242,234,0.18),rgba(246,242,234,0.06))!important;}
-  .mobile-preview .dock{display:none!important;}
-  .mobile-preview .dock > div{width:40px!important;height:40px!important;flex:0 0 40px;}
   .mobile-preview .about-window{position:relative!important;left:auto!important;top:auto!important;order:1!important;width:100%!important;max-width:none!important;height:auto!important;min-height:0!important;max-height:none!important;flex:none!important;z-index:2!important;border-radius:18px!important;overflow:hidden!important;box-shadow:0 18px 42px rgba(0,0,0,0.38)!important;}
   .mobile-preview .about-window > div:first-child{display:none!important;}
   .mobile-preview .about-window .window-body{height:auto!important;max-height:none!important;padding:18px!important;overflow:visible!important;}
@@ -165,6 +203,10 @@
   .mobile-preview .about-stats > div > div:last-child{font-size:9px!important;line-height:1.12!important;letter-spacing:0.06em!important;}
   .mobile-preview .skill-pills{max-height:72px!important;overflow:hidden!important;}
   .mobile-preview .gallery-layout,.mobile-preview .blog-layout{flex-direction:column!important;}
+  .mobile-preview .resume-layout{grid-template-columns:1fr!important;height:100%!important;overflow:auto!important;}
+  .mobile-preview .resume-sidebar{border-right:0!important;border-bottom:1px solid rgba(20,17,13,0.10)!important;padding:18px!important;}
+  .mobile-preview .resume-preview{min-height:58vh!important;padding:10px!important;}
+  .mobile-preview .resume-paper{min-height:52vh!important;}
   .mobile-preview .gallery-rail{width:auto!important;max-height:none!important;display:flex!important;flex-direction:row!important;overflow-x:auto!important;overflow-y:hidden!important;}
   .mobile-preview .gallery-thumb{width:70px!important;min-width:70px!important;}
   .mobile-preview .gallery-stage{height:42vh!important;}
@@ -192,8 +234,10 @@
 <div class="top-links" style="display:flex;align-items:center;gap:18px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,234,0.6);">
 <a href="https://github.com/Abhishek21g" target="_blank" rel="noopener noreferrer" style="color:rgba(246,242,234,0.6);text-decoration:none;">GitHub</a>
 <a href="https://linkedin.com/in/abhishekenaguthi" target="_blank" rel="noopener noreferrer" style="color:rgba(246,242,234,0.6);text-decoration:none;">LinkedIn</a>
-<span style="width:6px;height:6px;border-radius:50%;background:#E2621B;display:inline-block;"></span>
-<span>{{ time }}</span>
+<button class="top-link-button" onClick="{{ openResume }}">Resume</button>
+<span class="status-dot" style="width:6px;height:6px;border-radius:50%;background:#E2621B;display:inline-block;"></span>
+<span class="clock-full" title="Abhi time in Corvallis and visitor local time">Abhi {{ abhiTime }} PT · You {{ visitorTime }} {{ visitorZone }}</span>
+<span class="clock-short" title="Visitor local time">{{ visitorTime }}</span>
 </div>
 </div>
 </div>
@@ -202,26 +246,41 @@
 <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(135deg, rgba(246,242,234,0.015) 0px, rgba(246,242,234,0.015) 1px, transparent 1px, transparent 40px);pointer-events:none;"></div>
 
 <div class="ambient-rail" aria-label="Ambient status widgets">
-<section class="ambient-card">
-<div class="ambient-kicker">I Now Playing</div>
-<div class="ambient-title">Systems work queue</div>
-<div class="ambient-meta">Spotify live hook ready · needs token</div>
+<section class="ambient-card" role="button" onClick="{{ openMusic }}">
+<div class="ambient-kicker">I. Now Playing</div>
+<div class="ambient-player">
+<div class="ambient-album">♪</div>
+<div>
+<div class="ambient-title" style="font-size:25px;">Systems work queue</div>
+<div class="ambient-meta">Spotify slot · tap to open</div>
+<div class="ambient-progress"><span></span></div>
+</div>
+</div>
 </section>
 <section class="ambient-card">
-<div class="ambient-kicker">II Investments</div>
-<div class="ambient-row"><span>Watchlist</span><strong>AMD · NVDA · TSM</strong></div>
-<div class="ambient-row" style="margin-top:8px;"><span>Thesis</span><strong>AI infra</strong></div>
-<div class="ambient-meta">static snapshot · no live prices</div>
+<div class="ambient-kicker">II. GitHub Pulse</div>
+<div class="ambient-row"><span>Contribution graph</span><strong>heatmap</strong></div>
+<div class="contrib-grid" aria-label="Simulated GitHub contribution graph">
+<sc-for list="{{ contributionCells }}" as="cell" hint-placeholder-count="98">
+<span class="contrib-cell" data-l="{{ cell.level }}" title="{{ cell.title }}"></span>
+</sc-for>
+</div>
+<div class="ambient-meta">github.com/Abhishek21g · live hook-ready</div>
 </section>
 <section class="ambient-card">
-<div class="ambient-kicker">III Watch Later</div>
-<div class="ambient-title">GPU kernels, compiler talks, systems papers</div>
-<div class="ambient-meta">YouTube hook-ready card</div>
+<div class="ambient-kicker">III. Agent Runtime</div>
+<div class="ambient-title" style="font-size:25px;">Claude / Codex spend</div>
+<div class="token-meter"><span></span></div>
+<div class="agent-stat-grid">
+<div class="agent-stat"><strong>67%</strong><span>context used</span></div>
+<div class="agent-stat"><strong>18k</strong><span>tokens left</span></div>
+</div>
+<div class="ambient-meta">type tokens, agent, or graph in Terminal</div>
 </section>
 </div>
 
 <div class="desktop-icons">
-<div class="desktop-icon" onClick="{{ openAbout }}" style="position:absolute;left:40px;top:32px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
+<div class="desktop-icon" onClick="{{ openAbout }}" style="position:absolute;left:40px;top:28px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
 <div style="width:56px;height:56px;border-radius:12px;background:#F6F2EA;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;box-shadow:0 6px 16px rgba(0,0,0,0.35);">
 <div style="width:28px;height:2px;background:#5B5648;"></div>
 <div style="width:28px;height:2px;background:#5B5648;"></div>
@@ -230,7 +289,7 @@
 <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;text-shadow:0 1px 3px rgba(0,0,0,0.6);">About.txt</div>
 </div>
 
-<div class="desktop-icon" onClick="{{ openExperience }}" style="position:absolute;left:40px;top:136px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
+<div class="desktop-icon" onClick="{{ openExperience }}" style="position:absolute;left:40px;top:128px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
 <div style="width:56px;height:56px;border-radius:12px;background:#F6F2EA;display:flex;align-items:flex-end;justify-content:center;gap:4px;padding-bottom:9px;box-shadow:0 6px 16px rgba(0,0,0,0.35);">
 <div style="width:7px;height:16px;background:#E2621B;"></div>
 <div style="width:7px;height:26px;background:#E2621B;"></div>
@@ -239,14 +298,24 @@
 <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;text-shadow:0 1px 3px rgba(0,0,0,0.6);">Experience.log</div>
 </div>
 
-<div class="desktop-icon" onClick="{{ openProjects }}" style="position:absolute;left:40px;top:240px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
+<div class="desktop-icon" onClick="{{ openProjects }}" style="position:absolute;left:40px;top:228px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
 <div style="width:56px;height:56px;border-radius:12px;background:#E2621B;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(0,0,0,0.35);">
 <span style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:15px;color:#14110D;">&lt;/&gt;</span>
 </div>
 <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;text-shadow:0 1px 3px rgba(0,0,0,0.6);">Projects/</div>
 </div>
 
-<div class="desktop-icon" onClick="{{ openGallery }}" style="position:absolute;left:40px;top:344px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
+<div class="desktop-icon" onClick="{{ openResume }}" style="position:absolute;left:40px;top:328px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
+<div style="width:56px;height:56px;border-radius:12px;background:#F6F2EA;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(0,0,0,0.35);position:relative;overflow:hidden;">
+<span style="position:absolute;left:13px;top:13px;width:28px;height:2px;background:#E2621B;"></span>
+<span style="position:absolute;left:13px;top:22px;width:31px;height:2px;background:#5B5648;"></span>
+<span style="position:absolute;left:13px;top:31px;width:24px;height:2px;background:#5B5648;"></span>
+<span style="position:absolute;right:9px;bottom:7px;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:10px;color:#E2621B;">CV</span>
+</div>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;text-shadow:0 1px 3px rgba(0,0,0,0.6);">Resume.txt</div>
+</div>
+
+<div class="desktop-icon" onClick="{{ openGallery }}" style="position:absolute;left:40px;top:428px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
 <div style="width:56px;height:56px;position:relative;">
 <div style="position:absolute;width:46px;height:46px;background:#F6F2EA;border-radius:8px;transform:rotate(-8deg);top:7px;left:2px;box-shadow:0 4px 10px rgba(0,0,0,0.3);"></div>
 <div style="position:absolute;width:46px;height:46px;background-image:url('media/sc24-booth.jpg');background-size:cover;background-position:center;border-radius:8px;transform:rotate(5deg);top:3px;left:7px;box-shadow:0 6px 14px rgba(0,0,0,0.4);"></div>
@@ -254,64 +323,29 @@
 <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;text-shadow:0 1px 3px rgba(0,0,0,0.6);">Gallery</div>
 </div>
 
-<div class="desktop-icon" onClick="{{ openContact }}" style="position:absolute;left:40px;top:448px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
+<div class="desktop-icon" onClick="{{ openContact }}" style="position:absolute;left:40px;top:528px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
 <div style="width:56px;height:56px;border-radius:12px;background:#F6F2EA;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(0,0,0,0.35);">
 <span style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:20px;color:#14110D;">@</span>
 </div>
 <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;text-shadow:0 1px 3px rgba(0,0,0,0.6);">Contact</div>
 </div>
 
-<div class="desktop-icon" onClick="{{ openTerminal }}" style="position:absolute;left:40px;top:552px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
+<div class="desktop-icon" onClick="{{ openTerminal }}" style="position:absolute;left:40px;top:628px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
 <div style="width:56px;height:56px;border-radius:12px;background:#0A0A0A;border:1px solid rgba(246,242,234,0.15);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(0,0,0,0.35);">
 <span style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#E2621B;">&gt;_</span>
 </div>
 <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;text-shadow:0 1px 3px rgba(0,0,0,0.6);">Terminal</div>
 </div>
 
-<div class="desktop-icon" onClick="{{ openBlog }}" style="position:absolute;left:40px;top:656px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
+<div class="desktop-icon" onClick="{{ openBlog }}" style="position:absolute;left:40px;top:728px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
 <div style="width:56px;height:56px;border-radius:12px;background:#F6F2EA;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(0,0,0,0.35);">
 <span style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:22px;color:#14110D;">¶</span>
 </div>
 <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;text-shadow:0 1px 3px rgba(0,0,0,0.6);">Blog</div>
 </div>
-<div class="desktop-icon" onClick="{{ openMusic }}" style="position:absolute;left:40px;top:760px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
-<div class="music-card" style="width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(0,0,0,0.35);">
-<span style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:22px;color:#06180c;">♪</span>
-</div>
-<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;text-shadow:0 1px 3px rgba(0,0,0,0.6);">Music</div>
-</div>
 </div>
 
 <div class="desktop-hint" style="position:absolute;left:40px;bottom:20px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(246,242,234,0.32);">click an icon to open · drag a titlebar to move · resize from a corner</div>
-
-<div class="dock" style="position:absolute;left:50%;bottom:20px;transform:translateX(-50%);display:flex;gap:16px;padding:12px 20px;background:rgba(246,242,234,0.10);backdrop-filter:blur(20px);border:1px solid rgba(246,242,234,0.15);border-radius:20px;box-shadow:0 20px 50px rgba(0,0,0,0.4);">
-<div onClick="{{ openAbout }}" style-hover="transform:translateY(-6px) scale(1.1);" style="width:44px;height:44px;border-radius:10px;background:#F6F2EA;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;transition:transform 0.15s ease;">
-<div style="width:20px;height:1.5px;background:#5B5648;"></div>
-<div style="width:20px;height:1.5px;background:#5B5648;"></div>
-<div style="width:13px;height:1.5px;background:#5B5648;"></div>
-</div>
-<div onClick="{{ openExperience }}" style-hover="transform:translateY(-6px) scale(1.1);" style="width:44px;height:44px;border-radius:10px;background:#F6F2EA;display:flex;align-items:flex-end;justify-content:center;gap:3px;padding-bottom:7px;cursor:pointer;transition:transform 0.15s ease;">
-<div style="width:5px;height:12px;background:#E2621B;"></div>
-<div style="width:5px;height:19px;background:#E2621B;"></div>
-<div style="width:5px;height:15px;background:#E2621B;"></div>
-</div>
-<div onClick="{{ openProjects }}" style-hover="transform:translateY(-6px) scale(1.1);" style="width:44px;height:44px;border-radius:10px;background:#E2621B;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform 0.15s ease;">
-<span style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:12px;color:#14110D;">&lt;/&gt;</span>
-</div>
-<div onClick="{{ openGallery }}" style-hover="transform:translateY(-6px) scale(1.1);" style="width:44px;height:44px;border-radius:10px;background-image:url('media/aiweek-wide.jpg');background-size:cover;background-position:center;cursor:pointer;transition:transform 0.15s ease;"></div>
-<div onClick="{{ openContact }}" style-hover="transform:translateY(-6px) scale(1.1);" style="width:44px;height:44px;border-radius:10px;background:#F6F2EA;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform 0.15s ease;">
-<span style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:16px;color:#14110D;">@</span>
-</div>
-<div onClick="{{ openTerminal }}" style-hover="transform:translateY(-6px) scale(1.1);" style="width:44px;height:44px;border-radius:10px;background:#0A0A0A;border:1px solid rgba(246,242,234,0.15);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform 0.15s ease;">
-<span style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:12px;color:#E2621B;">&gt;_</span>
-</div>
-<div onClick="{{ openBlog }}" style-hover="transform:translateY(-6px) scale(1.1);" style="width:44px;height:44px;border-radius:10px;background:#F6F2EA;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform 0.15s ease;">
-<span style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:16px;color:#14110D;">¶</span>
-</div>
-<div class="music-card" onClick="{{ openMusic }}" style-hover="transform:translateY(-6px) scale(1.1);" style="width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform 0.15s ease;">
-<span style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:16px;color:#06180c;">♪</span>
-</div>
-</div>
 
 <sc-if value="{{ windows.about.open }}" hint-placeholder-val="{{ true }}">
 <div class="os-window about-window" onMouseDown="{{ focusAbout }}" style="position:absolute;left:{{ windows.about.x }}px;top:{{ windows.about.y }}px;width:{{ windows.about.w }}px;height:{{ windows.about.h }}px;z-index:{{ windows.about.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
@@ -327,7 +361,7 @@
 <img src="media/portrait.jpg" alt="Abhishek Enaguthi" style="width:100%;height:100%;object-fit:cover;display:block;" />
 </div>
 <div>
-<div class="nd-roman" style="margin:8px 0 10px;">I Profile</div>
+<div class="nd-roman" style="margin:8px 0 10px;">I. Profile</div>
 <h2 class="about-name nd-heading" style="font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:42px;line-height:0.96;color:#14110D;margin:0;">Abhishek<br/>Enaguthi</h2>
 </div>
 </div>
@@ -461,7 +495,7 @@
 </sc-for>
 </div>
 <div style="flex:1;display:flex;flex-direction:column;gap:10px;">
-<div class="nd-roman">II Gallery · {{ galleryCount }} photos</div>
+<div class="nd-roman">II. Gallery · {{ galleryCount }} photos</div>
 <div class="gallery-stage" onClick="{{ openActiveLightbox }}" style="height:calc(100% - 56px);min-height:300px;border-radius:8px;overflow:hidden;background:#14110D;cursor:zoom-in;display:flex;align-items:center;justify-content:center;">
 <img class="gallery-main-photo" src="{{ activeGalleryPhoto.src }}" alt="{{ activeGalleryPhoto.caption }}" style="width:100%;height:100%;object-fit:contain;display:block;" />
 </div>
@@ -481,15 +515,53 @@
 <div style="flex:1;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;margin-right:33px;">Contact</div>
 </div>
 <div class="window-body" style="padding:32px 36px;overflow-y:auto;">
-<div class="nd-roman" style="margin-bottom:12px;">III Contact</div>
+<div class="nd-roman" style="margin-bottom:12px;">III. Contact</div>
 <p style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:24px;font-weight:700;line-height:1.25;color:#14110D;margin:0 0 28px;">If you are building compilers, GPU systems, or where HPC meets AI, I am listening.</p>
 <div style="display:flex;flex-direction:column;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:14px;">
 <a href="/cdn-cgi/l/email-protection#cca9a2adabb9b8a4a5adaea4a5bfa4a9a78caba1ada5a0e2afa3a1" style="color:#E2621B;text-decoration:none;"><span class="__cf_email__" data-cfemail="8aefe4ebedfffee2e3ebe8e2e3f9e2efe1caede7ebe3e6a4e9e5e7">[email&#160;protected]</span></a>
 <a href="https://linkedin.com/in/abhishekenaguthi" target="_blank" rel="noopener noreferrer" style="color:#E2621B;text-decoration:none;">linkedin.com/in/abhishekenaguthi</a>
 <a href="https://github.com/Abhishek21g" target="_blank" rel="noopener noreferrer" style="color:#E2621B;text-decoration:none;">github.com/Abhishek21g</a>
+<button onClick="{{ openResume }}" style="appearance:none;border:0;background:transparent;color:#E2621B;text-decoration:none;text-align:left;font:inherit;padding:0;cursor:pointer;">open resume viewer</button>
 </div>
 </div>
 <div class="resize-grip" onMouseDown="{{ resizeContact }}"></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ windows.resume.open }}" hint-placeholder-val="{{ false }}">
+<div class="os-window resume-window" onMouseDown="{{ focusResume }}" style="position:absolute;left:{{ windows.resume.x }}px;top:{{ windows.resume.y }}px;width:{{ windows.resume.w }}px;height:{{ windows.resume.h }}px;z-index:{{ windows.resume.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
+<div class="window-titlebar" onMouseDown="{{ dragResume }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
+<span onClick="{{ closeResume }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#E2621B;cursor:pointer;display:inline-block;"></span>
+<span onClick="{{ minimizeResume }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
+<span onClick="{{ zoomResume }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
+<div style="flex:1;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;margin-right:33px;">Resume.pdf</div>
+</div>
+<div class="resume-layout">
+<aside class="resume-sidebar">
+<div class="nd-roman" style="margin-bottom:10px;">V. Credential Packet</div>
+<h3 class="nd-heading" style="font-size:42px;margin:0 0 16px;">Resume</h3>
+<p class="nd-copy" style="font-size:14px;line-height:1.65;margin:0 0 18px;">A one-page systems snapshot: compiler work, GPU/HPC research, production infra, and the projects worth opening first.</p>
+<a class="resume-action" href="/resume.pdf" target="_blank" rel="noopener noreferrer">open full tab ↗</a>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin:22px 0;">
+<span style="font:700 10px 'IBM Plex Mono',monospace;color:#5B5648;background:rgba(20,17,13,0.07);border-radius:999px;padding:6px 9px;">Compilers</span>
+<span style="font:700 10px 'IBM Plex Mono',monospace;color:#5B5648;background:rgba(20,17,13,0.07);border-radius:999px;padding:6px 9px;">GPU/HPC</span>
+<span style="font:700 10px 'IBM Plex Mono',monospace;color:#5B5648;background:rgba(20,17,13,0.07);border-radius:999px;padding:6px 9px;">Research</span>
+</div>
+<div class="resume-metric"><strong>4.0</strong><span>M.S. Artificial Intelligence GPA</span></div>
+<div class="resume-metric"><strong>$1M</strong><span>AMD / IBM research grant secured</span></div>
+<div class="resume-metric"><strong>SC25</strong><span>Top 3 IndySCC team lead</span></div>
+</aside>
+<section class="resume-preview">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(246,242,234,0.58);">
+<span>live preview</span>
+<span>drag · resize · zoom</span>
+</div>
+<div class="resume-paper">
+<iframe src="/resume.pdf#toolbar=0&navpanes=0&view=FitH" title="Abhishek Enaguthi resume preview"></iframe>
+</div>
+</section>
+</div>
+<div class="resize-grip" onMouseDown="{{ resizeResume }}"></div>
 </div>
 </sc-if>
 
@@ -513,7 +585,7 @@
 </sc-for>
 </div>
 <div style="display:flex;align-items:center;gap:10px;padding:14px 24px;border-top:1px solid rgba(231,231,228,0.12);">
-<span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#E2621B;">visitor@enaguthi:~$</span>
+<span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#E2621B;">visitor@enaguthi:{{ shellPath }}$</span>
 <input value="{{ osInputValue }}" onChange="{{ onOsInputChange }}" onKeyDown="{{ onOsKeyDown }}" ref="{{ osInputRef }}" placeholder="type 'help'" style="flex:1;background:transparent;border:none;outline:none;color:#E7E7E4;font-family:'JetBrains Mono',monospace;font-size:13px;caret-color:#E2621B;" />
 </div>
 </div>
@@ -545,7 +617,7 @@
 <div style="height:180px;border-radius:8px;background:#14110D;overflow:hidden;margin-bottom:18px;display:flex;align-items:center;justify-content:center;">
 <img src="{{ activeBlogPost.hero }}" alt="{{ activeBlogPost.title }}" style="width:100%;height:100%;object-fit:cover;display:block;" />
 </div>
-<div class="nd-roman" style="margin-bottom:8px;">IV Notes · {{ activeBlogPost.date }}</div>
+<div class="nd-roman" style="margin-bottom:8px;">IV. Notes · {{ activeBlogPost.date }}</div>
 <h3 class="nd-heading" style="font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:34px;line-height:0.98;color:#14110D;margin:0 0 14px;">{{ activeBlogPost.title }}</h3>
 <sc-for list="{{ activeBlogPost.paragraphs }}" as="paragraph" hint-placeholder-count="4">
 <p style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:14px;line-height:1.7;color:#3B3529;margin:0 0 14px;">{{ paragraph }}</p>
@@ -601,6 +673,7 @@
 <p style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:14px;line-height:1.7;color:#3B3529;margin:0 0 16px;">Open apps from the icons or dock. Drag titlebars, resize corners, and use Terminal commands like <span style="font-family:'IBM Plex Mono',monospace;color:#E2621B;">projects</span>, <span style="font-family:'IBM Plex Mono',monospace;color:#E2621B;">blog</span>, and <span style="font-family:'IBM Plex Mono',monospace;color:#E2621B;">gallery</span>.</p>
 <div style="display:grid;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;">
 <button onClick="{{ openProjects }}" style="border:1px solid rgba(20,17,13,0.12);background:white;border-radius:7px;padding:9px 10px;text-align:left;cursor:pointer;">open Projects/</button>
+<button onClick="{{ openResume }}" style="border:1px solid rgba(20,17,13,0.12);background:white;border-radius:7px;padding:9px 10px;text-align:left;cursor:pointer;">open Resume</button>
 <button onClick="{{ openBlog }}" style="border:1px solid rgba(20,17,13,0.12);background:white;border-radius:7px;padding:9px 10px;text-align:left;cursor:pointer;">open Blog</button>
 <button onClick="{{ openGallery }}" style="border:1px solid rgba(20,17,13,0.12);background:white;border-radius:7px;padding:9px 10px;text-align:left;cursor:pointer;">open Gallery</button>
 </div>
@@ -640,18 +713,23 @@ class Component extends DCLogic {
       projects: { open: false, x: 260, y: 160, w: 720, h: 640, minW: 500, minH: 430, z: 1 },
       gallery: { open: false, x: 640, y: 130, w: 760, h: 560, minW: 480, minH: 380, z: 1 },
       contact: { open: false, x: 380, y: 240, w: 520, h: 300, minW: 380, minH: 240, z: 1 },
+      resume: { open: false, x: 600, y: 92, w: 820, h: 650, minW: 540, minH: 430, z: 1 },
       terminal: { open: false, x: 140, y: 250, w: 720, h: 390, minW: 460, minH: 300, z: 1 },
       blog: { open: false, x: 320, y: 300, w: 760, h: 560, minW: 470, minH: 380, z: 1 },
       music: { open: false, x: 520, y: 260, w: 440, h: 330, minW: 340, minH: 260, z: 1 },
       onboarding: { open: false, x: 930, y: 92, w: 360, h: 330, minW: 320, minH: 260, z: 3 }
     },
-    zCounter: 2,
+    zCounter: 4,
     time: '',
+    abhiTime: '',
+    visitorTime: '',
+    visitorZone: '',
     galleryIndex: 0,
     osLines: [
       { isInput: false, isOutput: true, text: "AE desktop — type 'help' to look around." }
     ],
     osInput: '',
+    shellPath: '~',
     blogIndex: 0,
     selectedPhoto: null,
     photoCaption: ''
@@ -663,16 +741,89 @@ class Component extends DCLogic {
   osInputRef = React.createRef();
 
   commands = {
-    help: "available commands:\n\n  whoami        who i am\n  about         background\n  experience    work history\n  projects      things i've built\n  gallery       open the photo app\n  blog          open the writing app\n  music         open Spotify slot\n  contact       how to reach me\n  clear         clear the screen",
+    help: "available commands:\n\n  ls            list files\n  cd <dir>      move around\n  pwd           print current path\n  cat <file>    read a file\n  tree          map the desktop\n  agent         wake the local agent\n  tokens        show context spend\n  graph         show activity graphs\n  whoami        who i am\n  resume        open the credential packet\n  gallery/blog  open apps\n  clear         clear the screen",
     whoami: "abhishek_enaguthi\ncpu architecture & systems engineer — compiler backends, hpc performance\nM.S. Artificial Intelligence · B.S. Computer Science, Oregon State University",
     about: "M.S. Artificial Intelligence (Thesis) + B.S. Computer Science (AI), Minor in Finance — Oregon State University. GPA 4.0 / 3.95.\nI live in the layer underneath the framework — compiler backends, kernel-level debug, distributed HPC systems.\nSecured a $1M joint research grant from AMD + IBM to advance heterogeneous GPU compiler tech.",
     experience: "[Mar 2024 – Present] AI Research Engineer — Research Advanced Computing, OSU\n  - secured $1M grant from AMD + IBM for heterogeneous GPU compiler tech\n  - published compiler research enabling ROCm cross-compilation to x86\n  - led team to SC25, top 3/50+ in the IndySCC student cluster competition\n\n[Jun–Sep 2025] LLM Research Intern — University of Washington\n  - built multi-turn synthetic QA generation for NVIDIA NeMo\n  - deployed LLaMA-3 70B + Mistral via vLLM on NVIDIA H200 clusters\n\n[Jun 2024 – Present] Systems Software Engineer — CEOAS, OSU\n  - presented a physics-based digital twin at SC24 (NVIDIA Omniverse + Isaac Sim)\n  - wrote LLVM passes + kernel optimizations, 30% perf boost\n\n[Mar 2024 – Present] HPC Performance Engineer — OSU\n  - automated SLURM RPC + disk monitoring, adopted by 100+ daily users\n  - 20% faster collective comm, 15% higher memory throughput (NCCL/MPI)",
     projects: "mocki/                    multi-agent AI interview coaching — 1st place, NVIDIA Nemotron track @ BeaverHacks 2026\nbluestart/                ROCm on IBM POWER9, CUDA via HIPify\ncompile-your-language/    from-scratch language + compiler techniques guide\ntreehacks-intersystems/   GenAI research assistant, InterSystems IRIS vector search\nrag-pipeline/             235K embeddings, 65K Wikipedia articles, PyTorch DDP across multi-GPU nodes\n\ntype 'open <name>' for more (e.g. 'open mocki')",
     contact: "email     enaguthiabhishek@gmail.com\nlinkedin  linkedin.com/in/abhishekenaguthi\ngithub    github.com/Abhishek21g",
+    resume: "opening Resume...",
     gallery: "opening Gallery...",
     blog: "opening Blog...",
     music: "opening Music..."
   };
+
+  contributionCells = Array.from({ length: 98 }, (_, i) => {
+    const seed = (i * 7 + Math.floor(i / 9) * 3) % 11;
+    const level = seed > 8 ? 4 : seed > 6 ? 3 : seed > 3 ? 2 : seed > 1 ? 1 : 0;
+    return { level, title: level ? (level + " contribution blocks") : "quiet build day" };
+  });
+
+  shellFiles = {
+    '~': ['about.txt', 'experience.log', 'projects/', 'gallery/', 'blog/', 'resume.txt', 'agent/'],
+    '~/projects': ['mocki.md', 'bluestart.md', 'compile-your-language.md', 'rag-pipeline.md'],
+    '~/agent': ['tokens.log', 'graph.json', 'loop.md', 'chat']
+  };
+
+  normalizePath(path) {
+    if (!path || path === '~') return '~';
+    return path.replace(/\/$/, '');
+  }
+
+  resolvePath(raw) {
+    const part = (raw || '').trim();
+    if (!part || part === '~') return '~';
+    if (part === '..') return this.state.shellPath === '~' ? '~' : '~';
+    if (part.indexOf('~/') === 0) return this.normalizePath(part);
+    if (part === 'projects' || part === 'projects/') return '~/projects';
+    if (part === 'agent' || part === 'agent/') return '~/agent';
+    return this.normalizePath(this.state.shellPath + '/' + part.replace(/\/$/, ''));
+  }
+
+  shellOutput(cmd) {
+    const path = this.state.shellPath;
+    if (cmd === 'pwd') return '/Users/visitor/enaguthi/' + path.replace('~', 'desktop');
+    if (cmd === 'ls') return (this.shellFiles[path] || this.shellFiles['~']).join('    ');
+    if (cmd.indexOf('ls ') === 0) {
+      const target = this.resolvePath(cmd.slice(3));
+      return this.shellFiles[target] ? this.shellFiles[target].join('    ') : 'ls: cannot access ' + cmd.slice(3).trim();
+    }
+    if (cmd.indexOf('cd') === 0) {
+      const target = this.resolvePath(cmd.slice(2));
+      if (!this.shellFiles[target]) return 'cd: no such directory: ' + cmd.slice(2).trim();
+      this.setState({ shellPath: target });
+      return 'entered ' + target;
+    }
+    if (cmd === 'tree') return ".\n├── about.txt\n├── experience.log\n├── resume.txt\n├── projects/\n│   ├── mocki.md\n│   ├── bluestart.md\n│   └── rag-pipeline.md\n├── gallery/\n├── blog/\n└── agent/\n    ├── tokens.log\n    ├── graph.json\n    └── chat";
+    if (cmd === 'tokens') return "context meter\nused: 67%\nremaining: ~18k tokens\nmode: build + verify\nnote: static display for now; ready for real Codex/Claude logs.";
+    if (cmd === 'graph') return "activity graphs\nGitHub pulse: rendered in right rail\nAgent runtime: context/token meter online\nnext hook: wire live GitHub + local agent traces.";
+    if (cmd === 'agent') return "rudhra-agent online-ish\n\nask: agent \"what should i open first?\"\ntry: tokens, graph, tree, cat resume.txt";
+    if (cmd.indexOf('agent ') === 0) return "agent: " + this.agentReply(cmd.slice(6).trim());
+    if (cmd.indexOf('cat ') === 0) return this.catFile(cmd.slice(4).trim());
+    return null;
+  }
+
+  catFile(name) {
+    const file = name.replace(/^.*\//, '');
+    const files = {
+      'about.txt': this.commands.about,
+      'experience.log': this.commands.experience,
+      'resume.txt': 'opening Resume viewer...\nTip: click open full tab for the printable PDF.',
+      'tokens.log': 'tokens_used=67%\ntokens_left=18000\nagent_loop=design-build-verify',
+      'graph.json': '{ \"githubPulse\": \"simulated\", \"codexTokens\": \"hook-ready\", \"status\": \"rendered\" }',
+      'loop.md': '1. inspect\n2. design\n3. implement\n4. verify\n5. push only when Abhi says push'
+    };
+    if (file === 'resume.txt') this.openResume();
+    return files[file] || 'cat: ' + name + ': no such file';
+  }
+
+  agentReply(text) {
+    if (!text) return "give me a tiny task and I will route it.";
+    if (text.indexOf('first') !== -1) return "open Resume.txt, then Projects/, then GitHub Pulse. That tells the fastest story.";
+    if (text.indexOf('blog') !== -1) return "blog app should become a writing room: index left, article pages right, terminal command `blog supercomputing`.";
+    if (text.indexOf('gallery') !== -1) return "gallery wants fewer crops, bigger stage, and captions that feel like field notes.";
+    return "noted. I would split that into design research, implementation, and verification agents.";
+  }
 
   openTargets = {
     mocki: "Mocki — multi-agent AI mock interview platform. React, Node.js, NVIDIA Nemotron, NIM API, Tailwind.\n4-agent pipeline: Coordinator → Interviewer → Evaluator → Report Generator, adaptive difficulty via NVIDIA NIM API.\n1st place, NVIDIA Nemotron track @ BeaverHacks 2026 (RTX 5070 prize), out of 50+ teams.\nlive: mocki.dev",
@@ -702,12 +853,16 @@ class Component extends DCLogic {
     let output;
     if (cmd === 'sudo make coffee') {
       output = "permission denied: coffee requires root and a functioning kitchen.";
+    } else if ((output = this.shellOutput(cmd))) {
     } else if (cmd === 'gallery') {
       this.openGallery();
       output = this.commands.gallery;
     } else if (cmd === 'blog') {
       this.openBlog();
       output = this.commands.blog;
+    } else if (cmd === 'resume') {
+      this.openResume();
+      output = this.commands.resume;
     } else if (cmd === 'music') {
       this.openMusic();
       output = this.commands.music;
@@ -730,9 +885,9 @@ class Component extends DCLogic {
   };
 
   componentDidMount() {
-    this.setState({ time: this.formatTime() });
+    this.updateClock();
     this.layoutForViewport(true);
-    this._clockTimer = setInterval(() => this.setState({ time: this.formatTime() }), 30000);
+    this._clockTimer = setInterval(this.updateClock, 30000);
     this._onDocMouseMove = (e) => {
       if (this.resizeInfo) {
         const { id, startClientX, startClientY, startW, startH } = this.resizeInfo;
@@ -766,13 +921,25 @@ class Component extends DCLogic {
     window.removeEventListener('resize', this._onWindowResize);
   }
 
-  formatTime() {
-    const d = new Date();
-    let h = d.getHours();
-    const m = String(d.getMinutes()).padStart(2, '0');
-    const ampm = h >= 12 ? 'PM' : 'AM';
-    h = h % 12; if (h === 0) h = 12;
-    return h + ':' + m + ' ' + ampm;
+  updateClock = () => {
+    this.setState({
+      time: this.formatTime(),
+      abhiTime: this.formatTime('America/Los_Angeles'),
+      visitorTime: this.formatTime(),
+      visitorZone: this.formatZone()
+    });
+  };
+
+  formatTime(timeZone) {
+    const options = { hour: 'numeric', minute: '2-digit', hour12: true };
+    if (timeZone) options.timeZone = timeZone;
+    return new Intl.DateTimeFormat(undefined, options).format(new Date()).replace(/\s/g, ' ');
+  }
+
+  formatZone() {
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'local';
+    const short = new Intl.DateTimeFormat(undefined, { timeZoneName: 'short' }).formatToParts(new Date()).find((part) => part.type === 'timeZoneName');
+    return short ? short.value : tz.split('/').pop();
   }
 
   getDesktopBounds() {
@@ -813,6 +980,7 @@ class Component extends DCLogic {
         windows.onboarding = this.clampWindow({ ...windows.onboarding, open: initial ? true : windows.onboarding.open, x: Math.min(bounds.width - 420, 930), y: 92 });
         if (bounds.width >= 1400) {
           windows.projects = this.clampWindow({ ...windows.projects, open: initial ? true : windows.projects.open, x: bounds.width - 750, y: 96, w: 700, h: Math.min(600, bounds.height - 130) });
+          windows.resume = this.clampWindow({ ...windows.resume, x: Math.max(220, bounds.width - 900), y: 118, w: Math.min(820, bounds.width - 360), h: Math.min(650, bounds.height - 150) });
         }
         if (bounds.width >= 1800) {
           windows.terminal = this.clampWindow({ ...windows.terminal, open: initial ? true : windows.terminal.open, x: bounds.width - 770, y: Math.max(390, bounds.height - 430), w: 720, h: 340 });
@@ -892,6 +1060,7 @@ class Component extends DCLogic {
   openProjects = () => this.openWindow('projects');
   openGallery = () => this.openWindow('gallery');
   openContact = () => this.openWindow('contact');
+  openResume = () => this.openWindow('resume');
   openTerminal = () => this.openWindow('terminal');
   openBlog = () => this.openWindow('blog');
   openMusic = () => this.openWindow('music');
@@ -902,6 +1071,7 @@ class Component extends DCLogic {
   closeProjects = (e) => this.closeWindow('projects', e);
   closeGallery = (e) => this.closeWindow('gallery', e);
   closeContact = (e) => this.closeWindow('contact', e);
+  closeResume = (e) => this.closeWindow('resume', e);
   closeTerminal = (e) => this.closeWindow('terminal', e);
   closeBlog = (e) => this.closeWindow('blog', e);
   closeMusic = (e) => this.closeWindow('music', e);
@@ -912,6 +1082,7 @@ class Component extends DCLogic {
   minimizeProjects = (e) => this.minimizeWindow('projects', e);
   minimizeGallery = (e) => this.minimizeWindow('gallery', e);
   minimizeContact = (e) => this.minimizeWindow('contact', e);
+  minimizeResume = (e) => this.minimizeWindow('resume', e);
   minimizeTerminal = (e) => this.minimizeWindow('terminal', e);
   minimizeBlog = (e) => this.minimizeWindow('blog', e);
   minimizeMusic = (e) => this.minimizeWindow('music', e);
@@ -922,6 +1093,7 @@ class Component extends DCLogic {
   zoomProjects = (e) => this.zoomWindow('projects', e);
   zoomGallery = (e) => this.zoomWindow('gallery', e);
   zoomContact = (e) => this.zoomWindow('contact', e);
+  zoomResume = (e) => this.zoomWindow('resume', e);
   zoomTerminal = (e) => this.zoomWindow('terminal', e);
   zoomBlog = (e) => this.zoomWindow('blog', e);
   zoomMusic = (e) => this.zoomWindow('music', e);
@@ -932,6 +1104,7 @@ class Component extends DCLogic {
   focusProjects = () => this.focusWindow('projects');
   focusGallery = () => this.focusWindow('gallery');
   focusContact = () => this.focusWindow('contact');
+  focusResume = () => this.focusWindow('resume');
   focusTerminal = () => this.focusWindow('terminal');
   focusBlog = () => this.focusWindow('blog');
   focusMusic = () => this.focusWindow('music');
@@ -942,6 +1115,7 @@ class Component extends DCLogic {
   dragProjects = (e) => this.startDrag('projects', e);
   dragGallery = (e) => this.startDrag('gallery', e);
   dragContact = (e) => this.startDrag('contact', e);
+  dragResume = (e) => this.startDrag('resume', e);
   dragTerminal = (e) => this.startDrag('terminal', e);
   dragBlog = (e) => this.startDrag('blog', e);
   dragMusic = (e) => this.startDrag('music', e);
@@ -952,6 +1126,7 @@ class Component extends DCLogic {
   resizeProjects = (e) => this.startResize('projects', e);
   resizeGallery = (e) => this.startResize('gallery', e);
   resizeContact = (e) => this.startResize('contact', e);
+  resizeResume = (e) => this.startResize('resume', e);
   resizeTerminal = (e) => this.startResize('terminal', e);
   resizeBlog = (e) => this.startResize('blog', e);
   resizeMusic = (e) => this.startResize('music', e);
@@ -1019,12 +1194,13 @@ class Component extends DCLogic {
   };
 
   osCommands = {
-    help: "commands:\n\n  whoami        who i am\n  about         background\n  experience    work history\n  projects      things i've built\n  gallery       open the photo app\n  blog          open the writing app\n  music         open Spotify slot\n  contact       how to reach me\n  clear         clear the screen",
+    help: "commands:\n\n  ls            list files\n  cd <dir>      move around\n  pwd           print current path\n  cat <file>    read a file\n  tree          map the desktop\n  agent         wake the local agent\n  tokens        show context spend\n  graph         show activity graphs\n  whoami        who i am\n  resume        open the credential packet\n  gallery/blog  open apps\n  clear         clear the screen",
     whoami: "abhishek_enaguthi\ncpu architecture & systems engineer — compiler backends, hpc performance\nM.S. Artificial Intelligence · B.S. Computer Science, Oregon State University",
     about: "M.S. Artificial Intelligence (Thesis) + B.S. Computer Science (AI), Minor in Finance — Oregon State University. GPA 4.0 / 3.95.\nI live in the layer underneath the framework — compiler backends, kernel-level debug, distributed HPC systems.\nSecured a $1M joint research grant from AMD + IBM to advance heterogeneous GPU compiler tech.",
     experience: "[Mar 2024 – Present] AI Research Engineer — Research Advanced Computing, OSU\n  - secured $1M grant from AMD + IBM for heterogeneous GPU compiler tech\n  - published compiler research enabling ROCm cross-compilation to x86\n  - led team to SC25, top 3/50+ in the IndySCC student cluster competition\n\n[Jun–Sep 2025] LLM Research Intern — University of Washington\n  - built multi-turn synthetic QA generation for NVIDIA NeMo\n  - deployed LLaMA-3 70B + Mistral via vLLM on NVIDIA H200 clusters\n\n[Jun 2024 – Present] Systems Software Engineer — CEOAS, OSU\n  - presented a physics-based digital twin at SC24 (NVIDIA Omniverse + Isaac Sim)\n  - wrote LLVM passes + kernel optimizations, 30% perf boost\n\n[Mar 2024 – Present] HPC Performance Engineer — OSU\n  - automated SLURM RPC + disk monitoring, adopted by 100+ daily users\n  - 20% faster collective comm, 15% higher memory throughput (NCCL/MPI)",
     projects: "mocki/                    multi-agent AI interview coaching — 1st place, NVIDIA Nemotron track @ BeaverHacks 2026\nbluestart/                ROCm on IBM POWER9, CUDA via HIPify\ncompile-your-language/    from-scratch language + compiler techniques guide\ntreehacks-intersystems/   GenAI research assistant, InterSystems IRIS vector search\nrag-pipeline/             235K embeddings, 65K Wikipedia articles, PyTorch DDP across multi-GPU nodes\n\ntype 'open <name>' for more (e.g. 'open mocki')",
     contact: "email     enaguthiabhishek@gmail.com\nlinkedin  linkedin.com/in/abhishekenaguthi\ngithub    github.com/Abhishek21g",
+    resume: "opening Resume...",
     gallery: "opening Gallery...",
     blog: "opening Blog...",
     music: "opening Music..."
@@ -1056,12 +1232,16 @@ class Component extends DCLogic {
     let output;
     if (cmd === 'sudo make coffee') {
       output = "permission denied: coffee requires root and a functioning kitchen.";
+    } else if ((output = this.shellOutput(cmd))) {
     } else if (cmd === 'gallery') {
       this.openGallery();
       output = this.osCommands.gallery;
     } else if (cmd === 'blog') {
       this.openBlog();
       output = this.osCommands.blog;
+    } else if (cmd === 'resume') {
+      this.openResume();
+      output = this.osCommands.resume;
     } else if (cmd === 'music') {
       this.openMusic();
       output = this.osCommands.music;
@@ -1104,11 +1284,15 @@ class Component extends DCLogic {
 
       windows: this.state.windows,
       time: this.state.time,
+      abhiTime: this.state.abhiTime,
+      visitorTime: this.state.visitorTime,
+      visitorZone: this.state.visitorZone,
       openAbout: this.openAbout,
       openExperience: this.openExperience,
       openProjects: this.openProjects,
       openGallery: this.openGallery,
       openContact: this.openContact,
+      openResume: this.openResume,
       openTerminal: this.openTerminal,
       openBlog: this.openBlog,
       openMusic: this.openMusic,
@@ -1118,6 +1302,7 @@ class Component extends DCLogic {
       closeProjects: this.closeProjects,
       closeGallery: this.closeGallery,
       closeContact: this.closeContact,
+      closeResume: this.closeResume,
       closeTerminal: this.closeTerminal,
       closeBlog: this.closeBlog,
       closeMusic: this.closeMusic,
@@ -1127,6 +1312,7 @@ class Component extends DCLogic {
       minimizeProjects: this.minimizeProjects,
       minimizeGallery: this.minimizeGallery,
       minimizeContact: this.minimizeContact,
+      minimizeResume: this.minimizeResume,
       minimizeTerminal: this.minimizeTerminal,
       minimizeBlog: this.minimizeBlog,
       minimizeMusic: this.minimizeMusic,
@@ -1136,6 +1322,7 @@ class Component extends DCLogic {
       zoomProjects: this.zoomProjects,
       zoomGallery: this.zoomGallery,
       zoomContact: this.zoomContact,
+      zoomResume: this.zoomResume,
       zoomTerminal: this.zoomTerminal,
       zoomBlog: this.zoomBlog,
       zoomMusic: this.zoomMusic,
@@ -1145,6 +1332,7 @@ class Component extends DCLogic {
       focusProjects: this.focusProjects,
       focusGallery: this.focusGallery,
       focusContact: this.focusContact,
+      focusResume: this.focusResume,
       focusTerminal: this.focusTerminal,
       focusBlog: this.focusBlog,
       focusMusic: this.focusMusic,
@@ -1154,6 +1342,7 @@ class Component extends DCLogic {
       dragProjects: this.dragProjects,
       dragGallery: this.dragGallery,
       dragContact: this.dragContact,
+      dragResume: this.dragResume,
       dragTerminal: this.dragTerminal,
       dragBlog: this.dragBlog,
       dragMusic: this.dragMusic,
@@ -1163,6 +1352,7 @@ class Component extends DCLogic {
       resizeProjects: this.resizeProjects,
       resizeGallery: this.resizeGallery,
       resizeContact: this.resizeContact,
+      resizeResume: this.resizeResume,
       resizeTerminal: this.resizeTerminal,
       resizeBlog: this.resizeBlog,
       resizeMusic: this.resizeMusic,
@@ -1200,6 +1390,8 @@ class Component extends DCLogic {
       photoCaption: this.state.photoCaption,
       osLines: this.state.osLines,
       osInputValue: this.state.osInput,
+      shellPath: this.state.shellPath,
+      contributionCells: this.contributionCells,
       onOsInputChange: this.handleOsChange,
       onOsKeyDown: this.handleOsKeyDown,
       osOutputRef: this.osOutputRef,
