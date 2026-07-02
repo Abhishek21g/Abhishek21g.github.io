@@ -36,42 +36,51 @@
 <style>
   html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#14110D;}
   #dc-root,#dc-root>.sc-host{width:100%;height:100%;}
-  .site-app{width:100vw;height:100vh;height:100dvh;overflow:hidden;background:#14110D;}
+  .site-app{width:100vw;height:100vh;height:100dvh;overflow:hidden;background:#11100C;}
   .site-app .dv-card{width:100vw!important;height:100vh!important;height:100dvh!important;max-width:none!important;border-radius:0!important;box-shadow:none!important;}
   .site-app .dv-card>div:first-child{height:40px!important;}
   .site-app .dv-card>div:nth-child(2){width:100%!important;height:calc(100dvh - 40px)!important;}
-  .os-window{max-width:calc(100vw - 150px);max-height:calc(100vh - 72px);}
+  .os-window{max-width:calc(100vw - 150px);max-height:calc(100vh - 72px);border:1px solid rgba(20,17,13,0.08);}
+  .window-titlebar{height:38px!important;background:#E9E4D8!important;border-bottom:1px solid rgba(20,17,13,0.14)!important;}
   .window-body{height:calc(100% - 36px);overflow:auto;}
   .resize-grip{position:absolute;right:0;bottom:0;width:18px;height:18px;cursor:nwse-resize;background:linear-gradient(135deg,transparent 0 45%,rgba(20,17,13,0.24) 45% 52%,transparent 52% 62%,rgba(20,17,13,0.24) 62% 69%,transparent 69%);opacity:.75;}
   .resize-grip-dark{background:linear-gradient(135deg,transparent 0 45%,rgba(246,242,234,0.26) 45% 52%,transparent 52% 62%,rgba(246,242,234,0.26) 62% 69%,transparent 69%);}
-  .os-window > div:first-child > span:nth-child(-n+3){position:relative!important;width:18px!important;height:18px!important;border-radius:50%!important;background:transparent!important;border:0!important;box-sizing:border-box;display:inline-flex!important;align-items:center;justify-content:center;cursor:pointer;transition:transform .14s ease,filter .14s ease;}
-  .os-window > div:first-child > span:nth-child(-n+3)::before{content:"";width:12px;height:12px;border-radius:50%;display:block;box-shadow:inset 0 0 0 1px rgba(20,17,13,0.12);}
+  .os-window > div:first-child > span:nth-child(-n+3){position:relative!important;width:22px!important;height:22px!important;border-radius:50%!important;background:transparent!important;border:0!important;box-sizing:border-box;display:inline-flex!important;align-items:center;justify-content:center;cursor:pointer;transition:transform .14s ease,filter .14s ease,background .14s ease;}
+  .os-window > div:first-child > span:nth-child(-n+3)::before{content:"";width:12px;height:12px;border-radius:50%;display:block;box-shadow:inset 0 0 0 1px rgba(20,17,13,0.15);}
   .os-window > div:first-child > span:nth-child(1)::before{background:#ff5f57;}
   .os-window > div:first-child > span:nth-child(2)::before{background:#febc2e;}
   .os-window > div:first-child > span:nth-child(3)::before{background:#28c840;}
-  .os-window > div:first-child > span:nth-child(-n+3)::after{position:absolute;left:50%;top:50%;transform:translate(-50%,-54%);font:700 10px/1 'IBM Plex Mono',monospace;color:rgba(20,17,13,0.58);opacity:.72;pointer-events:none;}
+  .os-window > div:first-child > span:nth-child(-n+3)::after{position:absolute;left:50%;top:50%;transform:translate(-50%,-54%);font:700 10px/1 'IBM Plex Mono',monospace;color:rgba(20,17,13,0.62);opacity:.78;pointer-events:none;}
   .os-window > div:first-child > span:nth-child(1)::after{content:"×";}
   .os-window > div:first-child > span:nth-child(2)::after{content:"−";font-size:11px;}
   .os-window > div:first-child > span:nth-child(3)::after{content:"+";font-size:9px;}
-  .os-window > div:first-child > span:nth-child(-n+3):hover{transform:scale(1.06);filter:saturate(1.1);}
+  .os-window > div:first-child > span:nth-child(-n+3):hover{transform:scale(1.05);filter:saturate(1.08);background:rgba(20,17,13,0.05)!important;}
   .os-window > div:first-child > span:nth-child(-n+3):active{transform:scale(.94);}
+  .nd-roman{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#E2621B;}
+  .nd-heading{font-family:'National Park','IBM Plex Sans',sans-serif;font-weight:800;letter-spacing:0;line-height:.95;color:#14110D;}
+  .nd-copy{font-family:'National Park','IBM Plex Sans',sans-serif;color:#373126;}
+  .desktop-surface{background:#11100C!important;}
+  .desktop-surface::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 84% 18%,rgba(246,242,234,.055),transparent 28%),linear-gradient(180deg,rgba(255,255,255,.02),transparent 42%);}
+  .desktop-icon{transition:transform .16s ease,filter .16s ease;}
+  .desktop-icon:hover{transform:translateY(-2px);filter:brightness(1.07);}
   .gallery-main-photo{object-fit:contain;background:#14110D;}
   .gallery-thumb-img{object-fit:cover;}
   .music-card{background:linear-gradient(135deg,#1DB954,#0B6F36)!important;color:#06180c!important;}
   .blog-list-item{transition:background .16s ease, border-color .16s ease;}
   .blog-list-item:hover{background:rgba(20,17,13,.055);}
-  .ambient-rail{position:absolute;right:22px;top:62px;width:270px;display:grid;gap:12px;z-index:1;pointer-events:none;}
-  .ambient-card{pointer-events:auto;padding:14px;border-radius:14px;background:linear-gradient(135deg,rgba(246,242,234,0.20),rgba(246,242,234,0.055));border:1px solid rgba(246,242,234,0.24);box-shadow:0 18px 44px rgba(0,0,0,0.28),inset 0 1px 0 rgba(255,255,255,0.12);backdrop-filter:blur(26px) saturate(1.35);-webkit-backdrop-filter:blur(26px) saturate(1.35);color:#F6F2EA;font-family:'National Park','IBM Plex Sans',sans-serif;transition:transform .18s ease,border-color .18s ease,background .18s ease,box-shadow .18s ease;}
-  .ambient-card:hover{transform:translateY(-2px);background:linear-gradient(135deg,rgba(246,242,234,0.26),rgba(246,242,234,0.08));border-color:rgba(246,242,234,0.34);box-shadow:0 24px 58px rgba(0,0,0,0.34),inset 0 1px 0 rgba(255,255,255,0.16);}
-  .ambient-kicker{font:600 10px 'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:0.08em;color:rgba(246,242,234,0.48);margin-bottom:8px;}
-  .ambient-title{font-size:14px;line-height:1.35;color:#F6F2EA;}
+  .ambient-rail{position:absolute;right:22px;top:62px;width:310px;display:grid;gap:12px;z-index:1;pointer-events:none;}
+  .ambient-card{pointer-events:auto;padding:16px;border-radius:8px;background:linear-gradient(135deg,rgba(246,242,234,0.16),rgba(246,242,234,0.045));border:1px solid rgba(246,242,234,0.28);box-shadow:0 22px 55px rgba(0,0,0,0.26),inset 0 1px 0 rgba(255,255,255,0.12);backdrop-filter:blur(28px) saturate(1.2);-webkit-backdrop-filter:blur(28px) saturate(1.2);color:#F6F2EA;font-family:'National Park','IBM Plex Sans',sans-serif;transition:transform .18s ease,border-color .18s ease,background .18s ease,box-shadow .18s ease;}
+  .ambient-card:hover{transform:translateY(-2px);background:linear-gradient(135deg,rgba(246,242,234,0.22),rgba(246,242,234,0.07));border-color:rgba(246,242,234,0.42);box-shadow:0 28px 66px rgba(0,0,0,0.34),inset 0 1px 0 rgba(255,255,255,0.16);}
+  .ambient-kicker{font:700 10px 'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:0.08em;color:rgba(246,242,234,0.52);margin-bottom:10px;}
+  .ambient-title{font-size:17px;font-weight:700;line-height:1.25;color:#F6F2EA;}
   .ambient-row{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:13px;color:rgba(246,242,234,0.72);}
   .ambient-row strong{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;font-weight:600;text-align:right;}
   .ambient-meta{margin-top:8px;font:11px 'IBM Plex Mono',monospace;color:rgba(246,242,234,0.46);}
   .ambient-pill{display:inline-flex;margin-top:10px;padding:5px 8px;border-radius:999px;background:rgba(29,185,84,0.18);color:#8EF0AE;font:600 10px 'IBM Plex Mono',monospace;}
-  .projects-window .window-body{background:linear-gradient(180deg,#F8F5EC 0%,#EEE9DD 100%);}
-  .projects-window .window-body>div{border:1px solid rgba(20,17,13,0.08)!important;border-radius:12px!important;background:rgba(255,252,244,0.72);padding:18px!important;margin-bottom:14px!important;box-shadow:0 10px 28px rgba(20,17,13,0.06);}
-  .projects-window .window-body>div:hover{background:#FFFDF7;transform:translateY(-1px);box-shadow:0 14px 34px rgba(20,17,13,0.10);}
+  .projects-window .window-body{background:#F6F2EA;counter-reset:project;}
+  .projects-window .window-body>div{position:relative;border:0!important;border-top:1px solid rgba(20,17,13,0.16)!important;border-radius:0!important;background:transparent;padding:18px 18px 18px 54px!important;margin-bottom:0!important;box-shadow:none;}
+  .projects-window .window-body>div::before{counter-increment:project;content:counter(project, upper-roman);position:absolute;left:12px;top:20px;font:700 11px 'IBM Plex Mono',monospace;color:#E2621B;letter-spacing:.08em;}
+  .projects-window .window-body>div:hover{background:rgba(226,98,27,0.055);transform:none;box-shadow:none;}
   .projects-window .window-body>div{transition:transform .16s ease,background .16s ease,box-shadow .16s ease;}
   @media (min-width: 1300px){
     .os-window{max-width:calc(100vw - 320px);}
@@ -79,7 +88,7 @@
   @media (min-width: 1600px){
     .os-window{max-width:calc(100vw - 360px);}
   }
-  @media (max-width: 1099px){
+  @media (max-width: 980px){
     .ambient-rail{display:none!important;}
   }
   @media (max-width: 900px){
@@ -164,7 +173,7 @@
 <div style="height:40px;background:rgba(10,9,7,0.94);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid rgba(246,242,234,0.08);">
 <div style="display:flex;align-items:center;gap:10px;">
 <div style="width:26px;height:26px;border-radius:7px;background:#E2621B;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:11px;color:#14110D;">AE</div>
-<div class="desktop-tagline" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,234,0.5);letter-spacing:0.04em;">CPU architecture & systems engineer — compilers · HPC</div>
+<div class="desktop-tagline" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,234,0.54);letter-spacing:0.04em;">Designed in systems · built close to the machine</div>
 </div>
 <div class="top-links" style="display:flex;align-items:center;gap:18px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(246,242,234,0.6);">
 <a href="https://github.com/Abhishek21g" target="_blank" rel="noopener noreferrer" style="color:rgba(246,242,234,0.6);text-decoration:none;">GitHub</a>
@@ -179,19 +188,19 @@
 
 <div class="ambient-rail" aria-label="Ambient status widgets">
 <section class="ambient-card">
-<div class="ambient-kicker">now playing</div>
-<div class="ambient-title">Abhi's systems queue</div>
+<div class="ambient-kicker">I Now Playing</div>
+<div class="ambient-title">Systems work queue</div>
 <div class="ambient-meta">Spotify live hook ready · needs token</div>
 <span class="ambient-pill">glass module</span>
 </section>
 <section class="ambient-card">
-<div class="ambient-kicker">investments</div>
+<div class="ambient-kicker">II Investments</div>
 <div class="ambient-row"><span>Watchlist</span><strong>AMD · NVDA · TSM</strong></div>
 <div class="ambient-row" style="margin-top:8px;"><span>Thesis</span><strong>AI infra</strong></div>
 <div class="ambient-meta">static snapshot · no live prices</div>
 </section>
 <section class="ambient-card">
-<div class="ambient-kicker">watch later</div>
+<div class="ambient-kicker">III Watch Later</div>
 <div class="ambient-title">GPU kernels, compiler talks, systems papers</div>
 <div class="ambient-meta">YouTube hook-ready card</div>
 </section>
@@ -292,10 +301,10 @@
 
 <sc-if value="{{ windows.about.open }}" hint-placeholder-val="{{ true }}">
 <div class="os-window about-window" onMouseDown="{{ focusAbout }}" style="position:absolute;left:{{ windows.about.x }}px;top:{{ windows.about.y }}px;width:{{ windows.about.w }}px;height:{{ windows.about.h }}px;z-index:{{ windows.about.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
-<div onMouseDown="{{ dragAbout }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
+<div class="window-titlebar" onMouseDown="{{ dragAbout }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
 <span onClick="{{ closeAbout }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#E2621B;cursor:pointer;display:inline-block;"></span>
-<span style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
-<span style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
+<span onClick="{{ minimizeAbout }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
+<span onClick="{{ zoomAbout }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
 <div style="flex:1;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;margin-right:33px;">About.txt</div>
 </div>
 <div class="window-body" style="padding:32px 36px;overflow-y:auto;">
@@ -303,9 +312,12 @@
 <div class="about-photo" style="width:120px;height:150px;flex:none;overflow:hidden;background:#E4E0D3;border-radius:8px;">
 <img src="media/portrait.jpg" alt="Abhishek Enaguthi" style="width:100%;height:100%;object-fit:cover;display:block;" />
 </div>
-<h2 class="about-name" style="font-family:'National Park','IBM Plex Sans',sans-serif;font-weight:400;font-size:38px;line-height:1.08;color:#14110D;margin:14px 0 0;">Abhishek<br/>Enaguthi</h2>
+<div>
+<div class="nd-roman" style="margin:8px 0 10px;">I Profile</div>
+<h2 class="about-name nd-heading" style="font-family:'National Park','IBM Plex Sans',sans-serif;font-weight:800;font-size:42px;line-height:0.96;color:#14110D;margin:0;">Abhishek<br/>Enaguthi</h2>
 </div>
-<p class="about-copy" style="font-family:'National Park','IBM Plex Sans',sans-serif;font-size:16px;line-height:1.7;color:#3B3529;margin:0 0 16px;">I live in the layer underneath the framework — compiler backends, kernel-level debugging, distributed systems at HPC scale.</p>
+</div>
+<p class="about-copy" style="font-family:'National Park','IBM Plex Sans',sans-serif;font-size:17px;line-height:1.62;color:#3B3529;margin:0 0 16px;">I live in the layer underneath the framework: compiler backends, kernel-level debugging, distributed systems at HPC scale.</p>
 <p class="about-copy" style="font-family:'National Park','IBM Plex Sans',sans-serif;font-size:16px;line-height:1.7;color:#5B5648;margin:0 0 28px;">M.S. in Artificial Intelligence (Thesis) &amp; B.S. Computer Science (AI), Minor in Finance — Oregon State University, expected June 2026.</p>
 <div class="about-stats" style="display:flex;gap:44px;margin-bottom:28px;">
 <div><div style="font-family:'National Park','IBM Plex Sans',sans-serif;font-size:38px;color:#E2621B;">4.0</div><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#5B5648;margin-top:4px;">GPA · M.S. Artificial Intelligence</div></div>
@@ -328,10 +340,10 @@
 
 <sc-if value="{{ windows.experience.open }}" hint-placeholder-val="{{ false }}">
 <div class="os-window experience-window" onMouseDown="{{ focusExperience }}" style="position:absolute;left:{{ windows.experience.x }}px;top:{{ windows.experience.y }}px;width:{{ windows.experience.w }}px;height:{{ windows.experience.h }}px;z-index:{{ windows.experience.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
-<div onMouseDown="{{ dragExperience }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
+<div class="window-titlebar" onMouseDown="{{ dragExperience }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
 <span onClick="{{ closeExperience }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#E2621B;cursor:pointer;display:inline-block;"></span>
-<span style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
-<span style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
+<span onClick="{{ minimizeExperience }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
+<span onClick="{{ zoomExperience }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
 <div style="flex:1;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;margin-right:33px;">Experience.log</div>
 </div>
 <div class="window-body" style="padding:32px 36px;overflow-y:auto;">
@@ -366,10 +378,10 @@
 
 <sc-if value="{{ windows.projects.open }}" hint-placeholder-val="{{ false }}">
 <div class="os-window projects-window" onMouseDown="{{ focusProjects }}" style="position:absolute;left:{{ windows.projects.x }}px;top:{{ windows.projects.y }}px;width:{{ windows.projects.w }}px;height:{{ windows.projects.h }}px;z-index:{{ windows.projects.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
-<div onMouseDown="{{ dragProjects }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
+<div class="window-titlebar" onMouseDown="{{ dragProjects }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
 <span onClick="{{ closeProjects }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#E2621B;cursor:pointer;display:inline-block;"></span>
-<span style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
-<span style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
+<span onClick="{{ minimizeProjects }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
+<span onClick="{{ zoomProjects }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
 <div style="flex:1;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;margin-right:33px;">Projects/</div>
 </div>
 <div class="window-body" style="padding:32px 36px;overflow-y:auto;">
@@ -420,13 +432,13 @@
 
 <sc-if value="{{ windows.gallery.open }}" hint-placeholder-val="{{ false }}">
 <div class="os-window gallery-window" onMouseDown="{{ focusGallery }}" style="position:absolute;left:{{ windows.gallery.x }}px;top:{{ windows.gallery.y }}px;width:{{ windows.gallery.w }}px;height:{{ windows.gallery.h }}px;z-index:{{ windows.gallery.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
-<div onMouseDown="{{ dragGallery }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
+<div class="window-titlebar" onMouseDown="{{ dragGallery }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
 <span onClick="{{ closeGallery }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#E2621B;cursor:pointer;display:inline-block;"></span>
-<span style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
-<span style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
+<span onClick="{{ minimizeGallery }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
+<span onClick="{{ zoomGallery }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
 <div style="flex:1;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;margin-right:33px;">Gallery</div>
 </div>
-<div class="window-body gallery-layout" style="padding:20px;display:flex;gap:14px;">
+<div class="window-body gallery-layout" style="padding:20px;display:flex;gap:14px;background:#F6F2EA;">
 <div class="gallery-rail" style="width:88px;flex:none;display:flex;flex-direction:column;gap:8px;max-height:100%;overflow-y:auto;">
 <sc-for list="{{ galleryPhotos }}" as="photo" hint-placeholder-count="6">
 <div class="gallery-thumb" onClick="{{ photo.select }}" style="height:68px;border-radius:7px;overflow:hidden;cursor:pointer;border:2px solid {{ photo.ringColor }};box-shadow:{{ photo.shadow }};background:#14110D;">
@@ -435,6 +447,7 @@
 </sc-for>
 </div>
 <div style="flex:1;display:flex;flex-direction:column;gap:10px;">
+<div class="nd-roman">II Gallery · {{ galleryCount }} photos</div>
 <div class="gallery-stage" onClick="{{ openActiveLightbox }}" style="height:calc(100% - 56px);min-height:300px;border-radius:8px;overflow:hidden;background:#14110D;cursor:zoom-in;display:flex;align-items:center;justify-content:center;">
 <img class="gallery-main-photo" src="{{ activeGalleryPhoto.src }}" alt="{{ activeGalleryPhoto.caption }}" style="width:100%;height:100%;object-fit:contain;display:block;" />
 </div>
@@ -447,14 +460,15 @@
 
 <sc-if value="{{ windows.contact.open }}" hint-placeholder-val="{{ false }}">
 <div class="os-window contact-window" onMouseDown="{{ focusContact }}" style="position:absolute;left:{{ windows.contact.x }}px;top:{{ windows.contact.y }}px;width:{{ windows.contact.w }}px;height:{{ windows.contact.h }}px;z-index:{{ windows.contact.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
-<div onMouseDown="{{ dragContact }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
+<div class="window-titlebar" onMouseDown="{{ dragContact }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
 <span onClick="{{ closeContact }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#E2621B;cursor:pointer;display:inline-block;"></span>
-<span style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
-<span style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
+<span onClick="{{ minimizeContact }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
+<span onClick="{{ zoomContact }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
 <div style="flex:1;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;margin-right:33px;">Contact</div>
 </div>
 <div class="window-body" style="padding:32px 36px;overflow-y:auto;">
-<p style="font-family:'National Park','IBM Plex Sans',sans-serif;font-style:italic;font-size:22px;line-height:1.5;color:#14110D;margin:0 0 28px;">Say hi, or don't — but if you're building compilers, GPU systems, or wherever HPC meets AI, I'm listening.</p>
+<div class="nd-roman" style="margin-bottom:12px;">III Contact</div>
+<p style="font-family:'National Park','IBM Plex Sans',sans-serif;font-size:24px;font-weight:700;line-height:1.25;color:#14110D;margin:0 0 28px;">If you are building compilers, GPU systems, or where HPC meets AI, I am listening.</p>
 <div style="display:flex;flex-direction:column;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:14px;">
 <a href="/cdn-cgi/l/email-protection#cca9a2adabb9b8a4a5adaea4a5bfa4a9a78caba1ada5a0e2afa3a1" style="color:#E2621B;text-decoration:none;"><span class="__cf_email__" data-cfemail="8aefe4ebedfffee2e3ebe8e2e3f9e2efe1caede7ebe3e6a4e9e5e7">[email&#160;protected]</span></a>
 <a href="https://linkedin.com/in/abhishekenaguthi" target="_blank" rel="noopener noreferrer" style="color:#E2621B;text-decoration:none;">linkedin.com/in/abhishekenaguthi</a>
@@ -467,10 +481,10 @@
 
 <sc-if value="{{ windows.terminal.open }}" hint-placeholder-val="{{ false }}">
 <div class="os-window terminal-window" onMouseDown="{{ focusTerminal }}" style="position:absolute;left:{{ windows.terminal.x }}px;top:{{ windows.terminal.y }}px;width:{{ windows.terminal.w }}px;height:{{ windows.terminal.h }}px;z-index:{{ windows.terminal.z }};background:#0A0A0A;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.55);">
-<div onMouseDown="{{ dragTerminal }}" style="height:36px;background:#111111;border-bottom:1px solid rgba(231,231,228,0.14);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
+<div class="window-titlebar" onMouseDown="{{ dragTerminal }}" style="height:36px;background:#111111;border-bottom:1px solid rgba(231,231,228,0.14);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
 <span onClick="{{ closeTerminal }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#E2621B;cursor:pointer;display:inline-block;"></span>
-<span style="width:11px;height:11px;border-radius:50%;background:#2c2c2a;display:inline-block;"></span>
-<span style="width:11px;height:11px;border-radius:50%;background:#2c2c2a;display:inline-block;"></span>
+<span onClick="{{ minimizeTerminal }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#2c2c2a;display:inline-block;"></span>
+<span onClick="{{ zoomTerminal }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#2c2c2a;display:inline-block;"></span>
 <div style="flex:1;text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;color:#7c7c78;margin-right:33px;">abhishek@enaguthi:~ — zsh</div>
 </div>
 <div onClick="{{ focusOsInput }}">
@@ -495,13 +509,13 @@
 
 <sc-if value="{{ windows.blog.open }}" hint-placeholder-val="{{ false }}">
 <div class="os-window blog-window" onMouseDown="{{ focusBlog }}" style="position:absolute;left:{{ windows.blog.x }}px;top:{{ windows.blog.y }}px;width:{{ windows.blog.w }}px;height:{{ windows.blog.h }}px;z-index:{{ windows.blog.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
-<div onMouseDown="{{ dragBlog }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
+<div class="window-titlebar" onMouseDown="{{ dragBlog }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
 <span onClick="{{ closeBlog }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#E2621B;cursor:pointer;display:inline-block;"></span>
-<span style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
-<span style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
+<span onClick="{{ minimizeBlog }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
+<span onClick="{{ zoomBlog }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
 <div style="flex:1;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;margin-right:33px;">Blog</div>
 </div>
-<div class="window-body blog-layout" style="padding:20px;display:flex;gap:18px;">
+<div class="window-body blog-layout" style="padding:20px;display:flex;gap:18px;background:#F6F2EA;">
 <div class="blog-list" style="width:220px;flex:none;display:flex;flex-direction:column;gap:10px;overflow-y:auto;">
 <a href="/blog/" target="_top" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#E2621B;text-decoration:none;border:1px solid rgba(226,98,27,0.25);border-radius:999px;padding:8px 10px;text-align:center;">all posts ↗</a>
 <sc-for list="{{ blogPosts }}" as="post" hint-placeholder-count="2">
@@ -517,8 +531,8 @@
 <div style="height:180px;border-radius:8px;background:#14110D;overflow:hidden;margin-bottom:18px;display:flex;align-items:center;justify-content:center;">
 <img src="{{ activeBlogPost.hero }}" alt="{{ activeBlogPost.title }}" style="width:100%;height:100%;object-fit:cover;display:block;" />
 </div>
-<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#E2621B;margin-bottom:8px;">{{ activeBlogPost.date }} · {{ activeBlogPost.meta }}</div>
-<h3 style="font-family:'National Park','IBM Plex Sans',sans-serif;font-weight:400;font-size:30px;line-height:1.05;color:#14110D;margin:0 0 14px;">{{ activeBlogPost.title }}</h3>
+<div class="nd-roman" style="margin-bottom:8px;">IV Notes · {{ activeBlogPost.date }}</div>
+<h3 class="nd-heading" style="font-family:'National Park','IBM Plex Sans',sans-serif;font-weight:800;font-size:34px;line-height:0.98;color:#14110D;margin:0 0 14px;">{{ activeBlogPost.title }}</h3>
 <sc-for list="{{ activeBlogPost.paragraphs }}" as="paragraph" hint-placeholder-count="4">
 <p style="font-family:'National Park','IBM Plex Sans',sans-serif;font-size:14px;line-height:1.7;color:#3B3529;margin:0 0 14px;">{{ paragraph }}</p>
 </sc-for>
@@ -536,10 +550,10 @@
 
 <sc-if value="{{ windows.music.open }}" hint-placeholder-val="{{ false }}">
 <div class="os-window music-window" onMouseDown="{{ focusMusic }}" style="position:absolute;left:{{ windows.music.x }}px;top:{{ windows.music.y }}px;width:{{ windows.music.w }}px;height:{{ windows.music.h }}px;z-index:{{ windows.music.z }};background:#0B0F0C;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.55);">
-<div onMouseDown="{{ dragMusic }}" style="height:36px;background:#0F1711;border-bottom:1px solid rgba(246,242,234,0.12);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
+<div class="window-titlebar" onMouseDown="{{ dragMusic }}" style="height:36px;background:#0F1711;border-bottom:1px solid rgba(246,242,234,0.12);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
 <span onClick="{{ closeMusic }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#1DB954;cursor:pointer;display:inline-block;"></span>
-<span style="width:11px;height:11px;border-radius:50%;background:rgba(246,242,234,0.16);display:inline-block;"></span>
-<span style="width:11px;height:11px;border-radius:50%;background:rgba(246,242,234,0.16);display:inline-block;"></span>
+<span onClick="{{ minimizeMusic }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(246,242,234,0.16);display:inline-block;"></span>
+<span onClick="{{ zoomMusic }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(246,242,234,0.16);display:inline-block;"></span>
 <div style="flex:1;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(246,242,234,0.6);margin-right:33px;">Music</div>
 </div>
 <div class="window-body" style="padding:28px;overflow-y:auto;color:#F6F2EA;">
@@ -549,7 +563,7 @@
 </div>
 <div>
 <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#1DB954;margin-bottom:6px;">Spotify / focus mode</div>
-<h3 style="font-family:'National Park','IBM Plex Sans',sans-serif;font-weight:400;font-size:32px;line-height:1.05;margin:0;color:#F6F2EA;">Systems work playlist</h3>
+<h3 style="font-family:'National Park','IBM Plex Sans',sans-serif;font-weight:800;font-size:32px;line-height:1.0;margin:0;color:#F6F2EA;">Systems work playlist</h3>
 </div>
 </div>
 <p style="font-family:'National Park','IBM Plex Sans',sans-serif;font-size:14px;line-height:1.7;color:rgba(246,242,234,0.72);margin:0 0 18px;">A small app slot for music while exploring the desktop. We can wire this to an embedded Spotify playlist once you pick the playlist URL.</p>
@@ -561,14 +575,15 @@
 
 <sc-if value="{{ windows.onboarding.open }}" hint-placeholder-val="{{ false }}">
 <div class="os-window onboarding-window" onMouseDown="{{ focusOnboarding }}" style="position:absolute;left:{{ windows.onboarding.x }}px;top:{{ windows.onboarding.y }}px;width:{{ windows.onboarding.w }}px;height:{{ windows.onboarding.h }}px;z-index:{{ windows.onboarding.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
-<div onMouseDown="{{ dragOnboarding }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
+<div class="window-titlebar" onMouseDown="{{ dragOnboarding }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
 <span onClick="{{ closeOnboarding }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#E2621B;cursor:pointer;display:inline-block;"></span>
-<span style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
-<span style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
+<span onClick="{{ minimizeOnboarding }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
+<span onClick="{{ zoomOnboarding }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
 <div style="flex:1;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;margin-right:33px;">Start here</div>
 </div>
 <div class="window-body" style="padding:24px;overflow-y:auto;">
-<h3 style="font-family:'National Park','IBM Plex Sans',sans-serif;font-weight:400;font-size:30px;line-height:1.05;color:#14110D;margin:0 0 14px;">Welcome to the desktop.</h3>
+<div class="nd-roman" style="margin-bottom:10px;">Start Here</div>
+<h3 class="nd-heading" style="font-family:'National Park','IBM Plex Sans',sans-serif;font-weight:800;font-size:30px;line-height:1.0;color:#14110D;margin:0 0 14px;">Welcome to the desktop.</h3>
 <p style="font-family:'National Park','IBM Plex Sans',sans-serif;font-size:14px;line-height:1.7;color:#3B3529;margin:0 0 16px;">Open apps from the icons or dock. Drag titlebars, resize corners, and use Terminal commands like <span style="font-family:'IBM Plex Mono',monospace;color:#E2621B;">projects</span>, <span style="font-family:'IBM Plex Mono',monospace;color:#E2621B;">blog</span>, and <span style="font-family:'IBM Plex Mono',monospace;color:#E2621B;">gallery</span>.</p>
 <div style="display:grid;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;">
 <button onClick="{{ openProjects }}" style="border:1px solid rgba(20,17,13,0.12);background:white;border-radius:7px;padding:9px 10px;text-align:left;cursor:pointer;">open Projects/</button>
@@ -806,6 +821,34 @@ class Component extends DCLogic {
     this.setState((s) => ({ windows: { ...s.windows, [id]: { ...s.windows[id], open: false } } }));
   };
 
+  minimizeWindow = (id, e) => this.closeWindow(id, e);
+
+  zoomWindow = (id, e) => {
+    if (e) e.stopPropagation();
+    if (window.innerWidth < 900) return;
+    this.setState((s) => {
+      const win = s.windows[id];
+      const bounds = this.getDesktopBounds();
+      const wasZoomed = !!win.zoomed;
+      const next = wasZoomed && win.restore ? {
+        ...win,
+        ...win.restore,
+        restore: null,
+        zoomed: false
+      } : {
+        ...win,
+        restore: { x: win.x, y: win.y, w: win.w, h: win.h },
+        zoomed: true,
+        x: 142,
+        y: 54,
+        w: Math.max(win.minW || 360, bounds.width - 470),
+        h: Math.max(win.minH || 260, bounds.height - 96)
+      };
+      return { windows: { ...s.windows, [id]: this.clampWindow(next) } };
+    });
+    this.focusWindow(id);
+  };
+
   focusWindow = (id) => {
     this.setState((s) => {
       const z = s.zCounter + 1;
@@ -849,6 +892,26 @@ class Component extends DCLogic {
   closeBlog = (e) => this.closeWindow('blog', e);
   closeMusic = (e) => this.closeWindow('music', e);
   closeOnboarding = (e) => this.closeWindow('onboarding', e);
+
+  minimizeAbout = (e) => this.minimizeWindow('about', e);
+  minimizeExperience = (e) => this.minimizeWindow('experience', e);
+  minimizeProjects = (e) => this.minimizeWindow('projects', e);
+  minimizeGallery = (e) => this.minimizeWindow('gallery', e);
+  minimizeContact = (e) => this.minimizeWindow('contact', e);
+  minimizeTerminal = (e) => this.minimizeWindow('terminal', e);
+  minimizeBlog = (e) => this.minimizeWindow('blog', e);
+  minimizeMusic = (e) => this.minimizeWindow('music', e);
+  minimizeOnboarding = (e) => this.minimizeWindow('onboarding', e);
+
+  zoomAbout = (e) => this.zoomWindow('about', e);
+  zoomExperience = (e) => this.zoomWindow('experience', e);
+  zoomProjects = (e) => this.zoomWindow('projects', e);
+  zoomGallery = (e) => this.zoomWindow('gallery', e);
+  zoomContact = (e) => this.zoomWindow('contact', e);
+  zoomTerminal = (e) => this.zoomWindow('terminal', e);
+  zoomBlog = (e) => this.zoomWindow('blog', e);
+  zoomMusic = (e) => this.zoomWindow('music', e);
+  zoomOnboarding = (e) => this.zoomWindow('onboarding', e);
 
   focusAbout = () => this.focusWindow('about');
   focusExperience = () => this.focusWindow('experience');
@@ -1045,6 +1108,24 @@ class Component extends DCLogic {
       closeBlog: this.closeBlog,
       closeMusic: this.closeMusic,
       closeOnboarding: this.closeOnboarding,
+      minimizeAbout: this.minimizeAbout,
+      minimizeExperience: this.minimizeExperience,
+      minimizeProjects: this.minimizeProjects,
+      minimizeGallery: this.minimizeGallery,
+      minimizeContact: this.minimizeContact,
+      minimizeTerminal: this.minimizeTerminal,
+      minimizeBlog: this.minimizeBlog,
+      minimizeMusic: this.minimizeMusic,
+      minimizeOnboarding: this.minimizeOnboarding,
+      zoomAbout: this.zoomAbout,
+      zoomExperience: this.zoomExperience,
+      zoomProjects: this.zoomProjects,
+      zoomGallery: this.zoomGallery,
+      zoomContact: this.zoomContact,
+      zoomTerminal: this.zoomTerminal,
+      zoomBlog: this.zoomBlog,
+      zoomMusic: this.zoomMusic,
+      zoomOnboarding: this.zoomOnboarding,
       focusAbout: this.focusAbout,
       focusExperience: this.focusExperience,
       focusProjects: this.focusProjects,
@@ -1082,6 +1163,7 @@ class Component extends DCLogic {
       closePhoto: this.closePhoto,
       openActiveLightbox: this.openActiveLightbox,
       activeGalleryPhoto: this.galleryData[this.state.galleryIndex],
+      galleryCount: this.galleryData.length,
       galleryPhotos: this.galleryData.map((p, i) => ({
         src: p.src,
         caption: p.caption,
