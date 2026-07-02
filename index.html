@@ -397,7 +397,7 @@
 </div>
 </div>
 
-<div class="desktop-hint" style="position:absolute;left:40px;bottom:20px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(246,242,234,0.32);">click an icon to open · drag a titlebar to move · resize from a corner</div>
+<div class="desktop-hint" style="position:absolute;left:154px;bottom:20px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(246,242,234,0.32);">click an icon to open · drag a titlebar to move · resize from a corner</div>
 
 <sc-if value="{{ windows.about.open }}" hint-placeholder-val="{{ true }}">
 <div class="os-window about-window" data-window-id="about" onMouseDown="{{ focusAbout }}" style="position:absolute;left:{{ windows.about.x }}px;top:{{ windows.about.y }}px;width:{{ windows.about.w }}px;height:{{ windows.about.h }}px;z-index:{{ windows.about.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
@@ -1569,20 +1569,53 @@ class Component extends DCLogic {
     return Number.isFinite(parsed) ? parsed : fallback;
   };
   const clamp = (value, min, max) => Math.min(Math.max(value, min), Math.max(min, max));
+  const clampPlacement = (win, next = {}) => {
+    const surface = surfaceFor(win);
+    const bounds = surface.getBoundingClientRect();
+    const current = win.getBoundingClientRect();
+    const width = Math.min(
+      Number.isFinite(next.width) ? next.width : win.offsetWidth,
+      Math.max(320, bounds.width - 20)
+    );
+    const height = Math.min(
+      Number.isFinite(next.height) ? next.height : win.offsetHeight,
+      Math.max(260, bounds.height - 20)
+    );
+    const rawLeft = Number.isFinite(next.left) ? next.left : current.left - bounds.left;
+    const rawTop = Number.isFinite(next.top) ? next.top : current.top - bounds.top;
+    return {
+      ...next,
+      left: clamp(rawLeft, 10, bounds.width - width - 10),
+      top: clamp(rawTop, 10, bounds.height - height - 10),
+      width,
+      height
+    };
+  };
   const applyPlacement = (id) => {
     const next = placements[id];
     if (!next) return;
     const win = document.querySelector(`[data-window-id="${id}"]`);
     if (!win) return;
-    if (Number.isFinite(next.left)) win.style.left = `${next.left}px`;
-    if (Number.isFinite(next.top)) win.style.top = `${next.top}px`;
-    if (Number.isFinite(next.width)) win.style.width = `${next.width}px`;
-    if (Number.isFinite(next.height)) win.style.height = `${next.height}px`;
-    if (Number.isFinite(next.z)) win.style.zIndex = `${next.z}`;
+    const safe = clampPlacement(win, next);
+    placements[id] = safe;
+    win.style.left = `${safe.left}px`;
+    win.style.top = `${safe.top}px`;
+    win.style.width = `${safe.width}px`;
+    win.style.height = `${safe.height}px`;
+    if (Number.isFinite(safe.z)) win.style.zIndex = `${safe.z}`;
   };
   const remember = (id, patch) => {
     placements[id] = { ...(placements[id] || {}), ...patch };
     requestAnimationFrame(() => applyPlacement(id));
+  };
+  const repairVisibleWindows = () => {
+    if (window.innerWidth < 640) return;
+    document.querySelectorAll('.os-window[data-window-id]').forEach((win) => {
+      const id = win.getAttribute('data-window-id');
+      if (!id) return;
+      const safe = clampPlacement(win, placements[id] || {});
+      remember(id, safe);
+    });
   };
 
   const handleDown = (event) => {
@@ -1654,12 +1687,14 @@ class Component extends DCLogic {
     });
   };
   bindSurfaces();
+  requestAnimationFrame(repairVisibleWindows);
   document.addEventListener('mousemove', handleMove);
   document.addEventListener('mouseup', stop);
   window.addEventListener('blur', stop);
+  window.addEventListener('resize', () => requestAnimationFrame(repairVisibleWindows));
   new MutationObserver(() => {
     bindSurfaces();
-    Object.keys(placements).forEach(applyPlacement);
+    requestAnimationFrame(repairVisibleWindows);
   }).observe(document.documentElement, {
     childList: true,
     subtree: true,
