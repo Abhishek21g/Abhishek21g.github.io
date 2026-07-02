@@ -1,11 +1,11 @@
 {
   "isPlaying": false,
   "title": "Systems work queue",
-  "artist": "Spotify sync ready",
+  "artist": "Spotify auth needs refresh",
   "album": "Focus mode",
   "image": "",
   "url": "https://open.spotify.com/",
   "progressMs": 0,
   "durationMs": 1,
-  "updatedAt": ""
+  "updatedAt": "2026-07-02T08:10:17.931Z"
 }
