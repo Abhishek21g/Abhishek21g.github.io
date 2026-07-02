@@ -104,7 +104,7 @@
   .music-card{background:linear-gradient(135deg,#1DB954,#0B6F36)!important;color:#06180c!important;}
   .blog-list-item{transition:background .16s ease, border-color .16s ease;}
   .blog-list-item:hover{background:rgba(20,17,13,.055);}
-  .ambient-rail{position:absolute;right:22px;top:62px;width:330px;display:grid;gap:14px;z-index:1;pointer-events:none;transition:opacity .18s ease,transform .18s ease,filter .18s ease;}
+  .ambient-rail{position:absolute;right:22px;top:62px;width:330px;display:grid;gap:12px;z-index:1;pointer-events:none;transition:opacity .18s ease,transform .18s ease,filter .18s ease;}
   @media (min-width: 1500px){
     .ambient-rail{right:32px;top:72px;width:360px;}
     .about-window{box-shadow:0 48px 90px rgba(0,0,0,0.52)!important;}
@@ -112,11 +112,11 @@
   @media (min-width: 1900px){
     .ambient-rail{right:40px;width:380px;}
   }
-  .ambient-rail.is-hidden{opacity:0;transform:translateX(22px) scale(.98);filter:blur(6px);pointer-events:none;}
-  .ambient-card{pointer-events:auto;position:relative;overflow:hidden;padding:16px;border-radius:18px;background:linear-gradient(145deg,rgba(255,255,255,0.22),rgba(246,242,234,0.07) 48%,rgba(226,98,27,0.09));border:1px solid rgba(246,242,234,0.30);box-shadow:0 24px 60px rgba(0,0,0,0.34),inset 0 1px 0 rgba(255,255,255,0.25),inset 0 -1px 0 rgba(255,255,255,0.07);backdrop-filter:blur(34px) saturate(1.35);-webkit-backdrop-filter:blur(34px) saturate(1.35);color:#F6F2EA;font-family:'Instrument Sans','Instrument Sans','National Park','IBM Plex Sans',sans-serif;transition:transform .18s ease,border-color .18s ease,background .18s ease,box-shadow .18s ease;}
-  .ambient-card::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 18% 10%,rgba(255,255,255,.34),transparent 28%),linear-gradient(120deg,rgba(255,255,255,.16),transparent 42%);opacity:.78;pointer-events:none;}
-  .ambient-card::after{content:"";position:absolute;right:-44px;bottom:-52px;width:140px;height:140px;border-radius:999px;background:rgba(255,255,255,0.10);filter:blur(2px);pointer-events:none;}
-  .ambient-card:hover{transform:translateY(-3px) scale(1.01);background:linear-gradient(145deg,rgba(255,255,255,0.28),rgba(246,242,234,0.09) 48%,rgba(226,98,27,0.12));border-color:rgba(246,242,234,0.48);box-shadow:0 34px 74px rgba(0,0,0,0.42),inset 0 1px 0 rgba(255,255,255,0.32);}
+  .ambient-rail.is-hidden{opacity:.32;transform:none;filter:blur(2px) saturate(.9);pointer-events:none;}
+  .ambient-card{pointer-events:auto;position:relative;overflow:hidden;padding:14px;border-radius:18px;background:linear-gradient(145deg,rgba(255,255,255,0.18),rgba(246,242,234,0.055) 52%,rgba(226,98,27,0.055));border:1px solid rgba(246,242,234,0.22);box-shadow:0 18px 46px rgba(0,0,0,0.30),inset 0 1px 0 rgba(255,255,255,0.24),inset 0 -1px 0 rgba(255,255,255,0.05);backdrop-filter:blur(26px) saturate(1.22);-webkit-backdrop-filter:blur(26px) saturate(1.22);color:#F6F2EA;font-family:'Instrument Sans','Instrument Sans','National Park','IBM Plex Sans',sans-serif;transition:transform .18s ease,border-color .18s ease,background .18s ease,box-shadow .18s ease;}
+  .ambient-card::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,rgba(255,255,255,.18),transparent 36%,rgba(255,255,255,.055) 70%,transparent);opacity:.66;pointer-events:none;}
+  .ambient-card::after{content:"";position:absolute;right:-34px;bottom:-38px;width:96px;height:96px;border-radius:999px;background:rgba(255,255,255,0.055);filter:blur(10px);pointer-events:none;}
+  .ambient-card:hover{transform:translateY(-2px);background:linear-gradient(145deg,rgba(255,255,255,0.23),rgba(246,242,234,0.075) 52%,rgba(226,98,27,0.075));border-color:rgba(246,242,234,0.36);box-shadow:0 26px 60px rgba(0,0,0,0.36),inset 0 1px 0 rgba(255,255,255,0.30);}
   .ambient-card > *{position:relative;z-index:1;}
   .ambient-card[role="button"]{cursor:pointer;}
   .ambient-card{ text-shadow:0 1px 12px rgba(0,0,0,0.42);}
@@ -151,6 +151,9 @@
   .agent-stat{border-radius:10px;background:rgba(20,17,13,0.18);border:1px solid rgba(246,242,234,0.16);padding:9px;}
   .agent-stat strong{display:block;font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:24px;line-height:.95;color:#F6F2EA;}
   .agent-stat span{display:block;margin-top:5px;font:700 9px/1.2 'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.06em;color:rgba(246,242,234,0.54);}
+  .terminal-suggestions{min-height:28px;display:flex;gap:8px;align-items:center;padding:0 24px 10px;border-top:1px solid rgba(231,231,228,0.12);background:#0A0A0A;}
+  .terminal-suggestions button{appearance:none;border:1px solid rgba(226,98,27,0.35);border-radius:999px;background:rgba(226,98,27,0.08);color:#E7E7E4;font:600 11px 'JetBrains Mono',monospace;padding:5px 8px;cursor:pointer;}
+  .terminal-suggestions button:hover{background:rgba(226,98,27,0.16);border-color:rgba(226,98,27,0.58);}
   .top-link-button{appearance:none;border:0;background:transparent;color:rgba(246,242,234,0.6);font:inherit;padding:0;cursor:pointer;}
   .top-link-button:hover{color:#F6F2EA;}
   .clock-short{display:none;white-space:nowrap;}
@@ -177,7 +180,17 @@
   @media (min-width: 1600px){
     .os-window{max-width:calc(100vw - 360px);}
   }
-  @media (max-width: 1320px){
+  @media (max-width: 1320px) and (min-width: 1101px){
+    .ambient-rail{right:18px;top:58px;width:288px;gap:9px;}
+    .ambient-card{padding:11px!important;border-radius:15px!important;}
+    .ambient-title{font-size:20px!important;}
+    .ambient-player{grid-template-columns:42px 1fr;gap:9px;}
+    .ambient-album{width:42px;height:42px;border-radius:11px;}
+    .contrib-grid{gap:3px;margin-top:8px;}
+    .agent-stat-grid,.daily-pills{gap:6px;margin-top:8px;}
+    .ambient-meta{font-size:10px;}
+  }
+  @media (max-width: 1100px) and (min-width: 641px){
     .ambient-rail{display:none!important;}
   }
   @media (max-width: 640px){
@@ -203,9 +216,22 @@
     .about-window{position:relative!important;left:auto!important;top:auto!important;order:1!important;width:100%!important;max-width:none!important;height:auto!important;min-height:0!important;max-height:none!important;flex:none!important;z-index:2!important;border-radius:18px!important;overflow:hidden!important;box-shadow:0 18px 42px rgba(0,0,0,0.38)!important;}
     .about-window > div:first-child{display:none!important;}
     .about-window .window-body{height:auto!important;max-height:none!important;padding:18px!important;overflow:visible!important;}
-    .os-window:not(.about-window){position:fixed!important;inset:72px 10px max(10px,env(safe-area-inset-bottom)) 10px!important;width:auto!important;height:auto!important;max-width:none!important;max-height:none!important;border-radius:10px!important;z-index:90!important;}
-    .os-window:not(.about-window) > div:first-child > span:nth-child(-n+3){width:24px!important;height:24px!important;}
+    .os-window:not(.about-window){position:fixed!important;inset:56px 0 0 0!important;width:auto!important;height:auto!important;max-width:none!important;max-height:none!important;border-radius:18px 18px 0 0!important;z-index:90!important;box-shadow:0 -18px 52px rgba(0,0,0,0.56)!important;overscroll-behavior:contain!important;}
+    .os-window:not(.about-window)::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;box-shadow:inset 0 1px 0 rgba(255,255,255,0.22);}
+    .os-window:not(.about-window) .window-titlebar{height:44px!important;padding:0 12px!important;}
+    .os-window:not(.about-window) .window-body{height:calc(100% - 44px)!important;overflow:auto!important;}
+    .os-window:not(.about-window) > div:first-child > span:nth-child(-n+3){width:38px!important;height:38px!important;}
+    .os-window:not(.about-window) > div:first-child > span:nth-child(2),.os-window:not(.about-window) > div:first-child > span:nth-child(3){display:none!important;}
     .os-window:not(.about-window) > div:first-child > span:nth-child(-n+3)::before{width:13px;height:13px;}
+    .experience-window .window-body,.projects-window .window-body,.contact-window .window-body,.music-window .window-body,.today-window .window-body{padding:16px!important;}
+    .gallery-window .window-body,.blog-window .window-body{padding:14px!important;}
+    .terminal-window{inset:56px 0 max(0px,env(safe-area-inset-bottom)) 0!important;}
+    .terminal-window .window-body{height:calc(100% - 44px)!important;}
+    .terminal-window [style*="padding:16px"]{padding:12px!important;}
+    .terminal-window form{padding:10px 12px!important;gap:7px!important;}
+    .terminal-window form span{font-size:11px!important;}
+    .terminal-window input{font-size:12px!important;min-width:0!important;}
+    .terminal-suggestions{padding:0 12px 10px!important;overflow-x:auto!important;}
     .about-window .about-head{display:grid!important;grid-template-columns:96px minmax(0,1fr)!important;gap:14px!important;align-items:center!important;margin-bottom:18px!important;}
     .about-photo{width:96px!important;height:116px!important;border-radius:12px!important;}
     .about-name{font-size:clamp(30px,10vw,38px)!important;line-height:0.98!important;margin:0!important;max-width:100%!important;overflow-wrap:anywhere!important;}
@@ -248,9 +274,22 @@
   .mobile-preview .about-window{position:relative!important;left:auto!important;top:auto!important;order:1!important;width:100%!important;max-width:none!important;height:auto!important;min-height:0!important;max-height:none!important;flex:none!important;z-index:2!important;border-radius:18px!important;overflow:hidden!important;box-shadow:0 18px 42px rgba(0,0,0,0.38)!important;}
   .mobile-preview .about-window > div:first-child{display:none!important;}
   .mobile-preview .about-window .window-body{height:auto!important;max-height:none!important;padding:18px!important;overflow:visible!important;}
-  .mobile-preview .os-window:not(.about-window){position:fixed!important;inset:72px 10px max(10px,env(safe-area-inset-bottom)) 10px!important;width:auto!important;height:auto!important;max-width:none!important;max-height:none!important;border-radius:10px!important;z-index:90!important;}
-  .mobile-preview .os-window:not(.about-window) > div:first-child > span:nth-child(-n+3){width:24px!important;height:24px!important;}
+  .mobile-preview .os-window:not(.about-window){position:fixed!important;inset:56px 0 0 0!important;width:auto!important;height:auto!important;max-width:none!important;max-height:none!important;border-radius:18px 18px 0 0!important;z-index:90!important;box-shadow:0 -18px 52px rgba(0,0,0,0.56)!important;overscroll-behavior:contain!important;}
+  .mobile-preview .os-window:not(.about-window)::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;box-shadow:inset 0 1px 0 rgba(255,255,255,0.22);}
+  .mobile-preview .os-window:not(.about-window) .window-titlebar{height:44px!important;padding:0 12px!important;}
+  .mobile-preview .os-window:not(.about-window) .window-body{height:calc(100% - 44px)!important;overflow:auto!important;}
+  .mobile-preview .os-window:not(.about-window) > div:first-child > span:nth-child(-n+3){width:38px!important;height:38px!important;}
+  .mobile-preview .os-window:not(.about-window) > div:first-child > span:nth-child(2),.mobile-preview .os-window:not(.about-window) > div:first-child > span:nth-child(3){display:none!important;}
   .mobile-preview .os-window:not(.about-window) > div:first-child > span:nth-child(-n+3)::before{width:13px;height:13px;}
+  .mobile-preview .experience-window .window-body,.mobile-preview .projects-window .window-body,.mobile-preview .contact-window .window-body,.mobile-preview .music-window .window-body,.mobile-preview .today-window .window-body{padding:16px!important;}
+  .mobile-preview .gallery-window .window-body,.mobile-preview .blog-window .window-body{padding:14px!important;}
+  .mobile-preview .terminal-window{inset:56px 0 max(0px,env(safe-area-inset-bottom)) 0!important;}
+  .mobile-preview .terminal-window .window-body{height:calc(100% - 44px)!important;}
+  .mobile-preview .terminal-window [style*="padding:16px"]{padding:12px!important;}
+  .mobile-preview .terminal-window form{padding:10px 12px!important;gap:7px!important;}
+  .mobile-preview .terminal-window form span{font-size:11px!important;}
+  .mobile-preview .terminal-window input{font-size:12px!important;min-width:0!important;}
+  .mobile-preview .terminal-suggestions{padding:0 12px 10px!important;overflow-x:auto!important;}
   .mobile-preview .about-window .about-head{display:grid!important;grid-template-columns:96px minmax(0,1fr)!important;gap:14px!important;align-items:center!important;margin-bottom:18px!important;}
   .mobile-preview .about-photo{width:96px!important;height:116px!important;border-radius:12px!important;}
   .mobile-preview .about-name{font-size:clamp(30px,10vw,38px)!important;line-height:0.98!important;margin:0!important;max-width:100%!important;overflow-wrap:anywhere!important;}
@@ -317,13 +356,13 @@
 </section>
 <section class="ambient-card">
 <div class="ambient-kicker">II. GitHub Pulse</div>
-<div class="ambient-row"><span>Contribution graph</span><strong>heatmap</strong></div>
-<div class="contrib-grid" aria-label="Simulated GitHub contribution graph">
+<div class="ambient-row"><span>Contribution graph</span><strong>{{ githubActivityStatus }}</strong></div>
+<div class="contrib-grid" aria-label="GitHub contribution graph">
 <sc-for list="{{ contributionCells }}" as="cell" hint-placeholder-count="98">
 <span class="contrib-cell" data-l="{{ cell.level }}" title="{{ cell.title }}"></span>
 </sc-for>
 </div>
-<div class="ambient-meta">github.com/Abhishek21g · live hook-ready</div>
+<div class="ambient-meta">{{ githubActivityMeta }}</div>
 </section>
 <section class="ambient-card">
 <div class="ambient-kicker">III. Agent Runtime</div>
@@ -668,6 +707,11 @@
 <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#E2621B;">visitor@enaguthi:{{ shellPath }}$</span>
 <input value="{{ osInputValue }}" onChange="{{ onOsInputChange }}" onKeyDown="{{ onOsKeyDown }}" ref="{{ osInputRef }}" placeholder="type 'help'" style="flex:1;background:transparent;border:none;outline:none;color:#E7E7E4;font-family:'JetBrains Mono',monospace;font-size:13px;caret-color:#E2621B;" />
 </div>
+<div class="terminal-suggestions">
+<sc-for list="{{ osSuggestionItems }}" as="suggestion" hint-placeholder-count="3">
+<button type="button" onClick="{{ suggestion.apply }}">{{ suggestion.label }}</button>
+</sc-for>
+</div>
 </div>
 <div class="resize-grip resize-grip-dark" data-resize-window="terminal" onMouseDown="{{ resizeTerminal }}"></div>
 </div>
@@ -850,6 +894,9 @@ class Component extends DCLogic {
       { isInput: false, isOutput: true, text: "AE desktop — type 'help' to look around." }
     ],
     osInput: '',
+    osHistory: [],
+    osHistoryIndex: -1,
+    osSuggestions: [],
     shellPath: '~',
     blogIndex: 0,
     selectedPhoto: null,
@@ -864,6 +911,14 @@ class Component extends DCLogic {
       progressMs: 0,
       durationMs: 1,
       updatedAt: ''
+    },
+    githubActivity: {
+      status: 'fallback',
+      updatedAt: '',
+      login: 'Abhishek21g',
+      totalContributions: 0,
+      currentStreak: 0,
+      cells: []
     }
   };
 
@@ -897,6 +952,7 @@ class Component extends DCLogic {
   todayData = {
     title: 'Portfolio OS build log',
     summary: 'Today is about making the site feel alive: live Spotify, visible windows, a daily update surface, and terminal commands that make the desktop feel like Abhi is actively building here.',
+    date: '2026-07-02',
     buildCount: '04',
     shipCount: '02',
     streak: '01',
@@ -909,9 +965,20 @@ class Component extends DCLogic {
   };
 
   shellFiles = {
-    '~': ['today.txt', 'about.txt', 'experience.log', 'projects/', 'gallery/', 'blog/', 'resume.txt', 'agent/'],
-    '~/projects': ['mocki.md', 'bluestart.md', 'compile-your-language.md', 'rag-pipeline.md'],
-    '~/agent': ['tokens.log', 'graph.json', 'loop.md', 'chat']
+    '~': ['today.txt', 'about.txt', 'experience.log', 'contact.txt', 'projects/', 'gallery/', 'blog/', 'resume.txt', 'agent/'],
+    '~/projects': ['mocki.md', 'bluestart.md', 'compile-your-language.md', 'treehacks-intersystems.md', 'rag-pipeline.md'],
+    '~/gallery': ['sc24-booth.jpg', 'aiweek-wide.jpg', 'portrait.jpg'],
+    '~/blog': ['supercomputing-2024.md', 'lightning-talk.md'],
+    '~/agent': ['README.md', 'status.json', 'tokens.log', 'graph.json', 'workflow.md', 'suggestions.md', 'chat']
+  };
+
+  commandAliases = {
+    ll: 'ls',
+    '..': 'cd ..',
+    cv: 'resume',
+    posts: 'blog',
+    pics: 'gallery',
+    home: 'cd ~'
   };
 
   normalizePath(path) {
@@ -921,16 +988,48 @@ class Component extends DCLogic {
 
   resolvePath(raw) {
     const part = (raw || '').trim();
-    if (!part || part === '~') return '~';
-    if (part === '..') return this.state.shellPath === '~' ? '~' : '~';
+    if (!part || part === '~' || part === '/') return '~';
+    if (part === '..') {
+      if (this.state.shellPath === '~') return '~';
+      const pieces = this.state.shellPath.split('/').filter(Boolean);
+      return pieces.length <= 1 ? '~' : pieces.slice(0, -1).join('/');
+    }
     if (part.indexOf('~/') === 0) return this.normalizePath(part);
     if (part === 'projects' || part === 'projects/') return '~/projects';
+    if (part === 'gallery' || part === 'gallery/') return '~/gallery';
+    if (part === 'blog' || part === 'blog/') return '~/blog';
     if (part === 'agent' || part === 'agent/') return '~/agent';
     return this.normalizePath(this.state.shellPath + '/' + part.replace(/\/$/, ''));
   }
 
+  normalizeCommand(raw) {
+    const trimmed = (raw || '').trim();
+    return this.commandAliases[trimmed.toLowerCase()] || trimmed;
+  }
+
+  osSuggestionLabels(input) {
+    const raw = (input || '').trim().toLowerCase();
+    if (!raw) return ['help', 'projects', 'agent suggest'];
+    const tokens = [
+      'help', 'history', 'clear', 'ls', 'cd projects', 'cd agent', 'pwd', 'tree',
+      'cat today.txt', 'cat experience.log', 'cat agent/status.json',
+      'open resume', 'open projects', 'open gallery', 'open blog', 'open music',
+      'search cuda', 'search compiler', 'agent route recruiter', 'agent explain mocki',
+      'agent suggest', 'tokens', 'graph', 'today'
+    ];
+    return tokens.filter((token) => token.indexOf(raw) === 0 || token.indexOf(' ' + raw) !== -1).slice(0, 3);
+  }
+
+  chooseOsSuggestion = (label) => {
+    this.setState({ osInput: label, osSuggestions: this.osSuggestionLabels(label) });
+    setTimeout(this.focusOsInput, 0);
+  };
+
   shellOutput(cmd) {
     const path = this.state.shellPath;
+    if (cmd === 'history') return this.state.osHistory.length ? this.state.osHistory.map((entry, i) => String(i + 1).padStart(2, '0') + '  ' + entry).join('\n') : 'history is empty.';
+    if (cmd.indexOf('help ') === 0) return this.helpFor(cmd.slice(5).trim());
+    if (cmd.indexOf('search ') === 0) return this.searchShell(cmd.slice(7).trim());
     if (cmd === 'pwd') return '/Users/visitor/enaguthi/' + path.replace('~', 'desktop');
     if (cmd === 'ls') return (this.shellFiles[path] || this.shellFiles['~']).join('    ');
     if (cmd.indexOf('ls ') === 0) {
@@ -943,10 +1042,10 @@ class Component extends DCLogic {
       this.setState({ shellPath: target });
       return 'entered ' + target;
     }
-    if (cmd === 'tree') return ".\n├── today.txt\n├── about.txt\n├── experience.log\n├── resume.txt\n├── projects/\n│   ├── mocki.md\n│   ├── bluestart.md\n│   └── rag-pipeline.md\n├── gallery/\n├── blog/\n└── agent/\n    ├── tokens.log\n    ├── graph.json\n    └── chat";
+    if (cmd === 'tree') return ".\n├── today.txt\n├── about.txt\n├── experience.log\n├── contact.txt\n├── resume.txt\n├── projects/\n│   ├── mocki.md\n│   ├── bluestart.md\n│   ├── compile-your-language.md\n│   ├── treehacks-intersystems.md\n│   └── rag-pipeline.md\n├── gallery/\n│   ├── sc24-booth.jpg\n│   └── aiweek-wide.jpg\n├── blog/\n│   ├── supercomputing-2024.md\n│   └── lightning-talk.md\n└── agent/\n    ├── status.json\n    ├── tokens.log\n    ├── graph.json\n    ├── workflow.md\n    └── chat";
     if (cmd === 'tokens') return "context meter\nused: 67%\nremaining: ~18k tokens\nmode: build + verify\nnote: static display for now; ready for real Codex/Claude logs.";
-    if (cmd === 'graph') return "activity graphs\nGitHub pulse: rendered in right rail\nAgent runtime: context/token meter online\nnext hook: wire live GitHub + local agent traces.";
-    if (cmd === 'agent') return "rudhra-agent online-ish\n\nask: agent \"what should i open first?\"\ntry: tokens, graph, tree, cat resume.txt";
+    if (cmd === 'graph') return this.githubGraphText();
+    if (cmd === 'agent') return "rudhra-agent static shell\n\ntry: agent route recruiter\ntry: agent explain mocki\ntry: agent suggest\nnote: this public site can route and summarize, but private actions stay in GitHub/Rudhra.";
     if (cmd.indexOf('agent ') === 0) return "agent: " + this.agentReply(cmd.slice(6).trim());
     if (cmd.indexOf('cat ') === 0) return this.catFile(cmd.slice(4).trim());
     if (cmd === 'today' || cmd === 'now') {
@@ -962,11 +1061,18 @@ class Component extends DCLogic {
   }
 
   todayStamp() {
-    return new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date());
+    return new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric', year: 'numeric' }).format(this.todayDate());
   }
 
   todayShortStamp() {
-    return new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric' }).format(new Date());
+    return new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric' }).format(this.todayDate());
+  }
+
+  todayDate() {
+    const raw = this.todayData.date;
+    const parts = raw && /^(\d{4})-(\d{2})-(\d{2})$/.exec(raw);
+    if (parts) return new Date(Number(parts[1]), Number(parts[2]) - 1, Number(parts[3]));
+    return raw ? new Date(raw) : new Date();
   }
 
   catFile(name) {
@@ -975,10 +1081,21 @@ class Component extends DCLogic {
       'about.txt': this.commands.about,
       'today.txt': this.todayText(),
       'experience.log': this.commands.experience,
+      'contact.txt': this.commands.contact,
       'resume.txt': 'opening Resume viewer...\nTip: click open full tab for the printable PDF.',
       'tokens.log': 'tokens_used=67%\ntokens_left=18000\nagent_loop=design-build-verify',
-      'graph.json': '{ \"githubPulse\": \"simulated\", \"codexTokens\": \"hook-ready\", \"status\": \"rendered\" }',
-      'loop.md': '1. inspect\n2. design\n3. implement\n4. verify\n5. push only when Abhi says push'
+      'graph.json': this.githubGraphJson(),
+      'README.md': 'agent shell: route visitors, explain projects, and reveal the portfolio OS safely.',
+      'status.json': '{ \"mode\": \"static-public\", \"privateActions\": false, \"routes\": [\"recruiter\", \"compiler\", \"hpc\", \"gallery\"] }',
+      'workflow.md': '1. inspect\n2. design\n3. implement\n4. verify\n5. push only when Abhi says push',
+      'suggestions.md': 'agent route recruiter\nagent explain mocki\nsearch compiler\nopen resume',
+      'mocki.md': this.openTargets.mocki,
+      'bluestart.md': this.openTargets.bluestart,
+      'compile-your-language.md': this.openTargets['compile-your-language'],
+      'treehacks-intersystems.md': this.openTargets['treehacks-intersystems'],
+      'rag-pipeline.md': this.openTargets['rag-pipeline'],
+      'supercomputing-2024.md': this.blogData[1].title + "\n" + this.blogData[1].paragraphs.join("\n\n"),
+      'lightning-talk.md': this.blogData[0].title + "\n" + this.blogData[0].paragraphs.join("\n\n")
     };
     if (file === 'resume.txt') this.openResume();
     return files[file] || 'cat: ' + name + ': no such file';
@@ -986,10 +1103,53 @@ class Component extends DCLogic {
 
   agentReply(text) {
     if (!text) return "give me a tiny task and I will route it.";
+    if (text.indexOf('route') !== -1 && text.indexOf('recruiter') !== -1) return "route selected: recruiter_fast_path\n1. open resume\n2. open projects\n3. cat experience.log\nnote: strongest signal is compiler/HPC depth plus shipped AI projects.";
+    if (text.indexOf('compiler') !== -1 || text.indexOf('llvm') !== -1) return "compiler trail\n- cat projects/compile-your-language.md\n- cat experience.log\n- search rocm\n- open resume";
+    if (text.indexOf('suggest') !== -1) return "suggestions\n- open projects\n- agent route recruiter\n- search cuda\n- cat today.txt";
+    if (text.indexOf('explain mocki') !== -1 || text.indexOf('mocki') !== -1) return this.openTargets.mocki;
+    if (text.indexOf('status') !== -1) return "agent status: public-static\nprivate actions: disabled\nadmin work: use /ops once added\nlast local commit: Today.txt JSON feed";
+    if (text.indexOf('logs') !== -1) return "public logs only:\n- deploy workflow: GitHub Actions\n- spotify feed: /spotify/now-playing.json\n- today feed: /updates/today.json\n- github feed: /live/github-activity.json";
     if (text.indexOf('first') !== -1) return "open Resume.txt, then Projects/, then GitHub Pulse. That tells the fastest story.";
     if (text.indexOf('blog') !== -1) return "blog app should become a writing room: index left, article pages right, terminal command `blog supercomputing`.";
     if (text.indexOf('gallery') !== -1) return "gallery wants fewer crops, bigger stage, and captions that feel like field notes.";
     return "noted. I would split that into design research, implementation, and verification agents.";
+  }
+
+  helpFor(topic) {
+    const help = {
+      open: "open <target>\nexamples: open resume, open projects, open gallery, open mocki",
+      agent: "agent route recruiter\nagent explain mocki\nagent suggest\nagent status",
+      search: "search <term>\nexamples: search cuda, search compiler, search gallery",
+      cd: "cd projects | cd blog | cd agent | cd .. | cd ~"
+    };
+    return help[topic] || "no focused help for " + topic + ". try: help open, help agent, help search";
+  }
+
+  searchShell(term) {
+    const q = (term || '').toLowerCase();
+    if (!q) return 'usage: search <term>';
+    const rows = [
+      ['compiler', 'experience.log', 'LLVM, compiler backends, ROCm research'],
+      ['cuda', 'projects/rag-pipeline.md', 'PyTorch DDP, CUDA, multi-GPU nodes'],
+      ['rocm', 'projects/bluestart.md', 'ROCm on POWER9 and HIPify'],
+      ['mocki', 'projects/mocki.md', 'NVIDIA Nemotron multi-agent interview coach'],
+      ['gallery', 'gallery/', 'SC24 and AI Week photos'],
+      ['resume', 'resume.txt', 'credential packet'],
+      ['blog', 'blog/supercomputing-2024.md', 'SC24 field notes']
+    ].filter((row) => row.join(' ').toLowerCase().indexOf(q) !== -1);
+    return rows.length ? rows.map((row) => row[1] + '  ' + row[2]).join('\n') : 'no matches for ' + term;
+  }
+
+  openOsTarget(name) {
+    if (name === 'projects' || name === 'projects/') { this.openProjects(); return 'opening Projects/'; }
+    if (name === 'resume' || name === 'resume.txt') { this.openResume(); return 'opening Resume'; }
+    if (name === 'gallery' || name === 'gallery/') { this.openGallery(); return 'opening Gallery'; }
+    if (name === 'blog' || name === 'blog/') { this.openBlog(); return 'opening Blog'; }
+    if (name === 'music') { this.openMusic(); return 'opening Music'; }
+    if (name === 'today' || name === 'today.txt') { this.openToday(); return 'opening Today.txt'; }
+    if (name === 'about' || name === 'about.txt') { this.openAbout(); return 'opening About.txt'; }
+    if (name === 'contact' || name === 'contact.txt') { this.openContact(); return 'opening Contact'; }
+    return null;
   }
 
   openTargets = {
@@ -1053,10 +1213,13 @@ class Component extends DCLogic {
 
   componentDidMount() {
     this.updateClock();
+    this.loadToday();
     this.loadSpotify();
+    this.loadGithubActivity();
     this.layoutForViewport(true);
     this._clockTimer = setInterval(this.updateClock, 30000);
     this._spotifyTimer = setInterval(this.loadSpotify, 60000);
+    this._githubTimer = setInterval(this.loadGithubActivity, 15 * 60 * 1000);
     this._onDocMouseDown = (e) => {
       if (e.target && e.target.tagName === 'SPAN' && e.target.closest('.window-titlebar')) return;
       const grip = e.target && e.target.closest ? e.target.closest('[data-resize-window]') : null;
@@ -1099,6 +1262,7 @@ class Component extends DCLogic {
   componentWillUnmount() {
     clearInterval(this._clockTimer);
     clearInterval(this._spotifyTimer);
+    clearInterval(this._githubTimer);
     document.removeEventListener('mousedown', this._onDocMouseDown);
     document.removeEventListener('mousemove', this._onDocMouseMove);
     document.removeEventListener('mouseup', this._onDocMouseUp);
@@ -1137,6 +1301,78 @@ class Component extends DCLogic {
       })
       .catch(() => {});
   };
+
+  loadToday = () => {
+    fetch('/updates/today.json', { cache: 'no-store' })
+      .then((res) => res.ok ? res.json() : null)
+      .then((data) => {
+        if (!data || !data.title) return;
+        this.todayData = {
+          title: data.title || this.todayData.title,
+          summary: data.summary || this.todayData.summary,
+          date: data.date || this.todayData.date,
+          buildCount: data.buildCount || this.todayData.buildCount,
+          shipCount: data.shipCount || this.todayData.shipCount,
+          streak: data.streak || this.todayData.streak,
+          items: Array.isArray(data.items) && data.items.length ? data.items : this.todayData.items
+        };
+        this.forceUpdate();
+      })
+      .catch(() => {});
+  };
+
+  loadGithubActivity = () => {
+    fetch('/live/github-activity.json', { cache: 'no-store' })
+      .then((res) => res.ok ? res.json() : null)
+      .then((data) => {
+        if (!data) return;
+        const cells = Array.isArray(data.cells)
+          ? data.cells.map((cell) => ({
+            level: Math.max(0, Math.min(4, Number(cell.level || 0))),
+            title: cell.title || ((cell.date || 'day') + ': ' + Number(cell.count || 0) + ' public contributions'),
+            count: Number(cell.count || 0),
+            date: cell.date || ''
+          }))
+          : [];
+        const totals = data.totals || {};
+        this.setState({
+          githubActivity: {
+            status: data.status || data.source || 'fallback',
+            updatedAt: data.updatedAt || '',
+            login: data.login || 'Abhishek21g',
+            totalContributions: Number(totals.contributions || data.totalContributions || 0),
+            currentStreak: Number(data.currentStreak || 0),
+            cells
+          }
+        });
+      })
+      .catch(() => {});
+  };
+
+  githubActivityMeta() {
+    const activity = this.state.githubActivity || {};
+    const source = activity.status === 'live' ? 'live' : activity.status === 'error' ? 'feed fallback' : 'fallback';
+    const total = activity.totalContributions ? activity.totalContributions + ' public contributions' : 'public graph ready';
+    const streak = activity.currentStreak ? ' · ' + activity.currentStreak + ' day streak' : '';
+    return 'github.com/' + (activity.login || 'Abhishek21g') + ' · ' + source + ' · ' + total + streak;
+  }
+
+  githubGraphText() {
+    const activity = this.state.githubActivity || {};
+    return "activity graphs\nGitHub pulse: " + this.githubActivityMeta() + "\nAgent runtime: context/token meter online\nfeed: /live/github-activity.json";
+  }
+
+  githubGraphJson() {
+    const activity = this.state.githubActivity || {};
+    return JSON.stringify({
+      githubPulse: activity.status || 'fallback',
+      login: activity.login || 'Abhishek21g',
+      totalContributions: activity.totalContributions || 0,
+      currentStreak: activity.currentStreak || 0,
+      updatedAt: activity.updatedAt || '',
+      status: 'public-safe'
+    }, null, 2);
+  }
 
   formatTime(timeZone) {
     const options = { hour: 'numeric', minute: '2-digit', hour12: true };
@@ -1182,7 +1418,7 @@ class Component extends DCLogic {
           windows[id] = this.clampWindow({ ...windows[id], open: shouldOpen, x: 10, y: 74, w: bounds.width - 20, h: bounds.height - 108 });
         });
       } else {
-        const railW = bounds.width >= 1900 ? 420 : (bounds.width >= 1320 ? 390 : 0);
+        const railW = bounds.width >= 1900 ? 420 : (bounds.width >= 1320 ? 390 : (bounds.width >= 1100 ? 310 : 0));
         const dockW = bounds.width >= 1000 ? 118 : 0;
         const contentLeft = dockW + 36;
         const contentRight = bounds.width - railW - 36;
@@ -1464,18 +1700,56 @@ class Component extends DCLogic {
     'rag-pipeline': "RAG pipeline — Python, PyTorch, FAISS, MXBAI model.\nScaled embedding generation to 235K embeddings from 65K Wikipedia articles using PyTorch DDP across multi-GPU nodes."
   };
 
-  handleOsChange = (e) => this.setState({ osInput: e.target.value });
+  handleOsChange = (e) => {
+    const osInput = e.target.value;
+    this.setState({ osInput, osSuggestions: this.osSuggestionLabels(osInput) });
+  };
 
   focusOsInput = () => { if (this.osInputRef.current) this.osInputRef.current.focus(); };
 
   handleOsKeyDown = (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'l') {
+      e.preventDefault();
+      this.setState({ osLines: [], osInput: '', osSuggestions: [] });
+      return;
+    }
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      this.setState((s) => {
+        if (!s.osHistory.length) return {};
+        const nextIndex = s.osHistoryIndex < 0 ? s.osHistory.length - 1 : Math.max(0, s.osHistoryIndex - 1);
+        const osInput = s.osHistory[nextIndex] || '';
+        return { osHistoryIndex: nextIndex, osInput, osSuggestions: this.osSuggestionLabels(osInput) };
+      });
+      return;
+    }
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      this.setState((s) => {
+        if (!s.osHistory.length) return {};
+        const nextIndex = s.osHistoryIndex < 0 ? -1 : s.osHistoryIndex + 1;
+        const osInput = nextIndex >= s.osHistory.length ? '' : (s.osHistory[nextIndex] || '');
+        return { osHistoryIndex: nextIndex >= s.osHistory.length ? -1 : nextIndex, osInput, osSuggestions: this.osSuggestionLabels(osInput) };
+      });
+      return;
+    }
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      const suggestions = this.osSuggestionLabels(this.state.osInput);
+      if (suggestions.length) this.chooseOsSuggestion(suggestions[0]);
+      return;
+    }
+    if (e.key === 'Escape') {
+      this.setState({ osSuggestions: [] });
+      return;
+    }
     if (e.key !== 'Enter') return;
-    const raw = this.state.osInput.trim();
+    const raw = this.normalizeCommand(this.state.osInput);
     if (!raw) return;
     const cmd = raw.toLowerCase();
 
     if (cmd === 'clear') {
-      this.setState({ osLines: [], osInput: '' });
+      this.setState((s) => ({ osLines: [], osInput: '', osSuggestions: [], osHistory: s.osHistory.concat([raw]), osHistoryIndex: -1 }));
       return;
     }
 
@@ -1495,13 +1769,14 @@ class Component extends DCLogic {
     } else if (cmd === 'music') {
       this.openMusic();
       output = this.osCommands.music;
-    } else if (this.osCommands[cmd]) {
-      output = this.osCommands[cmd];
     } else if (cmd.indexOf('open ') === 0) {
       const name = cmd.slice(5).trim();
-      output = this.osOpenTargets[name] || ("not found: " + name);
+      output = this.openOsTarget(name) || this.osOpenTargets[name] || ("not found: " + name);
+    } else if (this.osCommands[cmd]) {
+      output = this.osCommands[cmd];
     } else {
-      output = "command not found: " + raw + " — try 'help'";
+      const hint = this.osSuggestionLabels(cmd)[0];
+      output = "command not found: " + raw + (hint ? " — did you mean '" + hint + "'?" : " — try 'help'");
     }
 
     this.setState((s) => ({
@@ -1509,7 +1784,10 @@ class Component extends DCLogic {
         { isInput: true, isOutput: false, text: raw },
         { isInput: false, isOutput: true, text: output }
       ]),
-      osInput: ''
+      osHistory: s.osHistory.concat([raw]).slice(-40),
+      osHistoryIndex: -1,
+      osInput: '',
+      osSuggestions: []
     }));
   };
 
@@ -1528,6 +1806,9 @@ class Component extends DCLogic {
   }
 
   renderVals() {
+    const githubCells = this.state.githubActivity.cells && this.state.githubActivity.cells.length
+      ? this.state.githubActivity.cells
+      : this.contributionCells;
     return {
       lines: this.state.lines,
       inputValue: this.state.input,
@@ -1674,8 +1955,11 @@ class Component extends DCLogic {
       photoCaption: this.state.photoCaption,
       osLines: this.state.osLines,
       osInputValue: this.state.osInput,
+      osSuggestionItems: this.state.osSuggestions.map((label) => ({ label, apply: () => this.chooseOsSuggestion(label) })),
       shellPath: this.state.shellPath,
-      contributionCells: this.contributionCells,
+      contributionCells: githubCells,
+      githubActivityStatus: this.state.githubActivity.status === 'live' ? 'live' : 'fallback',
+      githubActivityMeta: this.githubActivityMeta(),
       onOsInputChange: this.handleOsChange,
       onOsKeyDown: this.handleOsKeyDown,
       osOutputRef: this.osOutputRef,
