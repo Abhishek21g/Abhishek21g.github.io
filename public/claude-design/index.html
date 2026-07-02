@@ -73,7 +73,8 @@
   .music-card{background:linear-gradient(135deg,#1DB954,#0B6F36)!important;color:#06180c!important;}
   .blog-list-item{transition:background .16s ease, border-color .16s ease;}
   .blog-list-item:hover{background:rgba(20,17,13,.055);}
-  .ambient-rail{position:absolute;right:22px;top:62px;width:330px;display:grid;gap:14px;z-index:1;pointer-events:none;}
+  .ambient-rail{position:absolute;right:22px;top:62px;width:330px;display:grid;gap:14px;z-index:1;pointer-events:none;transition:opacity .18s ease,transform .18s ease,filter .18s ease;}
+  .ambient-rail.is-hidden{opacity:0;transform:translateX(22px) scale(.98);filter:blur(6px);pointer-events:none;}
   .ambient-card{pointer-events:auto;position:relative;overflow:hidden;padding:16px;border-radius:18px;background:linear-gradient(145deg,rgba(255,255,255,0.22),rgba(246,242,234,0.07) 48%,rgba(226,98,27,0.09));border:1px solid rgba(246,242,234,0.30);box-shadow:0 24px 60px rgba(0,0,0,0.34),inset 0 1px 0 rgba(255,255,255,0.25),inset 0 -1px 0 rgba(255,255,255,0.07);backdrop-filter:blur(34px) saturate(1.35);-webkit-backdrop-filter:blur(34px) saturate(1.35);color:#F6F2EA;font-family:'Instrument Sans','Instrument Sans','National Park','IBM Plex Sans',sans-serif;transition:transform .18s ease,border-color .18s ease,background .18s ease,box-shadow .18s ease;}
   .ambient-card::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 18% 10%,rgba(255,255,255,.34),transparent 28%),linear-gradient(120deg,rgba(255,255,255,.16),transparent 42%);opacity:.78;pointer-events:none;}
   .ambient-card::after{content:"";position:absolute;right:-44px;bottom:-52px;width:140px;height:140px;border-radius:999px;background:rgba(255,255,255,0.10);filter:blur(2px);pointer-events:none;}
@@ -245,7 +246,7 @@
 <div class="desktop-surface" style="position:relative;width:1440px;height:836px;background:#14110D;overflow:hidden;">
 <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(135deg, rgba(246,242,234,0.015) 0px, rgba(246,242,234,0.015) 1px, transparent 1px, transparent 40px);pointer-events:none;"></div>
 
-<div class="ambient-rail" aria-label="Ambient status widgets">
+<div class="ambient-rail {{ ambientRailClass }}" aria-label="Ambient status widgets">
 <section class="ambient-card" role="button" onClick="{{ openMusic }}">
 <div class="ambient-kicker">I. Now Playing</div>
 <div class="ambient-player">
@@ -1272,6 +1273,11 @@ class Component extends DCLogic {
     }
   }
 
+  hasActiveWorkspaceWindow() {
+    const windows = this.state.windows;
+    return ['experience', 'projects', 'gallery', 'contact', 'resume', 'terminal', 'blog', 'music', 'onboarding'].some((id) => windows[id] && windows[id].open);
+  }
+
   renderVals() {
     return {
       lines: this.state.lines,
@@ -1283,6 +1289,7 @@ class Component extends DCLogic {
       focusInput: this.focusInput,
 
       windows: this.state.windows,
+      ambientRailClass: this.hasActiveWorkspaceWindow() ? 'is-hidden' : '',
       time: this.state.time,
       abhiTime: this.state.abhiTime,
       visitorTime: this.state.visitorTime,
