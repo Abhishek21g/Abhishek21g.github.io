@@ -1,11 +1,11 @@
 {
-  "isPlaying": true,
-  "title": "Love Me Not",
-  "artist": "Ravyn Lenae",
-  "album": "Bird's Eye",
-  "image": "https://i.scdn.co/image/ab67616d0000b2730e62daaea2c7b94053e1c142",
-  "url": "https://open.spotify.com/track/4WFgvKVfEhb3IUAFGrutTR",
-  "progressMs": 7218,
-  "durationMs": 213466,
-  "updatedAt": "2026-07-02T20:17:38.083Z"
+  "isPlaying": false,
+  "title": "Roommates",
+  "artist": "Malcolm Todd",
+  "album": "Sweet Boy",
+  "image": "https://i.scdn.co/image/ab67616d0000b2732c1f34ecc1929fb59908aad1",
+  "url": "https://open.spotify.com/track/5vPUv0xziXbV4lnWeVNXNq",
+  "progressMs": 0,
+  "durationMs": 214504,
+  "updatedAt": "2026-07-02T21:44:21.617Z"
 }
