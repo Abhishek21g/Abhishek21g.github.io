@@ -45,6 +45,7 @@ Add a tool here before making it part of the normal workflow.
 | GitHub Actions deploy workflow | Deployment | Publishing approved changes to `enaguthi.com` | Push to `main`; workflow deploys `out/` to `gh-pages` | Active |
 | Browser/screenshot verification | UI QA | Any visible OS desktop, gallery, image, responsive, or interaction change | Start dev server or use deployed URL | Active |
 | Spotify now-playing workflow | Content automation | Updating the public `/spotify/now-playing.json` feed for the OS music card | GitHub Secrets: `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, `SPOTIFY_REFRESH_TOKEN` | Active |
+| GitHub activity workflow | Content automation | Updating the public `/live/github-activity.json` feed for the OS contribution graph | Built-in GitHub Actions token; no personal secret required | Active |
 
 ## Future Tool Slots
 

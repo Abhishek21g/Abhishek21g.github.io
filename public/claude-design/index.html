@@ -356,13 +356,13 @@
 </section>
 <section class="ambient-card">
 <div class="ambient-kicker">II. GitHub Pulse</div>
-<div class="ambient-row"><span>Contribution graph</span><strong>heatmap</strong></div>
-<div class="contrib-grid" aria-label="Simulated GitHub contribution graph">
+<div class="ambient-row"><span>Contribution graph</span><strong>{{ githubActivityStatus }}</strong></div>
+<div class="contrib-grid" aria-label="GitHub contribution graph">
 <sc-for list="{{ contributionCells }}" as="cell" hint-placeholder-count="98">
 <span class="contrib-cell" data-l="{{ cell.level }}" title="{{ cell.title }}"></span>
 </sc-for>
 </div>
-<div class="ambient-meta">github.com/Abhishek21g · live hook-ready</div>
+<div class="ambient-meta">{{ githubActivityMeta }}</div>
 </section>
 <section class="ambient-card">
 <div class="ambient-kicker">III. Agent Runtime</div>
@@ -911,6 +911,14 @@ class Component extends DCLogic {
       progressMs: 0,
       durationMs: 1,
       updatedAt: ''
+    },
+    githubActivity: {
+      status: 'fallback',
+      updatedAt: '',
+      login: 'Abhishek21g',
+      totalContributions: 0,
+      currentStreak: 0,
+      cells: []
     }
   };
 
@@ -1036,7 +1044,7 @@ class Component extends DCLogic {
     }
     if (cmd === 'tree') return ".\n├── today.txt\n├── about.txt\n├── experience.log\n├── contact.txt\n├── resume.txt\n├── projects/\n│   ├── mocki.md\n│   ├── bluestart.md\n│   ├── compile-your-language.md\n│   ├── treehacks-intersystems.md\n│   └── rag-pipeline.md\n├── gallery/\n│   ├── sc24-booth.jpg\n│   └── aiweek-wide.jpg\n├── blog/\n│   ├── supercomputing-2024.md\n│   └── lightning-talk.md\n└── agent/\n    ├── status.json\n    ├── tokens.log\n    ├── graph.json\n    ├── workflow.md\n    └── chat";
     if (cmd === 'tokens') return "context meter\nused: 67%\nremaining: ~18k tokens\nmode: build + verify\nnote: static display for now; ready for real Codex/Claude logs.";
-    if (cmd === 'graph') return "activity graphs\nGitHub pulse: rendered in right rail\nAgent runtime: context/token meter online\nnext hook: wire live GitHub + local agent traces.";
+    if (cmd === 'graph') return this.githubGraphText();
     if (cmd === 'agent') return "rudhra-agent static shell\n\ntry: agent route recruiter\ntry: agent explain mocki\ntry: agent suggest\nnote: this public site can route and summarize, but private actions stay in GitHub/Rudhra.";
     if (cmd.indexOf('agent ') === 0) return "agent: " + this.agentReply(cmd.slice(6).trim());
     if (cmd.indexOf('cat ') === 0) return this.catFile(cmd.slice(4).trim());
@@ -1076,7 +1084,7 @@ class Component extends DCLogic {
       'contact.txt': this.commands.contact,
       'resume.txt': 'opening Resume viewer...\nTip: click open full tab for the printable PDF.',
       'tokens.log': 'tokens_used=67%\ntokens_left=18000\nagent_loop=design-build-verify',
-      'graph.json': '{ \"githubPulse\": \"simulated\", \"codexTokens\": \"hook-ready\", \"status\": \"rendered\" }',
+      'graph.json': this.githubGraphJson(),
       'README.md': 'agent shell: route visitors, explain projects, and reveal the portfolio OS safely.',
       'status.json': '{ \"mode\": \"static-public\", \"privateActions\": false, \"routes\": [\"recruiter\", \"compiler\", \"hpc\", \"gallery\"] }',
       'workflow.md': '1. inspect\n2. design\n3. implement\n4. verify\n5. push only when Abhi says push',
@@ -1100,7 +1108,7 @@ class Component extends DCLogic {
     if (text.indexOf('suggest') !== -1) return "suggestions\n- open projects\n- agent route recruiter\n- search cuda\n- cat today.txt";
     if (text.indexOf('explain mocki') !== -1 || text.indexOf('mocki') !== -1) return this.openTargets.mocki;
     if (text.indexOf('status') !== -1) return "agent status: public-static\nprivate actions: disabled\nadmin work: use /ops once added\nlast local commit: Today.txt JSON feed";
-    if (text.indexOf('logs') !== -1) return "public logs only:\n- deploy workflow: GitHub Actions\n- spotify feed: /spotify/now-playing.json\n- today feed: /updates/today.json";
+    if (text.indexOf('logs') !== -1) return "public logs only:\n- deploy workflow: GitHub Actions\n- spotify feed: /spotify/now-playing.json\n- today feed: /updates/today.json\n- github feed: /live/github-activity.json";
     if (text.indexOf('first') !== -1) return "open Resume.txt, then Projects/, then GitHub Pulse. That tells the fastest story.";
     if (text.indexOf('blog') !== -1) return "blog app should become a writing room: index left, article pages right, terminal command `blog supercomputing`.";
     if (text.indexOf('gallery') !== -1) return "gallery wants fewer crops, bigger stage, and captions that feel like field notes.";
@@ -1207,9 +1215,11 @@ class Component extends DCLogic {
     this.updateClock();
     this.loadToday();
     this.loadSpotify();
+    this.loadGithubActivity();
     this.layoutForViewport(true);
     this._clockTimer = setInterval(this.updateClock, 30000);
     this._spotifyTimer = setInterval(this.loadSpotify, 60000);
+    this._githubTimer = setInterval(this.loadGithubActivity, 15 * 60 * 1000);
     this._onDocMouseDown = (e) => {
       if (e.target && e.target.tagName === 'SPAN' && e.target.closest('.window-titlebar')) return;
       const grip = e.target && e.target.closest ? e.target.closest('[data-resize-window]') : null;
@@ -1252,6 +1262,7 @@ class Component extends DCLogic {
   componentWillUnmount() {
     clearInterval(this._clockTimer);
     clearInterval(this._spotifyTimer);
+    clearInterval(this._githubTimer);
     document.removeEventListener('mousedown', this._onDocMouseDown);
     document.removeEventListener('mousemove', this._onDocMouseMove);
     document.removeEventListener('mouseup', this._onDocMouseUp);
@@ -1309,6 +1320,59 @@ class Component extends DCLogic {
       })
       .catch(() => {});
   };
+
+  loadGithubActivity = () => {
+    fetch('/live/github-activity.json', { cache: 'no-store' })
+      .then((res) => res.ok ? res.json() : null)
+      .then((data) => {
+        if (!data) return;
+        const cells = Array.isArray(data.cells)
+          ? data.cells.map((cell) => ({
+            level: Math.max(0, Math.min(4, Number(cell.level || 0))),
+            title: cell.title || ((cell.date || 'day') + ': ' + Number(cell.count || 0) + ' public contributions'),
+            count: Number(cell.count || 0),
+            date: cell.date || ''
+          }))
+          : [];
+        const totals = data.totals || {};
+        this.setState({
+          githubActivity: {
+            status: data.status || data.source || 'fallback',
+            updatedAt: data.updatedAt || '',
+            login: data.login || 'Abhishek21g',
+            totalContributions: Number(totals.contributions || data.totalContributions || 0),
+            currentStreak: Number(data.currentStreak || 0),
+            cells
+          }
+        });
+      })
+      .catch(() => {});
+  };
+
+  githubActivityMeta() {
+    const activity = this.state.githubActivity || {};
+    const source = activity.status === 'live' ? 'live' : activity.status === 'error' ? 'feed fallback' : 'fallback';
+    const total = activity.totalContributions ? activity.totalContributions + ' public contributions' : 'public graph ready';
+    const streak = activity.currentStreak ? ' · ' + activity.currentStreak + ' day streak' : '';
+    return 'github.com/' + (activity.login || 'Abhishek21g') + ' · ' + source + ' · ' + total + streak;
+  }
+
+  githubGraphText() {
+    const activity = this.state.githubActivity || {};
+    return "activity graphs\nGitHub pulse: " + this.githubActivityMeta() + "\nAgent runtime: context/token meter online\nfeed: /live/github-activity.json";
+  }
+
+  githubGraphJson() {
+    const activity = this.state.githubActivity || {};
+    return JSON.stringify({
+      githubPulse: activity.status || 'fallback',
+      login: activity.login || 'Abhishek21g',
+      totalContributions: activity.totalContributions || 0,
+      currentStreak: activity.currentStreak || 0,
+      updatedAt: activity.updatedAt || '',
+      status: 'public-safe'
+    }, null, 2);
+  }
 
   formatTime(timeZone) {
     const options = { hour: 'numeric', minute: '2-digit', hour12: true };
@@ -1742,6 +1806,9 @@ class Component extends DCLogic {
   }
 
   renderVals() {
+    const githubCells = this.state.githubActivity.cells && this.state.githubActivity.cells.length
+      ? this.state.githubActivity.cells
+      : this.contributionCells;
     return {
       lines: this.state.lines,
       inputValue: this.state.input,
@@ -1890,7 +1957,9 @@ class Component extends DCLogic {
       osInputValue: this.state.osInput,
       osSuggestionItems: this.state.osSuggestions.map((label) => ({ label, apply: () => this.chooseOsSuggestion(label) })),
       shellPath: this.state.shellPath,
-      contributionCells: this.contributionCells,
+      contributionCells: githubCells,
+      githubActivityStatus: this.state.githubActivity.status === 'live' ? 'live' : 'fallback',
+      githubActivityMeta: this.githubActivityMeta(),
       onOsInputChange: this.handleOsChange,
       onOsKeyDown: this.handleOsKeyDown,
       osOutputRef: this.osOutputRef,
