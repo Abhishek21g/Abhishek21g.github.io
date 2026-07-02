@@ -91,7 +91,7 @@
   .brand-pill{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(246,242,234,0.18);background:rgba(246,242,234,0.08);border-radius:999px;padding:3px 10px 3px 5px;color:#F6F2EA;text-decoration:none;}
   .brand-pill strong{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:18px;line-height:1;}
   .brand-pill span{font:600 10px 'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.04em;color:rgba(246,242,234,0.58);}
-  .desktop-surface{background:#11100C!important;}
+  .desktop-surface{background:#11100C!important;width:100%!important;height:calc(100dvh - 64px)!important;}
   .desktop-surface::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 84% 18%,rgba(246,242,234,.055),transparent 28%),linear-gradient(180deg,rgba(255,255,255,.02),transparent 42%);}
   .desktop-icon{transition:transform .16s ease,filter .16s ease;}
   .desktop-icon:hover{transform:translateY(-2px);filter:brightness(1.07);}
@@ -105,6 +105,13 @@
   .blog-list-item{transition:background .16s ease, border-color .16s ease;}
   .blog-list-item:hover{background:rgba(20,17,13,.055);}
   .ambient-rail{position:absolute;right:22px;top:62px;width:330px;display:grid;gap:14px;z-index:1;pointer-events:none;transition:opacity .18s ease,transform .18s ease,filter .18s ease;}
+  @media (min-width: 1500px){
+    .ambient-rail{right:32px;top:72px;width:360px;}
+    .about-window{box-shadow:0 48px 90px rgba(0,0,0,0.52)!important;}
+  }
+  @media (min-width: 1900px){
+    .ambient-rail{right:40px;width:380px;}
+  }
   .ambient-rail.is-hidden{opacity:0;transform:translateX(22px) scale(.98);filter:blur(6px);pointer-events:none;}
   .ambient-card{pointer-events:auto;position:relative;overflow:hidden;padding:16px;border-radius:18px;background:linear-gradient(145deg,rgba(255,255,255,0.22),rgba(246,242,234,0.07) 48%,rgba(226,98,27,0.09));border:1px solid rgba(246,242,234,0.30);box-shadow:0 24px 60px rgba(0,0,0,0.34),inset 0 1px 0 rgba(255,255,255,0.25),inset 0 -1px 0 rgba(255,255,255,0.07);backdrop-filter:blur(34px) saturate(1.35);-webkit-backdrop-filter:blur(34px) saturate(1.35);color:#F6F2EA;font-family:'Instrument Sans','Instrument Sans','National Park','IBM Plex Sans',sans-serif;transition:transform .18s ease,border-color .18s ease,background .18s ease,box-shadow .18s ease;}
   .ambient-card::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 18% 10%,rgba(255,255,255,.34),transparent 28%),linear-gradient(120deg,rgba(255,255,255,.16),transparent 42%);opacity:.78;pointer-events:none;}
@@ -163,7 +170,7 @@
   @media (min-width: 1600px){
     .os-window{max-width:calc(100vw - 360px);}
   }
-  @media (max-width: 980px){
+  @media (max-width: 1320px){
     .ambient-rail{display:none!important;}
   }
   @media (max-width: 640px){
@@ -171,7 +178,11 @@
     .site-app .dv-card{transform-origin:top left;}
     .desktop-surface{width:100vw!important;height:calc(100dvh - 64px)!important;overflow-x:hidden!important;overflow-y:auto!important;display:flex!important;flex-direction:column!important;gap:16px!important;padding:14px 14px 24px!important;box-sizing:border-box!important;}
     .desktop-tagline{display:none!important;}
-    .top-links{gap:8px!important;font-size:10px!important;}
+    .brand-pill{max-width:138px!important;padding-right:7px!important;gap:6px!important;}
+    .brand-pill strong{font-size:16px!important;white-space:normal!important;line-height:.88!important;}
+    .brand-pill div{width:24px!important;height:24px!important;flex:none!important;}
+    .top-links{gap:7px!important;font-size:10px!important;min-width:0!important;}
+    .top-links button{font-size:10px!important;}
     .top-links a{display:inline-flex!important;}
     .top-links .status-dot,.top-links .clock-full{display:none!important;}
     .top-links .clock-short{display:inline-flex!important;}
@@ -212,7 +223,11 @@
   .mobile-preview .dv-card{width:min(433px,100vw)!important;height:100dvh!important;}
   .mobile-preview .desktop-surface{width:min(433px,100vw)!important;height:calc(100dvh - 64px)!important;overflow-x:hidden!important;overflow-y:auto!important;display:flex!important;flex-direction:column!important;gap:16px!important;padding:14px 14px 24px!important;box-sizing:border-box!important;}
   .mobile-preview .desktop-tagline{display:none!important;}
-  .mobile-preview .top-links{gap:8px!important;font-size:10px!important;}
+  .mobile-preview .brand-pill{max-width:138px!important;padding-right:7px!important;gap:6px!important;}
+  .mobile-preview .brand-pill strong{font-size:16px!important;white-space:normal!important;line-height:.88!important;}
+  .mobile-preview .brand-pill div{width:24px!important;height:24px!important;flex:none!important;}
+  .mobile-preview .top-links{gap:7px!important;font-size:10px!important;min-width:0!important;}
+  .mobile-preview .top-links button{font-size:10px!important;}
   .mobile-preview .top-links a{display:inline-flex!important;}
   .mobile-preview .top-links .status-dot,.mobile-preview .top-links .clock-full{display:none!important;}
   .mobile-preview .top-links .clock-short{display:inline-flex!important;}
@@ -278,7 +293,7 @@
 </div>
 </div>
 
-<div class="desktop-surface" style="position:relative;width:1440px;height:836px;background:#14110D;overflow:hidden;">
+<div class="desktop-surface" style="position:relative;width:100%;height:calc(100dvh - 64px);background:#14110D;overflow:hidden;">
 <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(135deg, rgba(246,242,234,0.015) 0px, rgba(246,242,234,0.015) 1px, transparent 1px, transparent 40px);pointer-events:none;"></div>
 
 <div class="ambient-rail {{ ambientRailClass }}" aria-label="Ambient status widgets">
@@ -1063,13 +1078,21 @@ class Component extends DCLogic {
           windows[id] = this.clampWindow({ ...windows[id], open: shouldOpen, x: 10, y: 74, w: bounds.width - 20, h: bounds.height - 108 });
         });
       } else {
-        const aboutW = bounds.width >= 1600 ? 760 : 620;
-        const aboutX = bounds.width >= 1400 ? 180 : Math.round((bounds.width - aboutW) / 2);
-        windows.about = this.clampWindow({ ...windows.about, x: aboutX, y: 72, w: aboutW, h: Math.min(620, bounds.height - 110), open: initial ? true : windows.about.open });
-        windows.onboarding = this.clampWindow({ ...windows.onboarding, open: false, x: Math.min(bounds.width - 420, 930), y: 92 });
+        const railW = bounds.width >= 1900 ? 420 : (bounds.width >= 1320 ? 390 : 0);
+        const dockW = bounds.width >= 1000 ? 118 : 0;
+        const contentLeft = dockW + 36;
+        const contentRight = bounds.width - railW - 36;
+        const contentW = Math.max(620, contentRight - contentLeft);
+        const aboutW = Math.min(bounds.width >= 1800 ? 860 : 760, Math.max(620, contentW - 90));
+        const aboutX = bounds.width >= 1400
+          ? Math.round(contentLeft + Math.max(0, contentW - aboutW) * 0.36)
+          : Math.round((bounds.width - aboutW) / 2);
+        const aboutH = Math.min(bounds.width >= 1500 ? 650 : 620, bounds.height - 120);
+        windows.about = this.clampWindow({ ...windows.about, x: aboutX, y: bounds.width >= 1500 ? 82 : 72, w: aboutW, h: aboutH, open: initial ? true : windows.about.open });
+        windows.onboarding = this.clampWindow({ ...windows.onboarding, open: false, x: Math.min(contentRight - 420, 930), y: 92 });
         if (bounds.width >= 1400) {
-          windows.projects = this.clampWindow({ ...windows.projects, open: initial ? false : windows.projects.open, x: bounds.width - 750, y: 96, w: 700, h: Math.min(600, bounds.height - 130) });
-          windows.resume = this.clampWindow({ ...windows.resume, x: Math.max(220, bounds.width - 900), y: 118, w: Math.min(820, bounds.width - 360), h: Math.min(650, bounds.height - 150) });
+          windows.projects = this.clampWindow({ ...windows.projects, open: initial ? false : windows.projects.open, x: Math.max(contentLeft, contentRight - 720), y: 96, w: Math.min(700, contentW), h: Math.min(600, bounds.height - 130) });
+          windows.resume = this.clampWindow({ ...windows.resume, x: Math.max(contentLeft, contentRight - 840), y: 118, w: Math.min(820, contentW), h: Math.min(650, bounds.height - 150) });
         }
         if (bounds.width < 1000) {
           windows.terminal = this.clampWindow({ ...windows.terminal, x: 150, y: 132, w: Math.min(580, bounds.width - 190), h: 330 });
