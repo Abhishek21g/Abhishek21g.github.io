@@ -81,6 +81,14 @@ export default function Navigation() {
           >
             Resume
           </a>
+          <a
+            href="https://www.buymeacoffee.com/enaguthi"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-300 hover:text-white transition-colors"
+          >
+            Coffee
+          </a>
         </div>
 
         {/* Mobile Menu Button */}
@@ -153,6 +161,15 @@ export default function Navigation() {
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Resume
+            </a>
+            <a
+              href="https://www.buymeacoffee.com/enaguthi"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block px-3 py-2 text-gray-300 hover:text-white transition-colors"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Coffee
             </a>
           </div>
         </div>

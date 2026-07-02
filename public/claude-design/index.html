@@ -109,6 +109,8 @@
   .top-link-button{appearance:none;border:0;background:transparent;color:rgba(246,242,234,0.6);font:inherit;padding:0;cursor:pointer;}
   .top-link-button:hover{color:#F6F2EA;}
   .clock-short{display:none;white-space:nowrap;}
+  .coffee-link{display:inline-flex;align-items:center;justify-content:center;width:max-content;margin-top:6px;border:1px solid rgba(20,17,13,0.28);border-radius:8px;background:#FFDD00;color:#14110D!important;text-decoration:none!important;font:700 12px 'IBM Plex Mono',monospace;padding:10px 12px;box-shadow:0 8px 18px rgba(20,17,13,0.12);transition:transform .14s ease,filter .14s ease;}
+  .coffee-link:hover{transform:translateY(-1px);filter:saturate(1.08);}
   .resume-layout{height:calc(100% - 36px);display:grid;grid-template-columns:280px minmax(0,1fr);background:#F6F2EA;}
   .resume-sidebar{padding:24px 22px;border-right:1px solid rgba(20,17,13,0.10);overflow:auto;background:linear-gradient(180deg,#F6F2EA,#ECE7DB);}
   .resume-preview{min-width:0;background:#11100C;padding:14px;display:flex;flex-direction:column;gap:10px;}
@@ -523,6 +525,7 @@
 <a href="https://linkedin.com/in/abhishekenaguthi" target="_blank" rel="noopener noreferrer" style="color:#E2621B;text-decoration:none;">linkedin.com/in/abhishekenaguthi</a>
 <a href="https://github.com/Abhishek21g" target="_blank" rel="noopener noreferrer" style="color:#E2621B;text-decoration:none;">github.com/Abhishek21g</a>
 <button onClick="{{ openResume }}" style="appearance:none;border:0;background:transparent;color:#E2621B;text-decoration:none;text-align:left;font:inherit;padding:0;cursor:pointer;">open resume viewer</button>
+<a class="coffee-link" href="https://www.buymeacoffee.com/enaguthi" target="_blank" rel="noopener noreferrer">Buy me a coffee</a>
 </div>
 </div>
 <div class="resize-grip" onMouseDown="{{ resizeContact }}"></div>
