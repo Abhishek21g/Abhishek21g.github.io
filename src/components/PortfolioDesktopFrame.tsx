@@ -6,7 +6,7 @@ export default function PortfolioDesktopFrame({
   title = 'Abhishek Enaguthi portfolio OS',
 }: PortfolioDesktopFrameProps) {
   return (
-    <main className="h-screen w-screen overflow-hidden bg-[#14110D]">
+    <main className="h-screen w-screen overflow-hidden bg-[#14110D]" style={{ height: '100dvh' }}>
       <iframe
         src="/claude-design/index.html#2a"
         title={title}
