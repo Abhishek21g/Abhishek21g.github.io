@@ -328,9 +328,25 @@
 </div>
 <div class="ambient-meta">type tokens, agent, or graph in Terminal</div>
 </section>
+<section class="ambient-card" role="button" onClick="{{ openToday }}">
+<div class="ambient-kicker">IV. Now.log</div>
+<div class="ambient-title" style="font-size:24px;">{{ todayTitle }}</div>
+<div style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:13px;line-height:1.45;color:rgba(246,242,234,0.72);margin-top:8px;">{{ todaySummary }}</div>
+<div class="ambient-meta" style="margin-top:12px;">{{ todayStamp }} · tap to open Today.txt</div>
+</section>
 </div>
 
 <div class="desktop-icons">
+<div class="desktop-icon" onClick="{{ openToday }}" style="position:absolute;left:140px;top:28px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
+<div style="width:56px;height:56px;border-radius:12px;background:#F6F2EA;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(0,0,0,0.35);position:relative;overflow:hidden;">
+<span style="position:absolute;left:13px;top:12px;width:30px;height:2px;background:#E2621B;"></span>
+<span style="position:absolute;left:13px;top:22px;width:24px;height:2px;background:#5B5648;"></span>
+<span style="position:absolute;left:13px;top:32px;width:30px;height:2px;background:#5B5648;"></span>
+<span style="position:absolute;right:9px;bottom:7px;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:9px;color:#E2621B;">NOW</span>
+</div>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;text-shadow:0 1px 3px rgba(0,0,0,0.6);">Today.txt</div>
+</div>
+
 <div class="desktop-icon" onClick="{{ openAbout }}" style="position:absolute;left:40px;top:28px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
 <div style="width:56px;height:56px;border-radius:12px;background:#F6F2EA;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;box-shadow:0 6px 16px rgba(0,0,0,0.35);">
 <div style="width:28px;height:2px;background:#5B5648;"></div>
@@ -711,6 +727,46 @@
 </div>
 </sc-if>
 
+<sc-if value="{{ windows.today.open }}" hint-placeholder-val="{{ false }}">
+<div class="os-window today-window" data-window-id="today" onMouseDown="{{ focusToday }}" style="position:absolute;left:{{ windows.today.x }}px;top:{{ windows.today.y }}px;width:{{ windows.today.w }}px;height:{{ windows.today.h }}px;z-index:{{ windows.today.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
+<div class="window-titlebar" data-drag-window="today" onMouseDown="{{ dragToday }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
+<span onClick="{{ closeToday }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#E2621B;cursor:pointer;display:inline-block;"></span>
+<span onClick="{{ minimizeToday }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
+<span onClick="{{ zoomToday }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
+<div style="flex:1;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;margin-right:33px;">Today.txt</div>
+</div>
+<div class="window-body" style="padding:28px 32px;overflow-y:auto;">
+<div class="nd-roman" style="margin-bottom:10px;">{{ todayStamp }}</div>
+<h3 class="nd-heading" style="font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:40px;line-height:0.96;color:#14110D;margin:0 0 18px;">{{ todayTitle }}</h3>
+<p style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:16px;line-height:1.65;color:#3B3529;margin:0 0 22px;">{{ todaySummary }}</p>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:22px;">
+<div style="border:1px solid rgba(20,17,13,0.10);border-radius:8px;padding:14px;background:rgba(255,255,255,0.35);">
+<div style="font-family:'Instrument Serif',Georgia,serif;font-size:30px;color:#E2621B;line-height:1;">{{ todayBuildCount }}</div>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#5B5648;margin-top:6px;">build notes</div>
+</div>
+<div style="border:1px solid rgba(20,17,13,0.10);border-radius:8px;padding:14px;background:rgba(255,255,255,0.35);">
+<div style="font-family:'Instrument Serif',Georgia,serif;font-size:30px;color:#E2621B;line-height:1;">{{ todayShipCount }}</div>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#5B5648;margin-top:6px;">ships</div>
+</div>
+<div style="border:1px solid rgba(20,17,13,0.10);border-radius:8px;padding:14px;background:rgba(255,255,255,0.35);">
+<div style="font-family:'Instrument Serif',Georgia,serif;font-size:30px;color:#E2621B;line-height:1;">{{ todayStreak }}</div>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#5B5648;margin-top:6px;">day streak</div>
+</div>
+</div>
+<div style="display:grid;gap:10px;">
+<sc-for list="{{ todayItems }}" as="item" hint-placeholder-count="4">
+<div style="display:grid;grid-template-columns:80px minmax(0,1fr);gap:12px;border-top:1px solid rgba(20,17,13,0.08);padding-top:10px;">
+<div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#E2621B;text-transform:uppercase;letter-spacing:.06em;">{{ item.kind }}</div>
+<div style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:14px;line-height:1.55;color:#3B3529;">{{ item.text }}</div>
+</div>
+</sc-for>
+</div>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#7A7162;margin-top:22px;">terminal: today · now · updates</div>
+</div>
+<div class="resize-grip" data-resize-window="today" onMouseDown="{{ resizeToday }}"></div>
+</div>
+</sc-if>
+
 <sc-if value="{{ windows.onboarding.open }}" hint-placeholder-val="{{ false }}">
 <div class="os-window onboarding-window" data-window-id="onboarding" onMouseDown="{{ focusOnboarding }}" style="position:absolute;left:{{ windows.onboarding.x }}px;top:{{ windows.onboarding.y }}px;width:{{ windows.onboarding.w }}px;height:{{ windows.onboarding.h }}px;z-index:{{ windows.onboarding.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
 <div class="window-titlebar" data-drag-window="onboarding" onMouseDown="{{ dragOnboarding }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
@@ -769,6 +825,7 @@ class Component extends DCLogic {
       terminal: { open: false, x: 140, y: 250, w: 720, h: 390, minW: 460, minH: 300, z: 1 },
       blog: { open: false, x: 320, y: 300, w: 760, h: 560, minW: 470, minH: 380, z: 1 },
       music: { open: false, x: 520, y: 260, w: 440, h: 330, minW: 340, minH: 260, z: 1 },
+      today: { open: false, x: 360, y: 150, w: 560, h: 520, minW: 390, minH: 360, z: 1 },
       onboarding: { open: false, x: 930, y: 92, w: 360, h: 390, minW: 320, minH: 300, z: 1 }
     },
     zCounter: 100,
@@ -804,7 +861,7 @@ class Component extends DCLogic {
   osInputRef = React.createRef();
 
   commands = {
-    help: "available commands:\n\n  ls            list files\n  cd <dir>      move around\n  pwd           print current path\n  cat <file>    read a file\n  tree          map the desktop\n  agent         wake the local agent\n  tokens        show context spend\n  graph         show activity graphs\n  whoami        who i am\n  resume        open the credential packet\n  gallery/blog  open apps\n  clear         clear the screen",
+    help: "available commands:\n\n  ls            list files\n  cd <dir>      move around\n  pwd           print current path\n  cat <file>    read a file\n  tree          map the desktop\n  today/now     open daily update\n  updates       show update ideas\n  agent         wake the local agent\n  tokens        show context spend\n  graph         show activity graphs\n  whoami        who i am\n  resume        open the credential packet\n  gallery/blog  open apps\n  clear         clear the screen",
     whoami: "abhishek_enaguthi\ncpu architecture & systems engineer — compiler backends, hpc performance\nM.S. Artificial Intelligence · B.S. Computer Science, Oregon State University",
     about: "M.S. Artificial Intelligence (Thesis) + B.S. Computer Science (AI), Minor in Finance — Oregon State University. GPA 4.0 / 3.95.\nI live in the layer underneath the framework — compiler backends, kernel-level debug, distributed HPC systems.\nSecured a $1M joint research grant from AMD + IBM to advance heterogeneous GPU compiler tech.",
     experience: "[Mar 2024 – Present] AI Research Engineer — Research Advanced Computing, OSU\n  - secured $1M grant from AMD + IBM for heterogeneous GPU compiler tech\n  - published compiler research enabling ROCm cross-compilation to x86\n  - led team to SC25, top 3/50+ in the IndySCC student cluster competition\n\n[Jun–Sep 2025] LLM Research Intern — University of Washington\n  - built multi-turn synthetic QA generation for NVIDIA NeMo\n  - deployed LLaMA-3 70B + Mistral via vLLM on NVIDIA H200 clusters\n\n[Jun 2024 – Present] Systems Software Engineer — CEOAS, OSU\n  - presented a physics-based digital twin at SC24 (NVIDIA Omniverse + Isaac Sim)\n  - wrote LLVM passes + kernel optimizations, 30% perf boost\n\n[Mar 2024 – Present] HPC Performance Engineer — OSU\n  - automated SLURM RPC + disk monitoring, adopted by 100+ daily users\n  - 20% faster collective comm, 15% higher memory throughput (NCCL/MPI)",
@@ -813,7 +870,10 @@ class Component extends DCLogic {
     resume: "opening Resume...",
     gallery: "opening Gallery...",
     blog: "opening Blog...",
-    music: "opening Music..."
+    music: "opening Music...",
+    today: "opening Today.txt...",
+    now: "opening Today.txt...",
+    updates: "update system ideas:\n- Today.txt daily note\n- Now.log right rail card\n- terminal command: today\n- weekly archive pages\n- agent activity graph"
   };
 
   contributionCells = Array.from({ length: 98 }, (_, i) => {
@@ -822,8 +882,22 @@ class Component extends DCLogic {
     return { level, title: level ? (level + " contribution blocks") : "quiet build day" };
   });
 
+  todayData = {
+    title: 'Portfolio OS build log',
+    summary: 'Today is about making the site feel alive: live Spotify, visible windows, a daily update surface, and terminal commands that make the desktop feel like Abhi is actively building here.',
+    buildCount: '04',
+    shipCount: '02',
+    streak: '01',
+    items: [
+      { kind: 'ship', text: 'Fixed the OS layout so windows stay visible after browser resize and zoom changes.' },
+      { kind: 'live', text: 'Spotify now-playing feed is connected and refreshes after deploys.' },
+      { kind: 'next', text: 'Turn Today.txt into a markdown-backed daily update feed.' },
+      { kind: 'agent', text: 'Future hook: show Codex/Claude work sessions, token spend, and deploy activity from real logs.' }
+    ]
+  };
+
   shellFiles = {
-    '~': ['about.txt', 'experience.log', 'projects/', 'gallery/', 'blog/', 'resume.txt', 'agent/'],
+    '~': ['today.txt', 'about.txt', 'experience.log', 'projects/', 'gallery/', 'blog/', 'resume.txt', 'agent/'],
     '~/projects': ['mocki.md', 'bluestart.md', 'compile-your-language.md', 'rag-pipeline.md'],
     '~/agent': ['tokens.log', 'graph.json', 'loop.md', 'chat']
   };
@@ -857,19 +931,33 @@ class Component extends DCLogic {
       this.setState({ shellPath: target });
       return 'entered ' + target;
     }
-    if (cmd === 'tree') return ".\n├── about.txt\n├── experience.log\n├── resume.txt\n├── projects/\n│   ├── mocki.md\n│   ├── bluestart.md\n│   └── rag-pipeline.md\n├── gallery/\n├── blog/\n└── agent/\n    ├── tokens.log\n    ├── graph.json\n    └── chat";
+    if (cmd === 'tree') return ".\n├── today.txt\n├── about.txt\n├── experience.log\n├── resume.txt\n├── projects/\n│   ├── mocki.md\n│   ├── bluestart.md\n│   └── rag-pipeline.md\n├── gallery/\n├── blog/\n└── agent/\n    ├── tokens.log\n    ├── graph.json\n    └── chat";
     if (cmd === 'tokens') return "context meter\nused: 67%\nremaining: ~18k tokens\nmode: build + verify\nnote: static display for now; ready for real Codex/Claude logs.";
     if (cmd === 'graph') return "activity graphs\nGitHub pulse: rendered in right rail\nAgent runtime: context/token meter online\nnext hook: wire live GitHub + local agent traces.";
     if (cmd === 'agent') return "rudhra-agent online-ish\n\nask: agent \"what should i open first?\"\ntry: tokens, graph, tree, cat resume.txt";
     if (cmd.indexOf('agent ') === 0) return "agent: " + this.agentReply(cmd.slice(6).trim());
     if (cmd.indexOf('cat ') === 0) return this.catFile(cmd.slice(4).trim());
+    if (cmd === 'today' || cmd === 'now') {
+      this.openToday();
+      return this.todayText();
+    }
+    if (cmd === 'updates') return this.commands.updates;
     return null;
+  }
+
+  todayText() {
+    return this.todayData.title + "\n" + this.todayStamp() + "\n\n" + this.todayData.summary + "\n\n" + this.todayData.items.map((item) => "- " + item.kind + ": " + item.text).join("\n");
+  }
+
+  todayStamp() {
+    return new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date());
   }
 
   catFile(name) {
     const file = name.replace(/^.*\//, '');
     const files = {
       'about.txt': this.commands.about,
+      'today.txt': this.todayText(),
       'experience.log': this.commands.experience,
       'resume.txt': 'opening Resume viewer...\nTip: click open full tab for the printable PDF.',
       'tokens.log': 'tokens_used=67%\ntokens_left=18000\nagent_loop=design-build-verify',
@@ -1190,6 +1278,7 @@ class Component extends DCLogic {
   };
   openBlog = () => this.openWindow('blog');
   openMusic = () => this.openWindow('music');
+  openToday = () => this.openWindow('today');
   openOnboarding = () => this.openWindow('onboarding');
 
   closeAbout = (e) => this.closeWindow('about', e);
@@ -1201,6 +1290,7 @@ class Component extends DCLogic {
   closeTerminal = (e) => this.closeWindow('terminal', e);
   closeBlog = (e) => this.closeWindow('blog', e);
   closeMusic = (e) => this.closeWindow('music', e);
+  closeToday = (e) => this.closeWindow('today', e);
   closeOnboarding = (e) => this.closeWindow('onboarding', e);
 
   minimizeAbout = (e) => this.minimizeWindow('about', e);
@@ -1212,6 +1302,7 @@ class Component extends DCLogic {
   minimizeTerminal = (e) => this.minimizeWindow('terminal', e);
   minimizeBlog = (e) => this.minimizeWindow('blog', e);
   minimizeMusic = (e) => this.minimizeWindow('music', e);
+  minimizeToday = (e) => this.minimizeWindow('today', e);
   minimizeOnboarding = (e) => this.minimizeWindow('onboarding', e);
 
   zoomAbout = (e) => this.zoomWindow('about', e);
@@ -1223,6 +1314,7 @@ class Component extends DCLogic {
   zoomTerminal = (e) => this.zoomWindow('terminal', e);
   zoomBlog = (e) => this.zoomWindow('blog', e);
   zoomMusic = (e) => this.zoomWindow('music', e);
+  zoomToday = (e) => this.zoomWindow('today', e);
   zoomOnboarding = (e) => this.zoomWindow('onboarding', e);
 
   focusAbout = () => this.focusWindow('about');
@@ -1234,6 +1326,7 @@ class Component extends DCLogic {
   focusTerminal = () => this.focusWindow('terminal');
   focusBlog = () => this.focusWindow('blog');
   focusMusic = () => this.focusWindow('music');
+  focusToday = () => this.focusWindow('today');
   focusOnboarding = () => this.focusWindow('onboarding');
 
   dragAbout = (e) => this.startDrag('about', e);
@@ -1245,6 +1338,7 @@ class Component extends DCLogic {
   dragTerminal = (e) => this.startDrag('terminal', e);
   dragBlog = (e) => this.startDrag('blog', e);
   dragMusic = (e) => this.startDrag('music', e);
+  dragToday = (e) => this.startDrag('today', e);
   dragOnboarding = (e) => this.startDrag('onboarding', e);
 
   resizeAbout = (e) => this.startResize('about', e);
@@ -1256,6 +1350,7 @@ class Component extends DCLogic {
   resizeTerminal = (e) => this.startResize('terminal', e);
   resizeBlog = (e) => this.startResize('blog', e);
   resizeMusic = (e) => this.startResize('music', e);
+  resizeToday = (e) => this.startResize('today', e);
   resizeOnboarding = (e) => this.startResize('onboarding', e);
 
   selectPhoto1 = () => this.setState({ selectedPhoto: '/media/sc24-booth.jpg', photoCaption: 'Link Oregon booth — SC24, Atlanta' });
@@ -1330,7 +1425,7 @@ class Component extends DCLogic {
   };
 
   osCommands = {
-    help: "commands:\n\n  ls            list files\n  cd <dir>      move around\n  pwd           print current path\n  cat <file>    read a file\n  tree          map the desktop\n  agent         wake the local agent\n  tokens        show context spend\n  graph         show activity graphs\n  whoami        who i am\n  resume        open the credential packet\n  gallery/blog  open apps\n  clear         clear the screen",
+    help: "commands:\n\n  ls            list files\n  cd <dir>      move around\n  pwd           print current path\n  cat <file>    read a file\n  tree          map the desktop\n  today/now     open daily update\n  updates       show update ideas\n  agent         wake the local agent\n  tokens        show context spend\n  graph         show activity graphs\n  whoami        who i am\n  resume        open the credential packet\n  gallery/blog  open apps\n  clear         clear the screen",
     whoami: "abhishek_enaguthi\ncpu architecture & systems engineer — compiler backends, hpc performance\nM.S. Artificial Intelligence · B.S. Computer Science, Oregon State University",
     about: "M.S. Artificial Intelligence (Thesis) + B.S. Computer Science (AI), Minor in Finance — Oregon State University. GPA 4.0 / 3.95.\nI live in the layer underneath the framework — compiler backends, kernel-level debug, distributed HPC systems.\nSecured a $1M joint research grant from AMD + IBM to advance heterogeneous GPU compiler tech.",
     experience: "[Mar 2024 – Present] AI Research Engineer — Research Advanced Computing, OSU\n  - secured $1M grant from AMD + IBM for heterogeneous GPU compiler tech\n  - published compiler research enabling ROCm cross-compilation to x86\n  - led team to SC25, top 3/50+ in the IndySCC student cluster competition\n\n[Jun–Sep 2025] LLM Research Intern — University of Washington\n  - built multi-turn synthetic QA generation for NVIDIA NeMo\n  - deployed LLaMA-3 70B + Mistral via vLLM on NVIDIA H200 clusters\n\n[Jun 2024 – Present] Systems Software Engineer — CEOAS, OSU\n  - presented a physics-based digital twin at SC24 (NVIDIA Omniverse + Isaac Sim)\n  - wrote LLVM passes + kernel optimizations, 30% perf boost\n\n[Mar 2024 – Present] HPC Performance Engineer — OSU\n  - automated SLURM RPC + disk monitoring, adopted by 100+ daily users\n  - 20% faster collective comm, 15% higher memory throughput (NCCL/MPI)",
@@ -1339,7 +1434,10 @@ class Component extends DCLogic {
     resume: "opening Resume...",
     gallery: "opening Gallery...",
     blog: "opening Blog...",
-    music: "opening Music..."
+    music: "opening Music...",
+    today: "opening Today.txt...",
+    now: "opening Today.txt...",
+    updates: "update system ideas:\n- Today.txt daily note\n- Now.log right rail card\n- terminal command: today\n- weekly archive pages\n- agent activity graph"
   };
 
   osOpenTargets = {
@@ -1410,7 +1508,7 @@ class Component extends DCLogic {
 
   hasActiveWorkspaceWindow() {
     const windows = this.state.windows;
-    return ['experience', 'projects', 'gallery', 'contact', 'resume', 'terminal', 'blog', 'music', 'onboarding'].some((id) => windows[id] && windows[id].open);
+    return ['experience', 'projects', 'gallery', 'contact', 'resume', 'terminal', 'blog', 'music', 'today', 'onboarding'].some((id) => windows[id] && windows[id].open);
   }
 
   renderVals() {
@@ -1442,6 +1540,13 @@ class Component extends DCLogic {
       abhiTime: this.state.abhiTime,
       visitorTime: this.state.visitorTime,
       visitorZone: this.state.visitorZone,
+      todayTitle: this.todayData.title,
+      todaySummary: this.todayData.summary,
+      todayStamp: this.todayStamp(),
+      todayItems: this.todayData.items,
+      todayBuildCount: this.todayData.buildCount,
+      todayShipCount: this.todayData.shipCount,
+      todayStreak: this.todayData.streak,
       openAbout: this.openAbout,
       openExperience: this.openExperience,
       openProjects: this.openProjects,
@@ -1451,6 +1556,7 @@ class Component extends DCLogic {
       openTerminal: this.openTerminal,
       openBlog: this.openBlog,
       openMusic: this.openMusic,
+      openToday: this.openToday,
       openOnboarding: this.openOnboarding,
       closeAbout: this.closeAbout,
       closeExperience: this.closeExperience,
@@ -1461,6 +1567,7 @@ class Component extends DCLogic {
       closeTerminal: this.closeTerminal,
       closeBlog: this.closeBlog,
       closeMusic: this.closeMusic,
+      closeToday: this.closeToday,
       closeOnboarding: this.closeOnboarding,
       minimizeAbout: this.minimizeAbout,
       minimizeExperience: this.minimizeExperience,
@@ -1471,6 +1578,7 @@ class Component extends DCLogic {
       minimizeTerminal: this.minimizeTerminal,
       minimizeBlog: this.minimizeBlog,
       minimizeMusic: this.minimizeMusic,
+      minimizeToday: this.minimizeToday,
       minimizeOnboarding: this.minimizeOnboarding,
       zoomAbout: this.zoomAbout,
       zoomExperience: this.zoomExperience,
@@ -1481,6 +1589,7 @@ class Component extends DCLogic {
       zoomTerminal: this.zoomTerminal,
       zoomBlog: this.zoomBlog,
       zoomMusic: this.zoomMusic,
+      zoomToday: this.zoomToday,
       zoomOnboarding: this.zoomOnboarding,
       focusAbout: this.focusAbout,
       focusExperience: this.focusExperience,
@@ -1491,6 +1600,7 @@ class Component extends DCLogic {
       focusTerminal: this.focusTerminal,
       focusBlog: this.focusBlog,
       focusMusic: this.focusMusic,
+      focusToday: this.focusToday,
       focusOnboarding: this.focusOnboarding,
       dragAbout: this.dragAbout,
       dragExperience: this.dragExperience,
@@ -1501,6 +1611,7 @@ class Component extends DCLogic {
       dragTerminal: this.dragTerminal,
       dragBlog: this.dragBlog,
       dragMusic: this.dragMusic,
+      dragToday: this.dragToday,
       dragOnboarding: this.dragOnboarding,
       resizeAbout: this.resizeAbout,
       resizeExperience: this.resizeExperience,
@@ -1511,6 +1622,7 @@ class Component extends DCLogic {
       resizeTerminal: this.resizeTerminal,
       resizeBlog: this.resizeBlog,
       resizeMusic: this.resizeMusic,
+      resizeToday: this.resizeToday,
       resizeOnboarding: this.resizeOnboarding,
       stopProp: this.stopProp,
       selectPhoto1: this.selectPhoto1,
@@ -1571,6 +1683,7 @@ class Component extends DCLogic {
   const clampPlacement = (win, next = {}) => {
     const surface = surfaceFor(win);
     const bounds = surface.getBoundingClientRect();
+    if (bounds.width < 320 || bounds.height < 260) return null;
     const current = win.getBoundingClientRect();
     const width = Math.min(
       Number.isFinite(next.width) ? next.width : win.offsetWidth,
@@ -1596,6 +1709,7 @@ class Component extends DCLogic {
     const win = document.querySelector(`[data-window-id="${id}"]`);
     if (!win) return;
     const safe = clampPlacement(win, next);
+    if (!safe) return;
     placements[id] = safe;
     win.style.left = `${safe.left}px`;
     win.style.top = `${safe.top}px`;
@@ -1612,7 +1726,16 @@ class Component extends DCLogic {
     document.querySelectorAll('.os-window[data-window-id]').forEach((win) => {
       const id = win.getAttribute('data-window-id');
       if (!id) return;
-      const safe = clampPlacement(win, placements[id] || {});
+      const surface = surfaceFor(win);
+      const bounds = surface.getBoundingClientRect();
+      if (bounds.width < 320 || bounds.height < 260) return;
+      const rect = win.getBoundingClientRect();
+      const left = rect.left - bounds.left;
+      const top = rect.top - bounds.top;
+      const needsRepair = left < 10 || top < 10 || left + rect.width > bounds.width - 10 || top + rect.height > bounds.height - 10;
+      if (!placements[id] && !needsRepair) return;
+      const safe = clampPlacement(win, placements[id] || { left, top, width: win.offsetWidth, height: win.offsetHeight });
+      if (!safe) return;
       remember(id, safe);
     });
   };
