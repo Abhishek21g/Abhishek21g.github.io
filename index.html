@@ -97,6 +97,33 @@
   .desktop-icon{transition:transform .16s ease,filter .16s ease;}
   .desktop-icon:hover{transform:translateY(-2px);filter:brightness(1.07);}
   .desktop-hint{pointer-events:none;}
+  @media (min-width: 641px) and (max-height: 860px){
+    .desktop-icon{width:76px!important;gap:5px!important;}
+    .desktop-icon > div:first-child{width:56px!important;height:56px!important;}
+    .desktop-icon > div:last-child{font-size:10px!important;line-height:1.08!important;max-width:76px!important;text-align:center!important;}
+    .desktop-icons .desktop-icon:nth-child(1){left:126px!important;top:20px!important;}
+    .desktop-icons .desktop-icon:nth-child(2){left:32px!important;top:20px!important;}
+    .desktop-icons .desktop-icon:nth-child(3){left:32px!important;top:104px!important;}
+    .desktop-icons .desktop-icon:nth-child(4){left:32px!important;top:188px!important;}
+    .desktop-icons .desktop-icon:nth-child(5){left:32px!important;top:272px!important;}
+    .desktop-icons .desktop-icon:nth-child(6){left:32px!important;top:356px!important;}
+    .desktop-icons .desktop-icon:nth-child(7){left:32px!important;top:440px!important;}
+    .desktop-icons .desktop-icon:nth-child(8){left:32px!important;top:524px!important;}
+    .desktop-icons .desktop-icon:nth-child(9){left:32px!important;top:608px!important;}
+    .desktop-hint{left:140px!important;bottom:12px!important;font-size:9px!important;}
+  }
+  @media (min-width: 641px) and (max-height: 760px){
+    .desktop-icons .desktop-icon:nth-child(1){left:122px!important;top:18px!important;}
+    .desktop-icons .desktop-icon:nth-child(2){left:32px!important;top:18px!important;}
+    .desktop-icons .desktop-icon:nth-child(3){left:32px!important;top:100px!important;}
+    .desktop-icons .desktop-icon:nth-child(4){left:32px!important;top:182px!important;}
+    .desktop-icons .desktop-icon:nth-child(5){left:32px!important;top:264px!important;}
+    .desktop-icons .desktop-icon:nth-child(6){left:32px!important;top:346px!important;}
+    .desktop-icons .desktop-icon:nth-child(7){left:122px!important;top:100px!important;}
+    .desktop-icons .desktop-icon:nth-child(8){left:122px!important;top:182px!important;}
+    .desktop-icons .desktop-icon:nth-child(9){left:122px!important;top:264px!important;}
+    .desktop-hint{left:32px!important;right:24px!important;bottom:10px!important;}
+  }
   .gallery-main-photo{object-fit:contain;background:#0D0C09;}
   .gallery-thumb-img{object-fit:contain;background:#14110D;}
   .gallery-rail::-webkit-scrollbar,.window-body::-webkit-scrollbar{width:8px;height:8px;}
