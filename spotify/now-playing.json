@@ -1,11 +1,11 @@
 {
-  "isPlaying": false,
-  "title": "Systems work queue",
-  "artist": "Spotify sync ready",
-  "album": "Focus mode",
-  "image": "",
-  "url": "https://open.spotify.com/",
-  "progressMs": 0,
-  "durationMs": 1,
-  "updatedAt": ""
+  "isPlaying": true,
+  "title": "She Likes Another Boy",
+  "artist": "Oscar Lang",
+  "album": "She Likes Another Boy + Talk 2 U",
+  "image": "https://i.scdn.co/image/ab67616d0000b2737b3ad981f403c36ce47bfde3",
+  "url": "https://open.spotify.com/track/5W6BA8Wa8JZGKdliH2gkwO",
+  "progressMs": 84199,
+  "durationMs": 207826,
+  "updatedAt": "2026-07-03T09:14:16.771Z"
 }
