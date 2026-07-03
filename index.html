@@ -87,42 +87,55 @@
   .nd-roman{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#E2621B;}
   .nd-heading{font-family:'Instrument Serif',Georgia,serif;font-weight:400;letter-spacing:0;line-height:.9;color:#14110D;}
   .nd-copy{font-family:'Instrument Sans','Instrument Sans','National Park','IBM Plex Sans',sans-serif;color:#373126;}
-  .gov-strip{height:24px;background:#F6F2EA;color:#333334;border-bottom:1px solid rgba(51,51,52,0.16);display:flex;align-items:center;gap:8px;padding:0 20px;font:600 10px/1 'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.04em;}
+  .gov-strip{height:24px;background:linear-gradient(180deg,rgba(246,242,234,0.94),rgba(232,226,214,0.86));color:#333334;border-bottom:1px solid rgba(51,51,52,0.16);display:flex;align-items:center;gap:8px;padding:0 20px;font:600 10px/1 'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.04em;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);}
   .gov-dot{width:7px;height:7px;border-radius:999px;background:#E2621B;display:inline-block;}
+  .mac-menu-items{display:flex;align-items:center;gap:16px;margin-left:8px;text-transform:none;letter-spacing:0;color:rgba(51,51,52,0.74);font-weight:600;}
+  .mac-menu-items strong{color:#14110D;font-weight:800;}
   .brand-pill{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(246,242,234,0.18);background:rgba(246,242,234,0.08);border-radius:999px;padding:3px 10px 3px 5px;color:#F6F2EA;text-decoration:none;}
   .brand-pill strong{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:18px;line-height:1;}
   .brand-pill span{font:600 10px 'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.04em;color:rgba(246,242,234,0.58);}
   .desktop-surface{background:#11100C!important;width:100%!important;height:calc(100dvh - 64px)!important;}
-  .desktop-surface::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 84% 18%,rgba(246,242,234,.055),transparent 28%),linear-gradient(180deg,rgba(255,255,255,.02),transparent 42%);}
+  .desktop-surface::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 20% 12%,rgba(246,242,234,.055),transparent 24%),radial-gradient(circle at 82% 18%,rgba(226,98,27,.08),transparent 20%),linear-gradient(145deg,#15130F 0%,#0E0D0A 62%,#1A1712 100%);}
+  .desktop-surface::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(135deg, rgba(246,242,234,0.015) 0px, rgba(246,242,234,0.015) 1px, transparent 1px, transparent 40px),linear-gradient(180deg,rgba(255,255,255,.026),transparent 42%);}
+  .os-window{border-radius:14px!important;border:1px solid rgba(246,242,234,0.12)!important;box-shadow:0 34px 90px rgba(0,0,0,0.52),0 1px 0 rgba(255,255,255,0.22) inset!important;}
+  .os-window .window-titlebar{background:linear-gradient(180deg,rgba(237,234,226,0.96),rgba(224,219,207,0.91))!important;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);}
+  .terminal-window .window-titlebar,.music-window .window-titlebar{background:linear-gradient(180deg,rgba(28,28,26,0.96),rgba(12,12,11,0.92))!important;}
+  .desktop-icons{position:absolute;left:32px;top:28px;display:grid;grid-template-columns:88px 88px;grid-auto-rows:minmax(76px,auto);column-gap:12px;row-gap:clamp(8px,1.4dvh,22px);z-index:3;align-items:start;}
   .desktop-icon{transition:transform .16s ease,filter .16s ease;}
   .desktop-icon:hover{transform:translateY(-2px);filter:brightness(1.07);}
+  .desktop-icons .desktop-icon{position:relative!important;left:auto!important;top:auto!important;width:88px!important;display:flex!important;flex-direction:column!important;align-items:center!important;gap:8px!important;}
+  .desktop-icons .desktop-icon:nth-child(1){grid-column:2;grid-row:1;}
+  .desktop-icons .desktop-icon:nth-child(2){grid-column:1;grid-row:1;}
+  .desktop-icons .desktop-icon:nth-child(3){grid-column:1;grid-row:2;}
+  .desktop-icons .desktop-icon:nth-child(4){grid-column:1;grid-row:3;}
+  .desktop-icons .desktop-icon:nth-child(5){grid-column:1;grid-row:4;}
+  .desktop-icons .desktop-icon:nth-child(6){grid-column:1;grid-row:5;}
+  .desktop-icons .desktop-icon:nth-child(7){grid-column:1;grid-row:6;}
+  .desktop-icons .desktop-icon:nth-child(8){grid-column:1;grid-row:7;}
+  .desktop-icons .desktop-icon:nth-child(9){grid-column:1;grid-row:8;}
   .desktop-hint{pointer-events:none;}
   @media (min-width: 641px) and (max-height: 860px){
-    .desktop-icon{width:76px!important;gap:5px!important;}
+    .desktop-icons{left:30px;top:20px;row-gap:8px;column-gap:10px;grid-template-columns:76px 76px;}
+    .desktop-icons .desktop-icon{width:76px!important;gap:5px!important;}
     .desktop-icon > div:first-child{width:56px!important;height:56px!important;}
     .desktop-icon > div:last-child{font-size:10px!important;line-height:1.08!important;max-width:76px!important;text-align:center!important;}
-    .desktop-icons .desktop-icon:nth-child(1){left:126px!important;top:20px!important;}
-    .desktop-icons .desktop-icon:nth-child(2){left:32px!important;top:20px!important;}
-    .desktop-icons .desktop-icon:nth-child(3){left:32px!important;top:104px!important;}
-    .desktop-icons .desktop-icon:nth-child(4){left:32px!important;top:188px!important;}
-    .desktop-icons .desktop-icon:nth-child(5){left:32px!important;top:272px!important;}
-    .desktop-icons .desktop-icon:nth-child(6){left:32px!important;top:356px!important;}
-    .desktop-icons .desktop-icon:nth-child(7){left:32px!important;top:440px!important;}
-    .desktop-icons .desktop-icon:nth-child(8){left:32px!important;top:524px!important;}
-    .desktop-icons .desktop-icon:nth-child(9){left:32px!important;top:608px!important;}
     .desktop-hint{left:140px!important;bottom:12px!important;font-size:9px!important;}
   }
   @media (min-width: 641px) and (max-height: 760px){
-    .desktop-icons .desktop-icon:nth-child(1){left:122px!important;top:18px!important;}
-    .desktop-icons .desktop-icon:nth-child(2){left:32px!important;top:18px!important;}
-    .desktop-icons .desktop-icon:nth-child(3){left:32px!important;top:100px!important;}
-    .desktop-icons .desktop-icon:nth-child(4){left:32px!important;top:182px!important;}
-    .desktop-icons .desktop-icon:nth-child(5){left:32px!important;top:264px!important;}
-    .desktop-icons .desktop-icon:nth-child(6){left:32px!important;top:346px!important;}
-    .desktop-icons .desktop-icon:nth-child(7){left:122px!important;top:100px!important;}
-    .desktop-icons .desktop-icon:nth-child(8){left:122px!important;top:182px!important;}
-    .desktop-icons .desktop-icon:nth-child(9){left:122px!important;top:264px!important;}
-    .desktop-hint{left:32px!important;right:24px!important;bottom:10px!important;}
+    .desktop-icons .desktop-icon:nth-child(7){grid-column:2;grid-row:2;}
+    .desktop-icons .desktop-icon:nth-child(8){grid-column:2;grid-row:3;}
+    .desktop-icons .desktop-icon:nth-child(9){grid-column:2;grid-row:4;}
+    .desktop-hint{display:none!important;}
+  }
+  .mac-dock{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:22px;background:linear-gradient(145deg,rgba(246,242,234,0.22),rgba(246,242,234,0.09));border:1px solid rgba(246,242,234,0.22);box-shadow:0 24px 70px rgba(0,0,0,0.45),inset 0 1px 0 rgba(255,255,255,0.25);backdrop-filter:blur(28px) saturate(1.3);-webkit-backdrop-filter:blur(28px) saturate(1.3);z-index:8;}
+  .mac-dock button{appearance:none;border:0;width:48px;height:48px;border-radius:13px;background:#F6F2EA;color:#14110D;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 8px 18px rgba(0,0,0,0.28);transition:transform .16s ease,filter .16s ease;}
+  .mac-dock button:hover{transform:translateY(-5px) scale(1.04);filter:brightness(1.06);}
+  .mac-dock button:active{transform:translateY(-2px) scale(.98);}
+  .mac-dock .dock-hot{background:#E2621B;}
+  .mac-dock .dock-dark{background:#0A0A0A;color:#E2621B;border:1px solid rgba(246,242,234,0.16);}
+  .mac-dock-separator{width:1px;height:34px;background:rgba(246,242,234,0.24);margin:0 2px;}
+  @media (max-width: 1100px),(max-height: 780px){
+    .mac-dock{display:none!important;}
   }
   .gallery-main-photo{object-fit:contain;background:#0D0C09;}
   .gallery-thumb-img{object-fit:contain;background:#14110D;}
@@ -345,7 +358,7 @@
 <div style="height:64px;background:rgba(10,9,7,0.94);backdrop-filter:blur(12px);display:flex;flex-direction:column;border-bottom:1px solid rgba(246,242,234,0.08);">
 <div class="gov-strip">
 <span class="gov-dot"></span>
-<span>Abhishek Enaguthi</span>
+<span class="mac-menu-items"><strong>AE</strong><span>Finder</span><span>File</span><span>Edit</span><span>View</span><span>Go</span><span>Window</span></span>
 <span style="margin-left:auto;">Systems · Compilers · HPC</span>
 </div>
 <div style="height:40px;width:100%;display:flex;align-items:center;justify-content:space-between;padding:0 20px;box-sizing:border-box;">
@@ -489,6 +502,16 @@
 </div>
 <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;text-shadow:0 1px 3px rgba(0,0,0,0.6);">Blog</div>
 </div>
+</div>
+
+<div class="mac-dock" aria-label="Mac-style app dock">
+<button onClick="{{ openAbout }}" title="About.txt" aria-label="Open About">☰</button>
+<button class="dock-hot" onClick="{{ openProjects }}" title="Projects/" aria-label="Open Projects">&lt;/&gt;</button>
+<button onClick="{{ openGallery }}" title="Gallery" aria-label="Open Gallery">▧</button>
+<button class="dock-dark" onClick="{{ openTerminal }}" title="Terminal" aria-label="Open Terminal">&gt;_</button>
+<span class="mac-dock-separator"></span>
+<button onClick="{{ openResume }}" title="Resume.txt" aria-label="Open Resume">CV</button>
+<button onClick="{{ openBlog }}" title="Blog" aria-label="Open Blog">¶</button>
 </div>
 
 <div class="desktop-hint" style="position:absolute;left:154px;bottom:20px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(246,242,234,0.32);">click an icon to open · drag a titlebar to move · resize from a corner</div>
