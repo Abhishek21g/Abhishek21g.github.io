@@ -1,5 +1,5 @@
-import { copyFileSync, existsSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
-import { resolve } from 'node:path'
+import { copyFileSync, existsSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs'
+import { extname, join, resolve } from 'node:path'
 
 const outDir = resolve('out')
 const osHtmlPath = resolve(outDir, 'claude-design/index.html')
@@ -32,3 +32,41 @@ for (const requestPath of templateImageRequests) {
     rmSync(badOutputPath, { force: true })
   }
 }
+
+const removeFromOutput = [
+  '.DS_Store',
+  'claude-design',
+  'Blog1/.DS_Store',
+  'Blog1/IMG_7984.heic',
+  'Blog1/Omniverse-Talk-AIWeek-2025 (1).pdf',
+  'Blog1/Project X.mp4',
+]
+
+for (const relativePath of removeFromOutput) {
+  const outputPath = resolve(outDir, relativePath)
+  if (existsSync(outputPath)) {
+    rmSync(outputPath, { recursive: true, force: true })
+  }
+}
+
+const removeExtensions = new Set(['.heic'])
+
+function scrubOutputDirectory(dir) {
+  if (!existsSync(dir)) return
+
+  for (const entry of readdirSync(dir)) {
+    const entryPath = join(dir, entry)
+    const entryStat = statSync(entryPath)
+
+    if (entryStat.isDirectory()) {
+      scrubOutputDirectory(entryPath)
+      continue
+    }
+
+    if (entry === '.DS_Store' || removeExtensions.has(extname(entry).toLowerCase())) {
+      rmSync(entryPath, { force: true })
+    }
+  }
+}
+
+scrubOutputDirectory(resolve(outDir, 'blog2'))

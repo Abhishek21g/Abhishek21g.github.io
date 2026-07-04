@@ -1,5 +1,6 @@
 # dependencies
 /node_modules
+/node_modules.broken-*/
 /.pnp
 .pnp.js
 
@@ -9,6 +10,16 @@
 # next.js
 /.next/
 /out/
+
+# local agent workspace
+/agent/
+/.codex/
+/.claude/
+/AGENTS.md
+/CLAUDE.md
+
+# editor/local snapshots
+/.history/
 
 # production
 /build
