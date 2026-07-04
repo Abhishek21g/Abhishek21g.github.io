@@ -345,6 +345,51 @@
   .mobile-preview .gallery-stage{height:42vh!important;min-height:260px!important;}
   .mobile-preview .blog-list{width:auto!important;max-height:170px!important;}
   .mobile-preview .resize-grip{display:none!important;}
+  @media (max-width: 640px){
+    .dv-card{border-radius:0!important;box-shadow:none!important;}
+    .gov-strip{height:22px!important;padding:0 14px!important;gap:6px!important;overflow:hidden!important;}
+    .gov-strip .mac-menu-items{gap:0!important;margin-left:2px!important;}
+    .gov-strip .mac-menu-items span{display:none!important;}
+    .gov-strip > span:last-child{font-size:9px!important;letter-spacing:0.03em!important;white-space:nowrap!important;}
+    .site-app .dv-card > div:first-of-type > div:last-child{height:42px!important;padding:0 14px!important;gap:8px!important;}
+    .brand-pill{max-width:164px!important;border-radius:16px!important;background:rgba(246,242,234,0.10)!important;}
+    .brand-pill strong{font-size:15px!important;line-height:1!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;}
+    .top-links{gap:8px!important;font-size:10px!important;justify-content:flex-end!important;}
+    .top-links a,.top-links button{font-size:10px!important;line-height:1!important;}
+    .top-links a:nth-child(2){display:none!important;}
+    .desktop-surface{gap:14px!important;padding:14px 12px 28px!important;scroll-padding-bottom:28px!important;}
+    .about-window{border-radius:16px!important;}
+    .about-window .window-body{padding:16px!important;}
+    .about-window .about-head{grid-template-columns:86px minmax(0,1fr)!important;gap:12px!important;margin-bottom:14px!important;}
+    .about-photo{width:86px!important;height:104px!important;border-radius:12px!important;}
+    .about-name{font-size:clamp(28px,9vw,34px)!important;line-height:.96!important;}
+    .about-copy{font-size:13px!important;line-height:1.5!important;margin-bottom:10px!important;}
+    .about-stats{gap:10px!important;margin-bottom:14px!important;}
+    .about-stats > div > div:first-child{font-size:31px!important;}
+    .skill-pills{max-height:66px!important;}
+    .desktop-icons{width:100%!important;grid-template-columns:repeat(3,minmax(0,86px))!important;grid-auto-rows:86px!important;justify-content:center!important;gap:14px 12px!important;padding:2px 0 0!important;}
+    .desktop-icons .desktop-icon{grid-column:auto!important;grid-row:auto!important;width:86px!important;min-height:78px!important;gap:6px!important;}
+    .desktop-icons .desktop-icon > div:first-child{width:54px!important;height:54px!important;border-radius:14px!important;}
+    .desktop-icons .desktop-icon > div:last-child{font-size:10px!important;line-height:1.1!important;max-width:86px!important;}
+    .ambient-rail{grid-template-columns:1fr 1fr!important;gap:10px!important;padding-bottom:18px!important;}
+    .ambient-card{min-height:92px!important;padding:12px!important;border-radius:17px!important;}
+    .ambient-card:nth-child(n+3){display:none!important;}
+    .ambient-kicker{font-size:9px!important;margin-bottom:7px!important;}
+    .ambient-title{font-size:18px!important;line-height:1.02!important;}
+    .ambient-player{grid-template-columns:38px minmax(0,1fr)!important;gap:9px!important;}
+    .ambient-album{width:38px!important;height:38px!important;border-radius:11px!important;}
+    .ambient-meta{font-size:9px!important;white-space:normal!important;}
+    .contrib-grid{grid-template-columns:repeat(7,1fr)!important;gap:3px!important;margin-top:8px!important;}
+    .contrib-cell:nth-child(n+43){display:none!important;}
+  }
+  .mobile-preview .gov-strip{height:22px!important;padding:0 14px!important;gap:6px!important;overflow:hidden!important;}
+  .mobile-preview .gov-strip .mac-menu-items{gap:0!important;margin-left:2px!important;}
+  .mobile-preview .gov-strip .mac-menu-items span{display:none!important;}
+  .mobile-preview .gov-strip > span:last-child{font-size:9px!important;letter-spacing:0.03em!important;white-space:nowrap!important;}
+  .mobile-preview .desktop-icons .desktop-icon{grid-column:auto!important;grid-row:auto!important;}
+  .mobile-preview .desktop-icons{grid-auto-rows:86px!important;}
+  .mobile-preview .ambient-rail{grid-template-columns:1fr 1fr!important;}
+  .mobile-preview .ambient-card:nth-child(n+3){display:none!important;}
 </style>
 </helmet>
 <div class="site-app">
@@ -2161,13 +2206,20 @@ class Component extends DCLogic {
   document.addEventListener('mouseup', stop);
   window.addEventListener('blur', stop);
   window.addEventListener('resize', () => requestAnimationFrame(repairVisibleWindows));
-  new MutationObserver(() => {
-    bindSurfaces();
-    requestAnimationFrame(repairVisibleWindows);
-  }).observe(document.documentElement, {
-    childList: true,
-    subtree: true,
-  });
+  const observerRoot = document.querySelector('.desktop-surface') || document.body;
+  if (observerRoot && observerRoot.nodeType === 1) {
+    try {
+      new MutationObserver(() => {
+        bindSurfaces();
+        requestAnimationFrame(repairVisibleWindows);
+      }).observe(observerRoot, {
+        childList: true,
+        subtree: true,
+      });
+    } catch {
+      window.addEventListener('load', bindSurfaces, { once: true });
+    }
+  }
 })();
 </script>
 </body>
