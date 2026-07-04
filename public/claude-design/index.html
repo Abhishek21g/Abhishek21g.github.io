@@ -220,6 +220,13 @@
   .projects-window .window-body>div::before{counter-increment:project;content:counter(project, upper-roman);position:absolute;left:12px;top:20px;font:700 11px 'IBM Plex Mono',monospace;color:#E2621B;letter-spacing:.08em;}
   .projects-window .window-body>div:hover{background:rgba(226,98,27,0.055);transform:none;box-shadow:none;}
   .projects-window .window-body>div{transition:transform .16s ease,background .16s ease,box-shadow .16s ease;}
+  .featured-projects{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:0 0 22px;padding:0 0 22px;border-bottom:1px solid rgba(20,17,13,0.14);}
+  .featured-card{position:relative;display:flex;flex-direction:column;gap:11px;min-height:154px;padding:18px;border-radius:10px;background:linear-gradient(135deg,#14110D,#2A2118 62%,#E2621B);color:#F6F2EA;text-decoration:none;overflow:hidden;box-shadow:0 18px 45px rgba(20,17,13,0.18);}
+  .featured-card::after{content:"";position:absolute;right:-30px;bottom:-42px;width:118px;height:118px;border-radius:999px;background:rgba(246,242,234,0.12);filter:blur(2px);}
+  .featured-card span{font:700 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:rgba(246,242,234,.58);}
+  .featured-card strong{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:30px;line-height:.95;color:#F6F2EA;}
+  .featured-card p{font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:12px;line-height:1.45;color:rgba(246,242,234,.76);margin:0;max-width:28em;}
+  .featured-card em{margin-top:auto;font:700 11px 'IBM Plex Mono',monospace;color:#F6F2EA;font-style:normal;}
   @media (min-width: 1300px){
     .os-window{max-width:calc(100vw - 320px);}
   }
@@ -381,6 +388,9 @@
     .ambient-meta{font-size:9px!important;white-space:normal!important;}
     .contrib-grid{grid-template-columns:repeat(7,1fr)!important;gap:3px!important;margin-top:8px!important;}
     .contrib-cell:nth-child(n+43){display:none!important;}
+    .featured-projects{grid-template-columns:1fr!important;gap:10px!important;margin-bottom:14px!important;padding-bottom:14px!important;}
+    .featured-card{min-height:126px!important;padding:14px!important;border-radius:12px!important;}
+    .featured-card strong{font-size:25px!important;}
   }
   .mobile-preview .gov-strip{height:22px!important;padding:0 14px!important;gap:6px!important;overflow:hidden!important;}
   .mobile-preview .gov-strip .mac-menu-items{gap:0!important;margin-left:2px!important;}
@@ -390,6 +400,14 @@
   .mobile-preview .desktop-icons{grid-auto-rows:86px!important;}
   .mobile-preview .ambient-rail{grid-template-columns:1fr 1fr!important;}
   .mobile-preview .ambient-card:nth-child(n+3){display:none!important;}
+  @media (max-width: 640px){
+    .desktop-icons{width:312px!important;max-width:calc(100vw - 24px)!important;margin:0 auto!important;box-sizing:border-box!important;border:1px solid rgba(246,242,234,0.11)!important;border-radius:22px!important;background:rgba(246,242,234,0.045)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 16px 42px rgba(0,0,0,.20)!important;backdrop-filter:blur(14px)!important;-webkit-backdrop-filter:blur(14px)!important;grid-template-columns:repeat(3,72px)!important;grid-auto-rows:76px!important;gap:9px 8px!important;padding:12px 10px!important;}
+    .desktop-icons .desktop-icon{width:72px!important;min-height:70px!important;gap:5px!important;}
+    .desktop-icons .desktop-icon > div:first-child{width:50px!important;height:50px!important;border-radius:13px!important;}
+    .desktop-icons .desktop-icon > div:last-child{font-size:9px!important;max-width:72px!important;}
+  }
+  .mobile-preview .desktop-icons{width:312px!important;max-width:calc(100vw - 24px)!important;margin:0 auto!important;box-sizing:border-box!important;grid-template-columns:repeat(3,72px)!important;grid-auto-rows:76px!important;gap:9px 8px!important;padding:12px 10px!important;}
+  .mobile-preview .desktop-icons .desktop-icon{width:72px!important;min-height:70px!important;}
 </style>
 </helmet>
 <div class="site-app">
@@ -642,6 +660,20 @@
 <div style="flex:1;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;margin-right:33px;">Projects/</div>
 </div>
 <div class="window-body" style="padding:32px 36px;overflow-y:auto;">
+<section class="featured-projects" aria-label="Featured projects">
+<a class="featured-card" href="https://mocki.dev" target="_blank" rel="noopener noreferrer">
+<span>Featured project</span>
+<strong>Mocki</strong>
+<p>Multi-agent AI interview coaching with an adaptive NVIDIA NIM-backed interview loop.</p>
+<em>mocki.dev ↗</em>
+</a>
+<a class="featured-card" href="https://leetfut.mocki.dev" target="_blank" rel="noopener noreferrer">
+<span>Featured project</span>
+<strong>LEETFUT</strong>
+<p>The official scouting bureau for football-style player discovery and roster intelligence.</p>
+<em>leetfut.mocki.dev ↗</em>
+</a>
+</section>
 <div style="margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid rgba(20,17,13,0.1);">
 <h3 style="font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:28px;color:#14110D;margin:0 0 8px;">Mocki — Multi-Agent Interview Coaching</h3>
 <p style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:13px;line-height:1.6;color:#3B3529;margin:0 0 10px;">Coordinator → Interviewer → Evaluator → Report Generator, adaptive difficulty via the NVIDIA NIM API. 1st place, NVIDIA Nemotron track at BeaverHacks 2026 (RTX 5070 prize), out of 50+ teams.</p>
@@ -651,6 +683,14 @@
 <a href="https://mocki.dev" target="_blank" rel="noopener noreferrer" style="color:#E2621B;text-decoration:none;">mocki.dev ↗</a>
 <a href="https://github.com/Abhishek21g/Mocki" target="_blank" rel="noopener noreferrer" style="color:#5B5648;text-decoration:none;">github ↗</a>
 </div>
+</div>
+</div>
+<div style="margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid rgba(20,17,13,0.1);">
+<h3 style="font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:28px;color:#14110D;margin:0 0 8px;">LEETFUT — Scouting Bureau</h3>
+<p style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:13px;line-height:1.6;color:#3B3529;margin:0 0 10px;">A football scouting surface from the Mocki ecosystem, built as a polished public product experience for roster discovery and player intelligence.</p>
+<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;">Next.js · Product UX · Football scouting</div>
+<a href="https://leetfut.mocki.dev" target="_blank" rel="noopener noreferrer" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#E2621B;text-decoration:none;">leetfut.mocki.dev ↗</a>
 </div>
 </div>
 <div style="margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid rgba(20,17,13,0.1);">
@@ -1023,7 +1063,7 @@ class Component extends DCLogic {
     whoami: "abhishek_enaguthi\ncpu architecture & systems engineer — compiler backends, hpc performance\nM.S. Artificial Intelligence · B.S. Computer Science, Oregon State University",
     about: "M.S. Artificial Intelligence (Thesis) + B.S. Computer Science (AI), Minor in Finance — Oregon State University. GPA 4.0 / 3.95.\nI live in the layer underneath the framework — compiler backends, kernel-level debug, distributed HPC systems.\nSecured a $1M joint research grant from AMD + IBM to advance heterogeneous GPU compiler tech.",
     experience: "[Mar 2024 – Present] AI Research Engineer — Research Advanced Computing, OSU\n  - secured $1M grant from AMD + IBM for heterogeneous GPU compiler tech\n  - published compiler research enabling ROCm cross-compilation to x86\n  - led team to SC25, top 3/50+ in the IndySCC student cluster competition\n\n[Jun–Sep 2025] LLM Research Intern — University of Washington\n  - built multi-turn synthetic QA generation for NVIDIA NeMo\n  - deployed LLaMA-3 70B + Mistral via vLLM on NVIDIA H200 clusters\n\n[Jun 2024 – Present] Systems Software Engineer — CEOAS, OSU\n  - presented a physics-based digital twin at SC24 (NVIDIA Omniverse + Isaac Sim)\n  - wrote LLVM passes + kernel optimizations, 30% perf boost\n\n[Mar 2024 – Present] HPC Performance Engineer — OSU\n  - automated SLURM RPC + disk monitoring, adopted by 100+ daily users\n  - 20% faster collective comm, 15% higher memory throughput (NCCL/MPI)",
-    projects: "mocki/                    multi-agent AI interview coaching — 1st place, NVIDIA Nemotron track @ BeaverHacks 2026\nbluestart/                ROCm on IBM POWER9, CUDA via HIPify\ncompile-your-language/    from-scratch language + compiler techniques guide\ntreehacks-intersystems/   GenAI research assistant, InterSystems IRIS vector search\nrag-pipeline/             235K embeddings, 65K Wikipedia articles, PyTorch DDP across multi-GPU nodes\n\ntype 'open <name>' for more (e.g. 'open mocki')",
+    projects: "mocki/                    multi-agent AI interview coaching — live at mocki.dev\nleetfut/                  football scouting bureau — live at leetfut.mocki.dev\nbluestart/                ROCm on IBM POWER9, CUDA via HIPify\ncompile-your-language/    from-scratch language + compiler techniques guide\ntreehacks-intersystems/   GenAI research assistant, InterSystems IRIS vector search\nrag-pipeline/             235K embeddings, 65K Wikipedia articles, PyTorch DDP across multi-GPU nodes\n\ntype 'open <name>' for more (e.g. 'open mocki')",
     contact: "email     enaguthiabhishek@gmail.com\nlinkedin  linkedin.com/in/abhishekenaguthi\ngithub    github.com/Abhishek21g",
     resume: "opening Resume...",
     gallery: "opening Gallery...",
@@ -1057,7 +1097,7 @@ class Component extends DCLogic {
 
   shellFiles = {
     '~': ['today.txt', 'about.txt', 'experience.log', 'contact.txt', 'projects/', 'gallery/', 'blog/', 'resume.txt', 'agent/'],
-    '~/projects': ['mocki.md', 'bluestart.md', 'compile-your-language.md', 'treehacks-intersystems.md', 'rag-pipeline.md'],
+    '~/projects': ['mocki.md', 'leetfut.md', 'bluestart.md', 'compile-your-language.md', 'treehacks-intersystems.md', 'rag-pipeline.md'],
     '~/gallery': ['sc24-booth.jpg', 'aiweek-wide.jpg', 'portrait.jpg'],
     '~/blog': ['supercomputing-2024.md', 'lightning-talk.md'],
     '~/agent': ['README.md', 'status.json', 'tokens.log', 'graph.json', 'workflow.md', 'suggestions.md', 'chat']
@@ -1133,7 +1173,7 @@ class Component extends DCLogic {
       this.setState({ shellPath: target });
       return 'entered ' + target;
     }
-    if (cmd === 'tree') return ".\n├── today.txt\n├── about.txt\n├── experience.log\n├── contact.txt\n├── resume.txt\n├── projects/\n│   ├── mocki.md\n│   ├── bluestart.md\n│   ├── compile-your-language.md\n│   ├── treehacks-intersystems.md\n│   └── rag-pipeline.md\n├── gallery/\n│   ├── sc24-booth.jpg\n│   └── aiweek-wide.jpg\n├── blog/\n│   ├── supercomputing-2024.md\n│   └── lightning-talk.md\n└── agent/\n    ├── status.json\n    ├── tokens.log\n    ├── graph.json\n    ├── workflow.md\n    └── chat";
+    if (cmd === 'tree') return ".\n├── today.txt\n├── about.txt\n├── experience.log\n├── contact.txt\n├── resume.txt\n├── projects/\n│   ├── mocki.md\n│   ├── leetfut.md\n│   ├── bluestart.md\n│   ├── compile-your-language.md\n│   ├── treehacks-intersystems.md\n│   └── rag-pipeline.md\n├── gallery/\n│   ├── sc24-booth.jpg\n│   └── aiweek-wide.jpg\n├── blog/\n│   ├── supercomputing-2024.md\n│   └── lightning-talk.md\n└── agent/\n    ├── status.json\n    ├── tokens.log\n    ├── graph.json\n    ├── workflow.md\n    └── chat";
     if (cmd === 'tokens') return "context meter\nused: 67%\nremaining: ~18k tokens\nmode: build + verify\nnote: static display for now; ready for real Codex/Claude logs.";
     if (cmd === 'graph') return this.githubGraphText();
     if (cmd === 'agent') return "rudhra-agent static shell\n\ntry: agent route recruiter\ntry: agent explain mocki\ntry: agent suggest\nnote: this public site can route and summarize, but private actions stay in GitHub/Rudhra.";
@@ -1181,6 +1221,7 @@ class Component extends DCLogic {
       'workflow.md': '1. inspect\n2. design\n3. implement\n4. verify\n5. push only when Abhi says push',
       'suggestions.md': 'agent route recruiter\nagent explain mocki\nsearch compiler\nopen resume',
       'mocki.md': this.openTargets.mocki,
+      'leetfut.md': this.openTargets.leetfut,
       'bluestart.md': this.openTargets.bluestart,
       'compile-your-language.md': this.openTargets['compile-your-language'],
       'treehacks-intersystems.md': this.openTargets['treehacks-intersystems'],
@@ -1245,6 +1286,7 @@ class Component extends DCLogic {
 
   openTargets = {
     mocki: "Mocki — multi-agent AI mock interview platform. React, Node.js, NVIDIA Nemotron, NIM API, Tailwind.\n4-agent pipeline: Coordinator → Interviewer → Evaluator → Report Generator, adaptive difficulty via NVIDIA NIM API.\n1st place, NVIDIA Nemotron track @ BeaverHacks 2026 (RTX 5070 prize), out of 50+ teams.\nlive: mocki.dev",
+    leetfut: "LEETFUT — official scouting bureau from the Mocki ecosystem.\nFootball-style player discovery and roster intelligence with a polished public product surface.\nlive: leetfut.mocki.dev",
     bluestart: "bluestart — configuring ROCm for compatibility with the IBM POWER9 architecture, enabling CUDA code to run on AMD GPUs via HIPify.\ngithub.com/Abhishek21g/bluestart",
     'compile-your-language': "compile-your-language — a from-scratch programming language implementation with an educational guide through modern compiler techniques.\ngithub.com/Abhishek21g/compile-your-language",
     'treehacks-intersystems': "treehacks-intersystems — a GenAI-powered research assistant using InterSystems IRIS vector search to surface and cite relevant papers.\ngithub.com/Abhishek21g/treehacks-intersystems",
@@ -1772,7 +1814,7 @@ class Component extends DCLogic {
     whoami: "abhishek_enaguthi\ncpu architecture & systems engineer — compiler backends, hpc performance\nM.S. Artificial Intelligence · B.S. Computer Science, Oregon State University",
     about: "M.S. Artificial Intelligence (Thesis) + B.S. Computer Science (AI), Minor in Finance — Oregon State University. GPA 4.0 / 3.95.\nI live in the layer underneath the framework — compiler backends, kernel-level debug, distributed HPC systems.\nSecured a $1M joint research grant from AMD + IBM to advance heterogeneous GPU compiler tech.",
     experience: "[Mar 2024 – Present] AI Research Engineer — Research Advanced Computing, OSU\n  - secured $1M grant from AMD + IBM for heterogeneous GPU compiler tech\n  - published compiler research enabling ROCm cross-compilation to x86\n  - led team to SC25, top 3/50+ in the IndySCC student cluster competition\n\n[Jun–Sep 2025] LLM Research Intern — University of Washington\n  - built multi-turn synthetic QA generation for NVIDIA NeMo\n  - deployed LLaMA-3 70B + Mistral via vLLM on NVIDIA H200 clusters\n\n[Jun 2024 – Present] Systems Software Engineer — CEOAS, OSU\n  - presented a physics-based digital twin at SC24 (NVIDIA Omniverse + Isaac Sim)\n  - wrote LLVM passes + kernel optimizations, 30% perf boost\n\n[Mar 2024 – Present] HPC Performance Engineer — OSU\n  - automated SLURM RPC + disk monitoring, adopted by 100+ daily users\n  - 20% faster collective comm, 15% higher memory throughput (NCCL/MPI)",
-    projects: "mocki/                    multi-agent AI interview coaching — 1st place, NVIDIA Nemotron track @ BeaverHacks 2026\nbluestart/                ROCm on IBM POWER9, CUDA via HIPify\ncompile-your-language/    from-scratch language + compiler techniques guide\ntreehacks-intersystems/   GenAI research assistant, InterSystems IRIS vector search\nrag-pipeline/             235K embeddings, 65K Wikipedia articles, PyTorch DDP across multi-GPU nodes\n\ntype 'open <name>' for more (e.g. 'open mocki')",
+    projects: "mocki/                    multi-agent AI interview coaching — live at mocki.dev\nleetfut/                  football scouting bureau — live at leetfut.mocki.dev\nbluestart/                ROCm on IBM POWER9, CUDA via HIPify\ncompile-your-language/    from-scratch language + compiler techniques guide\ntreehacks-intersystems/   GenAI research assistant, InterSystems IRIS vector search\nrag-pipeline/             235K embeddings, 65K Wikipedia articles, PyTorch DDP across multi-GPU nodes\n\ntype 'open <name>' for more (e.g. 'open mocki')",
     contact: "email     enaguthiabhishek@gmail.com\nlinkedin  linkedin.com/in/abhishekenaguthi\ngithub    github.com/Abhishek21g",
     resume: "opening Resume...",
     gallery: "opening Gallery...",
@@ -1785,6 +1827,7 @@ class Component extends DCLogic {
 
   osOpenTargets = {
     mocki: "Mocki — multi-agent AI mock interview platform. React, Node.js, NVIDIA Nemotron, NIM API, Tailwind.\n4-agent pipeline: Coordinator → Interviewer → Evaluator → Report Generator, adaptive difficulty via NVIDIA NIM API.\n1st place, NVIDIA Nemotron track @ BeaverHacks 2026 (RTX 5070 prize), out of 50+ teams.\nlive: mocki.dev",
+    leetfut: "LEETFUT — official scouting bureau from the Mocki ecosystem.\nFootball-style player discovery and roster intelligence with a polished public product surface.\nlive: leetfut.mocki.dev",
     bluestart: "bluestart — configuring ROCm for compatibility with the IBM POWER9 architecture, enabling CUDA code to run on AMD GPUs via HIPify.\ngithub.com/Abhishek21g/bluestart",
     'compile-your-language': "compile-your-language — a from-scratch programming language implementation with an educational guide through modern compiler techniques.\ngithub.com/Abhishek21g/compile-your-language",
     'treehacks-intersystems': "treehacks-intersystems — a GenAI-powered research assistant using InterSystems IRIS vector search to surface and cite relevant papers.\ngithub.com/Abhishek21g/treehacks-intersystems",
