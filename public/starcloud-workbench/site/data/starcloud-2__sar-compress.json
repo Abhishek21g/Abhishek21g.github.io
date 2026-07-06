@@ -1,15 +1,15 @@
 {
-  "run_id": "run-54e772d66731",
+  "run_id": "run-cffd7dc0be33",
   "seed": 42,
   "platform": "starcloud-2",
-  "workload": "nanogpt-tiny",
-  "plan_id": "plan-b2ee7df9443e",
+  "workload": "sar-compress",
+  "plan_id": "plan-c82b292a3e24",
   "status": "pass",
   "compute": {
-    "flops_budget": 2496000000000.0,
-    "flops_achieved": 2496000000000.0,
+    "flops_budget": 60000000000000.0,
+    "flops_achieved": 60000000000000.0,
     "wall_seconds": 60.0,
-    "effective_mfu": 9.244444444444445e-06,
+    "effective_mfu": 0.00022222222222222223,
     "job_complete": true
   },
   "thermal": {
@@ -22,13 +22,13 @@
     "min_battery_soc": 0.7967
   },
   "downlink": {
-    "raw_bytes": 0.0,
-    "output_bytes": 5200000.0,
-    "bytes_saved": 0.0,
-    "t_down_raw_s": 0.0,
-    "t_down_proc_s": 0.31,
+    "raw_bytes": 1200000000000.0,
+    "output_bytes": 8000000000.0,
+    "bytes_saved": 1192000000000.0,
+    "t_down_raw_s": 72480.0,
+    "t_down_proc_s": 483.2,
     "t_proc_s": 60.0,
-    "recommendation": "none",
+    "recommendation": "process_on_orbit",
     "contact_seconds": 1440.0,
     "downlink_bytes_capacity": 180000000000.0
   },
@@ -57,7 +57,7 @@
       "pass": true,
       "message": "Workload fits in GPU HBM",
       "evidence": {
-        "memory_bytes": 20800000.0,
+        "memory_bytes": 64000000000.0,
         "vram_bytes": 192000000000.0
       }
     },
@@ -105,8 +105,8 @@
       "pass": true,
       "message": "Workload completed within simulation window",
       "evidence": {
-        "flops_achieved": 2496000000000.0,
-        "flops_budget": 2496000000000.0
+        "flops_achieved": 60000000000000.0,
+        "flops_budget": 60000000000000.0
       }
     },
     {
@@ -115,7 +115,7 @@
       "pass": true,
       "message": "Effective MFU acceptable",
       "evidence": {
-        "effective_mfu": 9.244444444444445e-06,
+        "effective_mfu": 0.00022222222222222223,
         "throttle_fraction": 0.0
       }
     },
@@ -125,8 +125,18 @@
       "pass": true,
       "message": "Contact window sufficient for downlink artifact",
       "evidence": {
-        "output_bytes": 5200000.0,
+        "output_bytes": 8000000000.0,
         "downlink_bytes_capacity": 180000000000.0
+      }
+    },
+    {
+      "id": "PROCESS_ON_ORBIT",
+      "severity": "info",
+      "pass": true,
+      "message": "On-orbit processing wins on time-to-insight vs shipping raw",
+      "evidence": {
+        "t_down_raw_s": 72480.0,
+        "t_proc_plus_down_s": 543.2
       }
     }
   ],
@@ -164,16 +174,14 @@
     ]
   },
   "workload_spec": {
-    "name": "nanogpt-tiny",
-    "kind": "train",
-    "description": "nanoGPT baby-Shakespeare scale train (Karpathy milestone class)",
-    "n_params": 1300000.0,
-    "n_tokens": 320000.0,
-    "mfu": 0.25,
-    "memory_bytes": 20800000.0,
-    "checkpoint_bytes": 5200000.0,
-    "output_bytes": 5200000.0,
-    "raw_bytes": 0.0
+    "name": "sar-compress",
+    "kind": "sar",
+    "description": "SAR edge pipeline \u2014 TB raw scene to GB detections before downlink",
+    "raw_bytes": 1200000000000.0,
+    "output_bytes": 8000000000.0,
+    "flops_per_byte": 50.0,
+    "mfu": 0.3,
+    "memory_bytes": 64000000000.0
   },
   "timeline": [
     {
@@ -185,8 +193,8 @@
       "temp_c": -25.92629999999997,
       "utilization": 1.0,
       "utilization_actual": 1.0,
-      "flops_delta": 6.75e+16,
-      "flops_total": 2496000000000.0,
+      "flops_delta": 8.1e+16,
+      "flops_total": 60000000000000.0,
       "in_contact": true,
       "in_eclipse": false
     },
@@ -200,7 +208,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": true,
       "in_eclipse": false
     },
@@ -214,7 +222,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": true,
       "in_eclipse": false
     },
@@ -228,7 +236,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": true,
       "in_eclipse": false
     },
@@ -242,7 +250,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": true,
       "in_eclipse": false
     },
@@ -256,7 +264,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": true,
       "in_eclipse": false
     },
@@ -270,7 +278,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": false
     },
@@ -284,7 +292,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": false
     },
@@ -298,7 +306,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": false
     },
@@ -312,7 +320,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": false
     },
@@ -326,7 +334,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": false
     },
@@ -340,7 +348,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": false
     },
@@ -354,7 +362,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -368,7 +376,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -382,7 +390,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -396,7 +404,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -410,7 +418,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -424,7 +432,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -438,7 +446,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -452,7 +460,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -466,7 +474,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -480,7 +488,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -494,7 +502,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -508,7 +516,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -522,7 +530,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -536,7 +544,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -550,7 +558,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -564,7 +572,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -578,7 +586,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -592,7 +600,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -606,7 +614,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -620,7 +628,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -634,7 +642,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -648,7 +656,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -662,7 +670,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -676,7 +684,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -690,7 +698,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -704,7 +712,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -718,7 +726,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -732,7 +740,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -746,7 +754,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -760,7 +768,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -774,7 +782,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -788,7 +796,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -802,7 +810,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -816,7 +824,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -830,7 +838,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": true,
       "in_eclipse": false
     },
@@ -844,7 +852,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": true,
       "in_eclipse": false
     },
@@ -858,7 +866,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": true,
       "in_eclipse": false
     },
@@ -872,7 +880,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": true,
       "in_eclipse": false
     },
@@ -886,7 +894,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": true,
       "in_eclipse": false
     },
@@ -900,7 +908,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": true,
       "in_eclipse": false
     },
@@ -914,7 +922,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": false
     },
@@ -928,7 +936,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": false
     },
@@ -942,7 +950,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": false
     },
@@ -956,7 +964,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": false
     },
@@ -970,7 +978,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": false
     },
@@ -984,7 +992,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -998,7 +1006,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -1012,7 +1020,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -1026,7 +1034,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -1040,7 +1048,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -1054,7 +1062,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -1068,7 +1076,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -1082,7 +1090,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -1096,7 +1104,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -1110,7 +1118,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -1124,7 +1132,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -1138,7 +1146,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -1152,7 +1160,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -1166,7 +1174,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -1180,7 +1188,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -1194,7 +1202,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -1208,7 +1216,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -1222,7 +1230,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -1236,7 +1244,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -1250,7 +1258,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -1264,7 +1272,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -1278,7 +1286,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -1292,7 +1300,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -1306,7 +1314,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -1320,7 +1328,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -1334,7 +1342,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -1348,7 +1356,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -1362,7 +1370,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -1376,7 +1384,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -1390,7 +1398,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -1404,7 +1412,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -1418,7 +1426,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -1432,7 +1440,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     },
@@ -1446,7 +1454,7 @@
       "utilization": 0.0,
       "utilization_actual": 0.0,
       "flops_delta": 0.0,
-      "flops_total": 2496000000000.0,
+      "flops_total": 60000000000000.0,
       "in_contact": false,
       "in_eclipse": true
     }
