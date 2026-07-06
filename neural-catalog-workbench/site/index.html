@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Plan, run, doctor, and report on datarepo-style neural data catalog queries — catch schema drift before silent null-fills.">
+  <title>Neural Data Catalog Workbench</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <span class="mark">NCW</span>
+        <div>
+          <strong>Neural Catalog Workbench</strong>
+          <p>plan → run → doctor → report</p>
+        </div>
+      </div>
+      <p class="sidebar-thesis" id="thesis"></p>
+      <div class="summary" id="summary"></div>
+      <nav class="table-nav" id="scenario-nav"></nav>
+      <section class="panel cli-panel">
+        <h2>60-second demo</h2>
+        <pre class="cli-block"><code>pip install -e .
+neural-catalog plan examples/query_spike_bins.yaml
+neural-catalog run examples/query_electrode_map.yaml --mock
+neural-catalog doctor examples/query_electrode_map.yaml --mock
+neural-catalog report out/receipts/latest/</code></pre>
+      </section>
+      <footer class="sidebar-foot">
+        <a href="https://github.com/Abhishek21g/neural-catalog-workbench">GitHub</a>
+        <span>·</span>
+        <a href="https://github.com/neuralinkcorp/datarepo">datarepo</a>
+      </footer>
+    </aside>
+
+    <main class="main">
+      <header class="main-head">
+        <div>
+          <p class="eyebrow">Product track — catalog trust, not the PR</p>
+          <h1 id="scenario-title">Select a scenario</h1>
+          <p class="uri" id="scenario-uri"></p>
+        </div>
+        <div class="status-chip badge" id="scenario-status">—</div>
+      </header>
+
+      <section class="panel-grid">
+        <article class="panel">
+          <h2>Preflight plan</h2>
+          <div class="metrics-grid" id="metrics"></div>
+        </article>
+        <article class="panel findings-panel">
+          <h2>Doctor findings</h2>
+          <ul id="findings" class="findings-list"></ul>
+        </article>
+      </section>
+
+      <section class="panel">
+        <h2>Audit findings</h2>
+        <ul id="audit-findings" class="findings-list"></ul>
+      </section>
+
+      <section class="panel">
+        <h2>Risks flagged before run</h2>
+        <ul id="risks" class="findings-list"></ul>
+      </section>
+
+      <section class="panel">
+        <h2>Why this is not the PR</h2>
+        <div class="story-grid">
+          <div>
+            <h3>PR track</h3>
+            <p>Fixes upstream APIs: versioned Delta schemas (<a href="https://github.com/neuralinkcorp/datarepo/issues/42">#42</a>) and partition batching (<a href="https://github.com/neuralinkcorp/datarepo/issues/49">#49</a>).</p>
+          </div>
+          <div>
+            <h3>Product track</h3>
+            <p>Answers: does our catalog still match storage before we query? Catches drift, empty partitions, and memory spikes.</p>
+          </div>
+          <div>
+            <h3>Silent failure</h3>
+            <p>datarepo <code>_normalize_df</code> null-fills missing columns — pipelines look fine while being wrong.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
