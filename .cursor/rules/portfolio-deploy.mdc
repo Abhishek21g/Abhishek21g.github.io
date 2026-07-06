@@ -1,0 +1,13 @@
+---
+description: Portfolio repo CI and deploy conventions for enaguthi.com
+globs: "**/*"
+alwaysApply: true
+---
+
+# Portfolio deploy rules (Abhishek21g.github.io)
+
+- **One push per feature** on `main`. Batch local edits into a single commit/push. Rapid back-to-back pushes cause deploy races and failure emails.
+- **Source of truth is `main`**, not `gh-pages`. Never commit manually to `gh-pages`; deploy workflow publishes `out/` there.
+- **Desktop OS source** lives in `public/claude-design/index.html`. Run `npm run build` before assuming Pages output is current.
+- **Live data** is GitHub activity only (`scripts/fetch-github-activity.mjs` → `/live/github-activity.json`). Spotify was removed; do not re-add it without an explicit request.
+- **Workflows**: `deploy.yml` (build + Pages) and `update-github-activity.yml` (post-deploy + every 6h). Do not add parallel workflows that push to `gh-pages`.

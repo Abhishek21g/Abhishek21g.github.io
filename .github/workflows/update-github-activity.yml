@@ -1,4 +1,4 @@
-name: Update live site data
+name: Update GitHub activity
 
 on:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
     workflows: ['Deploy to GitHub Pages']
     types: [completed]
   schedule:
-    - cron: '*/15 * * * *'
+    - cron: '17 */6 * * *'
 
 concurrency:
   group: gh-pages-live-data
@@ -16,7 +16,7 @@ permissions:
   contents: write
 
 jobs:
-  update-live-data:
+  update-github-activity:
     if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
@@ -34,33 +34,22 @@ jobs:
           GITHUB_LOGIN: Abhishek21g
         run: node scripts/fetch-github-activity.mjs /tmp/github-activity.json
 
-      - name: Fetch Spotify data
-        continue-on-error: true
-        env:
-          SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
-          SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
-          SPOTIFY_REFRESH_TOKEN: ${{ secrets.SPOTIFY_REFRESH_TOKEN }}
-        run: node scripts/fetch-spotify-now-playing.mjs /tmp/now-playing.json
-
       - name: Checkout published site
         uses: actions/checkout@v4
         with:
           ref: gh-pages
           path: gh-pages
 
-      - name: Publish live JSON files
+      - name: Publish GitHub activity JSON
         run: |
-          mkdir -p gh-pages/live gh-pages/spotify
+          mkdir -p gh-pages/live
           cp /tmp/github-activity.json gh-pages/live/github-activity.json
-          if [ -f /tmp/now-playing.json ]; then
-            cp /tmp/now-playing.json gh-pages/spotify/now-playing.json
-          fi
           cd gh-pages
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add live/github-activity.json spotify/now-playing.json
-          git diff --cached --quiet && echo "No live data changes" && exit 0
-          git commit -m "Update live site data"
+          git add live/github-activity.json
+          git diff --cached --quiet && echo "No activity changes" && exit 0
+          git commit -m "Update GitHub activity"
           for attempt in 1 2 3 4 5; do
             git pull origin gh-pages --no-rebase --no-edit || git merge --abort
             git push origin HEAD:gh-pages && exit 0

@@ -22,15 +22,13 @@ type OpsStatus = {
 }
 
 const initialFeeds: FeedState[] = [
-  { status: 'checking', label: 'Spotify', detail: 'checking /spotify/now-playing.json', href: '/spotify/now-playing.json' },
   { status: 'checking', label: 'GitHub Pulse', detail: 'checking /live/github-activity.json', href: '/live/github-activity.json' },
   { status: 'checking', label: 'Today.txt', detail: 'checking /updates/today.json', href: '/updates/today.json' },
 ]
 
 const workflowLinks = {
-  deploy: 'https://github.com/Abhishek21g/my-personal-website/actions/workflows/deploy.yml',
-  spotify: 'https://github.com/Abhishek21g/my-personal-website/actions/workflows/update-spotify.yml',
-  github: 'https://github.com/Abhishek21g/my-personal-website/actions/workflows/update-github-activity.yml',
+  deploy: 'https://github.com/Abhishek21g/Abhishek21g.github.io/actions/workflows/deploy.yml',
+  github: 'https://github.com/Abhishek21g/Abhishek21g.github.io/actions/workflows/update-github-activity.yml',
 }
 
 function statusClass(status: FeedState['status']) {
@@ -64,13 +62,6 @@ export default function OpsDashboard() {
       const nextFeeds = await Promise.all(initialFeeds.map(async (feed) => {
         try {
           const data = await readJson(feed.href)
-          if (feed.label === 'Spotify') {
-            return {
-              ...feed,
-              status: data?.title ? 'online' as const : 'fallback' as const,
-              detail: data?.title ? `${data.title} - ${data.artist || 'Spotify'}` : 'fallback track is loaded',
-            }
-          }
           if (feed.label === 'GitHub Pulse') {
             return {
               ...feed,
@@ -181,7 +172,7 @@ export default function OpsDashboard() {
             <div className="mt-5 space-y-3">
               {(ops?.notes || [
                 'Public controls only. Private actions stay behind GitHub or Rudhra.',
-                'Use workflows for deploy, Spotify, and GitHub activity updates.',
+                'Use workflows for deploy and GitHub activity updates.',
                 'Use terminal commands on the desktop for visitor-facing agent behavior.',
               ]).map((note) => (
                 <div key={note} className="rounded-xl border border-white/10 bg-black/20 p-3 text-sm leading-6 text-white/65">
@@ -194,10 +185,9 @@ export default function OpsDashboard() {
 
         <section className="rounded-2xl border border-white/14 bg-white/[0.07] p-5 shadow-2xl shadow-black/30 backdrop-blur-2xl">
           <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-white/45">Workflows</p>
-          <div className="mt-4 grid gap-3 md:grid-cols-3">
+          <div className="mt-4 grid gap-3 md:grid-cols-2">
             {(ops?.workflows || [
               { name: 'Deploy to GitHub Pages', cadence: 'on push to main', href: workflowLinks.deploy },
-              { name: 'Update Spotify now playing', cadence: 'every 15 minutes', href: workflowLinks.spotify },
               { name: 'Update GitHub activity', cadence: 'every 6 hours', href: workflowLinks.github },
             ]).map((workflow) => (
               <a
