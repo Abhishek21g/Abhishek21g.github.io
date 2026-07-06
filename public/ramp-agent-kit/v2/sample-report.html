@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sample Report — Ramp Agent Reliability Kit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+:root {
+  color-scheme: light;
+  --bg: #fafbfc;
+  --surface: #ffffff;
+  --ink: #0c1222;
+  --muted: #5c6b7f;
+  --subtle: #f0f4f8;
+  --line: #e2e8f0;
+  --panel: #f8fafc;
+  --ramp-green: #0d7a4e;
+  --ramp-green-soft: #e8f5ef;
+  --cobalt: #2563eb;
+  --cobalt-soft: #eff6ff;
+  --amber: #b45309;
+  --amber-soft: #fffbeb;
+  --shadow: 0 20px 60px rgba(12, 18, 34, 0.08);
+  --shadow-sm: 0 4px 20px rgba(12, 18, 34, 0.06);
+  --radius: 12px;
+  --radius-sm: 8px;
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ── Header ── */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 14px clamp(1rem, 4vw, 2.75rem);
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(16px);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(145deg, #0d7a4e, #0a5c3a);
+  color: #fff;
+  border-radius: 9px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.nav {
+  display: flex;
+  gap: clamp(1rem, 3vw, 1.75rem);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.nav a:hover {
+  color: var(--ramp-green);
+}
+
+.header-cta {
+  padding: 8px 16px;
+  background: var(--ink);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: opacity 0.15s;
+}
+
+.header-cta:hover {
+  opacity: 0.88;
+}
+
+@media (max-width: 720px) {
+  .nav {
+    display: none;
+  }
+}
+
+/* ── Layout ── */
+.section-shell {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 4vw, 2rem);
+}
+
+.section {
+  padding: clamp(3rem, 8vw, 5rem) 0;
+}
+
+.section-label {
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ramp-green);
+}
+
+.section-title {
+  margin: 0 0 1rem;
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
+  font-weight: 750;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.section-lead {
+  margin: 0 0 2rem;
+  max-width: 36rem;
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+/* ── Hero ── */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: center;
+  padding-top: clamp(2.5rem, 6vw, 4rem);
+  padding-bottom: clamp(3rem, 8vw, 5rem);
+}
+
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+}
+
+.hero h1 {
+  margin: 0 0 1.25rem;
+  font-size: clamp(2rem, 4.5vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.hero-lead {
+  margin: 0 0 1.5rem;
+  font-size: 1.125rem;
+  color: var(--muted);
+  max-width: 28rem;
+}
+
+.hero-lead strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.disclaimer {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 1rem;
+  padding: 6px 12px;
+  background: var(--subtle);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 650;
+  transition:
+    transform 0.15s,
+    box-shadow 0.15s;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+}
+
+.button.primary {
+  background: var(--ramp-green);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(13, 122, 78, 0.35);
+}
+
+.button.secondary {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink);
+}
+
+.proof-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 0;
+}
+
+.proof-grid div {
+  padding: 1rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+}
+
+.proof-grid dt {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--ramp-green);
+}
+
+.proof-grid dd {
+  margin: 0.25rem 0 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* ── Hero panel (live preview) ── */
+.hero-panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--line);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: var(--ramp-green-soft);
+  color: var(--ramp-green);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--ramp-green);
+  border-radius: 50%;
+  animation: pulse 2s ease infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.flow-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.flow-step {
+  padding: 14px 10px;
+  text-align: center;
+  border-right: 1px solid var(--line);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+
+.flow-step:last-child {
+  border-right: none;
+}
+
+.flow-step.active {
+  background: var(--ramp-green-soft);
+  color: var(--ramp-green);
+}
+
+.panel-body {
+  padding: 1.25rem;
+}
+
+.terminal {
+  display: flex;
+  gap: 10px;
+  padding: 12px 14px;
+  background: #0f1419;
+  border-radius: var(--radius-sm);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.78rem;
+  color: #94a3b8;
+  margin-bottom: 1rem;
+  overflow-x: auto;
+}
+
+.terminal span {
+  color: var(--ramp-green);
+  flex-shrink: 0;
+}
+
+.terminal code {
+  color: #e2e8f0;
+  white-space: nowrap;
+}
+
+.receipt-preview {
+  display: grid;
+  gap: 8px;
+}
+
+.receipt-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 12px;
+  background: var(--panel);
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+}
+
+.receipt-row .name {
+  font-weight: 600;
+}
+
+.receipt-row .meta {
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.badge.pass {
+  background: var(--ramp-green-soft);
+  color: var(--ramp-green);
+}
+
+.badge.fail {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.verdict-banner {
+  margin-top: 1rem;
+  padding: 12px 16px;
+  background: var(--ramp-green-soft);
+  border: 1px solid rgba(13, 122, 78, 0.2);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ramp-green);
+  text-align: center;
+}
+
+/* ── Onboarding tour ── */
+.onboarding {
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.tour-nav {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.tour-tab {
+  flex-shrink: 0;
+  padding: 10px 18px;
+  background: var(--subtle);
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tour-tab:hover {
+  border-color: var(--line);
+  color: var(--ink);
+}
+
+.tour-tab.active {
+  background: var(--ramp-green-soft);
+  border-color: rgba(13, 122, 78, 0.25);
+  color: var(--ramp-green);
+}
+
+.tour-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+@media (max-width: 800px) {
+  .tour-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+.tour-pane {
+  display: none;
+}
+
+.tour-pane.active {
+  display: block;
+}
+
+.tour-pane h3 {
+  margin: 0 0 0.75rem;
+  font-size: 1.35rem;
+  font-weight: 750;
+}
+
+.tour-pane p {
+  margin: 0 0 1rem;
+  color: var(--muted);
+}
+
+.tour-pane ul {
+  margin: 0 0 1.5rem;
+  padding-left: 1.25rem;
+  color: var(--muted);
+}
+
+.tour-pane li {
+  margin-bottom: 0.5rem;
+}
+
+.tour-pane li strong {
+  color: var(--ink);
+}
+
+.tour-visual {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  min-height: 280px;
+}
+
+.tour-visual pre {
+  margin: 0;
+  padding: 1rem;
+  background: #0f1419;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  color: #cbd5e1;
+  overflow-x: auto;
+  line-height: 1.5;
+}
+
+/* ── Cards grid ── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+
+.card {
+  padding: 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+.card-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 1rem;
+  background: var(--subtle);
+  border-radius: 10px;
+  font-size: 1.1rem;
+}
+
+.card h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.card p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+/* ── Verdict cards ── */
+.verdict-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.verdict-card {
+  padding: 1.25rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+}
+
+.verdict-card code {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.verdict-card p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.verdict-card.pass {
+  background: var(--ramp-green-soft);
+  border-color: rgba(13, 122, 78, 0.2);
+}
+
+.verdict-card.pass code {
+  color: var(--ramp-green);
+}
+
+.verdict-card.auth {
+  background: var(--amber-soft);
+  border-color: rgba(180, 83, 9, 0.2);
+}
+
+.verdict-card.auth code {
+  color: var(--amber);
+}
+
+.verdict-card.agent {
+  background: var(--cobalt-soft);
+  border-color: rgba(37, 99, 235, 0.2);
+}
+
+.verdict-card.agent code {
+  color: var(--cobalt);
+}
+
+/* ── Try it ── */
+.try-block {
+  background: var(--ink);
+  color: #e2e8f0;
+  border-radius: var(--radius);
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  box-shadow: var(--shadow);
+}
+
+.try-block h2 {
+  margin: 0 0 0.5rem;
+  color: #fff;
+  font-size: 1.35rem;
+}
+
+.try-block > p {
+  margin: 0 0 1.5rem;
+  color: #94a3b8;
+  font-size: 0.95rem;
+}
+
+.code-block {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.code-block pre {
+  margin: 0;
+  padding: 1.25rem;
+  background: #0a0e14;
+  border: 1px solid #1e293b;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  line-height: 1.6;
+  overflow-x: auto;
+}
+
+.copy-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 6px 12px;
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  color: #94a3b8;
+  font-size: 0.7rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.copy-btn:hover {
+  color: #fff;
+  border-color: #475569;
+}
+
+/* ── Report embed ── */
+.report-frame-wrap {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  background: var(--surface);
+}
+
+.report-frame-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--line);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.report-frame-wrap iframe {
+  display: block;
+  width: 100%;
+  height: min(640px, 70vh);
+  border: 0;
+  background: var(--bg);
+}
+
+/* ── Footer ── */
+.site-footer {
+  padding: 2.5rem clamp(1rem, 4vw, 2rem);
+  border-top: 1px solid var(--line);
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.site-footer a {
+  color: var(--ramp-green);
+  font-weight: 600;
+}
+
+.site-footer p {
+  margin: 0.35rem 0;
+}
+
+/* ── Report page ── */
+.report-page .back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.report-page .back-link:hover {
+  color: var(--ramp-green);
+}
+
+.report-header {
+  margin-bottom: 2rem;
+}
+
+.report-header h1 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.report-meta {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.report-meta code {
+  padding: 2px 8px;
+  background: var(--subtle);
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+.verdict-hero {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+  border-radius: var(--radius);
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.verdict-hero.ALL_PASS {
+  background: var(--ramp-green-soft);
+  border: 1px solid rgba(13, 122, 78, 0.25);
+  color: var(--ramp-green);
+}
+
+.verdict-hero .icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  background: rgba(13, 122, 78, 0.15);
+  border-radius: 50%;
+  font-size: 1.25rem;
+}
+
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  padding: 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  text-align: center;
+}
+
+.stat-card b {
+  display: block;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.stat-card span {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.stat-card.highlight b {
+  color: var(--ramp-green);
+}
+
+.step-card {
+  margin-bottom: 1rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+}
+
+.step-card-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.step-card-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.step-card .diagnosis {
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.step-card .cmd {
+  display: block;
+  padding: 10px 12px;
+  background: var(--panel);
+  border-radius: 6px;
+  font-family: ui-monospace, monospace;
+  font-size: 0.78rem;
+  color: var(--ink);
+  margin-bottom: 1rem;
+  overflow-x: auto;
+}
+
+.step-card pre {
+  margin: 0;
+  padding: 12px;
+  background: #0f1419;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  color: #cbd5e1;
+  max-height: 180px;
+  overflow: auto;
+}
+
+.step-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 0.35rem;
+}
+
+.report-explainer {
+  margin-bottom: 2rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--cobalt-soft);
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  color: #1e40af;
+}
+
+.report-explainer strong {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.95rem;
+}
+</style>
+</head>
+<body class="report-page">
+  <header class="site-header">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">RAK</span>
+      <span>Agent Reliability Kit</span>
+    </a>
+    <nav class="nav">
+      <a href="index.html#onboarding">Walkthrough</a>
+      <a href="index.html#try-it">Try it</a>
+    </nav>
+    <a class="header-cta" href="index.html">← Back to home</a>
+  </header>
+
+  <main class="section-shell section report-page">
+    <a class="back-link" href="index.html">← Back to walkthrough</a>
+
+    <div class="report-explainer">
+      <strong>You're looking at a real harness artifact</strong>
+      Generated by <code>ramp-kit all scenarios/cli-offline-contracts.yaml</code> against ramp-cli source.
+      No Ramp credentials were used — this proves the JSON contract, not live API data.
+    </div>
+
+    <header class="report-header">
+      <h1>Reliability Report</h1>
+      <p class="report-meta">
+        Scenario <strong>cli-offline-contracts</strong> · run <code>d9762b027228</code>
+      </p>
+    </header>
+
+    <div class="verdict-hero ALL_PASS">
+      <span class="icon">✓</span>
+      <div>
+        <div>ALL_PASS</div>
+        <div style="font-size: 0.85rem; font-weight: 500; opacity: 0.85; margin-top: 2px;">
+          All 5 steps met contract expectations
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card highlight"><b>5</b><span>passed</span></div>
+      <div class="stat-card"><b>0</b><span>failed</span></div>
+      <div class="stat-card"><b>5</b><span>steps</span></div>
+    </div>
+
+    <article class="step-card">
+      <div class="step-card-header">
+        <span class="badge pass">pass</span>
+        <h3>config-list</h3>
+        <span class="meta" style="color: var(--muted); font-size: 0.8rem;">430ms · exit 0</span>
+      </div>
+      <p class="diagnosis">Step passed all contract expectations.</p>
+      <code class="cmd">uv run ramp --agent config list</code>
+      <div class="step-label">stdout (truncated)</div>
+      <pre>{
+  "schema_version": "1.0",
+  "data": [{ "key": "environment", "value": "production", "source": "default" }],
+  "pagination": null
+}</pre>
+    </article>
+
+    <article class="step-card">
+      <div class="step-card-header">
+        <span class="badge pass">pass</span>
+        <h3>config-path</h3>
+        <span class="meta" style="color: var(--muted); font-size: 0.8rem;">285ms · exit 0</span>
+      </div>
+      <p class="diagnosis">Returns filesystem path to isolated test config.</p>
+      <code class="cmd">uv run ramp --agent config path</code>
+    </article>
+
+    <article class="step-card">
+      <div class="step-card-header">
+        <span class="badge pass">pass</span>
+        <h3>env-show</h3>
+        <span class="meta" style="color: var(--muted); font-size: 0.8rem;">298ms · exit 0</span>
+      </div>
+      <p class="diagnosis">Default environment exposed to agents in JSON envelope.</p>
+      <code class="cmd">uv run ramp --agent env</code>
+    </article>
+
+    <article class="step-card">
+      <div class="step-card-header">
+        <span class="badge pass">pass</span>
+        <h3>auth-status-offline</h3>
+        <span class="meta" style="color: var(--muted); font-size: 0.8rem;">312ms · exit 0</span>
+      </div>
+      <p class="diagnosis">Auth status works when logged out — isolated config, no real tokens.</p>
+      <code class="cmd">uv run ramp --agent auth status</code>
+    </article>
+
+    <article class="step-card">
+      <div class="step-card-header">
+        <span class="badge pass">pass</span>
+        <h3>auth-logout-idempotent</h3>
+        <span class="meta" style="color: var(--muted); font-size: 0.8rem;">267ms · exit 0</span>
+      </div>
+      <p class="diagnosis">Logout when already logged out does not error — safe for agent loops.</p>
+      <code class="cmd">uv run ramp --agent auth logout</code>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p><a href="index.html">← Return to onboarding walkthrough</a></p>
+    <p style="font-size: 0.75rem;">Independent project · Not affiliated with Ramp</p>
+  </footer>
+</body>
+</html>

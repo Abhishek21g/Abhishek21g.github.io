@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Ramp Agent Reliability Kit — reproducible harness for ramp-cli --agent. Plan, run, doctor, report. Know if it's your agent or the API." />
+  <title>Ramp Agent Reliability Kit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+:root {
+  color-scheme: light;
+  --bg: #fafbfc;
+  --surface: #ffffff;
+  --ink: #0c1222;
+  --muted: #5c6b7f;
+  --subtle: #f0f4f8;
+  --line: #e2e8f0;
+  --panel: #f8fafc;
+  --ramp-green: #0d7a4e;
+  --ramp-green-soft: #e8f5ef;
+  --cobalt: #2563eb;
+  --cobalt-soft: #eff6ff;
+  --amber: #b45309;
+  --amber-soft: #fffbeb;
+  --shadow: 0 20px 60px rgba(12, 18, 34, 0.08);
+  --shadow-sm: 0 4px 20px rgba(12, 18, 34, 0.06);
+  --radius: 12px;
+  --radius-sm: 8px;
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ── Header ── */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 14px clamp(1rem, 4vw, 2.75rem);
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(16px);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(145deg, #0d7a4e, #0a5c3a);
+  color: #fff;
+  border-radius: 9px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.nav {
+  display: flex;
+  gap: clamp(1rem, 3vw, 1.75rem);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.nav a:hover {
+  color: var(--ramp-green);
+}
+
+.header-cta {
+  padding: 8px 16px;
+  background: var(--ink);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: opacity 0.15s;
+}
+
+.header-cta:hover {
+  opacity: 0.88;
+}
+
+@media (max-width: 720px) {
+  .nav {
+    display: none;
+  }
+}
+
+/* ── Layout ── */
+.section-shell {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 4vw, 2rem);
+}
+
+.section {
+  padding: clamp(3rem, 8vw, 5rem) 0;
+}
+
+.section-label {
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ramp-green);
+}
+
+.section-title {
+  margin: 0 0 1rem;
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
+  font-weight: 750;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.section-lead {
+  margin: 0 0 2rem;
+  max-width: 36rem;
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+/* ── Hero ── */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: center;
+  padding-top: clamp(2.5rem, 6vw, 4rem);
+  padding-bottom: clamp(3rem, 8vw, 5rem);
+}
+
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+}
+
+.hero h1 {
+  margin: 0 0 1.25rem;
+  font-size: clamp(2rem, 4.5vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.hero-lead {
+  margin: 0 0 1.5rem;
+  font-size: 1.125rem;
+  color: var(--muted);
+  max-width: 28rem;
+}
+
+.hero-lead strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.disclaimer {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 1rem;
+  padding: 6px 12px;
+  background: var(--subtle);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 650;
+  transition:
+    transform 0.15s,
+    box-shadow 0.15s;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+}
+
+.button.primary {
+  background: var(--ramp-green);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(13, 122, 78, 0.35);
+}
+
+.button.secondary {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink);
+}
+
+.proof-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 0;
+}
+
+.proof-grid div {
+  padding: 1rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+}
+
+.proof-grid dt {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--ramp-green);
+}
+
+.proof-grid dd {
+  margin: 0.25rem 0 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* ── Hero panel (live preview) ── */
+.hero-panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--line);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: var(--ramp-green-soft);
+  color: var(--ramp-green);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--ramp-green);
+  border-radius: 50%;
+  animation: pulse 2s ease infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.flow-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.flow-step {
+  padding: 14px 10px;
+  text-align: center;
+  border-right: 1px solid var(--line);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+
+.flow-step:last-child {
+  border-right: none;
+}
+
+.flow-step.active {
+  background: var(--ramp-green-soft);
+  color: var(--ramp-green);
+}
+
+.panel-body {
+  padding: 1.25rem;
+}
+
+.terminal {
+  display: flex;
+  gap: 10px;
+  padding: 12px 14px;
+  background: #0f1419;
+  border-radius: var(--radius-sm);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.78rem;
+  color: #94a3b8;
+  margin-bottom: 1rem;
+  overflow-x: auto;
+}
+
+.terminal span {
+  color: var(--ramp-green);
+  flex-shrink: 0;
+}
+
+.terminal code {
+  color: #e2e8f0;
+  white-space: nowrap;
+}
+
+.receipt-preview {
+  display: grid;
+  gap: 8px;
+}
+
+.receipt-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 12px;
+  background: var(--panel);
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+}
+
+.receipt-row .name {
+  font-weight: 600;
+}
+
+.receipt-row .meta {
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.badge.pass {
+  background: var(--ramp-green-soft);
+  color: var(--ramp-green);
+}
+
+.badge.fail {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.verdict-banner {
+  margin-top: 1rem;
+  padding: 12px 16px;
+  background: var(--ramp-green-soft);
+  border: 1px solid rgba(13, 122, 78, 0.2);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ramp-green);
+  text-align: center;
+}
+
+/* ── Onboarding tour ── */
+.onboarding {
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.tour-nav {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.tour-tab {
+  flex-shrink: 0;
+  padding: 10px 18px;
+  background: var(--subtle);
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tour-tab:hover {
+  border-color: var(--line);
+  color: var(--ink);
+}
+
+.tour-tab.active {
+  background: var(--ramp-green-soft);
+  border-color: rgba(13, 122, 78, 0.25);
+  color: var(--ramp-green);
+}
+
+.tour-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+@media (max-width: 800px) {
+  .tour-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+.tour-pane {
+  display: none;
+}
+
+.tour-pane.active {
+  display: block;
+}
+
+.tour-pane h3 {
+  margin: 0 0 0.75rem;
+  font-size: 1.35rem;
+  font-weight: 750;
+}
+
+.tour-pane p {
+  margin: 0 0 1rem;
+  color: var(--muted);
+}
+
+.tour-pane ul {
+  margin: 0 0 1.5rem;
+  padding-left: 1.25rem;
+  color: var(--muted);
+}
+
+.tour-pane li {
+  margin-bottom: 0.5rem;
+}
+
+.tour-pane li strong {
+  color: var(--ink);
+}
+
+.tour-visual {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  min-height: 280px;
+}
+
+.tour-visual pre {
+  margin: 0;
+  padding: 1rem;
+  background: #0f1419;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  color: #cbd5e1;
+  overflow-x: auto;
+  line-height: 1.5;
+}
+
+/* ── Cards grid ── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+
+.card {
+  padding: 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+.card-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 1rem;
+  background: var(--subtle);
+  border-radius: 10px;
+  font-size: 1.1rem;
+}
+
+.card h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.card p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+/* ── Verdict cards ── */
+.verdict-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.verdict-card {
+  padding: 1.25rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+}
+
+.verdict-card code {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.verdict-card p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.verdict-card.pass {
+  background: var(--ramp-green-soft);
+  border-color: rgba(13, 122, 78, 0.2);
+}
+
+.verdict-card.pass code {
+  color: var(--ramp-green);
+}
+
+.verdict-card.auth {
+  background: var(--amber-soft);
+  border-color: rgba(180, 83, 9, 0.2);
+}
+
+.verdict-card.auth code {
+  color: var(--amber);
+}
+
+.verdict-card.agent {
+  background: var(--cobalt-soft);
+  border-color: rgba(37, 99, 235, 0.2);
+}
+
+.verdict-card.agent code {
+  color: var(--cobalt);
+}
+
+/* ── Try it ── */
+.try-block {
+  background: var(--ink);
+  color: #e2e8f0;
+  border-radius: var(--radius);
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  box-shadow: var(--shadow);
+}
+
+.try-block h2 {
+  margin: 0 0 0.5rem;
+  color: #fff;
+  font-size: 1.35rem;
+}
+
+.try-block > p {
+  margin: 0 0 1.5rem;
+  color: #94a3b8;
+  font-size: 0.95rem;
+}
+
+.code-block {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.code-block pre {
+  margin: 0;
+  padding: 1.25rem;
+  background: #0a0e14;
+  border: 1px solid #1e293b;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  line-height: 1.6;
+  overflow-x: auto;
+}
+
+.copy-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 6px 12px;
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  color: #94a3b8;
+  font-size: 0.7rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.copy-btn:hover {
+  color: #fff;
+  border-color: #475569;
+}
+
+/* ── Report embed ── */
+.report-frame-wrap {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  background: var(--surface);
+}
+
+.report-frame-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--line);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.report-frame-wrap iframe {
+  display: block;
+  width: 100%;
+  height: min(640px, 70vh);
+  border: 0;
+  background: var(--bg);
+}
+
+/* ── Footer ── */
+.site-footer {
+  padding: 2.5rem clamp(1rem, 4vw, 2rem);
+  border-top: 1px solid var(--line);
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.site-footer a {
+  color: var(--ramp-green);
+  font-weight: 600;
+}
+
+.site-footer p {
+  margin: 0.35rem 0;
+}
+
+/* ── Report page ── */
+.report-page .back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.report-page .back-link:hover {
+  color: var(--ramp-green);
+}
+
+.report-header {
+  margin-bottom: 2rem;
+}
+
+.report-header h1 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.report-meta {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.report-meta code {
+  padding: 2px 8px;
+  background: var(--subtle);
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+.verdict-hero {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+  border-radius: var(--radius);
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.verdict-hero.ALL_PASS {
+  background: var(--ramp-green-soft);
+  border: 1px solid rgba(13, 122, 78, 0.25);
+  color: var(--ramp-green);
+}
+
+.verdict-hero .icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  background: rgba(13, 122, 78, 0.15);
+  border-radius: 50%;
+  font-size: 1.25rem;
+}
+
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  padding: 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  text-align: center;
+}
+
+.stat-card b {
+  display: block;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.stat-card span {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.stat-card.highlight b {
+  color: var(--ramp-green);
+}
+
+.step-card {
+  margin-bottom: 1rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+}
+
+.step-card-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.step-card-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.step-card .diagnosis {
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.step-card .cmd {
+  display: block;
+  padding: 10px 12px;
+  background: var(--panel);
+  border-radius: 6px;
+  font-family: ui-monospace, monospace;
+  font-size: 0.78rem;
+  color: var(--ink);
+  margin-bottom: 1rem;
+  overflow-x: auto;
+}
+
+.step-card pre {
+  margin: 0;
+  padding: 12px;
+  background: #0f1419;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  color: #cbd5e1;
+  max-height: 180px;
+  overflow: auto;
+}
+
+.step-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 0.35rem;
+}
+
+.report-explainer {
+  margin-bottom: 2rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--cobalt-soft);
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  color: #1e40af;
+}
+
+.report-explainer strong {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.95rem;
+}
+</style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top">
+      <span class="brand-mark" aria-hidden="true">RAK</span>
+      <span>Agent Reliability Kit</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="#onboarding">Start here</a>
+      <a href="#how-it-works">How it works</a>
+      <a href="#try-it">Try it</a>
+      <a href="sample-report.html">Sample report</a>
+    </nav>
+    <a class="header-cta" href="https://github.com/ramp-public/ramp_mcp/pull/7">View Dockerfile PR</a>
+  </header>
+
+  <main id="top">
+    <!-- Hero -->
+    <section class="section-shell hero">
+      <div class="hero-copy">
+        <div class="disclaimer">Independent project · Not affiliated with Ramp</div>
+        <h1>Know if it's your agent&nbsp;— or the&nbsp;API.</h1>
+        <p class="hero-lead">
+          When <strong>ramp --agent</strong> or MCP calls fail, you need receipts:
+          latency, success, redacted logs, and a clear verdict —
+          <em>not</em> another guess in the loop.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="#onboarding">5‑min walkthrough</a>
+          <a class="button secondary" href="sample-report.html">See sample report</a>
+        </div>
+        <dl class="proof-grid">
+          <div>
+            <dt>plan → report</dt>
+            <dd>four-step harness</dd>
+          </div>
+          <div>
+            <dt>0 creds</dt>
+            <dd>offline contract tests</dd>
+          </div>
+          <div>
+            <dt>ALL_PASS</dt>
+            <dd>verified on ramp-cli</dd>
+          </div>
+        </dl>
+      </div>
+
+      <div class="hero-panel" aria-label="Live harness preview">
+        <div class="panel-header">
+          <span class="status-pill"><span class="status-dot"></span> cli-offline-contracts</span>
+          <span style="color: var(--muted); font-weight: 500;">run d9762b027228</span>
+        </div>
+        <div class="flow-strip">
+          <div class="flow-step active">Plan</div>
+          <div class="flow-step">Run</div>
+          <div class="flow-step">Doctor</div>
+          <div class="flow-step">Report</div>
+        </div>
+        <div class="panel-body">
+          <div class="terminal">
+            <span>$</span>
+            <code>ramp-kit plan scenarios/cli-offline-contracts.yaml</code>
+          </div>
+          <div class="receipt-preview">
+            <div class="receipt-row">
+              <span class="badge pass">pass</span>
+              <span class="name">config-list</span>
+              <span class="meta">430ms</span>
+              <span class="meta">exit 0</span>
+            </div>
+            <div class="receipt-row">
+              <span class="badge pass">pass</span>
+              <span class="name">auth-status-offline</span>
+              <span class="meta">312ms</span>
+              <span class="meta">exit 0</span>
+            </div>
+            <div class="receipt-row">
+              <span class="badge pass">pass</span>
+              <span class="name">env-show</span>
+              <span class="meta">298ms</span>
+              <span class="meta">exit 0</span>
+            </div>
+          </div>
+          <div class="verdict-banner">ALL_PASS — contracts OK</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Onboarding walkthrough -->
+    <section id="onboarding" class="onboarding section">
+      <div class="section-shell">
+        <span class="section-label">Start here</span>
+        <h2 class="section-title">What is this, in plain English?</h2>
+        <p class="section-lead">
+          You're building an AI agent that calls Ramp (CLI or MCP). When something breaks,
+          this kit tells you <strong>where</strong> — your code, OAuth, API latency, or permissions.
+        </p>
+
+        <div class="tour-nav" role="tablist">
+          <button class="tour-tab active" data-tour="start" role="tab">The problem</button>
+          <button class="tour-tab" data-tour="plan" role="tab">① Plan</button>
+          <button class="tour-tab" data-tour="run" role="tab">② Run</button>
+          <button class="tour-tab" data-tour="doctor" role="tab">③ Doctor</button>
+          <button class="tour-tab" data-tour="report" role="tab">④ Report</button>
+        </div>
+
+        <div class="tour-content">
+          <div class="tour-pane active" data-tour="start">
+            <h3>Agents + finance = you need proof</h3>
+            <p>
+              Ramp ships <code>ramp --agent</code> (JSON for scripts) and MCP (natural language).
+              Their own engineering blog admits MCP can be <strong>slow and unreliable</strong> on large datasets.
+            </p>
+            <ul>
+              <li><strong>Your agent</strong> might parse JSON wrong (<code>schema_version</code> drift)</li>
+              <li><strong>OAuth</strong> might be expired or missing scopes</li>
+              <li><strong>Ramp API</strong> might timeout on big pulls</li>
+              <li><strong>Roles</strong> might block admin-only commands</li>
+            </ul>
+            <p>Without receipts, every failure feels like "the model hallucinated." This kit fixes that.</p>
+          </div>
+
+          <div class="tour-pane" data-tour="plan">
+            <h3>Plan — see what will run before you run it</h3>
+            <p>
+              Scenarios are YAML files listing CLI commands and expected outcomes.
+              <code>ramp-kit plan</code> prints the step list — no API calls, no credentials.
+            </p>
+            <ul>
+              <li><strong>cli-offline-contracts</strong> — works logged out (config, env, auth status)</li>
+              <li><strong>cli-sandbox-identity</strong> — needs <code>ramp auth login</code></li>
+              <li><strong>permission-boundary-demo</strong> — teaches role limits</li>
+            </ul>
+          </div>
+
+          <div class="tour-pane" data-tour="run">
+            <h3>Run — capture a receipt per tool call</h3>
+            <p>
+              Each step executes <code>ramp --agent …</code> in an isolated temp config
+              (so tests never touch your real tokens). Every step writes a receipt:
+            </p>
+            <ul>
+              <li><strong>latency_ms</strong> — how long the call took</li>
+              <li><strong>exit_code</strong> + <strong>success</strong></li>
+              <li><strong>redacted stdout/stderr</strong> — secrets stripped</li>
+              <li><strong>trace_id</strong> — when Ramp returns <code>x-trace-id</code></li>
+            </ul>
+          </div>
+
+          <div class="tour-pane" data-tour="doctor">
+            <h3>Doctor — classify the failure</h3>
+            <p>
+              One command answers the question every agent builder asks:
+            </p>
+            <p><strong>"Is it my code or Ramp?"</strong></p>
+            <ul>
+              <li><strong>AUTH_BLOCKER</strong> → log in again, check scopes</li>
+              <li><strong>LATENCY_BLOCKER</strong> → API timeout (known MCP pain)</li>
+              <li><strong>AGENT_CODE_ISSUE</strong> → your harness mishandled JSON</li>
+              <li><strong>ALL_PASS</strong> → contracts satisfied</li>
+            </ul>
+          </div>
+
+          <div class="tour-pane" data-tour="report">
+            <h3>Report — shareable HTML artifact</h3>
+            <p>
+              <code>ramp-kit all</code> runs the full pipeline and writes
+              <code>report.html</code> you can open, screenshot, or attach to a PR.
+            </p>
+            <ul>
+              <li>Same discipline as a Tinker Workbench run folder</li>
+              <li>Audit-safe: no prod credentials in the repo</li>
+              <li>Reproducible: same scenario → comparable receipts</li>
+            </ul>
+            <a class="button primary" href="sample-report.html" style="margin-top: 0.5rem;">Open real sample report →</a>
+          </div>
+
+          <div class="tour-visual" id="tour-visual">
+            <pre id="tour-code"></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section id="how-it-works" class="section">
+      <div class="section-shell">
+        <span class="section-label">How it works</span>
+        <h2 class="section-title">Built for Ramp's public agent surfaces</h2>
+        <div class="card-grid">
+          <article class="card">
+            <div class="card-icon">⌘</div>
+            <h3>ramp-cli --agent</h3>
+            <p>Scriptable JSON envelope with <code>schema_version: 1.0</code>. The kit contract-tests every step.</p>
+          </article>
+          <article class="card">
+            <div class="card-icon">◈</div>
+            <h3>Ramp MCP</h3>
+            <p>SQL/ETL over Developer API. Latency is the known bottleneck — receipts capture it.</p>
+          </article>
+          <article class="card">
+            <div class="card-icon">◇</div>
+            <h3>Trust boundaries</h3>
+            <p>Actions respect the logged-in user's role. Demo scenarios show permission limits.</p>
+          </article>
+        </div>
+
+        <div style="margin-top: 3rem;">
+          <h3 class="section-title" style="font-size: 1.25rem;">Doctor verdicts explained</h3>
+          <div class="verdict-grid">
+            <div class="verdict-card pass">
+              <code>ALL_PASS</code>
+              <p>Every step met contract expectations. Your harness and CLI envelope agree.</p>
+            </div>
+            <div class="verdict-card auth">
+              <code>AUTH_BLOCKER</code>
+              <p>OAuth, scopes, or permissions. Re-login — not an agent logic bug.</p>
+            </div>
+            <div class="verdict-card auth">
+              <code>LATENCY_BLOCKER</code>
+              <p>Timeouts on large datasets. Ramp's blog calls this out for MCP.</p>
+            </div>
+            <div class="verdict-card agent">
+              <code>AGENT_CODE_ISSUE</code>
+              <p>JSON envelope or schema_version drift in your code.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Try it -->
+    <section id="try-it" class="section">
+      <div class="section-shell">
+        <div class="try-block">
+          <h2>Try it in 60 seconds (no Ramp login)</h2>
+          <p>Clone the project, run offline contracts against ramp-cli source. Zero credentials.</p>
+          <div class="code-block">
+            <button class="copy-btn" type="button">Copy</button>
+            <pre>cd ramp/kit
+uv sync
+uv run ramp-kit all scenarios/cli-offline-contracts.yaml \
+  --ramp-cli-src ../upstream/ramp-cli \
+  --runs-dir ../runs
+open ../runs/*/report.html</pre>
+          </div>
+          <p style="margin: 0; font-size: 0.85rem; color: #64748b;">
+            With sandbox OAuth: <code style="color: #94a3b8;">ramp auth login</code> then run
+            <code style="color: #94a3b8;">cli-sandbox-identity.yaml</code>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sample report embed -->
+    <section class="section" style="padding-top: 0;">
+      <div class="section-shell">
+        <span class="section-label">Live artifact</span>
+        <h2 class="section-title">Sample report — ALL_PASS</h2>
+        <p class="section-lead">Real output from the offline scenario. Five steps, zero failures.</p>
+        <div class="report-frame-wrap">
+          <div class="report-frame-header">
+            <span>cli-offline-contracts · run d9762b027228</span>
+            <a href="sample-report.html" style="color: var(--ramp-green); font-size: 0.8rem;">Open full page →</a>
+          </div>
+          <iframe src="sample-report.html" title="Sample reliability report" loading="lazy"></iframe>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Ramp Agent Reliability Kit — independent open harness</p>
+    <p>
+      <a href="https://github.com/ramp-public/ramp-cli">ramp-cli</a> ·
+      <a href="https://github.com/ramp-public/ramp_mcp/pull/7">Dockerfile PR</a> ·
+      <a href="https://builders.ramp.com/post/ramp-mcp">Ramp MCP blog</a>
+    </p>
+    <p style="margin-top: 1rem; font-size: 0.75rem;">Sandbox-safe by default. No production credentials in the public repo.</p>
+  </footer>
+
+  <script>
+(function () {
+  const tourTabs = document.querySelectorAll(".tour-tab");
+  const tourPanes = document.querySelectorAll(".tour-pane");
+  const flowSteps = document.querySelectorAll(".flow-step");
+  const heroTerminal = document.querySelector(".hero-panel .terminal code");
+  const heroVerdict = document.querySelector(".hero-panel .verdict-banner");
+
+  const tourData = {
+    start: {
+      cmd: "ramp-kit plan scenarios/cli-offline-contracts.yaml",
+      verdict: "5 steps · no credentials required",
+      flow: 0,
+      visual: `# The problem
+Agent called ramp transactions list --agent
+→ empty data? timeout? wrong JSON?
+→ was it OAuth, API, or your jq pipe?
+
+# This kit gives you a receipt trail
+runs/<id>/receipts/config-list.json
+runs/<id>/report.html`,
+    },
+    plan: {
+      cmd: "ramp-kit plan scenarios/cli-offline-contracts.yaml",
+      verdict: "Preview: config-list, env, auth status…",
+      flow: 0,
+      visual: `$ ramp-kit plan scenarios/cli-offline-contracts.yaml
+
+{
+  "scenario": "cli-offline-contracts",
+  "step_count": 5,
+  "steps": [
+    { "id": "config-list", "command": "ramp --agent config list" },
+    { "id": "env-show", "command": "ramp --agent env" },
+    ...
+  ]
+}`,
+    },
+    run: {
+      cmd: "ramp-kit run … --ramp-cli-src ../upstream/ramp-cli",
+      verdict: "Receipts: latency, exit code, redacted stdout",
+      flow: 1,
+      visual: `// receipts/config-list.json
+{
+  "step_id": "config-list",
+  "latency_ms": 430,
+  "exit_code": 0,
+  "success": true,
+  "schema_version": "1.0",
+  "redacted_args_hash": "a3f8c2…"
+}`,
+    },
+    doctor: {
+      cmd: "ramp-kit doctor runs/<run_id>",
+      verdict: "AUTH_BLOCKER vs AGENT_CODE_ISSUE vs LATENCY",
+      flow: 2,
+      visual: `{
+  "verdict": "ALL_PASS",
+  "passed": 5,
+  "failed": 0,
+  "by_error_class": { "ok": 5 }
+}
+
+# If auth failed → AUTH_BLOCKER
+# If timeout   → LATENCY_BLOCKER
+# If bad JSON  → AGENT_CODE_ISSUE`,
+    },
+    report: {
+      cmd: "ramp-kit all … → report.html",
+      verdict: "ALL_PASS — shareable HTML artifact",
+      flow: 3,
+      visual: `runs/d9762b027228/
+├── manifest.json
+├── receipts/
+│   ├── config-list.json
+│   └── auth-status-offline.json
+├── report.json
+└── report.html   ← you are here`,
+    },
+  };
+
+  const tourVisual = document.getElementById("tour-code");
+
+  function applyTour(key) {
+    const data = tourData[key];
+    if (!data) return;
+    if (heroTerminal) heroTerminal.textContent = data.cmd;
+    if (heroVerdict) heroVerdict.textContent = data.verdict;
+    if (tourVisual && data.visual) tourVisual.textContent = data.visual;
+    if (flowSteps.length) {
+      flowSteps.forEach((s, i) =>
+        s.classList.toggle("active", i === data.flow)
+      );
+    }
+  }
+
+  tourTabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const key = tab.dataset.tour;
+      tourTabs.forEach((t) => t.classList.toggle("active", t === tab));
+      tourPanes.forEach((p) =>
+        p.classList.toggle("active", p.dataset.tour === key)
+      );
+      applyTour(key);
+    });
+  });
+
+  document.querySelectorAll(".copy-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const pre = btn.parentElement.querySelector("pre");
+      if (!pre) return;
+      navigator.clipboard.writeText(pre.textContent).then(() => {
+        const orig = btn.textContent;
+        btn.textContent = "Copied";
+        setTimeout(() => {
+          btn.textContent = orig;
+        }, 2000);
+      });
+    });
+  });
+
+  // Auto-advance hero flow strip
+  let flowIdx = 0;
+  const flowKeys = ["plan", "run", "doctor", "report"];
+  setInterval(() => {
+    flowIdx = (flowIdx + 1) % flowKeys.length;
+    applyTour(flowKeys[flowIdx]);
+  }, 4000);
+})();
+</script>
+  <script>document.addEventListener("DOMContentLoaded", () => {
+    const pre = document.getElementById("tour-code");
+    if (pre) pre.textContent = `# The problem
+Agent called ramp transactions list --agent
+→ empty data? timeout? wrong JSON?
+→ was it OAuth, API, or your jq pipe?
+
+# This kit gives you a receipt trail
+runs/<id>/receipts/config-list.json
+runs/<id>/report.html`;
+  });</script>
+</body>
+</html>
