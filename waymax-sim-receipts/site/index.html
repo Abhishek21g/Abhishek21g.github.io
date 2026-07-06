@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Waymax Sim Receipts</title>
+  <style>
+    :root { --bg:#0b0f14; --card:#141a22; --text:#e8eef4; --muted:#8b9aab; --accent:#4cc9f0; --ok:#6ee7a0; --bad:#f87171; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, sans-serif; background:var(--bg); color:var(--text); line-height:1.5; }
+    main { max-width: 820px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    h1 { font-size: 1.75rem; margin-bottom: .25rem; }
+    .sub { color: var(--muted); margin-bottom: 2rem; }
+    .card { background: var(--card); border: 1px solid #243041; border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; }
+    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .85rem; }
+    pre { overflow-x: auto; background: #0a0e13; padding: 1rem; border-radius: 8px; border: 1px solid #243041; }
+    a { color: var(--accent); }
+    .tag { display:inline-block; font-size:.75rem; padding:.15rem .5rem; border-radius:999px; background:#1e2a3a; color:var(--muted); margin-right:.35rem; }
+    .pass { color: var(--ok); }
+    .fail { color: var(--bad); }
+    table { width:100%; border-collapse: collapse; font-size:.9rem; }
+    th, td { text-align:left; padding:.5rem; border-bottom:1px solid #243041; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Waymax Sim Receipts</h1>
+    <p class="sub">Traffic-light consistency doctor for Waymax / WOMD — <a href="https://github.com/waymo-research/waymax/issues/60">#60</a></p>
+
+    <div class="card">
+      <span class="tag">plan</span><span class="tag">run</span><span class="tag">doctor</span>
+      <p>Deterministic replay receipts for scenario batches: timestamp mismatch counts, red-light crossing flags, and CAUTION-phase notes.</p>
+    </div>
+
+    <div class="card">
+      <h2>Repro scenario</h2>
+      <table>
+        <tr><th>Shard</th><td><code>training_tfexample.tfrecord-00008-of-01000</code></td></tr>
+        <tr><th>Index</th><td>4</td></tr>
+        <tr><th>Before fix</th><td class="fail">Vehicle moves while TL shows STOP at same index</td></tr>
+        <tr><th>After alignment</th><td class="pass">TL resampled onto SDC timestamps</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>CLI</h2>
+      <pre>waymax-sim-receipts run \
+  --tfrecord training_tfexample.tfrecord-00008-of-01000 \
+  --scenario-indices 4 \
+  --use-alignment \
+  -o receipt.json
+
+waymax-sim-receipts doctor receipt.json</pre>
+    </div>
+
+    <div class="card">
+      <h2>Root cause (summary)</h2>
+      <p>Waymax coupled traffic lights to agents by <strong>index only</strong>, ignoring per-step <code>timestamp_micros</code> drift present in ~10% of WOMD v1.1/v1.2 scenarios. Fix: nearest-timestamp resampling in <code>traffic_light_alignment.py</code>.</p>
+      <p><a href="https://github.com/Abhishek21g/waymax-sim-receipts">GitHub</a> · <a href="https://github.com/waymo-research/waymax/issues/60">waymax#60</a></p>
+    </div>
+  </main>
+</body>
+</html>
