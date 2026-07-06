@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Partition fetch doctor for large neural datasets — memory estimates, batching recommendations, datarepo integration.">
+  <title>Neural Data Partition Doctor</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top">
+      <span class="brand-mark">NDPD</span>
+      <span>Neural Data Partition Doctor</span>
+    </a>
+    <nav>
+      <a href="#demo">Demo</a>
+      <a href="#how">How it works</a>
+      <a href="#cli">CLI</a>
+    </nav>
+    <a class="nav-action" href="https://github.com/Abhishek21g/neural-data-partition-doctor">GitHub</a>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Inspired by neuralinkcorp/datarepo — not affiliated</p>
+        <h1>Partition fetch doctor for multimodal neural data</h1>
+        <p class="hero-text">
+          Validate partition read plans before you load millions of rows. Estimate peak memory,
+          flag when <code>fetch_df_by_partition</code> should batch, and bind schema versions
+          alongside <a href="https://github.com/neuralinkcorp/datarepo/pull/54">datarepo#54</a>.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="#demo">Try live demo</a>
+          <a class="button secondary" href="https://github.com/neuralinkcorp/datarepo/pull/54">Upstream PR #54</a>
+        </div>
+      </div>
+
+      <div class="preview-shell" id="demo">
+        <div class="preview-toolbar" id="scenario-label">loading…</div>
+        <div class="preview-body">
+          <div style="margin-bottom:0.75rem">
+            <span class="status-pill ok" id="status-pill">ok</span>
+          </div>
+          <div class="metric-grid">
+            <div class="metric"><div class="metric-label">Files</div><div class="metric-value" id="metric-files">—</div></div>
+            <div class="metric"><div class="metric-label">Est. rows</div><div class="metric-value" id="metric-rows">—</div></div>
+            <div class="metric"><div class="metric-label">Peak memory (all-at-once)</div><div class="metric-value" id="metric-memory">—</div></div>
+            <div class="metric"><div class="metric-label">Use batching</div><div class="metric-value" id="metric-batching">—</div></div>
+            <div class="metric"><div class="metric-label">Batch size</div><div class="metric-value" id="metric-batch-size">—</div></div>
+          </div>
+          <ul class="warnings" id="warnings"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="scenario-tabs">
+        <button class="tab active" data-scenario="small" type="button">Small partition (3 files)</button>
+        <button class="tab" data-scenario="large" type="button">Large session (100 files → batching)</button>
+      </div>
+      <pre><code id="receipt-json">{}</code></pre>
+    </section>
+
+    <section class="section" id="how">
+      <h2>What it checks</h2>
+      <p class="section-lead">Same plan → doctor → report discipline as other eval workbenches — applied to Delta partition reads.</p>
+      <div class="feature-grid">
+        <article>
+          <h3>Partition manifest</h3>
+          <p>JSON with partition keys, per-file row counts, and schema dtypes.</p>
+        </article>
+        <article>
+          <h3>Memory estimate</h3>
+          <p>Peak bytes if every parquet file loads at once — the failure mode at scale.</p>
+        </article>
+        <article>
+          <h3>Batching recommendation</h3>
+          <p>Flags when to enable <code>use_batching</code> (maps to datarepo#49).</p>
+        </article>
+        <article>
+          <h3>Schema version hint</h3>
+          <p>Receipt slot for <code>DeltalakeTable.at_version()</code> when reading legacy data.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section cli-block" id="cli">
+      <h2>Quick start</h2>
+      <pre><code>git clone https://github.com/Abhishek21g/neural-data-partition-doctor
+cd neural-data-partition-doctor
+
+python3 partition_doctor.py doctor examples/small_partition.json
+python3 partition_doctor.py doctor examples/large_many_files.json
+python3 partition_doctor.py report examples/small_partition.json -o report.json</code></pre>
+    </section>
+
+    <footer class="site-footer">
+      <p>Third-party demo tooling. Pairs with <a href="https://github.com/neuralinkcorp/datarepo/pull/54">datarepo PR #54</a> (#42 versioned schemas).</p>
+      <div class="links-row">
+        <a href="https://github.com/Abhishek21g/neural-data-partition-doctor">Product repo</a>
+        <a href="https://github.com/neuralinkcorp/datarepo">neuralinkcorp/datarepo</a>
+        <a href="https://enaguthi.com">enaguthi.com</a>
+      </div>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
