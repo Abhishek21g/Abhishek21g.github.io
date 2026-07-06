@@ -39,6 +39,7 @@ jobs:
         with:
           ref: gh-pages
           path: gh-pages
+          fetch-depth: 0
 
       - name: Publish GitHub activity JSON
         run: |
@@ -48,6 +49,7 @@ jobs:
           cd gh-pages
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git pull origin gh-pages --no-rebase --no-edit
           git add live/github-activity.json
           git add -u spotify || true
           git diff --cached --quiet && echo "No activity changes" && exit 0
