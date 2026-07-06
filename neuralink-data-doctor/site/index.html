@@ -28,12 +28,14 @@
         <h1>Partition fetch doctor for multimodal neural data</h1>
         <p class="hero-text">
           Validate partition read plans before you load millions of rows. Estimate peak memory,
-          flag when <code>fetch_df_by_partition</code> should batch, and bind schema versions
-          alongside <a href="https://github.com/neuralinkcorp/datarepo/pull/54">datarepo#54</a>.
+          flag when <code>fetch_df_by_partition</code> should batch, and emit ready-to-paste code —
+          paired with <a href="https://github.com/neuralinkcorp/datarepo/pull/54">#54</a> and
+          <a href="https://github.com/neuralinkcorp/datarepo/pull/55">#55</a>.
         </p>
         <div class="hero-actions">
           <a class="button primary" href="#demo">Try live demo</a>
-          <a class="button secondary" href="https://github.com/neuralinkcorp/datarepo/pull/54">Upstream PR #54</a>
+          <a class="button secondary" href="https://github.com/neuralinkcorp/datarepo/pull/54">PR #54 schemas</a>
+          <a class="button secondary" href="https://github.com/neuralinkcorp/datarepo/pull/55">PR #55 batching</a>
         </div>
       </div>
 
@@ -61,6 +63,8 @@
         <button class="tab" data-scenario="large" type="button">Large session (100 files → batching)</button>
       </div>
       <pre><code id="receipt-json">{}</code></pre>
+      <h3 style="margin-top:1.25rem;font-size:1rem">Suggested datarepo call</h3>
+      <pre><code id="codegen-snippet"># switch scenario tab</code></pre>
     </section>
 
     <section class="section" id="how">
@@ -97,7 +101,7 @@ python3 partition_doctor.py report examples/small_partition.json -o report.json<
     </section>
 
     <footer class="site-footer">
-      <p>Third-party demo tooling. Pairs with <a href="https://github.com/neuralinkcorp/datarepo/pull/54">datarepo PR #54</a> (#42 versioned schemas).</p>
+      <p>Third-party demo tooling. Pairs with <a href="https://github.com/neuralinkcorp/datarepo/pull/54">PR #54</a> (schemas) and <a href="https://github.com/neuralinkcorp/datarepo/pull/55">PR #55</a> (batching).</p>
       <div class="links-row">
         <a href="https://github.com/Abhishek21g/neural-data-partition-doctor">Product repo</a>
         <a href="https://github.com/neuralinkcorp/datarepo">neuralinkcorp/datarepo</a>

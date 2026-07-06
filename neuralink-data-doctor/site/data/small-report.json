@@ -17,7 +17,8 @@
   "recommendations": {
     "fetch_df_by_partition": {
       "use_batching": false,
-      "batch_size": 3
+      "batch_size": 3,
+      "codegen": "fetch_df_by_partition(\n    dt=delta_table,\n    partition={\"implant_id\": 5956, \"date\": \"2024-04-05\"},\n    schema=table_schema,\n    use_batching=False,\n    batch_size=3,\n)"
     },
     "deltalake_table": {
       "schema_version": null

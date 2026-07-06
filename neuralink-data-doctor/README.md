@@ -6,7 +6,7 @@ Validate partition fetch plans, estimate peak memory, and recommend batching for
 
 **Live demo:** https://enaguthi.com/neuralink-data-doctor/site/
 
-**Upstream PR:** https://github.com/neuralinkcorp/datarepo/pull/54 (versioned `DeltalakeTable` schema access, #42)
+**Upstream PRs:** [#54](https://github.com/neuralinkcorp/datarepo/pull/54) (schema versioning, #42) · [#55](https://github.com/neuralinkcorp/datarepo/pull/55) (partition batching, #49)
 
 ## CLI
 
@@ -14,6 +14,8 @@ Validate partition fetch plans, estimate peak memory, and recommend batching for
 python3 partition_doctor.py plan examples/small_partition.json
 python3 partition_doctor.py doctor examples/large_many_files.json
 python3 partition_doctor.py report examples/small_partition.json -o report.json
+python3 partition_doctor.py codegen examples/large_many_files.json
+python3 partition_doctor.py promote examples/large_many_files.json
 ```
 
 ### Commands
@@ -23,6 +25,8 @@ python3 partition_doctor.py report examples/small_partition.json -o report.json
 | `plan` | JSON partition plan (files, rows, memory, batching) |
 | `doctor` | Human-readable health check; exit 1 with `--strict` on warnings |
 | `report` | Machine-readable receipt JSON for CI / dashboards |
+| `codegen` | Print ready-to-paste `fetch_df_by_partition(...)` call |
+| `promote` | Outreach blurb linking PRs + demo |
 
 ### Manifest format
 

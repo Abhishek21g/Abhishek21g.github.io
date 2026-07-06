@@ -44,6 +44,10 @@ function renderReport(report) {
   }
 
   document.getElementById("receipt-json").textContent = JSON.stringify(report, null, 2);
+
+  const codegen = report.recommendations?.fetch_df_by_partition?.codegen;
+  document.getElementById("codegen-snippet").textContent =
+    codegen || "# codegen unavailable";
 }
 
 async function loadScenario(name) {
