@@ -1,48 +1,62 @@
-/** Precomputed receipt keys: `${platform}__${workload}` */
-const RECEIPT_INDEX = {
-  "starcloud-1__nanogpt-tiny": "receipts/starcloud-1__nanogpt-tiny.json",
-  "starcloud-1__sar-compress": "receipts/starcloud-1__sar-compress.json",
-  "starcloud-1__inference-batch": "receipts/starcloud-1__inference-batch.json",
-  "starcloud-2__nanogpt-tiny": "receipts/starcloud-1__nanogpt-tiny.json",
-  "starcloud-2__inference-batch": "receipts/starcloud-2__inference-batch.json",
-  "starcloud-2__sar-compress": "receipts/starcloud-1__sar-compress.json",
+const RECEIPTS = {
+  "starcloud-1__nanogpt-tiny": "data/starcloud-1__nanogpt-tiny.json",
+  "starcloud-1__inference-batch": "data/starcloud-1__inference-batch.json",
+  "starcloud-1__sar-compress": "data/starcloud-1__sar-compress.json",
+  "starcloud-2__nanogpt-tiny": "data/starcloud-2__nanogpt-tiny.json",
+  "starcloud-2__inference-batch": "data/starcloud-2__inference-batch.json",
+  "starcloud-2__sar-compress": "data/starcloud-1__sar-compress.json",
 };
-
-const FALLBACK_RECEIPT = "receipts/starcloud-1__nanogpt-tiny.json";
 
 const platformEl = document.getElementById("platform");
 const workloadEl = document.getElementById("workload");
 const runBtn = document.getElementById("run-demo");
-const metricCards = document.getElementById("metric-cards");
+const demoMetrics = document.getElementById("demo-metrics");
 const doctorList = document.getElementById("doctor-list");
 const preview = document.getElementById("receipt-preview");
-const canvas = document.getElementById("timeline-chart");
+const timelineSvg = document.getElementById("timeline-svg");
+const demoStatus = document.getElementById("demo-status");
+const demoLabel = document.getElementById("demo-label");
+const demoCommand = document.getElementById("demo-command");
+const tabs = document.querySelectorAll(".tab");
+
+let currentReceipt = null;
+let activeTab = "summary";
+
+function fmtNum(n, digits = 1) {
+  if (n == null || Number.isNaN(n)) return "—";
+  if (Math.abs(n) >= 1e12) return `${(n / 1e12).toFixed(2)}T`;
+  if (Math.abs(n) >= 1e9) return `${(n / 1e9).toFixed(2)}G`;
+  if (Math.abs(n) >= 1e6) return `${(n / 1e6).toFixed(2)}M`;
+  if (Math.abs(n) < 0.01 && n !== 0) return n.toExponential(2);
+  return Number(n).toFixed(digits);
+}
 
 async function loadReceipt(platform, workload) {
   const key = `${platform}__${workload}`;
-  const path = RECEIPT_INDEX[key] || FALLBACK_RECEIPT;
+  const path = RECEIPTS[key];
+  if (!path) throw new Error(`No receipt for ${key}`);
   const res = await fetch(path);
   if (!res.ok) throw new Error(`Failed to load ${path}`);
   return res.json();
 }
 
-function renderMetrics(m) {
-  const c = m.compute || {};
-  const t = m.thermal || {};
-  const d = m.downlink || {};
-  const b = m.baseline || {};
+function renderMetrics(receipt) {
+  const c = receipt.compute || {};
+  const t = receipt.thermal || {};
+  const p = receipt.power || {};
+  const d = receipt.downlink || {};
   const cards = [
-    ["Status", (m.status || "—").toUpperCase()],
-    ["Wall time", `${(c.wall_seconds || 0).toFixed(0)} s`],
-    ["Peak temp", `${(t.peak_celsius || 0).toFixed(1)} °C`],
-    ["Effective MFU", (c.effective_mfu || 0).toExponential(2)],
-    ["Downlink", d.recommendation || "—"],
-    ["Terrestrial", `${(b.terrestrial_kwh || 0).toFixed(4)} kWh`],
+    ["Peak temp", `${fmtNum(t.peak_celsius)}°C`],
+    ["Wall time", `${fmtNum(c.wall_seconds, 0)} s`],
+    ["Throttle", `${fmtNum((p.throttle_fraction || 0) * 100, 1)}%`],
   ];
-  metricCards.innerHTML = cards
+  if (d.bytes_saved > 0) {
+    cards[2] = ["Bytes saved", fmtNum(d.bytes_saved, 2)];
+  }
+  demoMetrics.innerHTML = cards
     .map(
       ([label, value]) =>
-        `<div class="metric-card"><div class="label">${label}</div><div class="value">${value}</div></div>`
+        `<article><span>${label}</span><strong>${value}</strong></article>`
     )
     .join("");
 }
@@ -52,58 +66,95 @@ function renderDoctor(rules) {
     .map((r) => {
       const cls = r.pass ? (r.severity === "info" ? "info" : "pass") : r.severity;
       const mark = r.pass ? "PASS" : "FAIL";
-      return `<div class="doctor-item ${cls}"><strong>${r.id}</strong> [${mark}] — ${r.message}</div>`;
+      return `<div class="doctor-item ${cls}"><strong>${r.id} · ${mark}</strong>${r.message}</div>`;
     })
     .join("");
 }
 
-function drawTimeline(timeline) {
-  const ctx = canvas.getContext("2d");
-  const w = canvas.width;
-  const h = canvas.height;
-  ctx.clearRect(0, 0, w, h);
+function pathFromSeries(values, maxV, yBase, yRange) {
+  if (!values.length) return "";
+  const step = 580 / Math.max(values.length - 1, 1);
+  return values
+    .map((v, i) => {
+      const x = i * step;
+      const y = yBase - (v / maxV) * yRange;
+      return `${i === 0 ? "M" : "L"}${x.toFixed(1)} ${y.toFixed(1)}`;
+    })
+    .join(" ");
+}
+
+function renderTimeline(timeline) {
   if (!timeline || !timeline.length) {
-    ctx.fillStyle = "#8fa3bf";
-    ctx.fillText("Timeline available in CLI receipt (timeline.csv)", 20, h / 2);
+    timelineSvg.innerHTML =
+      '<text x="20" y="90" fill="#5f6b7a" font-size="14" font-family="Inter, sans-serif">Timeline loads with receipt</text>';
     return;
   }
 
-  const sample = timeline.filter((_, i) => i % Math.max(1, Math.floor(timeline.length / 120)) === 0);
-  const maxSolar = Math.max(...sample.map((s) => s.solar_w), 1);
-  const maxTemp = Math.max(...sample.map((s) => s.temp_c), 1);
+  const sample = timeline.filter(
+    (_, i) => i % Math.max(1, Math.floor(timeline.length / 140)) === 0
+  );
+  const solar = sample.map((s) => s.solar_w);
+  const temp = sample.map((s) => s.temp_c);
+  const soc = sample.map((s) => s.battery_soc);
 
-  const rowH = h / 3;
-  const drawRow = (idx, values, maxV, color) => {
-    ctx.strokeStyle = color;
-    ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    values.forEach((v, i) => {
-      const x = (i / (values.length - 1 || 1)) * (w - 20) + 10;
-      const y = idx * rowH + rowH - (v / maxV) * (rowH - 16) - 8;
-      if (i === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
-    });
-    ctx.stroke();
-  };
+  const maxSolar = Math.max(...solar, 1);
+  const maxTemp = Math.max(...temp, 1);
+  const minTemp = Math.min(...temp, 0);
 
-  drawRow(
-    0,
-    sample.map((s) => s.solar_w),
-    maxSolar,
-    "#f6e05e"
+  const solarPath = pathFromSeries(solar, maxSolar, 150, 90);
+  const tempPath = pathFromSeries(
+    temp.map((v) => v - minTemp),
+    Math.max(maxTemp - minTemp, 1),
+    120,
+    70
   );
-  drawRow(
-    1,
-    sample.map((s) => s.temp_c),
-    maxTemp,
-    "#fc8181"
+  const socPath = pathFromSeries(soc, 1, 170, 50);
+
+  timelineSvg.innerHTML = `
+    <path class="grid-line" d="M0 44H580M0 92H580M0 140H580" />
+    <path class="solar-fill" d="${solarPath} L580 180 L0 180 Z" />
+    <path class="solar-line" d="${solarPath}" />
+    <path class="temp-line" d="${tempPath}" />
+    <path class="soc-line" d="${socPath}" />
+  `;
+}
+
+function renderPreview(receipt) {
+  if (activeTab === "json") {
+    preview.textContent = JSON.stringify(receipt, null, 2);
+    return;
+  }
+  const c = receipt.compute || {};
+  const t = receipt.thermal || {};
+  const d = receipt.downlink || {};
+  const b = receipt.baseline || {};
+  preview.textContent = JSON.stringify(
+    {
+      run_id: receipt.run_id,
+      platform: receipt.platform,
+      workload: receipt.workload,
+      status: receipt.status,
+      compute: c,
+      thermal: t,
+      downlink: {
+        recommendation: d.recommendation,
+        bytes_saved: d.bytes_saved,
+        t_down_raw_s: d.t_down_raw_s,
+        t_proc_s: d.t_proc_s,
+        t_down_proc_s: d.t_down_proc_s,
+      },
+      baseline: b,
+    },
+    null,
+    2
   );
-  drawRow(
-    2,
-    sample.map((s) => s.battery_soc),
-    1,
-    "#68d391"
-  );
+}
+
+function updateChrome(receipt) {
+  demoLabel.textContent = `${receipt.workload} · ${receipt.platform}`;
+  demoStatus.textContent = receipt.status || "unknown";
+  demoStatus.className = `badge ${receipt.status === "pass" ? "pass" : "fail"}`;
+  demoCommand.textContent = `orbital-compute run --plan out/plans/${receipt.plan_id}.json --seed ${receipt.seed}`;
 }
 
 async function runDemo() {
@@ -113,10 +164,12 @@ async function runDemo() {
   runBtn.textContent = "Loading…";
   try {
     const receipt = await loadReceipt(platform, workload);
+    currentReceipt = receipt;
+    updateChrome(receipt);
     renderMetrics(receipt);
     renderDoctor(receipt.doctor);
-    drawTimeline(receipt.timeline);
-    preview.textContent = JSON.stringify(receipt, null, 2);
+    renderTimeline(receipt.timeline);
+    renderPreview(receipt);
   } catch (err) {
     preview.textContent = String(err);
   } finally {
@@ -125,5 +178,26 @@ async function runDemo() {
   }
 }
 
+tabs.forEach((tab) => {
+  tab.addEventListener("click", () => {
+    tabs.forEach((t) => t.classList.remove("active"));
+    tab.classList.add("active");
+    activeTab = tab.dataset.tab;
+    if (currentReceipt) renderPreview(currentReceipt);
+  });
+});
+
 runBtn.addEventListener("click", runDemo);
+platformEl.addEventListener("change", runDemo);
+workloadEl.addEventListener("change", runDemo);
+
+const header = document.querySelector(".site-header");
+window.addEventListener(
+  "scroll",
+  () => {
+    if (header) header.dataset.scrolled = window.scrollY > 10 ? "true" : "false";
+  },
+  { passive: true }
+);
+
 runDemo();
