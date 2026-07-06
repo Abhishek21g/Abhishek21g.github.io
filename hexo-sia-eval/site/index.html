@@ -22,6 +22,7 @@
       <nav class="top-nav">
         <a class="back" href="https://enaguthi.com/">← enaguthi.com</a>
         <div class="nav-links">
+          <a href="#try">Try it</a>
           <a href="#product">Product</a>
           <a href="#install">Install</a>
           <a href="#demo">Demo output</a>
@@ -41,11 +42,41 @@
           <p class="eyebrow">Abhishek Enaguthi · shipped July 2026</p>
           <h1>SIA Eval Harness</h1>
           <p class="lede">
-            The <strong>actual product</strong> is a Python CLI —
-            <code>sia-eval</code> — that compiles a finished SIA run folder into a
-            reproducible receipt. This page shows the tool, how to run it, and the OSS fixes
-            that go with it.
+            Click <strong>Run compile</strong> below — it runs the same logic as the
+            <code>sia-eval</code> CLI, in your browser. No install, no API keys.
           </p>
+
+          <!-- TRY IT NOW -->
+          <section class="try-section" id="try">
+            <h2 class="section-title">Try it now</h2>
+            <p class="try-intro">
+              Uses the bundled <code>demo/runs/run_1</code> from
+              <a href="https://github.com/Abhishek21g/sia-eval-harness">sia-eval-harness</a>.
+              Same compiler logic as the Python CLI.
+            </p>
+            <div class="try-panel">
+              <div class="terminal" id="terminal" aria-live="polite">
+                <div class="terminal-bar">
+                  <span class="dot dot-red"></span>
+                  <span class="dot"></span>
+                  <span class="dot"></span>
+                  <span class="terminal-title">sia-eval · browser</span>
+                </div>
+                <div class="terminal-body" id="terminal-log">
+                  <div class="terminal-line muted">Waiting to compile…</div>
+                </div>
+              </div>
+              <div class="try-actions">
+                <button type="button" class="btn primary btn-lg" id="run-compile">
+                  ▶ Run sia-eval compile demo/runs/run_1
+                </button>
+                <button type="button" class="btn btn-lg" id="run-leak-demo">
+                  Simulate leak (bad grader)
+                </button>
+              </div>
+              <p class="try-status" id="try-status"></p>
+            </div>
+          </section>
 
           <!-- WHAT WE SHIPPED -->
           <section class="deliverables" id="shipped">
@@ -166,10 +197,9 @@ tests/              ← 4 pytest tests</code></pre>
           <!-- LIVE DEMO = REAL OUTPUT -->
           <section class="demo-section" id="demo">
             <div class="section-head">
-              <h2 class="section-title">Live demo output</h2>
+              <h2 class="section-title">Receipt output</h2>
               <p class="section-sub">
-                This is the <strong>real receipt</strong> from
-                <code>sia-eval compile demo/runs/run_1</code> — not a mock UI
+                Updates live when you run compile above
               </p>
             </div>
 
@@ -259,6 +289,7 @@ tests/              ← 4 pytest tests</code></pre>
         <p class="footer-sub">Not affiliated with Hexo Labs — my independent work on their open-source stack.</p>
       </footer>
     </div>
+    <script src="./compiler-browser.js"></script>
     <script src="./app.js"></script>
   </body>
 </html>
