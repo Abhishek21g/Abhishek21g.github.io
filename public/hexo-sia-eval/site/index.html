@@ -9,13 +9,1092 @@
       content="The solution: compile SIA runs into receipts. Test it in your browser — one click, no install."
     />
     <meta property="og:url" content="https://enaguthi.com/hexo-sia-eval/site/" />
-    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/hexo-sia-eval/site/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css" />
+    <style>
+:root {
+  --shell: #14110d;
+  --shell-text: #f6f2ea;
+  --shell-muted: rgba(246, 242, 234, 0.62);
+  --card: #f6f2ea;
+  --card-text: #14110d;
+  --card-muted: #3b3529;
+  --card-soft: #5b5648;
+  --border: rgba(20, 17, 13, 0.12);
+  --border-strong: rgba(20, 17, 13, 0.2);
+  --accent: #e2621b;
+  --accent-hover: #c95312;
+  --titlebar: #edeae2;
+  --green: #1a7f37;
+  --green-bg: #dafbe1;
+  --red: #cf222e;
+  --red-bg: #ffebe9;
+  --blue-bg: #ddf4ff;
+  --blue-text: #0550ae;
+  --yellow-bg: #fff8c5;
+  --yellow-text: #7d4e00;
+  --code-bg: #14110d;
+  --code-text: #e8e4dc;
+  --serif: "Instrument Serif", Georgia, serif;
+  --sans: "Instrument Sans", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--shell);
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--shell-text);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+a:hover {
+  color: var(--accent-hover);
+}
+
+.shell {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 28px 20px 80px;
+}
+
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+}
+
+.top-nav .back {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.top-nav .back:hover {
+  color: #ff7a32;
+}
+
+.nav-meta {
+  color: var(--shell-muted);
+}
+
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.nav-links a {
+  color: var(--shell-muted);
+  text-decoration: none;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+}
+
+.nav-links a:hover {
+  color: var(--accent);
+}
+
+.window {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(246, 242, 234, 0.14);
+  box-shadow: 0 32px 90px rgba(0, 0, 0, 0.45);
+  background: var(--card);
+  color: var(--card-text);
+}
+
+.titlebar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 16px;
+  background: var(--titlebar);
+  border-bottom: 1px solid var(--border);
+}
+
+.dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: rgba(20, 17, 13, 0.14);
+}
+
+.dot-red {
+  background: var(--accent);
+}
+
+.titlebar-label {
+  margin: 0 auto;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--card-soft);
+  letter-spacing: 0.02em;
+}
+
+.window-body {
+  padding: 36px 32px 40px;
+}
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+
+h1 {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--card-text);
+  margin-bottom: 18px;
+}
+
+.lede {
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--card-muted);
+  max-width: 62ch;
+  margin-bottom: 24px;
+}
+
+.lede code,
+.prose code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(20, 17, 13, 0.07);
+  color: var(--card-text);
+}
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 36px;
+}
+
+.tag {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  color: var(--card-muted);
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.prose {
+  margin-bottom: 40px;
+}
+
+.prose h2 {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--card-text);
+  margin: 0 0 12px;
+}
+
+.prose p {
+  color: var(--card-muted);
+  margin-bottom: 14px;
+  max-width: 68ch;
+}
+
+.prose ul {
+  margin: 0 0 20px 1.2rem;
+  color: var(--card-muted);
+}
+
+.prose li {
+  margin-bottom: 8px;
+  padding-left: 4px;
+}
+
+.prose li strong {
+  color: var(--card-text);
+  font-weight: 600;
+}
+
+.prose a {
+  font-weight: 500;
+}
+
+.cmd-block {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: 8px;
+  padding: 16px 18px;
+  border-radius: 10px;
+  background: var(--code-bg);
+  color: var(--code-text);
+  font-family: var(--mono);
+  font-size: 0.875rem;
+}
+
+.cmd-prompt {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.cmd-block code {
+  background: none;
+  padding: 0;
+  color: #fff;
+  font-size: inherit;
+}
+
+.cmd-comment {
+  color: rgba(232, 228, 220, 0.55);
+  font-size: 0.8rem;
+}
+
+.demo-section {
+  margin-bottom: 40px;
+}
+
+.section-head {
+  margin-bottom: 16px;
+}
+
+.section-head h2 {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin-bottom: 6px;
+}
+
+.section-sub {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--card-soft);
+}
+
+.demo-panel {
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.demo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 14px 18px;
+  background: var(--titlebar);
+  border-bottom: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--card-text);
+}
+
+.demo-header .status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+}
+
+.pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 0 0 rgba(26, 127, 55, 0.5);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  70% {
+    box-shadow: 0 0 0 8px rgba(26, 127, 55, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(26, 127, 55, 0);
+  }
+}
+
+.demo-meta {
+  color: var(--card-soft);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  padding: 16px 18px;
+  background: #faf8f4;
+  border-bottom: 1px solid var(--border);
+}
+
+.card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.card .label {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--card-soft);
+  margin-bottom: 6px;
+}
+
+.card .value {
+  font-family: var(--mono);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--card-text);
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table.receipt-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+table.receipt-table th,
+table.receipt-table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  color: var(--card-text);
+}
+
+table.receipt-table th {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--card-soft);
+  background: #faf8f4;
+}
+
+table.receipt-table tbody tr {
+  transition: background 0.15s ease;
+}
+
+table.receipt-table tbody tr:hover,
+table.receipt-table tbody tr.selected {
+  background: rgba(226, 98, 27, 0.08);
+  cursor: pointer;
+}
+
+.badge {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 5px;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.badge.pass {
+  background: var(--green-bg);
+  color: var(--green);
+}
+
+.badge.fail {
+  background: var(--red-bg);
+  color: var(--red);
+}
+
+.badge.harness {
+  background: var(--blue-bg);
+  color: var(--blue-text);
+}
+
+.badge.weights {
+  background: var(--yellow-bg);
+  color: var(--yellow-text);
+}
+
+.residue-cell {
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--card-muted);
+  font-size: 0.85rem;
+}
+
+.tabs {
+  display: flex;
+  gap: 0;
+  border-top: 1px solid var(--border);
+  background: #faf8f4;
+}
+
+.tab {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 12px 18px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--card-soft);
+  border-bottom: 2px solid transparent;
+}
+
+.tab:hover {
+  color: var(--card-text);
+}
+
+.tab.active {
+  color: var(--card-text);
+  background: #fff;
+  border-bottom-color: var(--accent);
+}
+
+.code-view {
+  margin: 0;
+  padding: 18px;
+  background: var(--code-bg);
+  color: var(--code-text);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  line-height: 1.6;
+  overflow: auto;
+  max-height: 380px;
+  min-height: 200px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.contrib {
+  margin-bottom: 8px;
+}
+
+.pr-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pr-list li {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--card-muted);
+}
+
+.pr-list li:last-child {
+  border-bottom: none;
+}
+
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.btn {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 12px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  border: 1px solid var(--border-strong);
+  color: var(--card-text);
+  background: #fff;
+  transition: transform 0.12s ease, border-color 0.12s ease;
+}
+
+.btn:hover {
+  border-color: var(--card-text);
+  transform: translateY(-1px);
+}
+
+.btn.primary {
+  background: var(--card-text);
+  color: var(--card);
+  border-color: var(--card-text);
+}
+
+.btn.primary:hover {
+  background: #2a241c;
+  color: #fff;
+}
+
+footer {
+  margin-top: 36px;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--shell-muted);
+  line-height: 1.7;
+}
+
+footer strong {
+  color: var(--shell-text);
+  font-weight: 600;
+}
+
+.footer-sub {
+  margin-top: 6px;
+  font-size: 0.72rem;
+  opacity: 0.85;
+}
+
+.section-title {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--card-text);
+  margin-bottom: 18px;
+}
+
+.deliverables {
+  margin-bottom: 44px;
+}
+
+.deliverable-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.deliverable-card {
+  padding: 18px;
+  border-radius: 10px;
+  border: 1px solid var(--border-strong);
+  background: #fff;
+}
+
+.deliverable-card.primary {
+  border-color: var(--accent);
+  background: linear-gradient(180deg, #fff9f5 0%, #fff 100%);
+}
+
+.deliverable-type {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+}
+
+.deliverable-card h3 {
+  font-family: var(--sans);
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 8px 0 6px;
+  color: var(--card-text);
+}
+
+.deliverable-card p {
+  font-size: 0.9rem;
+  color: var(--card-muted);
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.card-link {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.flow-section {
+  margin-bottom: 44px;
+}
+
+.flow-diagram {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  background: #faf8f4;
+  margin-bottom: 14px;
+}
+
+.flow-step {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.flow-num {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--card-text);
+  color: var(--card);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: grid;
+  place-items: center;
+}
+
+.flow-step strong {
+  display: block;
+  color: var(--card-text);
+  margin-bottom: 4px;
+}
+
+.flow-step p {
+  font-size: 0.9rem;
+  color: var(--card-muted);
+  margin: 0;
+}
+
+.flow-arrow {
+  text-align: center;
+  color: var(--card-soft);
+  font-size: 1.2rem;
+  padding: 6px 0;
+}
+
+.flow-note {
+  font-size: 0.95rem;
+  color: var(--card-muted);
+  font-style: italic;
+}
+
+.product-section,
+.install-section,
+.oss-section {
+  margin-bottom: 44px;
+}
+
+.product-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.file-tree pre {
+  margin: 0;
+  padding: 16px;
+  border-radius: 10px;
+  background: var(--code-bg);
+  color: var(--code-text);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  line-height: 1.55;
+  overflow-x: auto;
+}
+
+.tree-label {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--card-soft);
+  margin-bottom: 8px;
+}
+
+.product-points ul {
+  margin: 0 0 18px 1rem;
+  color: var(--card-muted);
+}
+
+.product-points li {
+  margin-bottom: 8px;
+  font-size: 0.92rem;
+}
+
+.product-points li strong {
+  color: var(--card-text);
+}
+
+.install-section .cmd-block {
+  margin-bottom: 10px;
+}
+
+.install-out {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--card-soft);
+  margin-top: 12px;
+}
+
+.oss-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.oss-table th,
+.oss-table td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  color: var(--card-text);
+}
+
+.oss-table th {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--card-soft);
+  background: #faf8f4;
+}
+
+.oss-table td:nth-child(2) {
+  color: var(--card-muted);
+}
+
+.badge.open {
+  background: var(--blue-bg);
+  color: var(--blue-text);
+}
+
+.badge.draft {
+  background: var(--yellow-bg);
+  color: var(--yellow-text);
+}
+
+.lede strong {
+  color: var(--card-text);
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ── Solution section ── */
+.solution-section {
+  margin-bottom: 40px;
+}
+
+.solution-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+}
+
+.solution-card {
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid var(--border-strong);
+  background: #fff;
+}
+
+.solution-card.answer {
+  border-color: var(--accent);
+  background: linear-gradient(180deg, #fff9f5 0%, #fff 100%);
+}
+
+.solution-label {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+
+.solution-card p {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--card-muted);
+  margin: 0;
+}
+
+.solution-card p strong,
+.solution-card li strong {
+  color: var(--card-text);
+}
+
+.solution-card ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--card-muted);
+  font-size: 0.92rem;
+}
+
+.solution-card li {
+  margin-bottom: 6px;
+}
+
+/* ── Test section — big visible button ── */
+.test-section {
+  margin-bottom: 36px;
+  padding: 24px;
+  border-radius: 12px;
+  border: 2px solid var(--accent);
+  background: linear-gradient(180deg, #fff9f5 0%, #fff 100%);
+}
+
+.test-header {
+  margin-bottom: 20px;
+}
+
+.test-sub {
+  color: var(--card-muted);
+  font-size: 1rem;
+  margin-top: 6px;
+}
+
+.test-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.run-button {
+  display: block;
+  width: 100%;
+  padding: 18px 24px;
+  font-family: var(--mono);
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(226, 98, 27, 0.35);
+  transition: background 0.15s, transform 0.12s;
+}
+
+.run-button:hover:not(:disabled) {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+.run-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.run-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.run-button.secondary {
+  background: var(--card-text);
+  box-shadow: 0 4px 14px rgba(20, 17, 13, 0.2);
+  font-size: 0.85rem;
+  padding: 14px 20px;
+}
+
+.run-button.secondary:hover:not(:disabled) {
+  background: #2a241c;
+}
+
+.empty-row {
+  text-align: center;
+  color: var(--card-soft) !important;
+  font-style: italic;
+  padding: 24px !important;
+}
+
+.card.placeholder .value {
+  color: var(--card-soft);
+}
+
+.product-blurb {
+  color: var(--card-muted);
+  margin-bottom: 16px;
+}
+
+.demo-section .section-head {
+  margin-bottom: 14px;
+}
+
+.demo-section .section-sub {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--card-soft);
+}
+
+.try-intro {
+  color: var(--card-muted);
+  margin-bottom: 16px;
+  font-size: 0.95rem;
+}
+
+.try-panel {
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.terminal {
+  background: var(--code-bg);
+}
+
+.terminal-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: #1c1915;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.terminal-title {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: rgba(246, 242, 234, 0.45);
+}
+
+.terminal-body {
+  min-height: 140px;
+  max-height: 200px;
+  overflow-y: auto;
+  padding: 14px 16px;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+.terminal-line {
+  color: var(--code-text);
+  margin-bottom: 4px;
+}
+
+.terminal-line.cmd {
+  color: #fff;
+  font-weight: 600;
+}
+
+.terminal-line.ok {
+  color: #7ee787;
+}
+
+.terminal-line.warn {
+  color: #ffa657;
+}
+
+.terminal-line.muted {
+  color: rgba(232, 228, 220, 0.45);
+}
+
+.try-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px 18px;
+  background: #faf8f4;
+  border-top: 1px solid var(--border);
+}
+
+.btn-lg {
+  padding: 14px 20px;
+  font-size: 0.85rem;
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.try-status {
+  padding: 0 18px 16px;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--card-soft);
+  background: #faf8f4;
+}
+
+@media (max-width: 720px) {
+  .product-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-links {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .window-body {
+    padding: 24px 18px 28px;
+  }
+
+  table.receipt-table th,
+  table.receipt-table td {
+    padding: 10px 12px;
+    font-size: 0.82rem;
+  }
+
+  .cmd-block {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse {
+    animation: none;
+  }
+}
+
+    </style>
   </head>
   <body>
     <div class="shell">
@@ -187,7 +1266,1256 @@
         <p>Built by <strong>Abhishek Enaguthi</strong></p>
       </footer>
     </div>
-    <script src="./compiler-browser.js"></script>
-    <script src="./app.js"></script>
+    <script type="application/json" id="demo-run-data">{
+  "run_id": 1,
+  "context_md": "**Task**: longcot-chess\n**Meta Model**: claude-haiku\n**Task Model**: claude-sonnet\n**Agent impl**: claude\n",
+  "generations": {
+    "1": {
+      "results.json": {
+        "summary": {
+          "accuracy": 0.42,
+          "accuracy_percent": 42.0,
+          "correct": 21,
+          "total": 50
+        },
+        "items": [
+          {
+            "id": "q0",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q1",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q2",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q3",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q4",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q5",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q6",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q7",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q8",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q9",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q10",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q11",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q12",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q13",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q14",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q15",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q16",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q17",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q18",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q19",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q20",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q21",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q22",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q23",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q24",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q25",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q26",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q27",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q28",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q29",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q30",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q31",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q32",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q33",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q34",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q35",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q36",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q37",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q38",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q39",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q40",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q41",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q42",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q43",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q44",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q45",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q46",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q47",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q48",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q49",
+            "status": "WRONG",
+            "output": "a3"
+          }
+        ]
+      },
+      "target_agent.py": "# generation 1\nprint('gen 1')\n# improved retry\n"
+    },
+    "2": {
+      "results.json": {
+        "summary": {
+          "accuracy": 0.58,
+          "accuracy_percent": 57.99999999999999,
+          "correct": 28,
+          "total": 50
+        },
+        "items": [
+          {
+            "id": "q0",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q1",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q2",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q3",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q4",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q5",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q6",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q7",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q8",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q9",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q10",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q11",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q12",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q13",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q14",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q15",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q16",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q17",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q18",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q19",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q20",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q21",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q22",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q23",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q24",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q25",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q26",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q27",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q28",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q29",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q30",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q31",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q32",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q33",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q34",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q35",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q36",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q37",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q38",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q39",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q40",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q41",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q42",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q43",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q44",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q45",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q46",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q47",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q48",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q49",
+            "status": "WRONG",
+            "output": "a3"
+          }
+        ]
+      },
+      "target_agent.py": "# generation 2\nprint('gen 2')\n# improved retry\n# improved retry\n",
+      "transfer_evidence.json": {
+        "accepted_for_reuse": true,
+        "task_specific_residue": [],
+        "unsupported_claims": [],
+        "claim_boundary": "Chess notation tasks only; not general reasoning."
+      },
+      "improvement.md": "# Gen 2\n- Added structured retry for tool failures.\n- Tuned prompt for chess notation.\n"
+    },
+    "3": {
+      "results.json": {
+        "summary": {
+          "accuracy": 0.71,
+          "accuracy_percent": 71.0,
+          "correct": 35,
+          "total": 50
+        },
+        "items": [
+          {
+            "id": "q0",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q1",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q2",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q3",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q4",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q5",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q6",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q7",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q8",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q9",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q10",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q11",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q12",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q13",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q14",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q15",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q16",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q17",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q18",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q19",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q20",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q21",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q22",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q23",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q24",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q25",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q26",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q27",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q28",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q29",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q30",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q31",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q32",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q33",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q34",
+            "status": "CORRECT",
+            "output": "a3"
+          },
+          {
+            "id": "q35",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q36",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q37",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q38",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q39",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q40",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q41",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q42",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q43",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q44",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q45",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q46",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q47",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q48",
+            "status": "WRONG",
+            "output": "a3"
+          },
+          {
+            "id": "q49",
+            "status": "WRONG",
+            "output": "a3"
+          }
+        ]
+      },
+      "target_agent.py": "# generation 3\nprint('gen 3')\n# improved retry\n# improved retry\n# improved retry\n",
+      "transfer_evidence.json": {
+        "accepted_for_reuse": true,
+        "task_specific_residue": [
+          "Hardcoded FEN parser for bundled chess JSON layout"
+        ],
+        "unsupported_claims": [],
+        "claim_boundary": "Chess notation tasks only; not general reasoning."
+      },
+      "improvement.md": "# Gen 3\n- Added structured retry for tool failures.\n- Tuned prompt for chess notation.\n"
+    }
+  }
+}</script>
+    <script>
+/** Browser port of sia_eval_harness — same logic as the Python CLI. */
+const RECEIPT_VERSION = "0.1";
+const GOLD_LEAK_KEYS = new Set([
+  "expected",
+  "reference_answer",
+  "answer_key",
+  "gold",
+  "correct_answer",
+]);
+const METRIC_KEYS = ["accuracy", "accuracy_percent", "score", "mse", "loss", "correct", "total"];
+const ARTIFACTS = [
+  "target_agent.py",
+  "train.py",
+  "results.json",
+  "improvement.md",
+  "transfer_evidence.json",
+  "agent_execution.json",
+];
+
+async function sha256Text(text) {
+  const buf = new TextEncoder().encode(text);
+  const hash = await crypto.subtle.digest("SHA-256", buf);
+  return (
+    "sha256:" +
+    [...new Uint8Array(hash)].map((b) => b.toString(16).padStart(2, "0")).join("")
+  );
+}
+
+function walkGoldKeys(obj, out) {
+  if (obj && typeof obj === "object") {
+    if (!Array.isArray(obj)) {
+      for (const [k, v] of Object.entries(obj)) {
+        if (GOLD_LEAK_KEYS.has(k.toLowerCase())) out.push(k);
+        walkGoldKeys(v, out);
+      }
+    } else {
+      obj.forEach((item) => walkGoldKeys(item, out));
+    }
+  }
+}
+
+function goldLeakCheck(results) {
+  if (!results) {
+    return { status: "missing", keys_found: [], detail: "no results.json" };
+  }
+  const keys = [];
+  walkGoldKeys(results, keys);
+  if (keys.length) {
+    return {
+      status: "fail",
+      keys_found: [...new Set(keys)].sort(),
+      detail: "held-out label keys present in results.json",
+    };
+  }
+  return { status: "pass", keys_found: [], detail: "no gold-bearing keys detected" };
+}
+
+function detectFocus(genFiles) {
+  if (genFiles["train.py"] || genFiles["train_stdout.log"]) return "weights";
+  return "harness";
+}
+
+function extractPrimaryMetric(results) {
+  if (!results) return [null, null];
+  const scan = (block) => {
+    for (const key of METRIC_KEYS) {
+      if (key in block && typeof block[key] === "number") return [key, block[key]];
+    }
+    return [null, null];
+  };
+  if (results.summary && typeof results.summary === "object") {
+    const found = scan(results.summary);
+    if (found[0]) return found;
+  }
+  return scan(results);
+}
+
+function metricDelta(prev, curr) {
+  const [prevKey, prevVal] = extractPrimaryMetric(prev);
+  const [currKey, currVal] = extractPrimaryMetric(curr);
+  if (currKey == null || currVal == null) {
+    return { metric: null, previous: null, current: null, delta: null, direction: "unknown" };
+  }
+  let delta = null;
+  if (prevVal != null && currKey === prevKey) delta = currVal - prevVal;
+  let direction = "unknown";
+  if (delta != null) {
+    direction = currKey === "loss" || currKey === "mse" ? "lower_is_better" : "higher_is_better";
+  }
+  return {
+    metric: currKey,
+    previous: prevVal,
+    current: currVal,
+    delta,
+    direction,
+  };
+}
+
+function parseContextHeader(text) {
+  const meta = {};
+  for (const line of text.split("\n")) {
+    const m = line.match(/^\*\*(.+?)\*\*:\s*(.+)$/);
+    if (m) meta[m[1].trim()] = m[2].trim();
+  }
+  return meta;
+}
+
+function codeDeltaLines(prevFiles, currFiles) {
+  let agentName = "target_agent.py";
+  if (!currFiles[agentName] && currFiles["train.py"]) agentName = "train.py";
+  if (!currFiles[agentName]) {
+    return { lines_added: null, lines_removed: null, agent_file: null };
+  }
+  const currLines = String(currFiles[agentName]).split("\n");
+  if (!prevFiles) {
+    return { lines_added: currLines.length, lines_removed: 0, agent_file: agentName };
+  }
+  let prevName = "target_agent.py";
+  if (!prevFiles[prevName] && prevFiles["train.py"]) prevName = "train.py";
+  if (!prevFiles[prevName]) {
+    return { lines_added: currLines.length, lines_removed: 0, agent_file: agentName };
+  }
+  const prevLines = String(prevFiles[prevName]).split("\n");
+  return {
+    lines_added: Math.max(0, currLines.length - prevLines.length),
+    lines_removed: Math.max(0, prevLines.length - currLines.length),
+    agent_file: agentName,
+  };
+}
+
+async function artifactHashes(genFiles) {
+  const out = {};
+  for (const name of ARTIFACTS) {
+    if (!(name in genFiles)) continue;
+    const raw =
+      name.endsWith(".json") ? JSON.stringify(genFiles[name], null, 2) : String(genFiles[name]);
+    out[name] = await sha256Text(raw);
+  }
+  return out;
+}
+
+async function compileGeneration(genNum, genFiles, prevFiles) {
+  const results = genFiles["results.json"] || null;
+  const prevResults = prevFiles ? prevFiles["results.json"] || null : null;
+  const transfer = genFiles["transfer_evidence.json"] || null;
+  const focus = detectFocus(genFiles);
+  const delta = metricDelta(prevResults, results);
+  const leak = goldLeakCheck(results);
+
+  const gain = {
+    focus,
+    metric_delta: delta,
+    code_change: codeDeltaLines(prevFiles, genFiles),
+    harness_delta: focus === "harness" ? delta.delta : null,
+    weights_delta: focus === "weights" ? delta.delta : null,
+  };
+
+  let overfit = { status: "unknown", residue: [], unsupported_claims: [] };
+  if (transfer) {
+    overfit = {
+      status: "present",
+      accepted_for_reuse: transfer.accepted_for_reuse,
+      residue: transfer.task_specific_residue || transfer.residue_bullets || [],
+      unsupported_claims: transfer.unsupported_claims || [],
+      claim_boundary: transfer.claim_boundary,
+    };
+  } else if (genFiles["improvement.md"]) {
+    overfit.status = "improvement_md_only";
+  }
+
+  return {
+    generation: genNum,
+    focus,
+    metrics: results?.summary || results || {},
+    gain_attribution: gain,
+    integrity: {
+      private_leak_check: leak,
+      transfer_evidence: overfit,
+    },
+    artifacts_hash: await artifactHashes(genFiles),
+  };
+}
+
+function bestMetric(generations) {
+  let best = null;
+  for (const g of generations) {
+    const d = g.gain_attribution.metric_delta;
+    if (d.current == null) continue;
+    if (!best || d.current > best.value) {
+      best = { generation: g.generation, metric: d.metric, value: d.current };
+    }
+  }
+  return best;
+}
+
+function renderMarkdown(receipt) {
+  const lines = [
+    `# SIA Run Receipt — run_${receipt.run_id}`,
+    "",
+    `**Compiled:** ${receipt.compiled_at}`,
+    `**Task:** ${receipt.task}`,
+    `**Generations:** ${receipt.summary.generation_count}`,
+    "",
+    "## Generation summary",
+    "",
+    "| Gen | Focus | Metric Δ | Leak check | Overfit signal |",
+    "|-----|-------|----------|------------|----------------|",
+  ];
+  for (const g of receipt.generations) {
+    const d = g.gain_attribution.metric_delta;
+    let dStr = "—";
+    if (d.delta != null) dStr = `${d.metric} ${d.delta >= 0 ? "+" : ""}${d.delta.toFixed(4)}`;
+    lines.push(
+      `| ${g.generation} | ${g.focus} | ${dStr} | ${g.integrity.private_leak_check.status} | ${g.integrity.transfer_evidence.status} |`
+    );
+  }
+  if (receipt.summary.leak_failures) {
+    lines.push("", "> **Warning:** gold-label keys detected in results.json.");
+  }
+  return lines.join("\n") + "\n";
+}
+
+/** Compile from bundled demo-run.json manifest (same inputs as CLI demo). */
+async function compileRunFromManifest(manifest) {
+  const contextMeta = parseContextHeader(manifest.context_md || "");
+  const genKeys = Object.keys(manifest.generations).sort((a, b) => Number(a) - Number(b));
+  const generations = [];
+  let prev = null;
+  for (const key of genKeys) {
+    const genNum = Number(key);
+    const files = manifest.generations[key];
+    generations.push(await compileGeneration(genNum, files, prev));
+    prev = files;
+  }
+  const leakFailures = generations.filter(
+    (g) => g.integrity.private_leak_check.status === "fail"
+  ).length;
+  return {
+    receipt_version: RECEIPT_VERSION,
+    compiled_at: new Date().toISOString(),
+    run_id: manifest.run_id || 1,
+    run_dir: "demo/runs/run_1",
+    task: contextMeta.Task || "longcot-chess",
+    meta_model: contextMeta["Meta Model"] || null,
+    task_model: contextMeta["Task Model"] || null,
+    agent_impl: contextMeta["Agent impl"] || null,
+    generations,
+    summary: {
+      generation_count: generations.length,
+      leak_failures: leakFailures,
+      best_metric: bestMetric(generations),
+    },
+  };
+}
+
+/** Inject a gold key into gen 3 to demo leak failure. */
+function manifestWithLeak(manifest) {
+  const copy = structuredClone(manifest);
+  const g3 = copy.generations["3"];
+  if (g3?.["results.json"]) {
+    g3["results.json"].leak_demo = [{ expected: "SECRET_ANSWER", id: "q0" }];
+  }
+  return copy;
+}
+
+window.SiaEvalCompiler = {
+  compileRunFromManifest,
+  manifestWithLeak,
+  renderMarkdown,
+};
+
+    </script>
+    <script>
+function fmtDelta(delta) {
+  if (delta == null || Number.isNaN(delta)) return "—";
+  const sign = delta >= 0 ? "+" : "";
+  return `${sign}${delta.toFixed(4)}`;
+}
+
+function leakBadge(status) {
+  const cls = status === "pass" ? "pass" : status === "fail" ? "fail" : "";
+  const label = status === "pass" ? "pass" : status === "fail" ? "fail" : status;
+  return `<span class="badge ${cls}">${label}</span>`;
+}
+
+function focusBadge(focus) {
+  return `<span class="badge ${focus}">${focus}</span>`;
+}
+
+function logTerminal(line, cls = "") {
+  const el = document.getElementById("terminal-log");
+  if (!el) return;
+  const row = document.createElement("div");
+  row.className = `terminal-line ${cls}`;
+  row.textContent = line;
+  el.appendChild(row);
+  el.scrollTop = el.scrollHeight;
+}
+
+function clearTerminal() {
+  const el = document.getElementById("terminal-log");
+  if (el) el.innerHTML = "";
+}
+
+function renderReceipt(receipt, markdown) {
+  const best = receipt.summary.best_metric;
+  document.getElementById("demo-meta").textContent =
+    `${receipt.task} · ${receipt.summary.generation_count} generations · compiled just now`;
+  document.getElementById("summary-cards").innerHTML = `
+    <div class="card"><div class="label">Best generation</div><div class="value">${best ? best.generation : "—"}</div></div>
+    <div class="card"><div class="label">${best ? best.metric : "Metric"}</div><div class="value">${best ? best.value.toFixed(2) : "—"}</div></div>
+    <div class="card"><div class="label">Leak failures</div><div class="value">${receipt.summary.leak_failures}</div></div>
+    <div class="card"><div class="label">Receipt</div><div class="value">${receipt.receipt_version}</div></div>
+  `;
+
+  const tbody = document.getElementById("gen-rows");
+  tbody.innerHTML = receipt.generations
+    .map((g) => {
+      const md = g.gain_attribution.metric_delta;
+      const residue = g.integrity.transfer_evidence.residue || [];
+      const residueText = residue.length ? residue[0] : "—";
+      return `<tr data-gen="${g.generation}">
+        <td>${g.generation}</td>
+        <td>${focusBadge(g.focus)}</td>
+        <td>${md.metric ? `${md.metric} ${fmtDelta(md.delta)}` : "—"}</td>
+        <td>${fmtDelta(g.gain_attribution.harness_delta)}</td>
+        <td>${leakBadge(g.integrity.private_leak_check.status)}</td>
+        <td class="residue-cell" title="${residue.join(" · ")}">${residueText}</td>
+      </tr>`;
+    })
+    .join("");
+
+  tbody.querySelectorAll("tr").forEach((row) => {
+    row.addEventListener("click", () => {
+      tbody.querySelectorAll("tr").forEach((r) => r.classList.remove("selected"));
+      row.classList.add("selected");
+      showGenDetail(receipt, Number(row.dataset.gen));
+    });
+  });
+
+  document.getElementById("json-view").textContent = JSON.stringify(receipt, null, 2);
+  document.getElementById("markdown-view").textContent = markdown;
+  window.__lastReceipt = receipt;
+}
+
+function showView(tabName) {
+  const views = { json: "json-view", markdown: "markdown-view", detail: "detail-view" };
+  Object.entries(views).forEach(([name, id]) => {
+    document.getElementById(id).classList.toggle("hidden", name !== tabName);
+  });
+  document.querySelectorAll(".tab").forEach((t) => {
+    t.classList.toggle("active", t.dataset.tab === tabName);
+  });
+}
+
+function showGenDetail(receipt, genNum) {
+  const gen = receipt.generations.find((g) => g.generation === genNum);
+  document.getElementById("detail-view").textContent = JSON.stringify(gen, null, 2);
+  showView("detail");
+}
+
+function setupTabs() {
+  document.querySelectorAll(".tab").forEach((tab) => {
+    tab.addEventListener("click", () => showView(tab.dataset.tab));
+  });
+}
+
+async function sleep(ms) {
+  return new Promise((r) => setTimeout(r, ms));
+}
+
+async function runCompile(manifest, { simulateLeak = false, label = "demo/runs/run_1" } = {}) {
+  const btn = document.getElementById("run-compile");
+  const btnLeak = document.getElementById("run-leak-demo");
+  if (btn) btn.disabled = true;
+  if (btnLeak) btnLeak.disabled = true;
+
+  clearTerminal();
+  logTerminal("$ sia-eval compile " + label, "cmd");
+  await sleep(350);
+  logTerminal("Reading run artifacts…");
+  await sleep(280);
+  logTerminal(`  context.md`);
+  logTerminal(`  gen_1/ … gen_${Object.keys(manifest.generations).length}/`);
+  await sleep(320);
+  logTerminal("Running leak check + gain attribution…");
+  await sleep(400);
+
+  const input = simulateLeak ? SiaEvalCompiler.manifestWithLeak(manifest) : manifest;
+  const receipt = await SiaEvalCompiler.compileRunFromManifest(input);
+  const markdown = SiaEvalCompiler.renderMarkdown(receipt);
+
+  logTerminal(`Wrote receipts/run_${receipt.run_id}.json`, "ok");
+  logTerminal(`Wrote receipts/run_${receipt.run_id}.md`, "ok");
+  if (receipt.summary.leak_failures) {
+    logTerminal(`⚠ leak check failed on ${receipt.summary.leak_failures} generation(s)`, "warn");
+  } else {
+    logTerminal("✓ all leak checks passed", "ok");
+  }
+
+  renderReceipt(receipt, markdown);
+  document.getElementById("try-status").textContent = simulateLeak
+    ? "Leak demo: injected gold key into gen 3 — same as a bad grader would produce."
+    : "Compile finished. Output matches the Python CLI on the same demo run.";
+
+  if (btn) btn.disabled = false;
+  if (btnLeak) btnLeak.disabled = false;
+  showView("json");
+}
+
+let demoManifest = null;
+
+function init() {
+  setupTabs();
+
+  const el = document.getElementById("demo-run-data");
+  if (!el) throw new Error("Demo data missing from page");
+  demoManifest = JSON.parse(el.textContent);
+
+  if (typeof SiaEvalCompiler === "undefined") {
+    throw new Error("Compiler script failed to load");
+  }
+
+  document.getElementById("run-compile").addEventListener("click", () =>
+    runCompile(demoManifest, { simulateLeak: false })
+  );
+  document.getElementById("run-leak-demo").addEventListener("click", () =>
+    runCompile(demoManifest, { simulateLeak: true, label: "demo/runs/run_1 (leak test)" })
+  );
+}
+
+init().catch((err) => {
+  const msg = "Error: " + err.message;
+  document.getElementById("try-status").textContent = msg;
+  document.getElementById("try-status").style.color = "#cf222e";
+  logTerminal(msg, "warn");
+});
+
+    </script>
   </body>
 </html>
