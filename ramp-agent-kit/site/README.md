@@ -1,29 +1,30 @@
-# Site deployment
+# Site
 
-Static files for **enaguthiabhishek.com/ramp-agent-kit/** (or any static host).
+**Live:** https://enaguthi.com/ramp-agent-kit/site/
 
-## Contents
+## Pages
 
 | File | Purpose |
 |------|---------|
-| `index.html` | Landing + embedded sample report |
-| `sample-report.html` | Generated from offline contract run (`ALL_PASS`) |
+| `index.html` | Landing + interactive onboarding walkthrough |
+| `sample-report.html` | Styled ALL_PASS report example |
+| `styles.css` | Shared design system |
+| `app.js` | Tour tabs + hero animation + copy buttons |
 
-## Regenerate sample report
+## Deploy
+
+Files live in `Abhishek21g.github.io/public/ramp-agent-kit/site/` (copied on deploy).
+
+```bash
+cp site/* /path/to/Abhishek21g.github.io/public/ramp-agent-kit/site/
+cd /path/to/Abhishek21g.github.io && git add public/ramp-agent-kit && git commit -m "Update ramp kit site" && git push
+```
+
+## Regenerate sample report from kit
 
 ```bash
 cd ../kit
 uv run ramp-kit all scenarios/cli-offline-contracts.yaml \
-  --ramp-cli-src ../upstream/ramp-cli \
-  --runs-dir ../runs
-cp ../runs/*/report.html ../site/sample-report.html
+  --ramp-cli-src ../upstream/ramp-cli --runs-dir ../runs
+# Optionally merge report.html styling into sample-report.html
 ```
-
-## Deploy (example: GitHub Pages / any static host)
-
-```bash
-# rsync to your web root
-rsync -av site/ user@host:~/public_html/ramp-agent-kit/
-```
-
-No build step required.
