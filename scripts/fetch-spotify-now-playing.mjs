@@ -5,9 +5,7 @@ const outputPath = resolve(process.argv[2] || 'public/spotify/now-playing.json')
 
 const required = ['SPOTIFY_CLIENT_ID', 'SPOTIFY_CLIENT_SECRET', 'SPOTIFY_REFRESH_TOKEN']
 const missing = required.filter((key) => !process.env[key])
-if (missing.length) {
-  throw new Error(`Missing required env vars: ${missing.join(', ')}`)
-}
+const secretsMissing = missing.length > 0
 
 async function spotifyFetch(url, accessToken) {
   const response = await fetch(url, {
@@ -53,6 +51,10 @@ async function fallbackPayload(status) {
 
 let payload
 try {
+  if (secretsMissing) {
+    throw new Error(`Missing required env vars: ${missing.join(', ')}`)
+  }
+
   const tokenResponse = await fetch('https://accounts.spotify.com/api/token', {
     method: 'POST',
     headers: {

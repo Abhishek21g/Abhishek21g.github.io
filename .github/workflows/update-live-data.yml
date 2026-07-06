@@ -1,4 +1,4 @@
-name: Update Spotify now playing
+name: Update live site data
 
 on:
   workflow_dispatch:
@@ -8,11 +8,15 @@ on:
   schedule:
     - cron: '*/15 * * * *'
 
+concurrency:
+  group: gh-pages-live-data
+  cancel-in-progress: false
+
 permissions:
   contents: write
 
 jobs:
-  update-spotify:
+  update-live-data:
     if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
@@ -24,7 +28,14 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Fetch GitHub activity
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_LOGIN: Abhishek21g
+        run: node scripts/fetch-github-activity.mjs /tmp/github-activity.json
+
       - name: Fetch Spotify data
+        continue-on-error: true
         env:
           SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
           SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
@@ -37,18 +48,22 @@ jobs:
           ref: gh-pages
           path: gh-pages
 
-      - name: Publish Spotify JSON
+      - name: Publish live JSON files
         run: |
-          mkdir -p gh-pages/spotify
-          cp /tmp/now-playing.json gh-pages/spotify/now-playing.json
+          mkdir -p gh-pages/live gh-pages/spotify
+          cp /tmp/github-activity.json gh-pages/live/github-activity.json
+          if [ -f /tmp/now-playing.json ]; then
+            cp /tmp/now-playing.json gh-pages/spotify/now-playing.json
+          fi
           cd gh-pages
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add spotify/now-playing.json
-          git diff --cached --quiet || git commit -m "Update Spotify now playing"
-          for attempt in 1 2 3; do
-            git pull --rebase origin gh-pages
-            git push && exit 0
-            sleep 3
+          git add live/github-activity.json spotify/now-playing.json
+          git diff --cached --quiet && echo "No live data changes" && exit 0
+          git commit -m "Update live site data"
+          for attempt in 1 2 3 4 5; do
+            git pull origin gh-pages --no-rebase --no-edit || git merge --abort
+            git push origin HEAD:gh-pages && exit 0
+            sleep $((attempt * 2))
           done
           exit 1
