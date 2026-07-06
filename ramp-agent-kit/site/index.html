@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ramp Agent Reliability Kit</title>
+  <style>
+    :root {
+      --bg: #06080c;
+      --panel: #10161f;
+      --text: #eef2f6;
+      --muted: #8fa3b8;
+      --accent: #4ade80;
+      --accent2: #38bdf8;
+      --border: #1e2a3a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "SF Pro Text", ui-sans-serif, system-ui, sans-serif;
+      background: radial-gradient(1200px 600px at 10% -10%, #0f2a1a 0%, transparent 50%),
+                  radial-gradient(900px 500px at 90% 0%, #0c1f33 0%, transparent 45%),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+    .wrap { max-width: 1040px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+    .hero { margin-bottom: 3rem; }
+    .eyebrow { color: var(--accent); font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; }
+    h1 { font-size: clamp(2rem, 5vw, 3rem); line-height: 1.1; margin: .5rem 0 1rem; }
+    .lead { color: var(--muted); font-size: 1.1rem; max-width: 42rem; }
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: .75rem;
+      margin: 2.5rem 0;
+    }
+    @media (max-width: 720px) { .flow { grid-template-columns: 1fr 1fr; } }
+    .step {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem;
+      text-align: center;
+    }
+    .step b { display: block; color: var(--accent2); font-size: .75rem; text-transform: uppercase; letter-spacing: .08em; }
+    .step span { font-size: .95rem; }
+    .arrow { display: none; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 2rem; }
+    @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.25rem 1.5rem;
+    }
+    .card h2 { margin: 0 0 .75rem; font-size: 1.1rem; }
+    .card p, .card li { color: var(--muted); font-size: .95rem; }
+    .card ul { margin: 0; padding-left: 1.2rem; }
+    code, pre {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: .82rem;
+    }
+    pre {
+      background: #080c12;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+      overflow: auto;
+      color: #c8d6e5;
+    }
+    .cta {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: .65rem 1.1rem;
+      background: linear-gradient(135deg, #166534, #15803d);
+      color: #ecfdf5;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: .9rem;
+    }
+    .cta.secondary { background: transparent; border: 1px solid var(--border); color: var(--text); margin-left: .5rem; }
+    #embed { margin-top: 2rem; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; min-height: 420px; }
+    #embed iframe { width: 100%; height: 520px; border: 0; background: #0b0f14; }
+    footer { margin-top: 3rem; color: var(--muted); font-size: .8rem; }
+    a { color: var(--accent2); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <div class="eyebrow">Independent · Not affiliated with Ramp</div>
+      <h1>Ramp Agent Reliability Kit</h1>
+      <p class="lead">
+        Reproducible receipts for <code>ramp --agent</code> tool calls — latency, success,
+        redacted logs, and a doctor that answers: <em>is it my agent code or the Ramp API?</em>
+      </p>
+    </div>
+
+    <div class="flow">
+      <div class="step"><b>1</b><span>plan</span></div>
+      <div class="step"><b>2</b><span>run</span></div>
+      <div class="step"><b>3</b><span>doctor</span></div>
+      <div class="step"><b>4</b><span>report</span></div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h2>What it solves</h2>
+        <ul>
+          <li>MCP / API latency and timeouts on large datasets</li>
+          <li>Agent JSON envelope drift (<code>schema_version</code>)</li>
+          <li>Auth vs permission vs harness bugs</li>
+          <li>Audit-safe redacted artifact trail</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>Run offline (no credentials)</h2>
+        <pre>cd kit
+uv sync
+uv run ramp-kit all scenarios/cli-offline-contracts.yaml \
+  --ramp-cli-src ../upstream/ramp-cli \
+  --runs-dir ../runs</pre>
+        <a class="cta" href="sample-report.html">View sample report</a>
+        <a class="cta secondary" href="https://github.com/ramp-public/ramp-cli">ramp-cli</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Doctor verdicts</h2>
+      <pre>ALL_PASS           — contracts OK
+AUTH_BLOCKER       — OAuth / scopes (not your agent)
+LATENCY_BLOCKER    — timeouts (known MCP pain)
+AGENT_CODE_ISSUE   — JSON / schema drift in your harness
+MIXED_FAILURES     — inspect per-step receipts</pre>
+    </div>
+
+    <div id="embed">
+      <iframe src="sample-report.html" title="Sample reliability report"></iframe>
+    </div>
+
+    <footer>
+      Built for finance agent workflows on Ramp's public CLI + MCP surfaces.
+      Sandbox-safe by default. No production credentials in the public repo.
+    </footer>
+  </div>
+</body>
+</html>
