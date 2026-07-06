@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Audit datarepo catalogs against physical Delta storage — catch schema drift before silent null-fills.">
+  <title>Catalog Ground Truth</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <span class="mark">CGT</span>
+        <div>
+          <strong>Catalog Ground Truth</strong>
+          <p>Declared vs physical</p>
+        </div>
+      </div>
+      <p class="sidebar-thesis" id="thesis"></p>
+      <div class="summary" id="summary"></div>
+      <nav class="table-nav" id="table-nav"></nav>
+      <footer class="sidebar-foot">
+        <a href="https://github.com/Abhishek21g/catalog-ground-truth">GitHub</a>
+        <span>·</span>
+        <a href="https://data-repo.io">datarepo</a>
+      </footer>
+    </aside>
+
+    <main class="main">
+      <header class="main-head">
+        <div>
+          <p class="eyebrow">Problem: catalog sites show Python intent, not S3 reality</p>
+          <h1 id="table-title">Select a table</h1>
+          <p class="uri" id="table-uri"></p>
+        </div>
+        <div class="status-chip" id="table-status">—</div>
+      </header>
+
+      <section class="panel-grid">
+        <article class="panel schema-panel">
+          <h2>Schema diff</h2>
+          <div class="schema-columns">
+            <div>
+              <h3>Declared (catalog code)</h3>
+              <ul id="declared-schema" class="schema-list"></ul>
+            </div>
+            <div>
+              <h3>Physical (Delta metadata)</h3>
+              <ul id="physical-schema" class="schema-list"></ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel findings-panel">
+          <h2>Findings</h2>
+          <ul id="findings" class="findings-list"></ul>
+        </article>
+      </section>
+
+      <section class="panel partition-panel">
+        <h2>Partition coverage</h2>
+        <p class="panel-lead">Probes expected implant/session slices before you launch a pipeline.</p>
+        <div id="partition-matrix" class="partition-matrix"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Why this matters for neural data</h2>
+        <div class="story-grid">
+          <div>
+            <h3>Silent corruption</h3>
+            <p>datarepo <code>_normalize_df</code> null-fills missing columns and casts types — a drifted catalog still "works".</p>
+          </div>
+          <div>
+            <h3>Empty partitions</h3>
+            <p>Ingest lag leaves holes per implant/session. Queries throw opaque polars errors (<a href="https://github.com/neuralinkcorp/datarepo/issues/41">#41</a>).</p>
+          </div>
+          <div>
+            <h3>Schema evolution</h3>
+            <p>Firmware and business logic move faster than catalog PRs. Static sites never show the gap.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

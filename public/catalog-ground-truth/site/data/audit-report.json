@@ -1,0 +1,224 @@
+{
+  "catalog_name": "neural_implant_catalog",
+  "audited_at": "2026-07-06T12:16:20.810199+00:00",
+  "thesis": "datarepo catalogs are defined in Python and rendered as static sites \u2014 but researchers assume the declared schema matches S3. When it does not, reads silently null-fill and cast via _normalize_df.",
+  "summary": {
+    "tables_audited": 4,
+    "ok": 1,
+    "warn": 1,
+    "error": 2
+  },
+  "tables": [
+    {
+      "name": "behavior_events",
+      "uri": "/Users/enaguthiabhishek/Documents/neuralink/catalog-ground-truth/fixtures/delta/behavior_events",
+      "table_type": "DELTA_LAKE",
+      "status": "warn",
+      "declared_schema": {
+        "implant_id": "int64",
+        "session_date": "string",
+        "event_type": "string",
+        "timestamp_us": "int64"
+      },
+      "physical_schema": {
+        "implant_id": "int64",
+        "session_date": "string",
+        "event_type": "string",
+        "timestamp_us": "int64",
+        "session_id": "string"
+      },
+      "partition_columns_declared": [
+        "implant_id",
+        "session_date"
+      ],
+      "partition_columns_physical": [
+        "implant_id",
+        "session_date"
+      ],
+      "findings": [
+        {
+          "code": "undeclared_physical_column",
+          "severity": "warn",
+          "message": "Column 'session_id' exists in storage but is not declared in the catalog \u2014 it will be invisible to catalog queries.",
+          "column": "session_id",
+          "declared": null,
+          "physical": "string"
+        }
+      ],
+      "partition_probes": []
+    },
+    {
+      "name": "electrode_map",
+      "uri": "/Users/enaguthiabhishek/Documents/neuralink/catalog-ground-truth/fixtures/delta/electrode_map",
+      "table_type": "DELTA_LAKE",
+      "status": "error",
+      "declared_schema": {
+        "implant_id": "int64",
+        "session_date": "string",
+        "electrode": "int32",
+        "impedance_ohms": "float"
+      },
+      "physical_schema": {
+        "implant_id": "int64",
+        "session_date": "string",
+        "electrode": "int32"
+      },
+      "partition_columns_declared": [
+        "implant_id",
+        "session_date"
+      ],
+      "partition_columns_physical": [
+        "implant_id",
+        "session_date"
+      ],
+      "findings": [
+        {
+          "code": "missing_in_physical",
+          "severity": "error",
+          "message": "Column 'impedance_ohms' is declared in the catalog but absent from Delta metadata \u2014 reads will null-fill this column.",
+          "column": "impedance_ohms",
+          "declared": "float",
+          "physical": null
+        }
+      ],
+      "partition_probes": []
+    },
+    {
+      "name": "raw_waveforms",
+      "uri": "/Users/enaguthiabhishek/Documents/neuralink/catalog-ground-truth/fixtures/delta/raw_waveforms",
+      "table_type": "DELTA_LAKE",
+      "status": "error",
+      "declared_schema": {
+        "implant_id": "int64",
+        "session_date": "string",
+        "channel": "int32",
+        "samples": "int32"
+      },
+      "physical_schema": {
+        "implant_id": "int64",
+        "session_date": "string",
+        "channel": "int32",
+        "samples": "int32"
+      },
+      "partition_columns_declared": [
+        "implant_id",
+        "session_date"
+      ],
+      "partition_columns_physical": [
+        "implant_id",
+        "session_date"
+      ],
+      "findings": [
+        {
+          "code": "schema_match",
+          "severity": "ok",
+          "message": "Declared schema matches Delta table metadata.",
+          "column": null,
+          "declared": null,
+          "physical": null
+        },
+        {
+          "code": "empty_partition",
+          "severity": "error",
+          "message": "Partition [implant_id=5956, session_date=2024-04-06] has zero files \u2014 queries return empty frames or opaque polars errors (datarepo#41).",
+          "column": null,
+          "declared": null,
+          "physical": null
+        }
+      ],
+      "partition_probes": [
+        {
+          "filters": [
+            [
+              "implant_id",
+              "=",
+              5956
+            ],
+            [
+              "session_date",
+              "=",
+              "2024-04-05"
+            ]
+          ],
+          "label": "implant_id=5956, session_date=2024-04-05",
+          "file_count": 1,
+          "status": "ok"
+        },
+        {
+          "filters": [
+            [
+              "implant_id",
+              "=",
+              5956
+            ],
+            [
+              "session_date",
+              "=",
+              "2024-04-06"
+            ]
+          ],
+          "label": "implant_id=5956, session_date=2024-04-06",
+          "file_count": 0,
+          "status": "error"
+        }
+      ]
+    },
+    {
+      "name": "spike_bins",
+      "uri": "/Users/enaguthiabhishek/Documents/neuralink/catalog-ground-truth/fixtures/delta/spike_bins",
+      "table_type": "DELTA_LAKE",
+      "status": "ok",
+      "declared_schema": {
+        "implant_id": "int64",
+        "session_date": "string",
+        "electrode": "int32",
+        "spike_count": "int32",
+        "bin_start_us": "int64"
+      },
+      "physical_schema": {
+        "implant_id": "int64",
+        "session_date": "string",
+        "electrode": "int32",
+        "spike_count": "int32",
+        "bin_start_us": "int64"
+      },
+      "partition_columns_declared": [
+        "implant_id",
+        "session_date"
+      ],
+      "partition_columns_physical": [
+        "implant_id",
+        "session_date"
+      ],
+      "findings": [
+        {
+          "code": "schema_match",
+          "severity": "ok",
+          "message": "Declared schema matches Delta table metadata.",
+          "column": null,
+          "declared": null,
+          "physical": null
+        }
+      ],
+      "partition_probes": [
+        {
+          "filters": [
+            [
+              "implant_id",
+              "=",
+              5956
+            ],
+            [
+              "session_date",
+              "=",
+              "2024-04-05"
+            ]
+          ],
+          "label": "implant_id=5956, session_date=2024-04-05",
+          "file_count": 1,
+          "status": "ok"
+        }
+      ]
+    }
+  ]
+}
