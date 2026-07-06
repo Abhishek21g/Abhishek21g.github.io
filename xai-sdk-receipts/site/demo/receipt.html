@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Multimodal Roundtrip Receipt — demo</title>
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    pre {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem;
+      overflow: auto;
+      font-size: 0.82rem;
+      line-height: 1.45;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0 2rem;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+    }
+    .card strong { display: block; font-size: 1.4rem; color: var(--pass); }
+    .card span { color: var(--muted); font-size: 0.85rem; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 2rem; font-size: 0.9rem; }
+    th, td { text-align: left; padding: 0.55rem 0.65rem; border-bottom: 1px solid var(--border); }
+    th { color: var(--muted); }
+    tr.fail td { color: var(--fail); }
+    tr.ok td:last-child { color: var(--pass); font-weight: 600; }
+    .back { display: inline-block; margin-bottom: 1rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <a class="back" href="../index.html">← Back</a>
+    <h1>Multimodal Collections Receipt</h1>
+    <p class="hero-text" id="meta">Loading…</p>
+
+    <div class="cards" id="summary-cards"></div>
+
+    <section>
+      <h2>Audit steps</h2>
+      <table>
+        <thead>
+          <tr><th>Step</th><th>Duration</th><th>Details</th><th>Status</th></tr>
+        </thead>
+        <tbody id="steps-table"></tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Raw JSON (redacted)</h2>
+      <pre id="raw-json"></pre>
+    </section>
+
+    <p class="disclaimer" id="disclaimer"></p>
+  </main>
+
+  <script>
+    async function loadReceipt() {
+      const res = await fetch("../data/receipt.json");
+      const data = await res.json();
+
+      document.getElementById("meta").textContent =
+        `Run ${data.run_id.slice(0, 8)}… · ${data.mode} · SDK ${data.sdk_version} · ${data.generated_at}`;
+
+      document.getElementById("summary-cards").innerHTML = `
+        <div class="card"><span>Overall</span><strong>${data.summary.overall}</strong></div>
+        <div class="card"><span>Steps</span><strong>${data.summary.step_count}</strong></div>
+        <div class="card"><span>Roundtrip</span><strong>${data.summary.roundtrip_verified ? "yes" : "no"}</strong></div>
+        <div class="card"><span>Paths</span><strong>${data.summary.paths_resolved}</strong></div>
+      `;
+
+      document.getElementById("steps-table").innerHTML = data.steps.map((step) => `
+        <tr class="${step.status}">
+          <td><code>${step.step}</code></td>
+          <td>${step.duration_ms ?? "—"} ms</td>
+          <td>${step.message || step.file_id || step.chunk_preview || (step.image_paths || []).join(", ") || "—"}</td>
+          <td>${step.status}</td>
+        </tr>
+      `).join("");
+
+      document.getElementById("raw-json").textContent = JSON.stringify(data, null, 2);
+      document.getElementById("disclaimer").textContent = data.disclaimer;
+    }
+
+    loadReceipt();
+  </script>
+</body>
+</html>

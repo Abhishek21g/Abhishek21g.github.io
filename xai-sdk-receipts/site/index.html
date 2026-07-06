@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Audit harness for xAI SDK multimodal Collections roundtrips — upload, search, resolve, vision chat.">
+  <title>xAI SDK Reliability Receipts</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top">
+      <span class="brand-mark">xAI</span>
+      <span>SDK Reliability Receipts</span>
+    </a>
+    <nav>
+      <a href="#how">How it works</a>
+      <a href="#demo">Demo</a>
+      <a href="demo/receipt.html">Live receipt</a>
+    </nav>
+    <a class="nav-action" href="https://github.com/xai-org/xai-sdk-python/pull/169">SDK PR #169</a>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Multimodal Collections roundtrip audit</p>
+        <h1>Receipts for upload → search → vision chat</h1>
+        <p class="hero-text">
+          Scripted harness for the <code>xai_sdk.multimodal_collections</code> workflow: store text with a local
+          image path reference, search the collection, resolve paths from metadata, and verify vision-chat readiness —
+          with a redacted audit log you can share.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="demo/receipt.html">Open demo receipt</a>
+          <a class="button secondary" href="https://github.com/Abhishek21g/xai-sdk-python/tree/feature/collections-multimodal/tools/xai_sdk_receipts">CLI source</a>
+        </div>
+      </div>
+
+      <div class="preview-shell" id="demo">
+        <div class="preview-toolbar">demo · collections_multimodal_roundtrip</div>
+        <div class="step-list" id="step-preview"></div>
+        <div class="preview-metrics" id="metrics-preview"></div>
+      </div>
+    </section>
+
+    <section class="section" id="how">
+      <h2>What the receipt captures</h2>
+      <p class="section-lead">Each step is timed, status-coded, and redacted before export — paths and file IDs are masked.</p>
+      <div class="feature-grid">
+        <article>
+          <h3>Multimodal upload</h3>
+          <p>UTF-8 text + <code>image_path</code> metadata via <code>upload_multimodal_document()</code>.</p>
+        </article>
+        <article>
+          <h3>Collection search</h3>
+          <p>Hybrid/semantic search with match count and top score logged.</p>
+        </article>
+        <article>
+          <h3>Path resolution</h3>
+          <p><code>batch_get_documents</code> + <code>resolve_multimodal_search_results()</code> fields-first.</p>
+        </article>
+        <article>
+          <h3>Vision readiness</h3>
+          <p>Validates inputs for <code>multimodal_user_message()</code> without leaking local paths.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>CLI</h2>
+      <p class="section-lead">Run offline demo or live roundtrip against your API key.</p>
+      <pre><code>cd tools/xai_sdk_receipts
+uv sync
+uv run python -m xai_sdk_receipts run --demo -o receipt.json
+uv run python -m xai_sdk_receipts run --live --image ./photo.jpg</code></pre>
+    </section>
+
+    <p class="disclaimer">
+      Third-party reliability harness for the xAI Python SDK. Not affiliated with xAI.
+      SDK helpers proposed in <a href="https://github.com/xai-org/xai-sdk-python/pull/169">PR #169</a>
+      (issue <a href="https://github.com/xai-org/xai-sdk-python/issues/78">#78</a>).
+    </p>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

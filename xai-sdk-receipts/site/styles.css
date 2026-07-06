@@ -1,0 +1,192 @@
+:root {
+  --bg: #0b0f14;
+  --panel: #141b24;
+  --panel-2: #1a2430;
+  --text: #e8eef5;
+  --muted: #8b9cb0;
+  --accent: #4d8cff;
+  --pass: #3d9a6a;
+  --warn: #c97b3d;
+  --fail: #c94d4d;
+  --border: #273341;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.55;
+}
+
+a { color: var(--accent); }
+
+.site-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: rgba(11, 15, 20, 0.92);
+  backdrop-filter: blur(8px);
+  z-index: 10;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.brand-mark {
+  background: var(--accent);
+  color: #07101f;
+  padding: 0.2rem 0.45rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.site-header nav { display: flex; gap: 1rem; flex: 1; }
+.site-header nav a { color: var(--muted); text-decoration: none; }
+.site-header nav a:hover { color: var(--text); }
+
+.nav-action {
+  border: 1px solid var(--border);
+  padding: 0.45rem 0.85rem;
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--text);
+}
+
+main { max-width: 1100px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 2rem;
+  align-items: start;
+  margin-bottom: 3rem;
+}
+
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; }
+}
+
+.eyebrow {
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+  margin: 0 0 0.75rem;
+}
+
+h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.15; margin: 0 0 1rem; }
+
+.hero-text { color: #b8c5d4; font-size: 1.05rem; max-width: 52ch; }
+
+.hero-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1.5rem; }
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.65rem 1rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.button.primary { background: var(--accent); color: #07101f; }
+.button.secondary { border: 1px solid var(--border); color: var(--text); }
+
+.preview-shell {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.preview-toolbar {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.step-list { padding: 1rem; display: grid; gap: 0.75rem; }
+
+.step-card {
+  background: var(--panel-2);
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.step-card .name { font-weight: 600; }
+.step-card .meta { color: var(--muted); font-size: 0.85rem; }
+.step-card .status { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; }
+.step-card .status.ok { color: var(--pass); }
+.step-card .status.warn { color: var(--warn); }
+.step-card .status.fail { color: var(--fail); }
+
+.preview-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  padding: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.metric {
+  background: var(--panel-2);
+  border-radius: 10px;
+  padding: 0.85rem;
+}
+
+.metric span { display: block; color: var(--muted); font-size: 0.8rem; }
+.metric strong { font-size: 1.35rem; color: var(--pass); }
+
+.section { margin-bottom: 3rem; }
+.section h2 { margin-bottom: 0.5rem; }
+.section-lead { color: var(--muted); max-width: 65ch; }
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.feature-grid article {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.feature-grid h3 { margin-top: 0; }
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.9em;
+  background: var(--panel-2);
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+}
+
+.disclaimer {
+  color: var(--muted);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--border);
+  padding-top: 1.5rem;
+}
