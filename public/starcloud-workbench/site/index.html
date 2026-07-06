@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Plan, simulate, and validate GPU workloads under orbital power, thermal, and downlink constraints." />
+  <meta property="og:url" content="https://enaguthi.com/starcloud-workbench/site/" />
+  <title>Orbital Compute Workbench</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav class="top-nav"><a href="https://enaguthi.com/">← enaguthi.com</a></nav>
+  <header class="hero">
+    <p class="eyebrow">Independent demo · public specs + labeled assumptions</p>
+    <h1>Plan GPU workloads under orbital constraints</h1>
+    <p class="lead">
+      Simulate power, thermal, solar/eclipse, and downlink tradeoffs for workloads on
+      published Starcloud-class platform profiles. Not affiliated with Starcloud or NVIDIA.
+    </p>
+  </header>
+
+  <main class="grid">
+    <section class="panel controls">
+      <h2>Plan this workload</h2>
+      <label>
+        Platform
+        <select id="platform">
+          <option value="starcloud-1">Starcloud-1 (H100, 60 kg)</option>
+          <option value="starcloud-2">Starcloud-2 (8 kW, B200)</option>
+        </select>
+      </label>
+      <label>
+        Workload
+        <select id="workload">
+          <option value="nanogpt-tiny">nanoGPT tiny train</option>
+          <option value="inference-batch">7B inference batch</option>
+          <option value="sar-compress">SAR compress (TB → GB)</option>
+        </select>
+      </label>
+      <button id="run-demo" type="button">Load receipt</button>
+      <p class="hint">Uses precomputed receipts from the open CLI simulator.</p>
+    </section>
+
+    <section class="panel metrics" id="metrics">
+      <h2>Receipt summary</h2>
+      <div class="metric-cards" id="metric-cards"></div>
+    </section>
+
+    <section class="panel timeline">
+      <h2>Timeline</h2>
+      <canvas id="timeline-chart" width="900" height="220" aria-label="Solar, temperature, and battery timeline"></canvas>
+      <div class="legend">
+        <span class="leg solar">Solar W</span>
+        <span class="leg temp">Temp °C</span>
+        <span class="leg soc">Battery SoC</span>
+      </div>
+    </section>
+
+    <section class="panel doctor">
+      <h2>Doctor</h2>
+      <div id="doctor-list" class="doctor-list"></div>
+    </section>
+
+    <section class="panel download">
+      <h2>Artifacts</h2>
+      <p>
+        <a href="../examples/nanogpt-orbit-receipt.json" download>nanogpt-orbit-receipt.json</a>
+        ·
+        <a href="https://github.com/Abhishek21g/orbital-compute-workbench" target="_blank" rel="noopener">GitHub</a>
+      </p>
+      <pre id="receipt-preview" class="receipt-preview"></pre>
+    </section>
+  </main>
+
+  <footer>
+    Orbital Compute Workbench — plan · run · doctor · report. Public platform specs only.
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>
