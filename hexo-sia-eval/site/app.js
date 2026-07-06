@@ -16,12 +16,12 @@ function focusBadge(focus) {
 
 function renderSummary(receipt) {
   const best = receipt.summary.best_metric;
-  document.getElementById("demo-meta").textContent = `${receipt.task} · ${receipt.summary.generation_count} generations`;
+  document.getElementById("demo-meta").textContent = `${receipt.task} · ${receipt.summary.generation_count} gens · real compiler output`;
   document.getElementById("summary-cards").innerHTML = `
     <div class="card"><div class="label">Best generation</div><div class="value">${best ? best.generation : "—"}</div></div>
     <div class="card"><div class="label">${best ? best.metric : "Metric"}</div><div class="value">${best ? best.value.toFixed(2) : "—"}</div></div>
-    <div class="card"><div class="label">Leak checks failed</div><div class="value">${receipt.summary.leak_failures}</div></div>
-    <div class="card"><div class="label">Receipt version</div><div class="value">${receipt.receipt_version}</div></div>
+    <div class="card"><div class="label">Leak failures</div><div class="value">${receipt.summary.leak_failures}</div></div>
+    <div class="card"><div class="label">Receipt</div><div class="value">${receipt.receipt_version}</div></div>
   `;
 }
 
@@ -55,41 +55,46 @@ function renderTable(receipt) {
   if (last) last.click();
 }
 
+function showView(tabName) {
+  const views = { json: "json-view", markdown: "markdown-view", detail: "detail-view" };
+  Object.entries(views).forEach(([name, id]) => {
+    const el = document.getElementById(id);
+    el.classList.toggle("hidden", name !== tabName);
+  });
+  document.querySelectorAll(".tab").forEach((t) => {
+    t.classList.toggle("active", t.dataset.tab === tabName);
+  });
+}
+
 function showGenDetail(receipt, genNum) {
   const gen = receipt.generations.find((g) => g.generation === genNum);
   document.getElementById("detail-view").textContent = JSON.stringify(gen, null, 2);
-  document.querySelectorAll(".tab").forEach((t) => t.classList.toggle("active", t.dataset.tab === "detail"));
-  document.getElementById("json-view").classList.add("hidden");
-  document.getElementById("detail-view").classList.remove("hidden");
-  document.getElementById("detail-view").setAttribute("aria-hidden", "false");
-  document.getElementById("json-view").setAttribute("aria-hidden", "true");
+  showView("detail");
 }
 
 function setupTabs() {
   document.querySelectorAll(".tab").forEach((tab) => {
-    tab.addEventListener("click", () => {
-      document.querySelectorAll(".tab").forEach((t) => t.classList.remove("active"));
-      tab.classList.add("active");
-      const showJson = tab.dataset.tab === "json";
-      document.getElementById("json-view").classList.toggle("hidden", !showJson);
-      document.getElementById("detail-view").classList.toggle("hidden", showJson);
-      document.getElementById("json-view").setAttribute("aria-hidden", showJson ? "false" : "true");
-      document.getElementById("detail-view").setAttribute("aria-hidden", showJson ? "true" : "false");
-    });
+    tab.addEventListener("click", () => showView(tab.dataset.tab));
   });
 }
 
 async function init() {
-  const res = await fetch("./data/demo-receipt.json");
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  const receipt = await res.json();
+  const [jsonRes, mdRes] = await Promise.all([
+    fetch("./data/demo-receipt.json"),
+    fetch("./data/demo-receipt.md"),
+  ]);
+  if (!jsonRes.ok) throw new Error(`JSON HTTP ${jsonRes.status}`);
+  const receipt = await jsonRes.json();
+  const markdown = mdRes.ok ? await mdRes.text() : "(demo-receipt.md not found)";
+
   renderSummary(receipt);
   renderTable(receipt);
   document.getElementById("json-view").textContent = JSON.stringify(receipt, null, 2);
+  document.getElementById("markdown-view").textContent = markdown;
   setupTabs();
 }
 
 init().catch((err) => {
-  document.getElementById("demo-meta").textContent = "Could not load demo data";
+  document.getElementById("demo-meta").textContent = "Could not load demo output";
   document.getElementById("json-view").textContent = String(err);
 });

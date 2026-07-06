@@ -3,15 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SIA Eval Harness — Abhishek Enaguthi</title>
+    <title>SIA Eval Harness — product + demo</title>
     <meta
       name="description"
-      content="My demo: compile SIA self-improvement runs into receipts that separate harness gains, weight gains, and overfit."
-    />
-    <meta property="og:title" content="SIA Eval Harness — demo by Abhishek Enaguthi" />
-    <meta
-      property="og:description"
-      content="Reproducible run receipts for self-improving AI — harness vs weights vs overfit."
+      content="The actual sia-eval CLI: compile SIA runs into receipts. Install, source code, live demo output, and OSS work."
     />
     <meta property="og:url" content="https://enaguthi.com/hexo-sia-eval/site/" />
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
@@ -26,7 +21,12 @@
     <div class="shell">
       <nav class="top-nav">
         <a class="back" href="https://enaguthi.com/">← enaguthi.com</a>
-        <span class="nav-meta">Abhishek Enaguthi · project demo</span>
+        <div class="nav-links">
+          <a href="#product">Product</a>
+          <a href="#install">Install</a>
+          <a href="#demo">Demo output</a>
+          <a href="#oss">OSS work</a>
+        </div>
       </nav>
 
       <main class="window">
@@ -34,57 +34,148 @@
           <span class="dot dot-red"></span>
           <span class="dot"></span>
           <span class="dot"></span>
-          <span class="titlebar-label">SIA_Eval_Harness.demo</span>
+          <span class="titlebar-label">SIA_Eval_Harness · product + solutions</span>
         </div>
 
         <div class="window-body">
-          <p class="eyebrow">Open-source side project · v0.1</p>
-          <h1>Receipts for self-improving AI runs</h1>
+          <p class="eyebrow">Abhishek Enaguthi · shipped July 2026</p>
+          <h1>SIA Eval Harness</h1>
           <p class="lede">
-            I built this to show something SIA’s loop doesn’t ship today: a read-only compiler that
-            turns a finished <code>runs/run_*</code> folder into a receipt — what improved (harness vs
-            weights), whether eval leaked gold labels, and what looks like overfit.
+            The <strong>actual product</strong> is a Python CLI —
+            <code>sia-eval</code> — that compiles a finished SIA run folder into a
+            reproducible receipt. This page shows the tool, how to run it, and the OSS fixes
+            that go with it.
           </p>
 
-          <div class="tag-row">
-            <span class="tag">my build</span>
-            <span class="tag">hexo-ai/sia ecosystem</span>
-            <span class="tag">not sia web</span>
-          </div>
-
-          <section class="prose">
-            <h2>Why I made it</h2>
-            <p>
-              SIA runs produce <code>results.json</code>, <code>improvement.md</code>, and agent diffs —
-              but nothing ties them together. After working on upstream PRs for
-              <a href="https://github.com/hexo-ai/sia">hexo-ai/sia</a>, I wanted a demo that answers:
-              <strong>was the score jump from code, from weights, or from task-specific residue?</strong>
-            </p>
-
-            <h2>What it checks</h2>
-            <ul>
-              <li><strong>Harness vs weights</strong> — reads <code>--focus</code> mode from artifacts</li>
-              <li><strong>Leak guard</strong> — flags gold-label keys in <code>results.json</code></li>
-              <li><strong>Overfit signal</strong> — pulls <code>transfer_evidence.json</code> when present</li>
-              <li><strong>Repro</strong> — SHA-256 hashes of generation files</li>
-            </ul>
-
-            <div class="cmd-block" aria-label="CLI usage">
-              <span class="cmd-prompt">$</span>
-              <code>sia-eval compile runs/run_1</code>
-              <span class="cmd-comment"># → receipts/run_1.json + run_1.md</span>
+          <!-- WHAT WE SHIPPED -->
+          <section class="deliverables" id="shipped">
+            <h2 class="section-title">What we shipped</h2>
+            <div class="deliverable-grid">
+              <article class="deliverable-card primary">
+                <span class="deliverable-type">Product</span>
+                <h3>sia-eval-harness</h3>
+                <p>CLI compiler — <code>sia-eval compile runs/run_1</code></p>
+                <a class="card-link" href="https://github.com/Abhishek21g/sia-eval-harness">github.com/Abhishek21g/sia-eval-harness →</a>
+              </article>
+              <article class="deliverable-card">
+                <span class="deliverable-type">OSS · opened</span>
+                <h3>PR #52 · #51</h3>
+                <p>Spaceship evaluator + transfer evidence (rebased on leak fix)</p>
+                <a class="card-link" href="https://github.com/hexo-ai/sia/pull/52">View on hexo-ai/sia →</a>
+              </article>
+              <article class="deliverable-card">
+                <span class="deliverable-type">OSS · reviewed</span>
+                <h3>PR #36 · #41</h3>
+                <p>Leak fix + Windows venv paths — approved locally</p>
+                <a class="card-link" href="https://github.com/hexo-ai/sia/pull/36">View #36 →</a>
+              </article>
+              <article class="deliverable-card">
+                <span class="deliverable-type">This page</span>
+                <h3>Live demo</h3>
+                <p>Real output from <code>sia-eval compile demo/runs/run_1</code></p>
+                <a class="card-link" href="#demo">Jump to demo →</a>
+              </article>
             </div>
           </section>
 
-          <section class="demo-section">
+          <!-- THE SOLUTION FLOW -->
+          <section class="prose flow-section">
+            <h2 class="section-title">How the solution works</h2>
+            <div class="flow-diagram">
+              <div class="flow-step">
+                <span class="flow-num">1</span>
+                <div>
+                  <strong>SIA run</strong>
+                  <p><code>sia run --task longcot-chess</code> writes <code>runs/run_1/gen_*</code></p>
+                </div>
+              </div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-step">
+                <span class="flow-num">2</span>
+                <div>
+                  <strong>sia-eval compile</strong>
+                  <p>Read-only walk — no re-run, no fork of SIA</p>
+                </div>
+              </div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-step">
+                <span class="flow-num">3</span>
+                <div>
+                  <strong>Run receipt</strong>
+                  <p>Harness Δ vs weights Δ · leak check · overfit residue · artifact hashes</p>
+                </div>
+              </div>
+            </div>
+            <p class="flow-note">
+              Separates three things SIA’s loop mixes together: <em>harness improvements</em>,
+              <em>weight tuning</em>, and <em>task-specific overfit</em>.
+            </p>
+          </section>
+
+          <!-- THE PRODUCT -->
+          <section class="product-section" id="product">
+            <h2 class="section-title">The product (source code)</h2>
+            <div class="product-layout">
+              <div class="file-tree">
+                <p class="tree-label">sia-eval-harness/</p>
+                <pre><code>sia_eval_harness/
+├── cli.py          ← sia-eval compile
+├── compiler.py     ← receipt builder
+├── checks.py       ← leak + metric + focus
+└── schema.py       ← receipt v0.1
+demo/runs/run_1/    ← bundled demo run
+tests/              ← 4 pytest tests</code></pre>
+              </div>
+              <div class="product-points">
+                <ul>
+                  <li><strong>Input:</strong> any <code>runs/run_*</code> tree from SIA</li>
+                  <li><strong>Output:</strong> <code>receipts/run_*.json</code> + <code>.md</code></li>
+                  <li><strong>Detects focus:</strong> <code>target_agent.py</code> → harness, <code>train.py</code> → weights</li>
+                  <li><strong>Leak guard:</strong> flags <code>expected</code>, <code>reference_answer</code>, etc. in results</li>
+                  <li><strong>Transfer evidence:</strong> reads <code>transfer_evidence.json</code> when present</li>
+                </ul>
+                <a class="btn primary" href="https://github.com/Abhishek21g/sia-eval-harness">Open source repo</a>
+              </div>
+            </div>
+          </section>
+
+          <!-- INSTALL -->
+          <section class="install-section" id="install">
+            <h2 class="section-title">Run it yourself</h2>
+            <div class="cmd-block">
+              <span class="cmd-prompt">$</span>
+              <code>git clone https://github.com/Abhishek21g/sia-eval-harness.git</code>
+            </div>
+            <div class="cmd-block">
+              <span class="cmd-prompt">$</span>
+              <code>cd sia-eval-harness && pip install -e ".[dev]"</code>
+            </div>
+            <div class="cmd-block">
+              <span class="cmd-prompt">$</span>
+              <code>sia-eval compile demo/runs/run_1</code>
+              <span class="cmd-comment"># bundled demo — no API keys needed</span>
+            </div>
+            <div class="cmd-block">
+              <span class="cmd-prompt">$</span>
+              <code>sia-eval compile runs/run_1</code>
+              <span class="cmd-comment"># after your own SIA run</span>
+            </div>
+            <p class="install-out">Writes <code>demo/runs/run_1/receipts/run_1.json</code> and <code>run_1.md</code></p>
+          </section>
+
+          <!-- LIVE DEMO = REAL OUTPUT -->
+          <section class="demo-section" id="demo">
             <div class="section-head">
-              <h2>Live demo</h2>
-              <p class="section-sub">Synthetic 3-gen <code>longcot-chess</code> run · click a row for detail</p>
+              <h2 class="section-title">Live demo output</h2>
+              <p class="section-sub">
+                This is the <strong>real receipt</strong> from
+                <code>sia-eval compile demo/runs/run_1</code> — not a mock UI
+              </p>
             </div>
 
-            <div class="demo-panel" id="demo">
+            <div class="demo-panel" id="demo-panel">
               <div class="demo-header">
-                <span class="status"><span class="pulse"></span> receipt compiled</span>
+                <span class="status"><span class="pulse"></span> compiled receipt</span>
                 <span class="demo-meta" id="demo-meta">loading…</span>
               </div>
               <div class="cards" id="summary-cards"></div>
@@ -104,36 +195,68 @@
                 </table>
               </div>
               <div class="tabs" role="tablist">
-                <button class="tab active" data-tab="json" type="button" role="tab">receipt.json</button>
-                <button class="tab" data-tab="detail" type="button" role="tab">generation detail</button>
+                <button class="tab active" data-tab="json" type="button">receipt.json</button>
+                <button class="tab" data-tab="markdown" type="button">receipt.md</button>
+                <button class="tab" data-tab="detail" type="button">gen detail</button>
               </div>
               <pre class="code-view" id="json-view">Loading…</pre>
-              <pre class="code-view hidden" id="detail-view" aria-hidden="true"></pre>
+              <pre class="code-view hidden" id="markdown-view"></pre>
+              <pre class="code-view hidden" id="detail-view"></pre>
             </div>
           </section>
 
-          <section class="prose contrib">
-            <h2>Related OSS work</h2>
-            <p>Contributions I reviewed or opened while building this demo:</p>
-            <ul class="pr-list">
-              <li><a href="https://github.com/hexo-ai/sia/pull/36">#36</a> — stop leaking held-out answers</li>
-              <li><a href="https://github.com/hexo-ai/sia/pull/41">#41</a> — Windows venv paths</li>
-              <li><a href="https://github.com/hexo-ai/sia/pull/52">#52</a> — spaceship-titanic evaluator (mine)</li>
-              <li><a href="https://github.com/hexo-ai/sia/pull/51">#51</a> — transfer evidence cards (mine)</li>
-            </ul>
+          <!-- OSS -->
+          <section class="oss-section" id="oss">
+            <h2 class="section-title">OSS solutions (hexo-ai/sia)</h2>
+            <table class="oss-table">
+              <thead>
+                <tr>
+                  <th>PR</th>
+                  <th>Problem solved</th>
+                  <th>Role</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><a href="https://github.com/hexo-ai/sia/pull/36">#36</a></td>
+                  <td>Gold answers leaking into feedback prompts</td>
+                  <td>Approved · championed</td>
+                  <td><span class="badge open">open</span></td>
+                </tr>
+                <tr>
+                  <td><a href="https://github.com/hexo-ai/sia/pull/41">#41</a></td>
+                  <td>Windows venv paths (<code>bin/python</code>)</td>
+                  <td>Approved · championed</td>
+                  <td><span class="badge open">open</span></td>
+                </tr>
+                <tr>
+                  <td><a href="https://github.com/hexo-ai/sia/pull/52">#52</a></td>
+                  <td>Missing spaceship-titanic evaluator</td>
+                  <td>Opened by me</td>
+                  <td><span class="badge open">open</span></td>
+                </tr>
+                <tr>
+                  <td><a href="https://github.com/hexo-ai/sia/pull/51">#51</a></td>
+                  <td>Transfer evidence · reuse vs overfit</td>
+                  <td>Opened by me · draft</td>
+                  <td><span class="badge draft">draft</span></td>
+                </tr>
+              </tbody>
+            </table>
           </section>
 
           <div class="cta-row">
-            <a class="btn primary" href="https://github.com/Abhishek21g">My GitHub</a>
-            <a class="btn" href="https://enaguthi.com/">Portfolio</a>
-            <a class="btn" href="https://arxiv.org/abs/2605.27276">SIA paper</a>
+            <a class="btn primary" href="https://github.com/Abhishek21g/sia-eval-harness">Get sia-eval-harness</a>
+            <a class="btn" href="https://github.com/hexo-ai/sia">hexo-ai/sia</a>
+            <a class="btn" href="https://enaguthi.com/">My portfolio</a>
           </div>
         </div>
       </main>
 
       <footer>
-        <p>Built by <strong>Abhishek Enaguthi</strong> · SIA Eval Harness MVP · July 2026</p>
-        <p class="footer-sub">This is my demo and tooling — not an official Hexo Labs product.</p>
+        <p>Built by <strong>Abhishek Enaguthi</strong> · product repo + demo + OSS PRs</p>
+        <p class="footer-sub">Not affiliated with Hexo Labs — my independent work on their open-source stack.</p>
       </footer>
     </div>
     <script src="./app.js"></script>

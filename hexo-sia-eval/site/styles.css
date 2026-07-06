@@ -86,6 +86,23 @@ a:hover {
   color: var(--shell-muted);
 }
 
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.nav-links a {
+  color: var(--shell-muted);
+  text-decoration: none;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+}
+
+.nav-links a:hover {
+  color: var(--accent);
+}
+
 .window {
   border-radius: 12px;
   overflow: hidden;
@@ -555,7 +572,236 @@ footer strong {
   opacity: 0.85;
 }
 
-@media (max-width: 640px) {
+.section-title {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--card-text);
+  margin-bottom: 18px;
+}
+
+.deliverables {
+  margin-bottom: 44px;
+}
+
+.deliverable-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.deliverable-card {
+  padding: 18px;
+  border-radius: 10px;
+  border: 1px solid var(--border-strong);
+  background: #fff;
+}
+
+.deliverable-card.primary {
+  border-color: var(--accent);
+  background: linear-gradient(180deg, #fff9f5 0%, #fff 100%);
+}
+
+.deliverable-type {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+}
+
+.deliverable-card h3 {
+  font-family: var(--sans);
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 8px 0 6px;
+  color: var(--card-text);
+}
+
+.deliverable-card p {
+  font-size: 0.9rem;
+  color: var(--card-muted);
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.card-link {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.flow-section {
+  margin-bottom: 44px;
+}
+
+.flow-diagram {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  background: #faf8f4;
+  margin-bottom: 14px;
+}
+
+.flow-step {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.flow-num {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--card-text);
+  color: var(--card);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: grid;
+  place-items: center;
+}
+
+.flow-step strong {
+  display: block;
+  color: var(--card-text);
+  margin-bottom: 4px;
+}
+
+.flow-step p {
+  font-size: 0.9rem;
+  color: var(--card-muted);
+  margin: 0;
+}
+
+.flow-arrow {
+  text-align: center;
+  color: var(--card-soft);
+  font-size: 1.2rem;
+  padding: 6px 0;
+}
+
+.flow-note {
+  font-size: 0.95rem;
+  color: var(--card-muted);
+  font-style: italic;
+}
+
+.product-section,
+.install-section,
+.oss-section {
+  margin-bottom: 44px;
+}
+
+.product-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.file-tree pre {
+  margin: 0;
+  padding: 16px;
+  border-radius: 10px;
+  background: var(--code-bg);
+  color: var(--code-text);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  line-height: 1.55;
+  overflow-x: auto;
+}
+
+.tree-label {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--card-soft);
+  margin-bottom: 8px;
+}
+
+.product-points ul {
+  margin: 0 0 18px 1rem;
+  color: var(--card-muted);
+}
+
+.product-points li {
+  margin-bottom: 8px;
+  font-size: 0.92rem;
+}
+
+.product-points li strong {
+  color: var(--card-text);
+}
+
+.install-section .cmd-block {
+  margin-bottom: 10px;
+}
+
+.install-out {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--card-soft);
+  margin-top: 12px;
+}
+
+.oss-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.oss-table th,
+.oss-table td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  color: var(--card-text);
+}
+
+.oss-table th {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--card-soft);
+  background: #faf8f4;
+}
+
+.oss-table td:nth-child(2) {
+  color: var(--card-muted);
+}
+
+.badge.open {
+  background: var(--blue-bg);
+  color: var(--blue-text);
+}
+
+.badge.draft {
+  background: var(--yellow-bg);
+  color: var(--yellow-text);
+}
+
+.lede strong {
+  color: var(--card-text);
+}
+
+@media (max-width: 720px) {
+  .product-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-links {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
   .window-body {
     padding: 24px 18px 28px;
   }
