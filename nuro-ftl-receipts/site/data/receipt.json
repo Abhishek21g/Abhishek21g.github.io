@@ -1,5 +1,5 @@
 {
-  "model_path": "examples/models/branch.graph.json",
+  "model_path": "examples/models/branch.onnx",
   "rules_path": "examples/rules/default.yaml",
   "node_count": 6,
   "segment_count": 2,
@@ -54,5 +54,6 @@
     0,
     1
   ],
+  "parity_mode": "onnxruntime",
   "disclaimer": "Third-party tool inspired by Nuro's published FTL architecture. Not affiliated with Nuro, Inc."
 }
