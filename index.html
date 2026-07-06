@@ -51,17 +51,24 @@
   .window-body{height:calc(100% - 36px);overflow:auto;}
   .resize-grip{position:absolute;right:0;bottom:0;width:18px;height:18px;cursor:nwse-resize;background:linear-gradient(135deg,transparent 0 45%,rgba(20,17,13,0.24) 45% 52%,transparent 52% 62%,rgba(20,17,13,0.24) 62% 69%,transparent 69%);opacity:.75;}
   .resize-grip-dark{background:linear-gradient(135deg,transparent 0 45%,rgba(246,242,234,0.26) 45% 52%,transparent 52% 62%,rgba(246,242,234,0.26) 62% 69%,transparent 69%);}
-  .os-window > div:first-child > span:nth-child(-n+3){position:relative!important;width:22px!important;height:22px!important;border-radius:50%!important;background:transparent!important;border:0!important;box-sizing:border-box;display:inline-flex!important;align-items:center;justify-content:center;cursor:pointer;transition:transform .14s ease,filter .14s ease,background .14s ease;}
-  .os-window > div:first-child > span:nth-child(-n+3)::before{content:"";width:12px;height:12px;border-radius:50%;display:block;box-shadow:inset 0 0 0 1px rgba(20,17,13,0.15);}
-  .os-window > div:first-child > span:nth-child(1)::before{background:#ff5f57;}
-  .os-window > div:first-child > span:nth-child(2)::before{background:#febc2e;}
-  .os-window > div:first-child > span:nth-child(3)::before{background:#28c840;}
-  .os-window > div:first-child > span:nth-child(-n+3)::after{position:absolute;left:50%;top:50%;transform:translate(-50%,-54%);font:700 10px/1 'IBM Plex Mono',monospace;color:rgba(20,17,13,0.62);opacity:.78;pointer-events:none;}
-  .os-window > div:first-child > span:nth-child(1)::after{content:"×";}
-  .os-window > div:first-child > span:nth-child(2)::after{content:"−";font-size:11px;}
-  .os-window > div:first-child > span:nth-child(3)::after{content:"+";font-size:9px;}
-  .os-window > div:first-child > span:nth-child(-n+3):hover{transform:scale(1.05);filter:saturate(1.08);background:rgba(20,17,13,0.05)!important;}
-  .os-window > div:first-child > span:nth-child(-n+3):active{transform:scale(.94);}
+  .window-titlebar > span:nth-child(-n+3){position:relative!important;width:22px!important;height:22px!important;min-width:22px!important;min-height:22px!important;border-radius:50%!important;background:transparent!important;border:0!important;box-sizing:border-box;display:inline-flex!important;align-items:center;justify-content:center;cursor:pointer;transition:transform .14s ease,filter .14s ease,background .14s ease;flex:none;z-index:2;}
+  .window-titlebar > span:nth-child(-n+3)::before{content:"";width:12px;height:12px;border-radius:50%;display:block;box-shadow:inset 0 0 0 1px rgba(20,17,13,0.15);}
+  .window-titlebar > span:nth-child(1)::before{background:#ff5f57;}
+  .window-titlebar > span:nth-child(2)::before{background:#febc2e;}
+  .window-titlebar > span:nth-child(3)::before{background:#28c840;}
+  .window-titlebar > span:nth-child(-n+3)::after{position:absolute;left:50%;top:50%;transform:translate(-50%,-54%);font:700 11px/1 'IBM Plex Mono',monospace;color:rgba(20,17,13,0.72);opacity:.9;pointer-events:none;}
+  .window-titlebar > span:nth-child(1)::after{content:"×";}
+  .window-titlebar > span:nth-child(2)::after{content:"−";font-size:11px;}
+  .window-titlebar > span:nth-child(3)::after{content:"+";font-size:9px;}
+  .window-titlebar > span:nth-child(-n+3):hover{transform:scale(1.08);filter:saturate(1.08);background:rgba(20,17,13,0.06)!important;}
+  .window-titlebar > span:nth-child(-n+3):active{transform:scale(.94);}
+  .terminal-window .window-titlebar > span:nth-child(-n+3)::after{color:rgba(246,242,234,0.82);}
+  .terminal-close-hint{font:500 10px 'IBM Plex Mono',monospace;color:rgba(124,124,120,0.9);margin-left:auto;margin-right:8px;white-space:nowrap;}
+  .principle-card{border:1px solid rgba(20,17,13,0.10);border-radius:10px;padding:14px 16px;background:rgba(255,255,255,0.42);margin-bottom:10px;}
+  .principle-card strong{display:block;font-family:'Instrument Sans','IBM Plex Sans',sans-serif;font-size:14px;color:#14110D;margin-bottom:6px;}
+  .principle-card span{font-family:'Instrument Sans','IBM Plex Sans',sans-serif;font-size:13px;line-height:1.6;color:#5B5648;}
+  .life-pill{display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:11px;padding:8px 12px;border-radius:999px;background:rgba(226,98,27,0.10);color:#14110D;border:1px solid rgba(226,98,27,0.22);text-decoration:none;margin:0 8px 8px 0;}
+  .life-pill:hover{background:rgba(226,98,27,0.18);}
   .nd-roman{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#E2621B;}
   .nd-heading{font-family:'Instrument Serif',Georgia,serif;font-weight:400;letter-spacing:0;line-height:.9;color:#14110D;}
   .nd-copy{font-family:'Instrument Sans','Instrument Sans','National Park','IBM Plex Sans',sans-serif;color:#373126;}
@@ -455,6 +462,14 @@
 <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;text-shadow:0 1px 3px rgba(0,0,0,0.6);">Today.txt</div>
 </div>
 
+<div class="desktop-icon" onClick="{{ openPrinciples }}" style="position:absolute;left:140px;top:128px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
+<div style="width:56px;height:56px;border-radius:12px;background:#F6F2EA;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;box-shadow:0 6px 16px rgba(0,0,0,0.35);position:relative;overflow:hidden;">
+<span style="font-family:'Instrument Serif',Georgia,serif;font-size:22px;color:#E2621B;line-height:1;">§</span>
+<span style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:8px;color:#5B5648;letter-spacing:.06em;">TLDR</span>
+</div>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;text-shadow:0 1px 3px rgba(0,0,0,0.6);">Principles.md</div>
+</div>
+
 <div class="desktop-icon" onClick="{{ openAbout }}" style="position:absolute;left:40px;top:28px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
 <div style="width:56px;height:56px;border-radius:12px;background:#F6F2EA;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;box-shadow:0 6px 16px rgba(0,0,0,0.35);">
 <div style="width:28px;height:2px;background:#5B5648;"></div>
@@ -524,13 +539,14 @@
 <button onClick="{{ openAbout }}" title="About.txt" aria-label="Open About">☰</button>
 <button class="dock-hot" onClick="{{ openProjects }}" title="Projects/" aria-label="Open Projects">&lt;/&gt;</button>
 <button onClick="{{ openGallery }}" title="Gallery" aria-label="Open Gallery">▧</button>
+<button onClick="{{ openPrinciples }}" title="Principles.md" aria-label="Open Principles">§</button>
 <button class="dock-dark" onClick="{{ openTerminal }}" title="Terminal" aria-label="Open Terminal">&gt;_</button>
 <span class="mac-dock-separator"></span>
 <button onClick="{{ openResume }}" title="Resume.txt" aria-label="Open Resume">CV</button>
 <button onClick="{{ openBlog }}" title="Blog" aria-label="Open Blog">¶</button>
 </div>
 
-<div class="desktop-hint" style="position:absolute;left:154px;bottom:20px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(246,242,234,0.32);">click an icon to open · drag a titlebar to move · resize from a corner</div>
+<div class="desktop-hint" style="position:absolute;left:154px;bottom:20px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(246,242,234,0.42);">click an icon · drag titlebar · resize corner · <span style="color:rgba(226,98,27,0.85);">× or Esc closes a window</span> · terminal: type <span style="color:rgba(226,98,27,0.85);">exit</span></div>
 
 <sc-if value="{{ windows.about.open }}" hint-placeholder-val="{{ true }}">
 <div class="os-window about-window" data-window-id="about" onMouseDown="{{ focusAbout }}" style="position:absolute;left:{{ windows.about.x }}px;top:{{ windows.about.y }}px;width:{{ windows.about.w }}px;height:{{ windows.about.h }}px;z-index:{{ windows.about.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
@@ -551,6 +567,7 @@
 </div>
 </div>
 <p class="about-copy" style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:17px;line-height:1.62;color:#3B3529;margin:0 0 16px;">I live in the layer underneath the framework: compiler backends, kernel-level debugging, distributed systems at HPC scale.</p>
+<p class="about-copy" style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:16px;line-height:1.7;color:#5B5648;margin:0 0 16px;">Outside the terminal: surfing, skydiving, and content as <a href="https://instagram.com/rollingwithabhi" target="_blank" rel="noopener noreferrer" style="color:#E2621B;text-decoration:none;">@rollingwithabhi</a>. Open <button onClick="{{ openPrinciples }}" style="appearance:none;border:0;background:transparent;color:#E2621B;font:inherit;padding:0;cursor:pointer;text-decoration:underline;">Principles.md</button> for TLDR + beliefs.</p>
 <p class="about-copy" style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:16px;line-height:1.7;color:#5B5648;margin:0 0 28px;">M.S. in Artificial Intelligence (Thesis) &amp; B.S. Computer Science (AI), Minor in Finance — Oregon State University, expected June 2026.</p>
 <div class="about-stats" style="display:flex;gap:44px;margin-bottom:28px;">
 <div><div style="font-family:'Instrument Serif',Georgia,serif;font-size:46px;color:#E2621B;">4.0</div><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#5B5648;margin-top:4px;">GPA · M.S. Artificial Intelligence</div></div>
@@ -728,6 +745,7 @@
 <a href="mailto:enaguthiabhishek@gmail.com" style="color:#E2621B;text-decoration:none;">enaguthiabhishek@gmail.com</a>
 <a href="https://linkedin.com/in/abhishekenaguthi" target="_blank" rel="noopener noreferrer" style="color:#E2621B;text-decoration:none;">linkedin.com/in/abhishekenaguthi</a>
 <a href="https://github.com/Abhishek21g" target="_blank" rel="noopener noreferrer" style="color:#E2621B;text-decoration:none;">github.com/Abhishek21g</a>
+<a href="https://instagram.com/rollingwithabhi" target="_blank" rel="noopener noreferrer" style="color:#E2621B;text-decoration:none;">instagram.com/rollingwithabhi</a>
 <button onClick="{{ openResume }}" style="appearance:none;border:0;background:transparent;color:#E2621B;text-decoration:none;text-align:left;font:inherit;padding:0;cursor:pointer;">open resume viewer</button>
 <a class="coffee-link" href="https://www.buymeacoffee.com/enaguthi" target="_blank" rel="noopener noreferrer">Buy me a coffee</a>
 </div>
@@ -776,10 +794,11 @@
 <sc-if value="{{ windows.terminal.open }}" hint-placeholder-val="{{ false }}">
 <div class="os-window terminal-window" data-window-id="terminal" data-drag-window="terminal" onMouseDown="{{ focusTerminal }}" style="position:absolute;left:{{ windows.terminal.x }}px;top:{{ windows.terminal.y }}px;width:{{ windows.terminal.w }}px;height:{{ windows.terminal.h }}px;z-index:{{ windows.terminal.z }};background:#0A0A0A;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.55);">
 <div class="window-titlebar" data-drag-window="terminal" onMouseDown="{{ dragTerminal }}" style="height:36px;background:#111111;border-bottom:1px solid rgba(231,231,228,0.14);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
-<span onClick="{{ closeTerminal }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#E2621B;cursor:pointer;display:inline-block;"></span>
-<span onClick="{{ minimizeTerminal }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#2c2c2a;display:inline-block;"></span>
-<span onClick="{{ zoomTerminal }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:#2c2c2a;display:inline-block;"></span>
-<div style="flex:1;text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;color:#7c7c78;margin-right:33px;">abhishek@enaguthi:~ — zsh</div>
+<span onClick="{{ closeTerminal }}" onMouseDown="{{ stopProp }}" title="Close (Esc)" aria-label="Close" style="cursor:pointer;display:inline-block;"></span>
+<span onClick="{{ minimizeTerminal }}" onMouseDown="{{ stopProp }}" title="Minimize" aria-label="Minimize" style="display:inline-block;"></span>
+<span onClick="{{ zoomTerminal }}" onMouseDown="{{ stopProp }}" title="Zoom" aria-label="Zoom" style="display:inline-block;"></span>
+<span class="terminal-close-hint">× or Esc · type exit</span>
+<div style="flex:1;text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;color:#7c7c78;margin-right:8px;">abhishek@enaguthi:~ — zsh</div>
 </div>
 <div onClick="{{ focusOsInput }}">
 <div ref="{{ osOutputRef }}" style="height:calc({{ windows.terminal.h }}px - 86px);overflow-y:auto;padding:20px 24px;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.7;">
@@ -885,6 +904,33 @@
 </div>
 </sc-if>
 
+<sc-if value="{{ windows.principles.open }}" hint-placeholder-val="{{ false }}">
+<div class="os-window principles-window" data-window-id="principles" onMouseDown="{{ focusPrinciples }}" style="position:absolute;left:{{ windows.principles.x }}px;top:{{ windows.principles.y }}px;width:{{ windows.principles.w }}px;height:{{ windows.principles.h }}px;z-index:{{ windows.principles.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
+<div class="window-titlebar" data-drag-window="principles" onMouseDown="{{ dragPrinciples }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
+<span onClick="{{ closePrinciples }}" onMouseDown="{{ stopProp }}" title="Close (Esc)" aria-label="Close" style="cursor:pointer;display:inline-block;"></span>
+<span onClick="{{ minimizePrinciples }}" onMouseDown="{{ stopProp }}" title="Minimize" aria-label="Minimize" style="display:inline-block;"></span>
+<span onClick="{{ zoomPrinciples }}" onMouseDown="{{ stopProp }}" title="Zoom" aria-label="Zoom" style="display:inline-block;"></span>
+<div style="flex:1;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;margin-right:33px;">Principles.md</div>
+</div>
+<div class="window-body" style="padding:28px 32px;overflow-y:auto;">
+<div class="nd-roman" style="margin-bottom:10px;">II. TLDR</div>
+<p style="font-family:'Instrument Sans','IBM Plex Sans',sans-serif;font-size:17px;line-height:1.65;color:#3B3529;margin:0 0 24px;">{{ tldrText }}</p>
+<div class="nd-roman" style="margin-bottom:12px;">Things I believe in</div>
+<sc-for list="{{ principleItems }}" as="item" hint-placeholder-count="5">
+<div class="principle-card"><strong>{{ item.title }}</strong><span>{{ item.body }}</span></div>
+</sc-for>
+<div class="nd-roman" style="margin:24px 0 12px;">Beyond the terminal</div>
+<p style="font-family:'Instrument Sans','IBM Plex Sans',sans-serif;font-size:14px;line-height:1.65;color:#5B5648;margin:0 0 14px;">Same energy in the water, the sky, and behind a camera — calculated risk, presence, and storytelling.</p>
+<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px;">
+<span class="life-pill">🏄 surfing — PNW coast</span>
+<span class="life-pill">🪂 skydiving — freefall focus</span>
+<a class="life-pill" href="https://instagram.com/rollingwithabhi" target="_blank" rel="noopener noreferrer">📷 @rollingwithabhi — content</a>
+</div>
+</div>
+<div class="resize-grip" data-resize-window="principles" onMouseDown="{{ resizePrinciples }}"></div>
+</div>
+</sc-if>
+
 <sc-if value="{{ windows.onboarding.open }}" hint-placeholder-val="{{ false }}">
 <div class="os-window onboarding-window" data-window-id="onboarding" onMouseDown="{{ focusOnboarding }}" style="position:absolute;left:{{ windows.onboarding.x }}px;top:{{ windows.onboarding.y }}px;width:{{ windows.onboarding.w }}px;height:{{ windows.onboarding.h }}px;z-index:{{ windows.onboarding.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
 <div class="window-titlebar" data-drag-window="onboarding" onMouseDown="{{ dragOnboarding }}" style="height:36px;background:#EDEAE2;border-bottom:1px solid rgba(20,17,13,0.1);display:flex;align-items:center;padding:0 14px;gap:8px;cursor:grab;">
@@ -943,8 +989,10 @@ class Component extends DCLogic {
       terminal: { open: false, x: 140, y: 250, w: 720, h: 390, minW: 460, minH: 300, z: 1 },
       blog: { open: false, x: 320, y: 300, w: 760, h: 560, minW: 470, minH: 380, z: 1 },
       today: { open: false, x: 360, y: 150, w: 560, h: 520, minW: 390, minH: 360, z: 1 },
+      principles: { open: false, x: 520, y: 110, w: 520, h: 580, minW: 400, minH: 420, z: 1 },
       onboarding: { open: false, x: 930, y: 92, w: 360, h: 390, minW: 320, minH: 300, z: 1 }
     },
+    focusedWindow: 'about',
     zCounter: 100,
     time: '',
     abhiTime: '',
@@ -952,7 +1000,7 @@ class Component extends DCLogic {
     visitorZone: '',
     galleryIndex: 0,
     osLines: [
-      { isInput: false, isOutput: true, text: "AE desktop — type 'help' to look around." }
+      { isInput: false, isOutput: true, text: "enaguthi desktop — type 'help'. close: × button, Esc, or 'exit'." }
     ],
     osInput: '',
     osHistory: [],
@@ -977,13 +1025,23 @@ class Component extends DCLogic {
   osOutputRef = React.createRef();
   osInputRef = React.createRef();
 
+  tldrText = "Systems engineer at the compiler/GPU layer. Oregon State (M.S. AI, B.S. CS). I build things you can verify — artifacts, benchmarks, receipts — and when I'm not in the terminal I'm surfing, skydiving, or making content as @rollingwithabhi.";
+
+  principleItems = [
+    { title: "Artifacts over vibes", body: "If it isn't reproducible, it didn't happen. Plan → run → doctor → report." },
+    { title: "Measure before you optimize", body: "Profile first. Compiler and kernel work rewards evidence, not intuition alone." },
+    { title: "Ship receipts, not hype", body: "Demos are fine; audited outputs and failing tests are better." },
+    { title: "Systems beat framework churn", body: "I live underneath the framework — IRs, runtimes, memory, scheduling." },
+    { title: "Curiosity compounds", body: "Surfing, skydiving, and content keep the same muscle sharp: presence under pressure." }
+  ];
+
   commands = {
-    help: "available commands:\n\n  ls            list files\n  cd <dir>      move around\n  pwd           print current path\n  cat <file>    read a file\n  tree          map the desktop\n  today/now     open daily update\n  updates       show update ideas\n  agent         wake the local agent\n  tokens        show context spend\n  graph         show activity graphs\n  whoami        who i am\n  resume        open the credential packet\n  gallery/blog  open apps\n  clear         clear the screen",
+    help: "available commands:\n\n  ls            list files\n  cd <dir>      move around\n  pwd           print current path\n  cat <file>    read a file\n  tree          map the desktop\n  tldr          short bio\n  principles    open Principles.md\n  today/now     open daily update\n  updates       show update ideas\n  agent         wake the local agent\n  tokens        show context spend\n  graph         show activity graphs\n  whoami        who i am\n  resume        open the credential packet\n  gallery/blog  open apps\n  exit/close    close terminal\n  clear         clear the screen",
     whoami: "abhishek_enaguthi\ncpu architecture & systems engineer — compiler backends, hpc performance\nM.S. Artificial Intelligence · B.S. Computer Science, Oregon State University",
     about: "M.S. Artificial Intelligence (Thesis) + B.S. Computer Science (AI), Minor in Finance — Oregon State University. GPA 4.0 / 3.95.\nI live in the layer underneath the framework — compiler backends, kernel-level debug, distributed HPC systems.\nSecured a $1M joint research grant from AMD + IBM to advance heterogeneous GPU compiler tech.",
     experience: "[Mar 2024 – Present] AI Research Engineer — Research Advanced Computing, OSU\n  - secured $1M grant from AMD + IBM for heterogeneous GPU compiler tech\n  - published compiler research enabling ROCm cross-compilation to x86\n  - led team to SC25, top 3/50+ in the IndySCC student cluster competition\n\n[Jun–Sep 2025] LLM Research Intern — University of Washington\n  - built multi-turn synthetic QA generation for NVIDIA NeMo\n  - deployed LLaMA-3 70B + Mistral via vLLM on NVIDIA H200 clusters\n\n[Jun 2024 – Present] Systems Software Engineer — CEOAS, OSU\n  - presented a physics-based digital twin at SC24 (NVIDIA Omniverse + Isaac Sim)\n  - wrote LLVM passes + kernel optimizations, 30% perf boost\n\n[Mar 2024 – Present] HPC Performance Engineer — OSU\n  - automated SLURM RPC + disk monitoring, adopted by 100+ daily users\n  - 20% faster collective comm, 15% higher memory throughput (NCCL/MPI)",
     projects: "mocki/                    multi-agent AI interview coaching — live at mocki.dev\nleetfut/                  football scouting bureau — live at leetfut.mocki.dev\nbluestart/                ROCm on IBM POWER9, CUDA via HIPify\ncompile-your-language/    from-scratch language + compiler techniques guide\ntreehacks-intersystems/   GenAI research assistant, InterSystems IRIS vector search\nrag-pipeline/             235K embeddings, 65K Wikipedia articles, PyTorch DDP across multi-GPU nodes\n\ntype 'open <name>' for more (e.g. 'open mocki')",
-    contact: "email     enaguthiabhishek@gmail.com\nlinkedin  linkedin.com/in/abhishekenaguthi\ngithub    github.com/Abhishek21g",
+    contact: "email     enaguthiabhishek@gmail.com\nlinkedin  linkedin.com/in/abhishekenaguthi\ngithub    github.com/Abhishek21g\ninstagram @rollingwithabhi",
     resume: "opening Resume...",
     gallery: "opening Gallery...",
     blog: "opening Blog...",
@@ -1014,7 +1072,7 @@ class Component extends DCLogic {
   };
 
   shellFiles = {
-    '~': ['today.txt', 'about.txt', 'experience.log', 'contact.txt', 'projects/', 'gallery/', 'blog/', 'resume.txt', 'agent/'],
+    '~': ['today.txt', 'about.txt', 'principles.md', 'experience.log', 'contact.txt', 'projects/', 'gallery/', 'blog/', 'resume.txt', 'agent/'],
     '~/projects': ['mocki.md', 'leetfut.md', 'bluestart.md', 'compile-your-language.md', 'treehacks-intersystems.md', 'rag-pipeline.md'],
     '~/gallery': ['sc24-booth.jpg', 'aiweek-wide.jpg', 'portrait.jpg'],
     '~/blog': ['supercomputing-2024.md', 'lightning-talk.md'],
@@ -1058,10 +1116,10 @@ class Component extends DCLogic {
 
   osSuggestionLabels(input) {
     const raw = (input || '').trim().toLowerCase();
-    if (!raw) return ['help', 'projects', 'agent suggest'];
+    if (!raw) return ['help', 'tldr', 'principles', 'projects'];
     const tokens = [
-      'help', 'history', 'clear', 'ls', 'cd projects', 'cd agent', 'pwd', 'tree',
-      'cat today.txt', 'cat experience.log', 'cat agent/status.json',
+      'help', 'history', 'clear', 'exit', 'close', 'ls', 'cd projects', 'cd agent', 'pwd', 'tree',
+      'tldr', 'principles', 'cat principles.md', 'cat today.txt', 'cat experience.log', 'cat agent/status.json',
       'open resume', 'open projects', 'open gallery', 'open blog',
       'search cuda', 'search compiler', 'agent route recruiter', 'agent explain mocki',
       'agent suggest', 'tokens', 'graph', 'today'
@@ -1091,7 +1149,7 @@ class Component extends DCLogic {
       this.setState({ shellPath: target });
       return 'entered ' + target;
     }
-    if (cmd === 'tree') return ".\n├── today.txt\n├── about.txt\n├── experience.log\n├── contact.txt\n├── resume.txt\n├── projects/\n│   ├── mocki.md\n│   ├── leetfut.md\n│   ├── bluestart.md\n│   ├── compile-your-language.md\n│   ├── treehacks-intersystems.md\n│   └── rag-pipeline.md\n├── gallery/\n│   ├── sc24-booth.jpg\n│   └── aiweek-wide.jpg\n├── blog/\n│   ├── supercomputing-2024.md\n│   └── lightning-talk.md\n└── agent/\n    ├── status.json\n    ├── tokens.log\n    ├── graph.json\n    ├── workflow.md\n    └── chat";
+    if (cmd === 'tree') return ".\n├── today.txt\n├── about.txt\n├── principles.md\n├── experience.log\n├── contact.txt\n├── resume.txt\n├── projects/\n│   ├── mocki.md\n│   ├── leetfut.md\n│   ├── bluestart.md\n│   ├── compile-your-language.md\n│   ├── treehacks-intersystems.md\n│   └── rag-pipeline.md\n├── gallery/\n│   ├── sc24-booth.jpg\n│   └── aiweek-wide.jpg\n├── blog/\n│   ├── supercomputing-2024.md\n│   └── lightning-talk.md\n└── agent/\n    ├── status.json\n    ├── tokens.log\n    ├── graph.json\n    ├── workflow.md\n    └── chat";
     if (cmd === 'tokens') return "context meter\nused: 67%\nremaining: ~18k tokens\nmode: build + verify\nnote: static display for now; ready for real Codex/Claude logs.";
     if (cmd === 'graph') return this.githubGraphText();
     if (cmd === 'agent') return "rudhra-agent static shell\n\ntry: agent route recruiter\ntry: agent explain mocki\ntry: agent suggest\nnote: this public site can route and summarize, but private actions stay in GitHub/Rudhra.";
@@ -1102,6 +1160,8 @@ class Component extends DCLogic {
       return this.todayText();
     }
     if (cmd === 'updates') return this.commands.updates;
+    if (cmd === 'tldr') return this.tldrText;
+    if (cmd === 'principles') { this.openPrinciples(); return 'opening Principles.md...'; }
     return null;
   }
 
@@ -1128,6 +1188,7 @@ class Component extends DCLogic {
     const file = name.replace(/^.*\//, '');
     const files = {
       'about.txt': this.commands.about,
+      'principles.md': this.tldrText + "\n\n" + this.principleItems.map((p) => "• " + p.title + " — " + p.body).join("\n") + "\n\nBeyond: surfing · skydiving · @rollingwithabhi",
       'today.txt': this.todayText(),
       'experience.log': this.commands.experience,
       'contact.txt': this.commands.contact,
@@ -1148,6 +1209,7 @@ class Component extends DCLogic {
       'lightning-talk.md': this.blogData[0].title + "\n" + this.blogData[0].paragraphs.join("\n\n")
     };
     if (file === 'resume.txt') this.openResume();
+    if (file === 'principles.md') this.openPrinciples();
     return files[file] || 'cat: ' + name + ': no such file';
   }
 
@@ -1302,6 +1364,25 @@ class Component extends DCLogic {
     document.addEventListener('mouseleave', this._onDocMouseUp);
     window.addEventListener('resize', this._onWindowResize);
     window.addEventListener('blur', this._onDocMouseUp);
+    this._onGlobalKeyDown = (e) => {
+      if (e.key !== 'Escape') return;
+      if (this.state.selectedPhoto) {
+        e.preventDefault();
+        this.closePhoto();
+        return;
+      }
+      const tag = (e.target && e.target.tagName) || '';
+      if (tag === 'INPUT' || tag === 'TEXTAREA') {
+        if (this.state.windows.terminal && this.state.windows.terminal.open) {
+          e.preventDefault();
+          this.closeTerminal();
+        }
+        return;
+      }
+      e.preventDefault();
+      this.closeTopWindow();
+    };
+    window.addEventListener('keydown', this._onGlobalKeyDown);
   }
 
   componentWillUnmount() {
@@ -1313,6 +1394,7 @@ class Component extends DCLogic {
     document.removeEventListener('mouseleave', this._onDocMouseUp);
     window.removeEventListener('resize', this._onWindowResize);
     window.removeEventListener('blur', this._onDocMouseUp);
+    window.removeEventListener('keydown', this._onGlobalKeyDown);
   }
 
   updateClock = () => {
@@ -1512,7 +1594,21 @@ class Component extends DCLogic {
   focusWindow = (id) => {
     this.setState((s) => {
       const z = s.zCounter + 1;
-      return { zCounter: z, windows: { ...s.windows, [id]: { ...s.windows[id], z } } };
+      return { focusedWindow: id, zCounter: z, windows: { ...s.windows, [id]: { ...s.windows[id], z } } };
+    });
+  };
+
+  closeTopWindow = () => {
+    this.setState((s) => {
+      const open = Object.entries(s.windows).filter(([, w]) => w && w.open);
+      if (!open.length) return {};
+      let topId = s.focusedWindow;
+      let topZ = -1;
+      open.forEach(([id, w]) => {
+        if ((w.z || 0) >= topZ) { topZ = w.z || 0; topId = id; }
+      });
+      if (!s.windows[topId] || !s.windows[topId].open) topId = open[open.length - 1][0];
+      return { windows: { ...s.windows, [topId]: { ...s.windows[topId], open: false } } };
     });
   };
 
@@ -1552,6 +1648,7 @@ class Component extends DCLogic {
   };
   openBlog = () => this.openWindow('blog');
   openToday = () => this.openWindow('today');
+  openPrinciples = () => this.openWindow('principles');
   openOnboarding = () => this.openWindow('onboarding');
 
   closeAbout = (e) => this.closeWindow('about', e);
@@ -1563,6 +1660,7 @@ class Component extends DCLogic {
   closeTerminal = (e) => this.closeWindow('terminal', e);
   closeBlog = (e) => this.closeWindow('blog', e);
   closeToday = (e) => this.closeWindow('today', e);
+  closePrinciples = (e) => this.closeWindow('principles', e);
   closeOnboarding = (e) => this.closeWindow('onboarding', e);
 
   minimizeAbout = (e) => this.minimizeWindow('about', e);
@@ -1574,6 +1672,7 @@ class Component extends DCLogic {
   minimizeTerminal = (e) => this.minimizeWindow('terminal', e);
   minimizeBlog = (e) => this.minimizeWindow('blog', e);
   minimizeToday = (e) => this.minimizeWindow('today', e);
+  minimizePrinciples = (e) => this.minimizeWindow('principles', e);
   minimizeOnboarding = (e) => this.minimizeWindow('onboarding', e);
 
   zoomAbout = (e) => this.zoomWindow('about', e);
@@ -1585,6 +1684,7 @@ class Component extends DCLogic {
   zoomTerminal = (e) => this.zoomWindow('terminal', e);
   zoomBlog = (e) => this.zoomWindow('blog', e);
   zoomToday = (e) => this.zoomWindow('today', e);
+  zoomPrinciples = (e) => this.zoomWindow('principles', e);
   zoomOnboarding = (e) => this.zoomWindow('onboarding', e);
 
   focusAbout = () => this.focusWindow('about');
@@ -1596,6 +1696,7 @@ class Component extends DCLogic {
   focusTerminal = () => this.focusWindow('terminal');
   focusBlog = () => this.focusWindow('blog');
   focusToday = () => this.focusWindow('today');
+  focusPrinciples = () => this.focusWindow('principles');
   focusOnboarding = () => this.focusWindow('onboarding');
 
   dragAbout = (e) => this.startDrag('about', e);
@@ -1607,6 +1708,7 @@ class Component extends DCLogic {
   dragTerminal = (e) => this.startDrag('terminal', e);
   dragBlog = (e) => this.startDrag('blog', e);
   dragToday = (e) => this.startDrag('today', e);
+  dragPrinciples = (e) => this.startDrag('principles', e);
   dragOnboarding = (e) => this.startDrag('onboarding', e);
 
   resizeAbout = (e) => this.startResize('about', e);
@@ -1618,6 +1720,7 @@ class Component extends DCLogic {
   resizeTerminal = (e) => this.startResize('terminal', e);
   resizeBlog = (e) => this.startResize('blog', e);
   resizeToday = (e) => this.startResize('today', e);
+  resizePrinciples = (e) => this.startResize('principles', e);
   resizeOnboarding = (e) => this.startResize('onboarding', e);
 
   selectPhoto1 = () => this.setState({ selectedPhoto: '/media/sc24-booth.jpg', photoCaption: 'Link Oregon booth — SC24, Atlanta' });
@@ -1692,12 +1795,12 @@ class Component extends DCLogic {
   };
 
   osCommands = {
-    help: "commands:\n\n  ls            list files\n  cd <dir>      move around\n  pwd           print current path\n  cat <file>    read a file\n  tree          map the desktop\n  today/now     open daily update\n  updates       show update ideas\n  agent         wake the local agent\n  tokens        show context spend\n  graph         show activity graphs\n  whoami        who i am\n  resume        open the credential packet\n  gallery/blog  open apps\n  clear         clear the screen",
+    help: "commands:\n\n  ls            list files\n  cd <dir>      move around\n  pwd           print current path\n  cat <file>    read a file\n  tree          map the desktop\n  tldr          short bio\n  principles    open Principles.md\n  today/now     open daily update\n  updates       show update ideas\n  agent         wake the local agent\n  tokens        show context spend\n  graph         show activity graphs\n  whoami        who i am\n  resume        open the credential packet\n  gallery/blog  open apps\n  exit/close    close terminal\n  clear         clear the screen",
     whoami: "abhishek_enaguthi\ncpu architecture & systems engineer — compiler backends, hpc performance\nM.S. Artificial Intelligence · B.S. Computer Science, Oregon State University",
     about: "M.S. Artificial Intelligence (Thesis) + B.S. Computer Science (AI), Minor in Finance — Oregon State University. GPA 4.0 / 3.95.\nI live in the layer underneath the framework — compiler backends, kernel-level debug, distributed HPC systems.\nSecured a $1M joint research grant from AMD + IBM to advance heterogeneous GPU compiler tech.",
     experience: "[Mar 2024 – Present] AI Research Engineer — Research Advanced Computing, OSU\n  - secured $1M grant from AMD + IBM for heterogeneous GPU compiler tech\n  - published compiler research enabling ROCm cross-compilation to x86\n  - led team to SC25, top 3/50+ in the IndySCC student cluster competition\n\n[Jun–Sep 2025] LLM Research Intern — University of Washington\n  - built multi-turn synthetic QA generation for NVIDIA NeMo\n  - deployed LLaMA-3 70B + Mistral via vLLM on NVIDIA H200 clusters\n\n[Jun 2024 – Present] Systems Software Engineer — CEOAS, OSU\n  - presented a physics-based digital twin at SC24 (NVIDIA Omniverse + Isaac Sim)\n  - wrote LLVM passes + kernel optimizations, 30% perf boost\n\n[Mar 2024 – Present] HPC Performance Engineer — OSU\n  - automated SLURM RPC + disk monitoring, adopted by 100+ daily users\n  - 20% faster collective comm, 15% higher memory throughput (NCCL/MPI)",
     projects: "mocki/                    multi-agent AI interview coaching — live at mocki.dev\nleetfut/                  football scouting bureau — live at leetfut.mocki.dev\nbluestart/                ROCm on IBM POWER9, CUDA via HIPify\ncompile-your-language/    from-scratch language + compiler techniques guide\ntreehacks-intersystems/   GenAI research assistant, InterSystems IRIS vector search\nrag-pipeline/             235K embeddings, 65K Wikipedia articles, PyTorch DDP across multi-GPU nodes\n\ntype 'open <name>' for more (e.g. 'open mocki')",
-    contact: "email     enaguthiabhishek@gmail.com\nlinkedin  linkedin.com/in/abhishekenaguthi\ngithub    github.com/Abhishek21g",
+    contact: "email     enaguthiabhishek@gmail.com\nlinkedin  linkedin.com/in/abhishekenaguthi\ngithub    github.com/Abhishek21g\ninstagram @rollingwithabhi",
     resume: "opening Resume...",
     gallery: "opening Gallery...",
     blog: "opening Blog...",
@@ -1755,7 +1858,8 @@ class Component extends DCLogic {
       return;
     }
     if (e.key === 'Escape') {
-      this.setState({ osSuggestions: [] });
+      e.preventDefault();
+      this.closeTerminal();
       return;
     }
     if (e.key !== 'Enter') return;
@@ -1765,6 +1869,11 @@ class Component extends DCLogic {
 
     if (cmd === 'clear') {
       this.setState((s) => ({ osLines: [], osInput: '', osSuggestions: [], osHistory: s.osHistory.concat([raw]), osHistoryIndex: -1 }));
+      return;
+    }
+    if (cmd === 'exit' || cmd === 'close' || cmd === 'quit') {
+      this.setState((s) => ({ osHistory: s.osHistory.concat([raw]).slice(-40), osHistoryIndex: -1, osInput: '', osSuggestions: [] }));
+      this.closeTerminal();
       return;
     }
 
@@ -1814,7 +1923,7 @@ class Component extends DCLogic {
 
   hasActiveWorkspaceWindow() {
     const windows = this.state.windows;
-    return ['experience', 'projects', 'gallery', 'contact', 'resume', 'terminal', 'blog', 'today', 'onboarding'].some((id) => windows[id] && windows[id].open);
+    return ['experience', 'projects', 'gallery', 'contact', 'resume', 'terminal', 'blog', 'today', 'principles', 'onboarding'].some((id) => windows[id] && windows[id].open);
   }
 
   renderVals() {
@@ -1853,7 +1962,10 @@ class Component extends DCLogic {
       openTerminal: this.openTerminal,
       openBlog: this.openBlog,
       openToday: this.openToday,
+      openPrinciples: this.openPrinciples,
       openOnboarding: this.openOnboarding,
+      tldrText: this.tldrText,
+      principleItems: this.principleItems,
       closeAbout: this.closeAbout,
       closeExperience: this.closeExperience,
       closeProjects: this.closeProjects,
@@ -1863,6 +1975,7 @@ class Component extends DCLogic {
       closeTerminal: this.closeTerminal,
       closeBlog: this.closeBlog,
       closeToday: this.closeToday,
+      closePrinciples: this.closePrinciples,
       closeOnboarding: this.closeOnboarding,
       minimizeAbout: this.minimizeAbout,
       minimizeExperience: this.minimizeExperience,
@@ -1873,6 +1986,7 @@ class Component extends DCLogic {
       minimizeTerminal: this.minimizeTerminal,
       minimizeBlog: this.minimizeBlog,
       minimizeToday: this.minimizeToday,
+      minimizePrinciples: this.minimizePrinciples,
       minimizeOnboarding: this.minimizeOnboarding,
       zoomAbout: this.zoomAbout,
       zoomExperience: this.zoomExperience,
@@ -1883,6 +1997,7 @@ class Component extends DCLogic {
       zoomTerminal: this.zoomTerminal,
       zoomBlog: this.zoomBlog,
       zoomToday: this.zoomToday,
+      zoomPrinciples: this.zoomPrinciples,
       zoomOnboarding: this.zoomOnboarding,
       focusAbout: this.focusAbout,
       focusExperience: this.focusExperience,
@@ -1893,6 +2008,7 @@ class Component extends DCLogic {
       focusTerminal: this.focusTerminal,
       focusBlog: this.focusBlog,
       focusToday: this.focusToday,
+      focusPrinciples: this.focusPrinciples,
       focusOnboarding: this.focusOnboarding,
       dragAbout: this.dragAbout,
       dragExperience: this.dragExperience,
@@ -1903,6 +2019,7 @@ class Component extends DCLogic {
       dragTerminal: this.dragTerminal,
       dragBlog: this.dragBlog,
       dragToday: this.dragToday,
+      dragPrinciples: this.dragPrinciples,
       dragOnboarding: this.dragOnboarding,
       resizeAbout: this.resizeAbout,
       resizeExperience: this.resizeExperience,
@@ -1913,6 +2030,7 @@ class Component extends DCLogic {
       resizeTerminal: this.resizeTerminal,
       resizeBlog: this.resizeBlog,
       resizeToday: this.resizeToday,
+      resizePrinciples: this.resizePrinciples,
       resizeOnboarding: this.resizeOnboarding,
       stopProp: this.stopProp,
       selectPhoto1: this.selectPhoto1,
