@@ -1,0 +1,176 @@
+{
+  "run_id": "run-4c46b9e017ec",
+  "seed": 42,
+  "platform": "starcloud-1",
+  "workload": "nanogpt-tiny",
+  "plan_id": "plan-4896db196494",
+  "status": "pass",
+  "compute": {
+    "flops_budget": 2496000000000.0,
+    "flops_achieved": 2496000000000.0,
+    "wall_seconds": 60.0,
+    "effective_mfu": 4.2062689585439835e-05,
+    "job_complete": true
+  },
+  "thermal": {
+    "peak_celsius": 41.74,
+    "limit_celsius": 95.0,
+    "steady_state_celsius": 45.0
+  },
+  "power": {
+    "throttle_fraction": 0.0,
+    "min_battery_soc": 0.7829
+  },
+  "downlink": {
+    "raw_bytes": 0.0,
+    "output_bytes": 5200000.0,
+    "bytes_saved": 0.0,
+    "t_down_raw_s": 0.0,
+    "t_down_proc_s": 3.14,
+    "t_proc_s": 60.0,
+    "recommendation": "none",
+    "contact_seconds": 960.0,
+    "downlink_bytes_capacity": 18000000000.0
+  },
+  "baseline": {
+    "terrestrial_kwh": 0.008333,
+    "terrestrial_cost_usd": 0.001,
+    "orbital_marginal_kwh": 0.0,
+    "cost_per_kwh_usd": 0.12
+  },
+  "assumptions": [
+    "gpu_derated_power_orbit",
+    "radiator_area",
+    "solar_array_peak",
+    "battery_wh",
+    "eclipse_fraction",
+    "contact_window",
+    "downlink_rate",
+    "mfu_derating",
+    "terrestrial_cost_per_kwh"
+  ],
+  "doctor": [
+    {
+      "id": "MEMORY_EXCEEDS_VRAM",
+      "severity": "error",
+      "pass": true,
+      "message": "Workload fits in GPU HBM",
+      "evidence": {
+        "memory_bytes": 20800000.0,
+        "vram_bytes": 80000000000.0
+      }
+    },
+    {
+      "id": "THERMAL_STEADY_EXCEEDS",
+      "severity": "warn",
+      "pass": true,
+      "message": "Steady-state junction temperature within limit",
+      "evidence": {
+        "steady_state_celsius": 45.0,
+        "limit_celsius": 95.0
+      }
+    },
+    {
+      "id": "THERMAL_OVERRUN",
+      "severity": "error",
+      "pass": true,
+      "message": "Peak temperature within limit",
+      "evidence": {
+        "peak_celsius": 41.739480000000015,
+        "limit_celsius": 95.0
+      }
+    },
+    {
+      "id": "POWER_CAP_THROTTLE",
+      "severity": "warn",
+      "pass": true,
+      "message": "Power throttling within acceptable bounds",
+      "evidence": {
+        "throttle_fraction": 0.0
+      }
+    },
+    {
+      "id": "BATTERY_DEPLETED",
+      "severity": "error",
+      "pass": true,
+      "message": "Battery state of charge remained above 5%",
+      "evidence": {
+        "min_battery_soc": 0.7829166666666667
+      }
+    },
+    {
+      "id": "JOB_INCOMPLETE",
+      "severity": "error",
+      "pass": true,
+      "message": "Workload completed within simulation window",
+      "evidence": {
+        "flops_achieved": 2496000000000.0,
+        "flops_budget": 2496000000000.0
+      }
+    },
+    {
+      "id": "MFU_DERATE_HIGH",
+      "severity": "warn",
+      "pass": true,
+      "message": "Effective MFU acceptable",
+      "evidence": {
+        "effective_mfu": 4.2062689585439835e-05,
+        "throttle_fraction": 0.0
+      }
+    },
+    {
+      "id": "CONTACT_INSUFFICIENT",
+      "severity": "warn",
+      "pass": true,
+      "message": "Contact window sufficient for downlink artifact",
+      "evidence": {
+        "output_bytes": 5200000.0,
+        "downlink_bytes_capacity": 18000000000.0
+      }
+    }
+  ],
+  "platform_spec": {
+    "name": "starcloud-1",
+    "description": "60 kg Corvus-Micro bus, first H100 in orbit (~325 km LEO)",
+    "gpu_model": "NVIDIA H100",
+    "gpu_count": 1,
+    "gpu_peak_flops": 989000000000000.0,
+    "gpu_peak_w": 500.0,
+    "gpu_idle_w": 80.0,
+    "gpu_vram_gb": 80.0,
+    "gpu_t_max_c": 95.0,
+    "bus_w": 150.0,
+    "radiator_area_m2": 1.2,
+    "radiator_epsilon": 0.85,
+    "t_sink_k": 200.0,
+    "thermal_capacitance_j_per_k": 500.0,
+    "solar_array_peak_w": 800.0,
+    "panel_efficiency": 0.3,
+    "battery_wh": 400.0,
+    "orbital_period_s": 5436.0,
+    "eclipse_fraction": 0.35,
+    "contact_window_s": 480.0,
+    "downlink_bps": 150000000.0,
+    "assumptions": [
+      "gpu_derated_power_orbit",
+      "radiator_area",
+      "solar_array_peak",
+      "battery_wh",
+      "eclipse_fraction",
+      "contact_window",
+      "downlink_rate"
+    ]
+  },
+  "workload_spec": {
+    "name": "nanogpt-tiny",
+    "kind": "train",
+    "description": "nanoGPT baby-Shakespeare scale train (Karpathy milestone class)",
+    "n_params": 1300000.0,
+    "n_tokens": 320000.0,
+    "mfu": 0.25,
+    "memory_bytes": 20800000.0,
+    "checkpoint_bytes": 5200000.0,
+    "output_bytes": 5200000.0,
+    "raw_bytes": 0.0
+  }
+}
