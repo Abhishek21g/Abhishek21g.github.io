@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>xAI Collections Status — Live Dashboard</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="../index.html">
+      <span class="brand-mark">xAI</span>
+      <span>Collections Status</span>
+    </a>
+    <nav><a href="../index.html">Overview</a></nav>
+    <a class="nav-action" href="https://github.com/Abhishek21g/xai-sdk-python/tree/feature/collections-multimodal/tools/xai_sdk_receipts">Source</a>
+  </header>
+
+  <main class="layout">
+    <div id="status-banner" class="status-banner warn">
+      <div>
+        <h1 id="banner-title">Loading…</h1>
+        <p id="banner-sub"></p>
+        <p class="mono" id="banner-meta" style="margin-top:0.5rem;font-size:0.8rem;color:var(--muted)"></p>
+      </div>
+      <div id="banner-pill"></div>
+    </div>
+
+    <div class="grid-3">
+      <div class="stat-card"><span>Collections</span><strong id="stat-collections">—</strong></div>
+      <div class="stat-card"><span>RAG-ready</span><strong id="stat-rag-ready">—</strong></div>
+      <div class="stat-card"><span>Failed docs</span><strong id="stat-failed">—</strong></div>
+      <div class="stat-card"><span>In-flight</span><strong id="stat-inflight">—</strong></div>
+    </div>
+
+    <section class="panel">
+      <h2>Channel probes</h2>
+      <div id="probe-rows"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Collections fleet</h2>
+      <div id="fleet-rows"></div>
+    </section>
+
+    <div class="split">
+      <section class="panel">
+        <h2 id="detail-name">Indexing pipeline</h2>
+        <p id="detail-meta" class="section-lead"></p>
+        <div class="pipeline" id="pipeline"></div>
+        <h2 style="margin-top:1.25rem">Search smoke</h2>
+        <p id="search-smoke"></p>
+        <h2 style="margin-top:1.25rem">Failed documents</h2>
+        <div id="failures"></div>
+      </section>
+      <section class="panel">
+        <h2>Findings</h2>
+        <div id="findings"></div>
+        <h2 style="margin-top:1.25rem">Fleet-wide</h2>
+        <div id="global-findings"></div>
+      </section>
+    </div>
+
+    <section class="panel">
+      <h2>Raw dashboard JSON</h2>
+      <pre id="raw-json"></pre>
+    </section>
+  </main>
+
+  <script src="../app.js"></script>
+  <script>
+    fetch("../data/dashboard.json").then(r => r.json()).then(d => {
+      document.getElementById("raw-json").textContent = JSON.stringify(d, null, 2);
+    });
+  </script>
+</body>
+</html>

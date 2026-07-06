@@ -3,83 +3,98 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Audit harness for xAI SDK multimodal Collections roundtrips — upload, search, resolve, vision chat.">
-  <title>xAI SDK Reliability Receipts</title>
+  <meta name="description" content="Collections indexing doctor for xAI SDK — channel probes, RAG readiness, indexing pipeline visibility. The status page xAI doesn't ship.">
+  <title>xAI Collections Status</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header class="site-header">
     <a class="brand" href="#top">
       <span class="brand-mark">xAI</span>
-      <span>SDK Reliability Receipts</span>
+      <span>Collections Status</span>
     </a>
     <nav>
-      <a href="#how">How it works</a>
-      <a href="#demo">Demo</a>
-      <a href="demo/receipt.html">Live receipt</a>
+      <a href="#probes">Probes</a>
+      <a href="#fleet">Fleet</a>
+      <a href="#detail">Indexing</a>
+      <a href="demo/dashboard.html">Full dashboard</a>
     </nav>
     <a class="nav-action" href="https://github.com/xai-org/xai-sdk-python/pull/169">SDK PR #169</a>
   </header>
 
-  <main id="top">
-    <section class="hero">
-      <div class="hero-copy">
-        <p class="eyebrow">Multimodal Collections roundtrip audit</p>
-        <h1>Receipts for upload → search → vision chat</h1>
-        <p class="hero-text">
-          Scripted harness for the <code>xai_sdk.multimodal_collections</code> workflow: store text with a local
-          image path reference, search the collection, resolve paths from metadata, and verify vision-chat readiness —
-          with a redacted audit log you can share.
-        </p>
-        <div class="hero-actions">
-          <a class="button primary" href="demo/receipt.html">Open demo receipt</a>
-          <a class="button secondary" href="https://github.com/Abhishek21g/xai-sdk-python/tree/feature/collections-multimodal/tools/xai_sdk_receipts">CLI source</a>
-        </div>
-      </div>
-
-      <div class="preview-shell" id="demo">
-        <div class="preview-toolbar">demo · collections_multimodal_roundtrip</div>
-        <div class="step-list" id="step-preview"></div>
-        <div class="preview-metrics" id="metrics-preview"></div>
-      </div>
+  <main class="layout" id="top">
+    <section class="hero-copy">
+      <p class="eyebrow">The status page xAI doesn't ship — for RAG pipelines</p>
+      <h1>Is your collection actually ready for search?</h1>
+      <p class="section-lead">
+        xAI splits Collections across <strong>api.x.ai</strong> and <strong>management-api.x.ai</strong>, runs a
+        multi-stage indexing pipeline (processing → chunked → embedding → writing → processed), and exposes no
+        first-party doctor for failed or stuck documents. This monitors what matters before you ship RAG —
+        the same gap tinker-status fills for platform health.
+      </p>
     </section>
 
-    <section class="section" id="how">
-      <h2>What the receipt captures</h2>
-      <p class="section-lead">Each step is timed, status-coded, and redacted before export — paths and file IDs are masked.</p>
-      <div class="feature-grid">
-        <article>
-          <h3>Multimodal upload</h3>
-          <p>UTF-8 text + <code>image_path</code> metadata via <code>upload_multimodal_document()</code>.</p>
-        </article>
-        <article>
-          <h3>Collection search</h3>
-          <p>Hybrid/semantic search with match count and top score logged.</p>
-        </article>
-        <article>
-          <h3>Path resolution</h3>
-          <p><code>batch_get_documents</code> + <code>resolve_multimodal_search_results()</code> fields-first.</p>
-        </article>
-        <article>
-          <h3>Vision readiness</h3>
-          <p>Validates inputs for <code>multimodal_user_message()</code> without leaking local paths.</p>
-        </article>
+    <div id="status-banner" class="status-banner warn">
+      <div>
+        <h1 id="banner-title">Loading…</h1>
+        <p id="banner-sub"></p>
+        <p class="mono" id="banner-meta" style="margin-top:0.5rem;font-size:0.8rem;color:var(--muted)"></p>
       </div>
+      <div id="banner-pill"></div>
+    </div>
+
+    <div class="grid-3">
+      <div class="stat-card"><span>Collections</span><strong id="stat-collections">—</strong></div>
+      <div class="stat-card"><span>RAG-ready</span><strong id="stat-rag-ready">—</strong></div>
+      <div class="stat-card"><span>Failed docs (sampled)</span><strong id="stat-failed">—</strong></div>
+      <div class="stat-card"><span>In-flight indexing</span><strong id="stat-inflight">—</strong></div>
+    </div>
+
+    <section class="panel" id="probes">
+      <h2>Channel probes</h2>
+      <p class="section-lead">API channel (embeddings/search) vs Management channel (collections CRUD). Missing <code>XAI_MANAGEMENT_KEY</code> is a common silent failure.</p>
+      <div id="probe-rows"></div>
     </section>
 
-    <section class="section">
-      <h2>CLI</h2>
-      <p class="section-lead">Run offline demo or live roundtrip against your API key.</p>
+    <section class="panel" id="fleet">
+      <h2>Collections fleet</h2>
+      <p class="section-lead">Click a collection to inspect indexing pipeline and failures. Addresses pain from <a href="https://github.com/xai-org/xai-sdk-python/issues/77">#77</a> (batch indexing / polling at scale).</p>
+      <div id="fleet-rows"></div>
+    </section>
+
+    <div class="split" id="detail">
+      <section class="panel">
+        <h2 id="detail-name">Indexing pipeline</h2>
+        <p id="detail-meta" class="section-lead"></p>
+        <div class="pipeline" id="pipeline"></div>
+        <h2 style="margin-top:1.25rem">Search smoke</h2>
+        <p id="search-smoke"></p>
+        <h2 style="margin-top:1.25rem">Failed documents</h2>
+        <div id="failures"></div>
+      </section>
+      <section class="panel">
+        <h2>Findings</h2>
+        <div id="findings"></div>
+        <h2 style="margin-top:1.25rem">Fleet-wide</h2>
+        <div id="global-findings"></div>
+      </section>
+    </div>
+
+    <section class="panel">
+      <h2>CLI — run against your account</h2>
       <pre><code>cd tools/xai_sdk_receipts
 uv sync
-uv run python -m xai_sdk_receipts run --demo -o receipt.json
-uv run python -m xai_sdk_receipts run --live --image ./photo.jpg</code></pre>
+uv run python -m xai_sdk_receipts probe          # channel health
+uv run python -m xai_sdk_receipts doctor         # fleet indexing doctor
+uv run python -m xai_sdk_receipts dashboard -o dashboard.json --demo
+uv run python -m xai_sdk_receipts dashboard -o dashboard.json  # live</code></pre>
     </section>
 
     <p class="disclaimer">
-      Third-party reliability harness for the xAI Python SDK. Not affiliated with xAI.
-      SDK helpers proposed in <a href="https://github.com/xai-org/xai-sdk-python/pull/169">PR #169</a>
-      (issue <a href="https://github.com/xai-org/xai-sdk-python/issues/78">#78</a>).
+      Third-party Collections health monitor. Not affiliated with xAI.
+      SDK helpers: <a href="https://github.com/xai-org/xai-sdk-python/pull/169">PR #169</a> ·
+      Indexing scaling: <a href="https://github.com/xai-org/xai-sdk-python/issues/77">#77</a> ·
+      Multimodal: <a href="https://github.com/xai-org/xai-sdk-python/issues/78">#78</a>.
     </p>
   </main>
 
