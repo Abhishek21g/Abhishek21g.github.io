@@ -1,0 +1,75 @@
+{
+  "run_id": "20260706T231636Z-electrode_map_drift",
+  "summary": {
+    "run_id": "20260706T231636Z-electrode_map_drift",
+    "name": "electrode_map_drift",
+    "table": "electrode_map",
+    "status": "ok",
+    "mock": true,
+    "started_at": "2026-07-06T23:16:36.171159+00:00",
+    "elapsed_ms": 3.65,
+    "rows": 1,
+    "columns": [
+      "implant_id",
+      "session_date",
+      "electrode",
+      "impedance_ohms"
+    ],
+    "bytes_read": 489,
+    "file_count": 1,
+    "peak_memory_bytes": 489,
+    "schema_version": "v1",
+    "partition": {
+      "implant_id": 5956,
+      "session_date": "2024-04-05"
+    },
+    "use_batching": false,
+    "batch_size": 32
+  },
+  "plan": {
+    "name": "electrode_map_drift",
+    "table": "electrode_map",
+    "catalog_uri": "/Users/enaguthiabhishek/Documents/neuralink/neural-catalog-workbench/fixtures/delta/electrode_map",
+    "partition": {
+      "implant_id": 5956,
+      "session_date": "2024-04-05"
+    },
+    "partition_label": "implant_id=5956, session_date=2024-04-05",
+    "schema_version": "v1",
+    "columns": null,
+    "mock": true,
+    "io": {
+      "file_count": 1,
+      "total_bytes": 489,
+      "peak_unbatched_bytes": 489,
+      "peak_batched_bytes": 489,
+      "use_batching": false,
+      "batch_size": 32,
+      "recommend_batching": false
+    },
+    "audit_status": "error",
+    "audit_findings": [
+      {
+        "code": "missing_in_physical",
+        "severity": "error",
+        "message": "Column 'impedance_ohms' is declared in the catalog but absent from Delta metadata \u2014 reads will null-fill this column.",
+        "column": "impedance_ohms",
+        "declared": "float",
+        "physical": null
+      }
+    ],
+    "risks": [
+      "Schema or partition audit failed \u2014 fix catalog drift before production run.",
+      "schema_version='v1' requested \u2014 verify versioned URI exists (datarepo#42 at_version binding).",
+      "mock mode: using bundled local Delta fixtures only."
+    ]
+  },
+  "doctor": [
+    {
+      "severity": "warning",
+      "code": "plan_risk",
+      "message": "Schema or partition audit failed \u2014 fix catalog drift before production run.",
+      "suggestion": "Address catalog drift before trusting results."
+    }
+  ]
+}

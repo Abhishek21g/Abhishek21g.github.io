@@ -1,0 +1,188 @@
+{
+  "thesis": "datarepo catalogs are code \u2014 static sites show declared schemas, not S3 reality. Neural Data Catalog Workbench runs plan \u2192 run \u2192 doctor \u2192 report before pipelines trust the catalog.",
+  "scenarios": [
+    {
+      "id": "spike_bins_probe",
+      "spec": {
+        "name": "spike_bins_probe",
+        "catalog": "examples/neural_implant_catalog.py",
+        "table": "spike_bins",
+        "partitions": {
+          "implant_id": 5956,
+          "session_date": "2024-04-05"
+        },
+        "columns": null,
+        "schema_version": null,
+        "use_batching": false,
+        "batch_size": 32,
+        "mock": true
+      },
+      "plan": {
+        "name": "spike_bins_probe",
+        "table": "spike_bins",
+        "catalog_uri": "fixtures/delta/spike_bins",
+        "partition": {
+          "implant_id": 5956,
+          "session_date": "2024-04-05"
+        },
+        "partition_label": "implant_id=5956, session_date=2024-04-05",
+        "schema_version": null,
+        "columns": null,
+        "mock": true,
+        "io": {
+          "file_count": 1,
+          "total_bytes": 1124,
+          "peak_unbatched_bytes": 1124,
+          "peak_batched_bytes": 1124,
+          "use_batching": false,
+          "batch_size": 32,
+          "recommend_batching": false
+        },
+        "audit_status": "ok",
+        "audit_findings": [],
+        "risks": [
+          "mock mode: using bundled local Delta fixtures only."
+        ]
+      },
+      "doctor": []
+    },
+    {
+      "id": "electrode_map_drift",
+      "spec": {
+        "name": "electrode_map_drift",
+        "catalog": "examples/neural_implant_catalog.py",
+        "table": "electrode_map",
+        "partitions": {
+          "implant_id": 5956,
+          "session_date": "2024-04-05"
+        },
+        "columns": null,
+        "schema_version": "v1",
+        "use_batching": false,
+        "batch_size": 32,
+        "mock": true
+      },
+      "plan": {
+        "name": "electrode_map_drift",
+        "table": "electrode_map",
+        "catalog_uri": "fixtures/delta/electrode_map",
+        "partition": {
+          "implant_id": 5956,
+          "session_date": "2024-04-05"
+        },
+        "partition_label": "implant_id=5956, session_date=2024-04-05",
+        "schema_version": "v1",
+        "columns": null,
+        "mock": true,
+        "io": {
+          "file_count": 1,
+          "total_bytes": 489,
+          "peak_unbatched_bytes": 489,
+          "peak_batched_bytes": 489,
+          "use_batching": false,
+          "batch_size": 32,
+          "recommend_batching": false
+        },
+        "audit_status": "error",
+        "audit_findings": [
+          {
+            "code": "missing_in_physical",
+            "severity": "error",
+            "message": "Column 'impedance_ohms' is declared in the catalog but absent from Delta metadata \u2014 reads will null-fill this column.",
+            "column": "impedance_ohms",
+            "declared": "float",
+            "physical": null
+          }
+        ],
+        "risks": [
+          "Schema or partition audit failed \u2014 fix catalog drift before production run.",
+          "schema_version='v1' requested \u2014 verify versioned URI exists (datarepo#42 at_version binding).",
+          "mock mode: using bundled local Delta fixtures only."
+        ]
+      },
+      "doctor": [
+        {
+          "severity": "critical",
+          "code": "missing_in_physical",
+          "message": "Column 'impedance_ohms' is declared in the catalog but absent from Delta metadata \u2014 reads will null-fill this column.",
+          "suggestion": "Update catalog schema or backfill column in Delta storage."
+        },
+        {
+          "severity": "warning",
+          "code": "schema_version_unbound",
+          "message": "schema_version 'v1' \u2014 no versioned URI suffix found.",
+          "suggestion": "Use at_version() after datarepo#42 merges, or fix catalog URI."
+        }
+      ]
+    },
+    {
+      "id": "empty_partition_probe",
+      "spec": {
+        "name": "empty_partition_probe",
+        "catalog": "examples/neural_implant_catalog.py",
+        "table": "raw_waveforms",
+        "partitions": {
+          "implant_id": 5956,
+          "session_date": "2024-04-06"
+        },
+        "columns": null,
+        "schema_version": null,
+        "use_batching": false,
+        "batch_size": 32,
+        "mock": true
+      },
+      "plan": {
+        "name": "empty_partition_probe",
+        "table": "raw_waveforms",
+        "catalog_uri": "fixtures/delta/raw_waveforms",
+        "partition": {
+          "implant_id": 5956,
+          "session_date": "2024-04-06"
+        },
+        "partition_label": "implant_id=5956, session_date=2024-04-06",
+        "schema_version": null,
+        "columns": null,
+        "mock": true,
+        "io": {
+          "file_count": 0,
+          "total_bytes": 0,
+          "peak_unbatched_bytes": 0,
+          "peak_batched_bytes": 0,
+          "use_batching": false,
+          "batch_size": 32,
+          "recommend_batching": false
+        },
+        "audit_status": "error",
+        "audit_findings": [
+          {
+            "code": "empty_partition",
+            "severity": "error",
+            "message": "Partition [implant_id=5956, session_date=2024-04-06] has zero files \u2014 queries return empty frames or opaque polars errors (datarepo#41).",
+            "column": null,
+            "declared": null,
+            "physical": null
+          }
+        ],
+        "risks": [
+          "Schema or partition audit failed \u2014 fix catalog drift before production run.",
+          "Partition has zero files \u2014 expect empty result or polars error (datarepo#41).",
+          "mock mode: using bundled local Delta fixtures only."
+        ]
+      },
+      "doctor": [
+        {
+          "severity": "critical",
+          "code": "empty_partition",
+          "message": "Partition [implant_id=5956, session_date=2024-04-06] has zero files \u2014 queries return empty frames or opaque polars errors (datarepo#41).",
+          "suggestion": "Verify ingest completed for this implant/session slice."
+        },
+        {
+          "severity": "critical",
+          "code": "empty_partition",
+          "message": "Partition has zero parquet files.",
+          "suggestion": "Check ingest lag or partition keys before launching a pipeline."
+        }
+      ]
+    }
+  ]
+}

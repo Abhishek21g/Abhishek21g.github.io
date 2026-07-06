@@ -1,0 +1,27 @@
+{
+  "name": "spike_bins_probe",
+  "table": "spike_bins",
+  "catalog_uri": "/Users/enaguthiabhishek/Documents/neuralink/neural-catalog-workbench/fixtures/delta/spike_bins",
+  "partition": {
+    "implant_id": 5956,
+    "session_date": "2024-04-05"
+  },
+  "partition_label": "implant_id=5956, session_date=2024-04-05",
+  "schema_version": null,
+  "columns": null,
+  "mock": true,
+  "io": {
+    "file_count": 1,
+    "total_bytes": 1124,
+    "peak_unbatched_bytes": 1124,
+    "peak_batched_bytes": 1124,
+    "use_batching": false,
+    "batch_size": 32,
+    "recommend_batching": false
+  },
+  "audit_status": "ok",
+  "audit_findings": [],
+  "risks": [
+    "mock mode: using bundled local Delta fixtures only."
+  ]
+}
