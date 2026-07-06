@@ -19,6 +19,14 @@ const rootHtml = readFileSync(rootHtmlPath, 'utf8')
 
 writeFileSync(rootHtmlPath, rootHtml)
 
+const legacyPaths = ['spotify']
+for (const relativePath of legacyPaths) {
+  const outputPath = resolve(outDir, relativePath)
+  if (existsSync(outputPath)) {
+    rmSync(outputPath, { recursive: true, force: true })
+  }
+}
+
 const templateImageRequests = [
   '{{ photo.src }}',
   '{{ activeGalleryPhoto.src }}',

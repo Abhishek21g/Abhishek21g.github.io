@@ -76,7 +76,7 @@
   .desktop-surface::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(135deg, rgba(246,242,234,0.015) 0px, rgba(246,242,234,0.015) 1px, transparent 1px, transparent 40px),linear-gradient(180deg,rgba(255,255,255,.026),transparent 42%);}
   .os-window{border-radius:14px!important;border:1px solid rgba(246,242,234,0.12)!important;box-shadow:0 34px 90px rgba(0,0,0,0.52),0 1px 0 rgba(255,255,255,0.22) inset!important;}
   .os-window .window-titlebar{background:linear-gradient(180deg,rgba(237,234,226,0.96),rgba(224,219,207,0.91))!important;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);}
-  .terminal-window .window-titlebar,.music-window .window-titlebar{background:linear-gradient(180deg,rgba(28,28,26,0.96),rgba(12,12,11,0.92))!important;}
+  .terminal-window .window-titlebar{background:linear-gradient(180deg,rgba(28,28,26,0.96),rgba(12,12,11,0.92))!important;}
   .desktop-icons{position:absolute;left:32px;top:28px;display:grid;grid-template-columns:88px 88px;grid-auto-rows:minmax(76px,auto);column-gap:12px;row-gap:clamp(8px,1.4dvh,22px);z-index:3;align-items:start;}
   .desktop-icon{transition:transform .16s ease,filter .16s ease;}
   .desktop-icon:hover{transform:translateY(-2px);filter:brightness(1.07);}
@@ -125,7 +125,6 @@
   .gallery-rail::-webkit-scrollbar,.window-body::-webkit-scrollbar{width:8px;height:8px;}
   .gallery-rail::-webkit-scrollbar-thumb,.window-body::-webkit-scrollbar-thumb{background:rgba(226,98,27,0.34);border-radius:999px;}
   .gallery-rail::-webkit-scrollbar-track,.window-body::-webkit-scrollbar-track{background:rgba(20,17,13,0.08);}
-  .music-card{background:linear-gradient(135deg,#1DB954,#0B6F36)!important;color:#06180c!important;}
   .blog-list-item{transition:background .16s ease, border-color .16s ease;}
   .blog-list-item:hover{background:rgba(20,17,13,.055);}
   .ambient-rail{position:absolute;right:22px;top:62px;width:330px;display:grid;gap:12px;z-index:1;pointer-events:none;transition:opacity .18s ease,transform .18s ease,filter .18s ease;}
@@ -154,13 +153,6 @@
   .compact-log .ambient-title{font-size:20px!important;line-height:1.02;}
   .daily-pills{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:11px;}
   .daily-pills span{border:1px solid rgba(246,242,234,.15);border-radius:9px;background:rgba(20,17,13,.22);padding:7px 6px;font:700 10px 'IBM Plex Mono',monospace;color:rgba(246,242,234,.72);text-align:center;white-space:nowrap;}
-  .ambient-pill{display:inline-flex;margin-top:10px;padding:5px 8px;border-radius:999px;background:rgba(29,185,84,0.18);color:#8EF0AE;font:600 10px 'IBM Plex Mono',monospace;}
-  .ambient-player{display:grid;grid-template-columns:52px 1fr;gap:12px;align-items:center;margin-top:4px;}
-  .ambient-player .ambient-title{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:22px!important;line-height:1.02;}
-  .ambient-player .ambient-meta{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;}
-  .ambient-album{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,#1DB954,#E2621B 70%,#F6F2EA);box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 14px 28px rgba(0,0,0,.28);display:flex;align-items:center;justify-content:center;color:#11100C;font:800 18px 'IBM Plex Mono',monospace;}
-  .ambient-progress{height:4px;border-radius:999px;background:rgba(246,242,234,0.18);overflow:hidden;margin-top:9px;}
-  .ambient-progress span{display:block;width:58%;height:100%;border-radius:999px;background:linear-gradient(90deg,#1DB954,#F6F2EA);}
   .ambient-chip-row{display:flex;gap:7px;margin-top:12px;overflow:hidden;}
   .ambient-chip{white-space:nowrap;border-radius:999px;background:rgba(246,242,234,0.14);border:1px solid rgba(246,242,234,0.12);padding:5px 8px;font:700 10px 'IBM Plex Mono',monospace;color:rgba(246,242,234,0.72);}
   .contrib-grid{display:grid;grid-template-columns:repeat(14,1fr);gap:4px;margin-top:12px;}
@@ -244,7 +236,7 @@
     .os-window:not(.about-window) > div:first-child > span:nth-child(-n+3){width:38px!important;height:38px!important;}
     .os-window:not(.about-window) > div:first-child > span:nth-child(2),.os-window:not(.about-window) > div:first-child > span:nth-child(3){display:none!important;}
     .os-window:not(.about-window) > div:first-child > span:nth-child(-n+3)::before{width:13px;height:13px;}
-    .experience-window .window-body,.projects-window .window-body,.contact-window .window-body,.music-window .window-body,.today-window .window-body{padding:16px!important;}
+    .experience-window .window-body,.projects-window .window-body,.contact-window .window-body,.today-window .window-body{padding:16px!important;}
     .gallery-window .window-body,.blog-window .window-body{padding:14px!important;}
     .terminal-window{inset:56px 0 max(0px,env(safe-area-inset-bottom)) 0!important;}
     .terminal-window .window-body{height:calc(100% - 44px)!important;}
@@ -302,7 +294,7 @@
   .mobile-preview .os-window:not(.about-window) > div:first-child > span:nth-child(-n+3){width:38px!important;height:38px!important;}
   .mobile-preview .os-window:not(.about-window) > div:first-child > span:nth-child(2),.mobile-preview .os-window:not(.about-window) > div:first-child > span:nth-child(3){display:none!important;}
   .mobile-preview .os-window:not(.about-window) > div:first-child > span:nth-child(-n+3)::before{width:13px;height:13px;}
-  .mobile-preview .experience-window .window-body,.mobile-preview .projects-window .window-body,.mobile-preview .contact-window .window-body,.mobile-preview .music-window .window-body,.mobile-preview .today-window .window-body{padding:16px!important;}
+  .mobile-preview .experience-window .window-body,.mobile-preview .projects-window .window-body,.mobile-preview .contact-window .window-body,.mobile-preview .today-window .window-body{padding:16px!important;}
   .mobile-preview .gallery-window .window-body,.mobile-preview .blog-window .window-body{padding:14px!important;}
   .mobile-preview .terminal-window{inset:56px 0 max(0px,env(safe-area-inset-bottom)) 0!important;}
   .mobile-preview .terminal-window .window-body{height:calc(100% - 44px)!important;}
@@ -361,8 +353,6 @@
     .ambient-card:nth-child(n+3){display:none!important;}
     .ambient-kicker{font-size:9px!important;margin-bottom:7px!important;}
     .ambient-title{font-size:18px!important;line-height:1.02!important;}
-    .ambient-player{grid-template-columns:38px minmax(0,1fr)!important;gap:9px!important;}
-    .ambient-album{width:38px!important;height:38px!important;border-radius:11px!important;}
     .ambient-meta{font-size:9px!important;white-space:normal!important;}
     .contrib-grid{grid-template-columns:repeat(7,1fr)!important;gap:3px!important;margin-top:8px!important;}
     .contrib-cell:nth-child(n+43){display:none!important;}
@@ -441,7 +431,7 @@
 <div class="ambient-meta">type tokens, agent, or graph in Terminal</div>
 </section>
 <section class="ambient-card compact-log" role="button" onClick="{{ openToday }}">
-<div class="ambient-kicker">IV. Now.log</div>
+<div class="ambient-kicker">III. Now.log</div>
 <div class="ambient-row"><span>Daily update</span><strong>{{ todayShortStamp }}</strong></div>
 <div class="ambient-title">Today.txt is live</div>
 <div class="daily-pills">

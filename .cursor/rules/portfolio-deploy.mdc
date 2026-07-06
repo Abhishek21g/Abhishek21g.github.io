@@ -6,8 +6,27 @@ alwaysApply: true
 
 # Portfolio deploy rules (Abhishek21g.github.io)
 
-- **One push per feature** on `main`. Batch local edits into a single commit/push. Rapid back-to-back pushes cause deploy races and failure emails.
-- **Source of truth is `main`**, not `gh-pages`. Never commit manually to `gh-pages`; deploy workflow publishes `out/` there.
-- **Desktop OS source** lives in `public/claude-design/index.html`. Run `npm run build` before assuming Pages output is current.
-- **Live data** is GitHub activity only (`scripts/fetch-github-activity.mjs` → `/live/github-activity.json`). Spotify was removed; do not re-add it without an explicit request.
-- **Workflows**: `deploy.yml` (build + Pages) and `update-github-activity.yml` (post-deploy + every 6h). Do not add parallel workflows that push to `gh-pages`.
+## Never push to gh-pages
+
+**Do not checkout, commit, or push the `gh-pages` branch.** Ever.
+
+Another agent was pushing `Sync Tinker Workbench dashboard from tinker-workbench` directly to `gh-pages`, which:
+- restored removed Spotify UI on the live site
+- caused `pages build and deployment` failure emails
+- overwrote clean deploys from `main`
+
+**Correct workflow:** edit files on `main` → one commit → one push → GitHub Actions deploys `out/` to `gh-pages`.
+
+## Product demos (Tinker, Ramp kit, etc.)
+
+- Put static demos under `public/<demo-name>/` on **main**
+- Run `npm run build` locally to verify export
+- Never sync demos by pushing to `gh-pages`
+
+## Deploy hygiene
+
+- **One push per feature** on `main`. Batch edits; avoid 5+ pushes in a minute.
+- **Desktop OS source:** `public/claude-design/index.html`
+- **Spotify is removed.** Do not re-add now-playing UI, `/spotify/` JSON, or Spotify workflows.
+- **Live data only:** `scripts/fetch-github-activity.mjs` → `/live/github-activity.json`
+- **Workflows:** `deploy.yml` and `update-github-activity.yml` only

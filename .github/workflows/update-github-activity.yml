@@ -43,11 +43,13 @@ jobs:
       - name: Publish GitHub activity JSON
         run: |
           mkdir -p gh-pages/live
+          rm -rf gh-pages/spotify
           cp /tmp/github-activity.json gh-pages/live/github-activity.json
           cd gh-pages
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add live/github-activity.json
+          git add -u spotify || true
           git diff --cached --quiet && echo "No activity changes" && exit 0
           git commit -m "Update GitHub activity"
           for attempt in 1 2 3 4 5; do
