@@ -16,7 +16,7 @@
     },
     {
       "kind": "live",
-      "text": "Spotify refresh is wired through a static JSON workflow and safe fallback copy."
+      "text": "GitHub activity feed refreshes after deploys and every six hours."
     },
     {
       "kind": "agent",
