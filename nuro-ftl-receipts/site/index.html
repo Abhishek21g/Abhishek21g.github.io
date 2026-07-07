@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Find where ONNX compile paths silently diverge. FTL-style segment breaker recommendations from real ORT tensor scans.">
-  <title>Silent Regression Hunter — FTL Segment Receipts</title>
+  <meta name="description" content="Catch ML model bugs that don't crash. Scan compile paths, find where outputs drift, get fix recommendations before you ship.">
+  <title>Silent Regression Hunter — catch drift before deploy</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -13,14 +13,14 @@
       <span class="brand-mark">SRH</span>
       <div>
         <strong>Silent Regression Hunter</strong>
-        <span class="brand-sub">FTL Segment Receipts · v1.1</span>
+        <span class="brand-sub">Pre-deploy ML compile checker</span>
       </div>
     </div>
     <nav>
-      <a href="#problem">Problem</a>
-      <a href="#demo">Quick start</a>
-      <a href="#scan">Live run</a>
-      <a href="demo/regression_report.html">Reports</a>
+      <a href="#how">How it works</a>
+      <a href="#demo">Try it</a>
+      <a href="#scan">Live demo</a>
+      <a href="demo/regression_report.html">Sample report</a>
     </nav>
     <a class="nav-action" href="https://github.com/Abhishek21g/nuro-ftl-segment-receipts">GitHub</a>
   </header>
@@ -28,41 +28,65 @@
   <main>
     <section class="hero" id="top">
       <div class="hero-copy">
-        <p class="eyebrow">Company problem · Nuro FTL blog</p>
-        <h1>Silent compiler regressions don't crash. They <em>drift</em>.</h1>
+        <p class="eyebrow">For teams shipping optimized ML models</p>
+        <h1>Your model didn't crash. <em>It drifted.</em></h1>
         <p class="hero-text">
-          Nuro built FTL segment breakers because TensorRT and FP16 paths change numerics without errors.
-          This tool augments your ONNX graph, diffs <strong>every intermediate activation</strong>, pinpoints the
-          <strong>first failing node</strong>, and emits breaker YAML — the pre-deploy audit their public blog describes but doesn't ship.
+          Faster compile paths (FP16, TensorRT) can change outputs without errors.
+          This tool scans your model layer by layer, shows <strong>where numbers first go wrong</strong>,
+          and recommends how to fix it — before anything hits the vehicle or production.
         </p>
-        <blockquote class="pull-quote">
-          "Third party compilers are notorious for causing silent regressions in the model's performance."
-          <cite>— <a href="https://medium.com/nuro/ftl-model-compiler-framework-d6b85c670f67">Nuro FTL blog</a></cite>
-        </blockquote>
+        <ul class="hero-bullets">
+          <li>Works on standard ONNX models</li>
+          <li>No GPU required for the demo</li>
+          <li>Clear pass / fail verdict for CI</li>
+        </ul>
         <div class="hero-actions">
-          <a class="button primary" href="demo/regression_report.html">Open regression report</a>
-          <a class="button secondary" href="#demo">Quick start</a>
+          <a class="button primary" href="demo/regression_report.html">See sample report</a>
+          <a class="button secondary" href="#demo">Run it locally</a>
         </div>
       </div>
 
       <aside class="hero-aside" id="scan">
         <div class="aside-header">
           <span class="live-dot"></span>
-          <span id="run-label">Live run · loading…</span>
+          <span id="run-label">Sample scan · loading…</span>
         </div>
+        <p class="panel-hint">Real scan on a bundled test model — red layers drifted from reference.</p>
         <div class="scan-stats" id="scan-stats"></div>
         <div class="doctor-status" id="doctor-status"></div>
         <div class="first-failure" id="first-failure"></div>
         <div class="graph-wrap">
-          <svg id="graph-svg" viewBox="0 0 580 280" role="img" aria-label="Divergence heatmap"></svg>
+          <svg id="graph-svg" viewBox="0 0 580 280" role="img" aria-label="Layer drift heatmap"></svg>
         </div>
         <div class="breaker-panel" id="breaker-panel"></div>
       </aside>
     </section>
 
+    <section class="section how-block" id="how">
+      <h2>How it works</h2>
+      <p class="section-lead">Three steps. No black box.</p>
+      <div class="steps-grid">
+        <article class="step-card">
+          <span class="step-num">1</span>
+          <h3>Scan</h3>
+          <p>Run the model two ways — accurate reference vs optimized compile path — and compare every internal layer.</p>
+        </article>
+        <article class="step-card">
+          <span class="step-num">2</span>
+          <h3>Pinpoint</h3>
+          <p>See exactly which layer drifted first. The heatmap makes the failure obvious.</p>
+        </article>
+        <article class="step-card">
+          <span class="step-num">3</span>
+          <h3>Fix &amp; gate</h3>
+          <p>Get suggested isolation rules and a ship/no-ship verdict you can wire into CI.</p>
+        </article>
+      </div>
+    </section>
+
     <section class="section demo-block" id="demo">
-      <h2>Run it in 60 seconds</h2>
-      <p class="section-lead">No GPU, no credentials. Same bundled <code>branch.onnx</code> run that powers the live panel above.</p>
+      <h2>Try it in 60 seconds</h2>
+      <p class="section-lead">Same scan shown in the live panel above.</p>
       <pre class="code-block"><code>pip install nuro-ftl-segment-receipts[onnx]
 
 segment-receipts run examples/models/branch.onnx -o out/receipts
@@ -70,56 +94,58 @@ segment-receipts doctor out/receipts/&lt;run-id&gt;
 open out/receipts/&lt;run-id&gt;/regression_report.html</code></pre>
       <div class="artifact-grid">
         <a class="artifact-card" href="demo/regression_report.html">
-          <h3>Regression report</h3>
-          <p>Graph heatmap + per-tensor Δ + breaker YAML</p>
+          <h3>Drift report</h3>
+          <p>Visual map of which layers changed + suggested fixes</p>
         </a>
         <a class="artifact-card" href="demo/receipt.html">
-          <h3>Stitch receipt</h3>
-          <p>Compiler islands after auto-generated breakers</p>
+          <h3>Deploy plan</h3>
+          <p>How the model gets split into safe compile chunks</p>
         </a>
         <a class="artifact-card" href="demo/report.md">
-          <h3>report.md</h3>
-          <p>Human-readable run summary</p>
+          <h3>Summary</h3>
+          <p>Plain-English run overview</p>
         </a>
         <a class="artifact-card" href="demo/rules.from-scan.yaml">
-          <h3>rules.from-scan.yaml</h3>
-          <p>Auto break_before_nodes from scan</p>
+          <h3>Fix rules</h3>
+          <p>Auto-generated config from the scan</p>
         </a>
       </div>
     </section>
 
-    <section class="section" id="problem">
-      <h2>plan → run → doctor → report</h2>
+    <section class="section" id="workflow">
+      <h2>For engineers</h2>
+      <p class="section-lead">CLI commands if you want the full pipeline.</p>
       <div class="flow-grid">
         <article>
           <h3>plan</h3>
-          <p>Preview segments + scan risks before spending compile cycles.</p>
+          <p>Preview risks before a full compile.</p>
         </article>
         <article>
           <h3>run</h3>
-          <p>Scan → auto rules → stitch receipt → full artifact trail in <code>out/receipts/&lt;id&gt;/</code>.</p>
+          <p>Scan, generate rules, save all artifacts.</p>
         </article>
         <article>
           <h3>doctor</h3>
-          <p>Flags silent regressions, breaker gaps, parity failures. Exit 1 = don't ship.</p>
+          <p>Pass or fail — exit code 1 means don't ship.</p>
         </article>
         <article>
           <h3>report</h3>
-          <p>Regenerates <code>report.md</code> + HTML from artifact dir.</p>
+          <p>Regenerate HTML and markdown from saved run.</p>
         </article>
       </div>
     </section>
 
     <section class="section findings-block" id="findings">
-      <h2>Doctor findings (this demo run)</h2>
+      <h2>What this sample run found</h2>
       <ul class="findings-list" id="findings-list"></ul>
     </section>
 
     <p class="disclaimer">
-      Third-party open tool inspired by Nuro's published FTL architecture — not affiliated with Nuro, Inc.
-      Built by <a href="https://enaguthi.com">Abhishek Enaguthi</a>.
+      Open tool inspired by Nuro's published FTL compiler architecture — not affiliated with Nuro, Inc.
+      <a href="https://enaguthi.com">Abhishek Enaguthi</a> ·
+      <a href="https://medium.com/nuro/ftl-model-compiler-framework-d6b85c670f67">problem background</a>
     </p>
   </main>
-  <script src="app.js?v=1.1.1"></script>
+  <script src="app.js?v=1.2.0"></script>
 </body>
 </html>
