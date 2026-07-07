@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Plan, run, doctor, and report on datarepo-style neural data catalog queries — catch schema drift before silent null-fills.">
+  <meta name="description" content="Preflight datarepo catalog queries — catch schema drift, empty partitions, and memory spikes before pipelines run.">
   <title>Neural Data Catalog Workbench</title>
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -21,7 +21,7 @@
       <div class="summary" id="summary"></div>
       <nav class="table-nav" id="scenario-nav"></nav>
       <section class="panel cli-panel">
-        <h2>60-second demo</h2>
+        <h2>Try it locally</h2>
         <pre class="cli-block"><code>pip install -e .
 neural-catalog plan examples/query_spike_bins.yaml
 neural-catalog run examples/query_electrode_map.yaml --mock
@@ -38,48 +38,52 @@ neural-catalog report out/receipts/latest/</code></pre>
     <main class="main">
       <header class="main-head">
         <div>
-          <p class="eyebrow">Product track — catalog trust, not the PR</p>
+          <p class="eyebrow">Preflight audit · declared catalog vs Delta storage</p>
           <h1 id="scenario-title">Select a scenario</h1>
           <p class="uri" id="scenario-uri"></p>
+          <p class="scenario-lead" id="scenario-lead"></p>
         </div>
         <div class="status-chip badge" id="scenario-status">—</div>
       </header>
 
       <section class="panel-grid">
         <article class="panel">
-          <h2>Preflight plan</h2>
+          <h2>Partition plan</h2>
+          <p class="panel-lead">File coverage and memory estimate before you query.</p>
           <div class="metrics-grid" id="metrics"></div>
         </article>
         <article class="panel findings-panel">
-          <h2>Doctor findings</h2>
+          <h2>Doctor</h2>
+          <p class="panel-lead">Actionable checks a pipeline owner would run first.</p>
           <ul id="findings" class="findings-list"></ul>
         </article>
       </section>
 
       <section class="panel">
-        <h2>Audit findings</h2>
+        <h2>Schema audit</h2>
+        <p class="panel-lead">Declared <code>DeltalakeTable</code> schema vs physical Delta metadata.</p>
         <ul id="audit-findings" class="findings-list"></ul>
       </section>
 
-      <section class="panel">
-        <h2>Risks flagged before run</h2>
+      <section class="panel" id="risks-panel">
+        <h2>Preflight risks</h2>
         <ul id="risks" class="findings-list"></ul>
       </section>
 
       <section class="panel">
-        <h2>Why this is not the PR</h2>
+        <h2>Why catalog trust matters</h2>
         <div class="story-grid">
           <div>
-            <h3>PR track</h3>
-            <p>Fixes upstream APIs: versioned Delta schemas (<a href="https://github.com/neuralinkcorp/datarepo/issues/42">#42</a>) and partition batching (<a href="https://github.com/neuralinkcorp/datarepo/issues/49">#49</a>).</p>
+            <h3>Catalog is code</h3>
+            <p>datarepo tables are defined in Python and rendered as static sites. The site shows intent — not what's on disk today.</p>
           </div>
           <div>
-            <h3>Product track</h3>
-            <p>Answers: does our catalog still match storage before we query? Catches drift, empty partitions, and memory spikes.</p>
+            <h3>Silent drift</h3>
+            <p>When storage diverges, <code>_normalize_df</code> null-fills missing columns. Queries succeed while results are wrong.</p>
           </div>
           <div>
-            <h3>Silent failure</h3>
-            <p>datarepo <code>_normalize_df</code> null-fills missing columns — pipelines look fine while being wrong.</p>
+            <h3>Partition holes</h3>
+            <p>Missing implant/session slices surface as empty frames or opaque Polars errors — not as a catalog coverage report.</p>
           </div>
         </div>
       </section>

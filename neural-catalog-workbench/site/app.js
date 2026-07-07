@@ -1,6 +1,18 @@
 let data = null;
 let active = null;
 
+const SCENARIO_LABELS = {
+  spike_bins_probe: "Spike bins",
+  electrode_map_drift: "Electrode map",
+  empty_partition_probe: "Raw waveforms",
+};
+
+const SCENARIO_LEADS = {
+  spike_bins_probe: "Healthy control — declared schema matches Delta storage for this implant/session slice.",
+  electrode_map_drift: "Catalog declares impedance_ohms; storage dropped the column. Reads null-fill silently.",
+  empty_partition_probe: "Partition exists in the catalog but has zero parquet files — query-time failure.",
+};
+
 async function init() {
   const res = await fetch("data/scenarios.json");
   data = await res.json();
@@ -18,7 +30,7 @@ function renderSummary() {
   const err = data.scenarios.filter((s) => s.plan.audit_status === "error").length;
   el.innerHTML = `
     <div><strong>${data.scenarios.length}</strong><span>scenarios</span></div>
-    <div><strong>${ok}</strong><span>clean</span></div>
+    <div><strong>${ok}</strong><span>pass</span></div>
     <div><strong>${err}</strong><span>drift</span></div>
   `;
 }
@@ -31,7 +43,8 @@ function renderNav() {
     btn.className = "table-btn";
     btn.dataset.id = scenario.id;
     const status = scenario.plan.audit_status;
-    btn.innerHTML = `<span>${scenario.id}</span><span class="badge ${status}">${status}</span>`;
+    const label = SCENARIO_LABELS[scenario.id] || scenario.id;
+    btn.innerHTML = `<span>${label}</span><span class="badge ${status}">${status}</span>`;
     btn.addEventListener("click", () => selectScenario(scenario));
     nav.appendChild(btn);
   }
@@ -43,9 +56,12 @@ function selectScenario(scenario) {
     btn.classList.toggle("active", btn.dataset.id === scenario.id);
   });
 
-  document.getElementById("scenario-title").textContent = scenario.plan.table;
+  const label = SCENARIO_LABELS[scenario.id] || scenario.plan.table;
+  document.getElementById("scenario-title").textContent = label;
   document.getElementById("scenario-uri").textContent =
     `${scenario.plan.catalog_uri} · ${scenario.plan.partition_label}`;
+  document.getElementById("scenario-lead").textContent =
+    SCENARIO_LEADS[scenario.id] || "";
 
   const chip = document.getElementById("scenario-status");
   chip.textContent = scenario.plan.audit_status;
@@ -54,27 +70,40 @@ function selectScenario(scenario) {
   renderMetrics(scenario);
   renderList("findings", scenario.doctor, (f) => ({
     className: f.severity === "critical" ? "error" : f.severity,
-    html: `<strong>${f.code}</strong> — ${f.message}<br><span style="color:var(--muted)">→ ${f.suggestion}</span>`,
+    html: `<strong>${f.code}</strong> — ${f.message}<br><span class="finding-hint">→ ${f.suggestion}</span>`,
   }));
   renderList("audit-findings", scenario.plan.audit_findings || [], (f) => ({
     className: f.severity,
     html: f.message,
   }));
-  renderList("risks", (scenario.plan.risks || []).map((r) => ({ severity: "warn", message: r })), (f) => ({
+
+  const risks = (scenario.plan.risks || []).filter(
+    (r) => !/mock mode/i.test(r)
+  );
+  renderList("risks", risks.map((r) => ({ severity: "warn", message: r })), (f) => ({
     className: "warn",
     html: f.message,
   }));
+  document.getElementById("risks-panel").style.display =
+    risks.length ? "block" : "none";
 }
 
 function renderMetrics(scenario) {
   const io = scenario.plan.io || {};
   const el = document.getElementById("metrics");
   el.innerHTML = `
-    <div class="metric"><span>Files</span><strong>${io.file_count ?? "—"}</strong></div>
-    <div class="metric"><span>Bytes</span><strong>${io.total_bytes ?? "—"}</strong></div>
-    <div class="metric"><span>Peak (est.)</span><strong>${io.peak_unbatched_bytes ?? "—"}</strong></div>
-    <div class="metric"><span>Batching</span><strong>${io.recommend_batching ? "recommended" : "ok"}</strong></div>
+    <div class="metric"><span>Parquet files</span><strong>${io.file_count ?? "—"}</strong></div>
+    <div class="metric"><span>Data size</span><strong>${formatBytes(io.total_bytes)}</strong></div>
+    <div class="metric"><span>Peak memory</span><strong>${formatBytes(io.peak_unbatched_bytes)}</strong></div>
+    <div class="metric"><span>Batching</span><strong>${io.recommend_batching ? "advised" : "not needed"}</strong></div>
   `;
+}
+
+function formatBytes(n) {
+  if (n == null || n === "—") return "—";
+  if (n < 1024) return `${n} B`;
+  if (n < 1024 * 1024) return `${(n / 1024).toFixed(1)} KB`;
+  return `${(n / (1024 * 1024)).toFixed(1)} MB`;
 }
 
 function renderList(id, items, mapFn) {
@@ -83,7 +112,7 @@ function renderList(id, items, mapFn) {
   if (!items.length) {
     const li = document.createElement("li");
     li.className = "ok";
-    li.textContent = "No issues.";
+    li.textContent = "No issues detected.";
     list.appendChild(li);
     return;
   }
