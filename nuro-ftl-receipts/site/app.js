@@ -36,8 +36,15 @@ function renderGraph(svg, layout, maxDiff, atol) {
 }
 
 async function loadJson(path) {
-  const res = await fetch(path);
-  return res.ok ? res.json() : null;
+  try {
+    const res = await fetch(path);
+    if (!res.ok) return null;
+    const text = await res.text();
+    if (!text.trim()) return null;
+    return JSON.parse(text);
+  } catch {
+    return null;
+  }
 }
 
 async function init() {
