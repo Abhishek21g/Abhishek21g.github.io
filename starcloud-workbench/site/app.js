@@ -4,23 +4,24 @@ const RECEIPTS = {
   "starcloud-1__sar-compress": "data/starcloud-1__sar-compress.json",
   "starcloud-2__nanogpt-tiny": "data/starcloud-2__nanogpt-tiny.json",
   "starcloud-2__inference-batch": "data/starcloud-2__inference-batch.json",
-  "starcloud-2__sar-compress": "data/starcloud-1__sar-compress.json",
+  "starcloud-2__sar-compress": "data/starcloud-2__sar-compress.json",
 };
-
-const platformEl = document.getElementById("platform");
-const workloadEl = document.getElementById("workload");
-const runBtn = document.getElementById("run-demo");
-const demoMetrics = document.getElementById("demo-metrics");
-const doctorList = document.getElementById("doctor-list");
-const preview = document.getElementById("receipt-preview");
-const timelineSvg = document.getElementById("timeline-svg");
-const demoStatus = document.getElementById("demo-status");
-const demoLabel = document.getElementById("demo-label");
-const demoCommand = document.getElementById("demo-command");
-const tabs = document.querySelectorAll(".tab");
 
 let currentReceipt = null;
 let activeTab = "summary";
+
+let platformEl;
+let workloadEl;
+let runBtn;
+let demoMetrics;
+let doctorList;
+let preview;
+let timelineSvg;
+let demoStatus;
+let demoLabel;
+let demoCommand;
+let demoError;
+let tabs;
 
 function fmtNum(n, digits = 1) {
   if (n == null || Number.isNaN(n)) return "—";
@@ -34,13 +35,22 @@ function fmtNum(n, digits = 1) {
 async function loadReceipt(platform, workload) {
   const key = `${platform}__${workload}`;
   const path = RECEIPTS[key];
-  if (!path) throw new Error(`No receipt for ${key}`);
-  const res = await fetch(path);
-  if (!res.ok) throw new Error(`Failed to load ${path}`);
+  if (!path) throw new Error(`No receipt mapped for ${key}`);
+  const res = await fetch(path, { cache: "no-store" });
+  if (!res.ok) throw new Error(`Failed to load ${path} (${res.status})`);
   return res.json();
 }
 
+function setError(message) {
+  if (demoError) {
+    demoError.hidden = !message;
+    demoError.textContent = message || "";
+  }
+  if (preview && message) preview.textContent = message;
+}
+
 function renderMetrics(receipt) {
+  if (!demoMetrics) return;
   const c = receipt.compute || {};
   const t = receipt.thermal || {};
   const p = receipt.power || {};
@@ -62,13 +72,17 @@ function renderMetrics(receipt) {
 }
 
 function renderDoctor(rules) {
-  doctorList.innerHTML = (rules || [])
-    .map((r) => {
-      const cls = r.pass ? (r.severity === "info" ? "info" : "pass") : r.severity;
-      const mark = r.pass ? "PASS" : "FAIL";
-      return `<div class="doctor-item ${cls}"><strong>${r.id} · ${mark}</strong>${r.message}</div>`;
-    })
-    .join("");
+  if (!doctorList) return;
+  const items = rules || [];
+  doctorList.innerHTML = items.length
+    ? items
+        .map((r) => {
+          const cls = r.pass ? (r.severity === "info" ? "info" : "pass") : r.severity;
+          const mark = r.pass ? "PASS" : "FAIL";
+          return `<div class="doctor-item ${cls}"><strong>${r.id} · ${mark}</strong>${r.message}</div>`;
+        })
+        .join("")
+    : '<div class="doctor-item warn"><strong>No rules</strong>Receipt has no doctor output.</div>';
 }
 
 function pathFromSeries(values, maxV, yBase, yRange) {
@@ -84,18 +98,19 @@ function pathFromSeries(values, maxV, yBase, yRange) {
 }
 
 function renderTimeline(timeline) {
+  if (!timelineSvg) return;
   if (!timeline || !timeline.length) {
     timelineSvg.innerHTML =
-      '<text x="20" y="90" fill="#5f6b7a" font-size="14" font-family="Inter, sans-serif">Timeline loads with receipt</text>';
+      '<text x="20" y="90" fill="#5f6b7a" font-size="14" font-family="Inter, sans-serif">No timeline data in receipt</text>';
     return;
   }
 
   const sample = timeline.filter(
-    (_, i) => i % Math.max(1, Math.floor(timeline.length / 140)) === 0
+    (_, i) => i % Math.max(1, Math.floor(timeline.length / 120)) === 0
   );
-  const solar = sample.map((s) => s.solar_w);
-  const temp = sample.map((s) => s.temp_c);
-  const soc = sample.map((s) => s.battery_soc);
+  const solar = sample.map((s) => s.solar_w || 0);
+  const temp = sample.map((s) => s.temp_c || 0);
+  const soc = sample.map((s) => s.battery_soc || 0);
 
   const maxSolar = Math.max(...solar, 1);
   const maxTemp = Math.max(...temp, 1);
@@ -120,6 +135,7 @@ function renderTimeline(timeline) {
 }
 
 function renderPreview(receipt) {
+  if (!preview) return;
   if (activeTab === "json") {
     preview.textContent = JSON.stringify(receipt, null, 2);
     return;
@@ -151,17 +167,25 @@ function renderPreview(receipt) {
 }
 
 function updateChrome(receipt) {
-  demoLabel.textContent = `${receipt.workload} · ${receipt.platform}`;
-  demoStatus.textContent = receipt.status || "unknown";
-  demoStatus.className = `badge ${receipt.status === "pass" ? "pass" : "fail"}`;
-  demoCommand.textContent = `orbital-compute run --plan out/plans/${receipt.plan_id}.json --seed ${receipt.seed}`;
+  if (demoLabel) demoLabel.textContent = `${receipt.workload} · ${receipt.platform}`;
+  if (demoStatus) {
+    demoStatus.textContent = receipt.status || "unknown";
+    demoStatus.className = `badge ${receipt.status === "pass" ? "pass" : "fail"}`;
+  }
+  if (demoCommand) {
+    demoCommand.textContent = `orbital-compute run --plan out/plans/${receipt.plan_id}.json --seed ${receipt.seed}`;
+  }
 }
 
 async function runDemo() {
+  if (!platformEl || !workloadEl) return;
   const platform = platformEl.value;
   const workload = workloadEl.value;
-  runBtn.disabled = true;
-  runBtn.textContent = "Loading…";
+  if (runBtn) {
+    runBtn.disabled = true;
+    runBtn.textContent = "Loading…";
+  }
+  setError("");
   try {
     const receipt = await loadReceipt(platform, workload);
     currentReceipt = receipt;
@@ -171,25 +195,49 @@ async function runDemo() {
     renderTimeline(receipt.timeline);
     renderPreview(receipt);
   } catch (err) {
-    preview.textContent = String(err);
+    setError(String(err));
   } finally {
-    runBtn.disabled = false;
-    runBtn.textContent = "Load receipt";
+    if (runBtn) {
+      runBtn.disabled = false;
+      runBtn.textContent = "Load receipt";
+    }
   }
 }
 
-tabs.forEach((tab) => {
-  tab.addEventListener("click", () => {
-    tabs.forEach((t) => t.classList.remove("active"));
-    tab.classList.add("active");
-    activeTab = tab.dataset.tab;
-    if (currentReceipt) renderPreview(currentReceipt);
-  });
-});
+function initDemo() {
+  platformEl = document.getElementById("platform");
+  workloadEl = document.getElementById("workload");
+  runBtn = document.getElementById("run-demo");
+  demoMetrics = document.getElementById("demo-metrics");
+  doctorList = document.getElementById("doctor-list");
+  preview = document.getElementById("receipt-preview");
+  timelineSvg = document.getElementById("timeline-svg");
+  demoStatus = document.getElementById("demo-status");
+  demoLabel = document.getElementById("demo-label");
+  demoCommand = document.getElementById("demo-command");
+  demoError = document.getElementById("demo-error");
+  tabs = document.querySelectorAll(".tab");
 
-runBtn.addEventListener("click", runDemo);
-platformEl.addEventListener("change", runDemo);
-workloadEl.addEventListener("change", runDemo);
+  if (!platformEl || !workloadEl || !demoMetrics || !doctorList || !preview || !timelineSvg) {
+    setError("Demo UI failed to initialize. Hard-refresh the page (Cmd+Shift+R).");
+    return;
+  }
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      tabs.forEach((t) => t.classList.remove("active"));
+      tab.classList.add("active");
+      activeTab = tab.dataset.tab || "summary";
+      if (currentReceipt) renderPreview(currentReceipt);
+    });
+  });
+
+  if (runBtn) runBtn.addEventListener("click", runDemo);
+  platformEl.addEventListener("change", runDemo);
+  workloadEl.addEventListener("change", runDemo);
+
+  runDemo();
+}
 
 const header = document.querySelector(".site-header");
 window.addEventListener(
@@ -200,4 +248,8 @@ window.addEventListener(
   { passive: true }
 );
 
-runDemo();
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initDemo);
+} else {
+  initDemo();
+}
