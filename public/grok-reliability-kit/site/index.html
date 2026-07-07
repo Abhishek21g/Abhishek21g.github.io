@@ -24,12 +24,44 @@
   <main class="layout">
     <section class="hero">
       <p class="eyebrow">Not affiliated with xAI · answers #77 production RAG pain</p>
-      <h1>Is your collection actually ready for search?</h1>
+      <h1>Ship Collections with confidence, not guesswork</h1>
       <p class="lead">
-        xAI gives you Collections RPCs and a multi-stage indexing pipeline — but no
-        <strong>plan → run → doctor → report</strong> kit for CI. This is the operational layer
-        (like tinker-status for platform health) that Grok RAG teams need before shipping.
+        xAI gives you Collections APIs, but no reliability guardrails for the full indexing path.
+        This kit provides an easy contract you can run in CI:
+        <strong>plan → run → doctor → report</strong>.
       </p>
+      <div class="hero-actions">
+        <a class="btn-primary" href="#demo">See live receipt</a>
+        <a class="btn-secondary" href="#cli-section">Run locally in 60 seconds</a>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>What this solves</h2>
+      <div class="value-grid">
+        <article class="value-card">
+          <h3>Stop blind deploys</h3>
+          <p>Verify upload, indexing readiness, and search behavior before release.</p>
+        </article>
+        <article class="value-card">
+          <h3>Readable reliability receipts</h3>
+          <p>Every run emits structured artifacts your team can inspect and compare.</p>
+        </article>
+        <article class="value-card">
+          <h3>Actionable diagnosis</h3>
+          <p>Doctor rules flag probable root causes, not just pass/fail noise.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>How the pipeline contract works</h2>
+      <div class="flow-grid">
+        <article class="flow-card"><span>1</span><strong>Plan</strong><p>Define scenario, invariants, and expected behavior.</p></article>
+        <article class="flow-card"><span>2</span><strong>Run</strong><p>Execute upload/index/search/chat checks (mock or live).</p></article>
+        <article class="flow-card"><span>3</span><strong>Doctor</strong><p>Apply rules to detect indexing backlog and quality regressions.</p></article>
+        <article class="flow-card"><span>4</span><strong>Report</strong><p>Publish a shareable receipt bundle for CI and incident review.</p></article>
+      </div>
     </section>
 
     <div id="demo" class="banner pass">
@@ -43,6 +75,8 @@
     <div class="grid">
       <div class="card"><span>Steps</span><strong id="stat-steps">—</strong></div>
       <div class="card"><span>Doctor findings</span><strong id="stat-findings">—</strong></div>
+      <div class="card"><span>Total duration</span><strong id="stat-duration">—</strong></div>
+      <div class="card"><span>Step success rate</span><strong id="stat-success">—</strong></div>
       <div class="card"><span>Mode</span><strong id="stat-mode">—</strong></div>
       <div class="card"><span>Doctor</span><strong id="stat-doctor">—</strong></div>
     </div>
@@ -57,6 +91,7 @@
 
     <section class="panel">
       <h2>Doctor findings</h2>
+      <div id="findings-summary" class="finding-summary"></div>
       <div id="findings"></div>
     </section>
 
