@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Gate Jetson perception deploys with closure + latency receipts — plan, run, doctor, report.">
+  <title>Jetson ML Workbench</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top">
+      <span class="brand-glyph">◇</span>
+      <span>Jetson ML Workbench</span>
+    </a>
+    <nav class="nav">
+      <a href="#problem">Problem</a>
+      <a href="#workflow">Workflow</a>
+      <a href="#compare">CI vs field</a>
+      <a href="demo/blocked_receipt.html">Receipt</a>
+    </nav>
+    <a class="btn primary" href="https://github.com/Abhishek21g/jetson-ml-workbench">GitHub</a>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Edge perception · Jetson Orin · NixOS fleets</p>
+        <h1 class="serif">Your fleet builds green.<br>Perception still dies in the field.</h1>
+        <p class="lede">
+          ONNX and TensorRT artifacts bind to CUDA, cuDNN, TensorRT, and L4T closures — not just file hashes.
+          After a <code>flake update</code>, <code>nix build</code> stays green while
+          <strong>engines fail to deserialize</strong> and frame latency blows past the
+          <strong>30&nbsp;ms</strong> budget perception teams ship to.
+        </p>
+        <div class="hero-cta">
+          <a class="btn primary" href="demo/blocked_receipt.html">See blocked deploy receipt</a>
+          <a class="btn ghost" href="https://github.com/anduril/jetpack-nixos/issues/482">jetpack-nixos #482</a>
+        </div>
+      </div>
+
+      <div class="terminal-stack" id="problem">
+        <div class="window">
+          <div class="titlebar">
+            <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+            <span class="title">zsh — uav-orin-field-07</span>
+          </div>
+          <pre class="term-body"><code><span class="prompt">$</span> nix build .#perception
+<span class="ok">✓ build succeeded</span>
+
+<span class="prompt">$</span> python -c "import onnxruntime as ort; print(ort.get_device())"
+<span class="err">libcudnn.so: undefined symbol</span>
+
+<span class="prompt">$</span> jetson-ml-workbench doctor latest
+<span class="block">verdict: block</span>
+  <span class="err">[✗]</span> Legacy CUDA stub detected (libcublas)
+  <span class="err">[✗]</span> p95 latency 52.8ms exceeds 30ms frame budget
+  <span class="err">[✗]</span> ONNX Runtime CUDA provider unavailable</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats-row">
+      <article>
+        <span class="stat-num">30ms</span>
+        <span class="stat-label">public perception SLA / frame</span>
+      </article>
+      <article>
+        <span class="stat-num">#482</span>
+        <span class="stat-label">green build, broken GPU runtime</span>
+      </article>
+      <article>
+        <span class="stat-num">plan→report</span>
+        <span class="stat-label">four-command deploy gate</span>
+      </article>
+    </section>
+
+    <section class="section" id="workflow">
+      <h2 class="serif">Workbench loop</h2>
+      <p class="section-lead">Not a packaging checklist — a deploy doctor for perception rollouts.</p>
+      <div class="workflow-grid">
+        <article class="wf-card">
+          <div class="wf-cmd">jetson-ml-workbench plan</div>
+          <h3>Rollout profile</h3>
+          <p>JetPack 6, Orin AGX, ONNX workload, 30&nbsp;ms SLA, golden scenario path.</p>
+        </article>
+        <article class="wf-card">
+          <div class="wf-cmd">jetson-ml-workbench run</div>
+          <h3>Probe node</h3>
+          <p>Live nix/ORT on Orin, or mock fixtures that model post-drift field nodes.</p>
+        </article>
+        <article class="wf-card">
+          <div class="wf-cmd">jetson-ml-workbench doctor</div>
+          <h3>Compatibility rules</h3>
+          <p>CUDA stub, golden closure diff, flake.lock drift, ORT CUDA provider, p95 vs SLA.</p>
+        </article>
+        <article class="wf-card">
+          <div class="wf-cmd">jetson-ml-workbench report</div>
+          <h3>Deploy receipt</h3>
+          <p>manifest.json + summary.md + HTML for CI gates and field ops.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="compare-section" id="compare">
+      <div class="compare-head">
+        <div>
+          <h2 class="serif">CI golden vs field node</h2>
+          <p class="section-lead">Side-by-side closure diff — the failure mode from jetpack-nixos #482.</p>
+        </div>
+        <code class="compare-cmd">jetson-ml-workbench doctor latest</code>
+        <span id="verdict-pill" class="pill block">BLOCK</span>
+      </div>
+
+      <div class="compare-panels">
+        <div class="compare-panel golden">
+          <header>
+            <span class="node-tag ok">CI golden</span>
+            <strong id="golden-node">ci-orin-build-01</strong>
+          </header>
+          <div class="sla-bar-wrap">
+            <label>p95 latency</label>
+            <div class="sla-bar" id="golden-sla" style="--pct:61"></div>
+            <span class="sla-val" id="golden-lat">18.2 ms</span>
+          </div>
+          <div class="kv" id="golden-kv"></div>
+        </div>
+
+        <div class="compare-mid">
+          <span class="arrow">→</span>
+          <p id="drift-summary">libcublas drifted to CUDA 11.4 stub after nixpkgs bump</p>
+        </div>
+
+        <div class="compare-panel field">
+          <header>
+            <span class="node-tag bad">Field node</span>
+            <strong id="field-node">uav-orin-field-07</strong>
+          </header>
+          <div class="sla-bar-wrap">
+            <label>p95 latency</label>
+            <div class="sla-bar over" id="field-sla" style="--pct:176"></div>
+            <span class="sla-val bad" id="field-lat">52.8 ms</span>
+          </div>
+          <div class="kv" id="field-kv"></div>
+        </div>
+      </div>
+
+      <div id="verdict-banner" class="verdict-banner block">
+        OTA blocked — closure drift + SLA miss. Reconcile flake inputs before promoting perception.
+      </div>
+    </section>
+
+    <section class="section symptoms">
+      <h2 class="serif">Symptoms teams miss until exercise day</h2>
+      <ul class="symptom-grid">
+        <li>TensorRT engine deserialization failed</li>
+        <li>libcudnn.so: undefined symbol</li>
+        <li>CUDA driver version is insufficient for CUDA runtime</li>
+        <li>torch.cuda.is_available() false after green nix build</li>
+      </ul>
+      <p class="footnote">Public sources: <a href="https://job-boards.greenhouse.io/andurilindustries/jobs/5151287007">Anduril Perception JD</a> · <a href="https://github.com/anduril/jetpack-nixos/issues/482">jetpack-nixos#482</a></p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>Jetson ML Workbench — deploy receipts for edge perception</span>
+    <span>Mock mode runs without Orin hardware</span>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>
