@@ -1,43 +1,221 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>FPO++ Training Workbench</title>
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <header>
-    <nav class="top-nav">
-      <a class="back" href="https://enaguthi.com/">← enaguthi.com</a>
-      <a href="https://github.com/Abhishek21g/fpo-workbench">GitHub</a>
-    </nav>
-    <h1>FPO++ Training Workbench</h1>
-    <p class="tagline">Training observability for Amazon FAR flow-policy RL — no GPU required</p>
-  </header>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="FPO++ Training Workbench — know if your humanoid RL run is healthy vs paper baselines before you waste another GPU day. Live demo, no install."
+    />
+    <meta property="og:url" content="https://enaguthi.com/fpo-workbench/site/" />
+    <meta property="og:title" content="FPO++ Training Workbench" />
+    <meta
+      property="og:description"
+      content="Plan, ingest, doctor, and report on flow-policy training runs — cliff detection, paper baselines, checkpoint receipts."
+    />
+    <title>FPO++ Training Workbench — training trust for flow-policy RL</title>
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css?v=3" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="FPO++ Training Workbench home">
+        <span class="brand-mark" aria-hidden="true">FP</span>
+        <span>FPO++ Training Workbench</span>
+      </a>
+      <nav class="nav" aria-label="Primary navigation">
+        <a href="#problem">Problem</a>
+        <a href="#demo">Test it</a>
+        <a href="#product">Product</a>
+        <a href="https://github.com/Abhishek21g/fpo-workbench">GitHub</a>
+      </nav>
+      <a class="header-action" href="https://github.com/Abhishek21g/fpo-workbench">View GitHub</a>
+    </header>
 
-  <section class="hero">
-    <pre><code>pip install fpo-workbench
+    <main id="top">
+      <section class="hero section-shell" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">Abhishek Enaguthi · July 2026 · independent demo</p>
+          <h1 id="hero-title">Know if your G1 run is healthy before the GPU day is gone.</h1>
+          <p>
+            Amazon FAR's FPO++ release ships training code and expected curve PNGs — not a way to
+            <em>operationalize</em> training dynamics. This workbench ingests your log directory,
+            grades against paper baselines, and doctors cliff patterns from real issue reports.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#demo">Run live demo</a>
+            <a class="button secondary" href="https://github.com/Abhishek21g/fpo-workbench">View GitHub</a>
+          </div>
+          <dl class="proof-grid" aria-label="Project proof points">
+            <div>
+              <dt>23</dt>
+              <dd>passing tests</dd>
+            </div>
+            <div>
+              <dt>4</dt>
+              <dd>CLI commands</dd>
+            </div>
+            <div>
+              <dt>0</dt>
+              <dd>GPU required</dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="hero-panel" aria-label="Workbench preview">
+          <div class="panel-topline">
+            <div><span class="status-dot warn" id="hero-status-dot"></span> <span id="hero-run-label">g1-cliff-synthetic</span></div>
+            <span class="badge fail" id="hero-badge">unhealthy</span>
+          </div>
+          <div class="terminal">
+            <span>$</span>
+            <code>fpo-workbench doctor out/receipts/g1-cliff —json</code>
+          </div>
+          <div class="mini-chart-wrap">
+            <canvas id="hero-chart" width="480" height="160" aria-label="Reward curve preview"></canvas>
+          </div>
+          <p class="panel-caption" id="hero-caption">Cliff detected at iter ~4100 — reward −67% from peak</p>
+        </div>
+      </section>
+
+      <section class="section-shell solution-section" id="problem">
+        <h2 class="section-heading">The problem Amazon FAR users describe</h2>
+        <div class="solution-grid">
+          <article class="solution-card problem">
+            <span class="solution-label">Pain (public)</span>
+            <blockquote>
+              "I observe a significant performance cliff at around 4K steps when I extend the
+              training steps to 5K… 4096 environments on a single NVIDIA 3090."
+            </blockquote>
+            <footer>
+              <a href="https://github.com/amazon-far/fpo-control/issues/4">fpo-control#4</a>
+            </footer>
+          </article>
+          <article class="solution-card answer">
+            <span class="solution-label">Solution</span>
+            <p>
+              <code>fpo-workbench plan → run → doctor → report</code> on any FPO++ log directory.
+              Produces a portable receipt: hyperparams, checkpoints, multi-signal health grade, paper
+              baseline comparison.
+            </p>
+          </article>
+          <article class="solution-card separates">
+            <span class="solution-label">What it separates</span>
+            <ul>
+              <li><strong>Paper match</strong> — peak reward vs G1/H1/Go2/Spot targets</li>
+              <li><strong>Cliff</strong> — post-plateau collapse (not just #4)</li>
+              <li><strong>Flow dynamics</strong> — KL, surrogate proxy, obs-norm drift</li>
+              <li><strong>Checkpoint trust</strong> — which <code>model_*.pt</code> are safe</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section-shell demo-section" id="demo">
+        <div class="demo-header">
+          <div>
+            <p class="eyebrow">Test it — no install</p>
+            <h2 class="section-heading">Toggle a run. Watch the doctor fire.</h2>
+            <p class="section-lede">
+              Bundled synthetic logs mirror fpo-control#4 (cliff at ~4k) and a healthy 2k G1 run.
+              Same signals the CLI uses in production.
+            </p>
+          </div>
+          <div class="run-toggle" role="tablist" aria-label="Demo run selector">
+            <button type="button" class="toggle-btn" data-run="cliff" role="tab" aria-selected="true">
+              Cliff run (#4 shape)
+            </button>
+            <button type="button" class="toggle-btn" data-run="healthy" role="tab" aria-selected="false">
+              Healthy run (paper)
+            </button>
+          </div>
+        </div>
+
+        <div class="demo-grid">
+          <div class="demo-panel chart-panel">
+            <div class="chart-head">
+              <h3>Train/mean_reward</h3>
+              <span class="chart-meta" id="chart-meta">5000 iters · 4096 envs</span>
+            </div>
+            <canvas id="main-chart" width="720" height="280" aria-label="Training reward curve"></canvas>
+            <div class="chart-legend">
+              <span class="legend-item"><i class="swatch reward"></i> Mean reward</span>
+              <span class="legend-item"><i class="swatch target"></i> Paper target (37)</span>
+              <span class="legend-item"><i class="swatch budget"></i> Tuned budget (2k iters)</span>
+            </div>
+          </div>
+
+          <div class="demo-panel doctor-panel">
+            <div class="chart-head">
+              <h3>Doctor</h3>
+              <span class="badge fail" id="doctor-badge">unhealthy</span>
+            </div>
+            <p class="baseline-line" id="baseline-line">Peak 36.5 within 85% of paper target 37.0</p>
+            <ul class="signal-list" id="signal-list" aria-live="polite"></ul>
+            <div class="demo-actions">
+              <button type="button" class="button primary" id="download-receipt">Download receipt JSON</button>
+              <a class="button secondary" href="https://github.com/Abhishek21g/fpo-workbench#60-second-demo">CLI docs</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-shell product-section" id="product">
+        <h2 class="section-heading">Why not just TensorBoard?</h2>
+        <div class="compare-grid">
+          <article>
+            <h3>TensorBoard / W&B</h3>
+            <ul>
+              <li>Generic scalars — you eyeball curves manually</li>
+              <li>No paper baseline overlay per robot</li>
+              <li>Flow-specific hyperparams scattered in YAML</li>
+              <li>No portable receipt for sweeps or CI</li>
+            </ul>
+          </article>
+          <article class="highlight">
+            <h3>FPO++ Training Workbench</h3>
+            <ul>
+              <li><code>plan</code> — pre-run risks (EMA, epochs, iter budget)</li>
+              <li><code>run</code> — ingest logs + checkpoint manifest</li>
+              <li><code>doctor</code> — 4 signals + baseline grade</li>
+              <li><code>report</code> — Markdown + JSON receipt trail</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="cli-block">
+          <p class="eyebrow">60-second local demo</p>
+          <pre><code>pip install fpo-workbench
 fpo-workbench demo --out out/demo
-fpo-workbench doctor out/demo/receipts/&lt;run-id&gt; --json</code></pre>
-    <p><a href="https://github.com/Abhishek21g/fpo-workbench">Source</a> · Built for researchers reproducing <a href="https://github.com/amazon-far/fpo-control">amazon-far/fpo-control</a></p>
-  </section>
+fpo-workbench doctor out/demo/receipts/&lt;run-id&gt; --json
+fpo-workbench report out/demo/receipts/&lt;run-id&gt;</code></pre>
+        </div>
+      </section>
 
-  <section>
-    <h2>Demo runs</h2>
-    <div id="runs" class="grid">Loading…</div>
-  </section>
+      <section class="section-shell cta-section">
+        <h2>Independent of any single upstream PR.</h2>
+        <p>
+          Useful before and after bugfixes — grades <em>any</em> FPO++ locomotion run from log
+          artifacts. Built for researchers reproducing
+          <a href="https://github.com/amazon-far/fpo-control">amazon-far/fpo-control</a>.
+        </p>
+        <div class="cta-actions">
+          <a class="button primary" href="https://github.com/Abhishek21g/fpo-workbench">Star on GitHub</a>
+          <a class="button secondary" href="https://enaguthi.com/">← enaguthi.com</a>
+        </div>
+      </section>
+    </main>
 
-  <section class="signals">
-    <h2>Doctor signals</h2>
-    <ul>
-      <li><strong>reward_cliff</strong> — post-plateau collapse (#4)</li>
-      <li><strong>kl_spike</strong> — adaptive KL blow-up</li>
-      <li><strong>advantage_norm_proxy</strong> — surrogate loss spikes</li>
-      <li><strong>obs_norm_drift</strong> — normalizer std drift</li>
-    </ul>
-  </section>
+    <footer class="section-shell footer">
+      <span>FPO++ Training Workbench · MIT · not affiliated with Amazon FAR</span>
+      <a href="https://github.com/Abhishek21g/fpo-workbench">github.com/Abhishek21g/fpo-workbench</a>
+    </footer>
 
-  <script src="app.js"></script>
-</body>
+    <script src="./app.js?v=3"></script>
+  </body>
 </html>
