@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blocked deploy receipt — Jetson ML Workbench</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body class="report-page">
+  <div class="shell">
+    <p class="eyebrow"><a href="../index.html">← Jetson ML Workbench</a></p>
+    <header class="report-hero">
+      <p class="eyebrow">Deploy receipt · run_20260706T231000Z</p>
+      <h1 class="serif">Verdict: <span class="verdict-block">BLOCK</span></h1>
+      <p class="lede">Node <code>uav-orin-field-07</code> · JP6 · onnxruntime-gpu · YOLOv8 perception rollout</p>
+    </header>
+
+    <div class="report-grid">
+      <section class="window">
+        <div class="titlebar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span>latency_envelope</span></div>
+        <div class="window-body">
+          <div class="sla-meter" style="--pct:176"><div class="sla-fill"></div></div>
+          <span class="sla-label">p95 52.8 ms / 30 ms SLA — CPU fallback after closure drift</span>
+        </div>
+      </section>
+
+      <section class="window">
+        <div class="titlebar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span>cuda_closure</span></div>
+        <div class="window-body">
+          <table class="data-table">
+            <tbody>
+              <tr><td>libcublas</td><td><code style="color:var(--danger)">cuda11.4-libcublas-11.6.6.84</code></td></tr>
+              <tr><td>cudnn</td><td><code>cudnn-9.1.0.70</code></td></tr>
+              <tr><td>tensorrt</td><td><code>tensorrt-10.3.0.30</code></td></tr>
+              <tr><td>l4t</td><td><code>36.5.0</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="window full">
+        <div class="titlebar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span>doctor_findings (5)</span></div>
+        <div class="window-body findings-body" id="findings"></div>
+      </section>
+    </div>
+  </div>
+  <script>
+    fetch("../data/field_blocked.json")
+      .then((r) => r.json())
+      .then((data) => {
+        const el = document.getElementById("findings");
+        el.innerHTML = (data.findings || []).map((f) => `
+          <article class="finding ${f.severity}">
+            <div class="finding-head"><span class="sev">${f.severity}</span><h4>${f.title}</h4></div>
+            <p>${f.detail}</p>
+          </article>`).join("");
+      });
+  </script>
+</body>
+</html>

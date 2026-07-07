@@ -1,0 +1,15 @@
+{
+  "node_id": "ci-orin-build-01",
+  "verdict": "deploy",
+  "closure": {
+    "libcublas": "libcublas-12.6.1.4",
+    "cudnn": "cudnn-9.3.0.75",
+    "tensorrt": "tensorrt-10.3.0.30",
+    "cuda_cudart": "cuda-cudart-12.6.68",
+    "jetpack": "6.2.2",
+    "l4t": "36.5.0"
+  },
+  "latency": { "p50_ms": 12.4, "p95_ms": 18.2, "sla_ms": 30 },
+  "ort_cuda_provider": true,
+  "torch_cuda": true
+}

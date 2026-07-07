@@ -1,0 +1,32 @@
+{
+  "node_id": "uav-orin-field-07",
+  "verdict": "block",
+  "closure": {
+    "libcublas": "cuda11.4-libcublas-11.6.6.84",
+    "cudnn": "cudnn-9.1.0.70",
+    "tensorrt": "tensorrt-10.3.0.30",
+    "cuda_cudart": "cuda-cudart-12.6.68",
+    "jetpack": "6.2.2",
+    "l4t": "36.5.0"
+  },
+  "latency": { "p50_ms": 41.2, "p95_ms": 52.8, "sla_ms": 30 },
+  "ort_cuda_provider": false,
+  "torch_cuda": false,
+  "findings": [
+  {
+    "severity": "critical",
+    "title": "Legacy CUDA stub detected (libcublas)",
+    "detail": "Observed cuda11.4-libcublas — JP6 perception needs CUDA 12.6 deb-backed closure."
+  },
+  {
+    "severity": "critical",
+    "title": "p95 latency 52.8ms exceeds 30ms frame budget",
+    "detail": "Perception SLA miss — likely closure drift or CPU fallback."
+  },
+  {
+    "severity": "critical",
+    "title": "ONNX Runtime CUDA provider unavailable",
+    "detail": "ORT fell back to CPU — frame budget at risk."
+  }
+  ]
+}
