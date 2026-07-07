@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WOSAC Preflight — local 2025 sim-agents evaluator</title>
+  <meta name="description" content="Run Waymo's official 2025 Sim Agents metametric locally. Per-feature receipts before a 44k-scenario WOSAC submission." />
+  <meta property="og:title" content="WOSAC Preflight" />
+  <meta property="og:description" content="Official 2025 WOSAC metrics locally — metametric breakdown, format gates, TL violation rates." />
+  <meta property="og:url" content="https://enaguthi.com/wosac-preflight/site/" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <div class="shell">
+    <nav class="top-nav">
+      <a class="back" href="https://enaguthi.com/">← enaguthi.com</a>
+      <div class="nav-links">
+        <a href="#problem">Problem</a>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#cli">CLI</a>
+        <a href="https://github.com/Abhishek21g/wosac-preflight">GitHub</a>
+      </div>
+    </nav>
+
+    <section class="hero" id="top">
+      <div>
+        <p class="eyebrow">Waymo Open Sim Agents · 2025</p>
+        <h1>Preflight your WOSAC submission before 44,926 scenarios.</h1>
+        <p class="lede">
+          Waymo's leaderboard is open but opaque locally. WOSAC Preflight runs the
+          <strong>official 2025 metametric</strong> on one scenario — format gates,
+          per-feature likelihoods, and traffic-light violation rates — before you burn GPU days
+          or one of your 3 monthly test slots.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#dashboard">Try live dashboard</a>
+          <a class="btn" href="https://github.com/Abhishek21g/wosac-preflight">View on GitHub</a>
+        </div>
+        <dl class="proof-grid">
+          <div><dt>22</dt><dd>passing tests</dd></div>
+          <div><dt>10</dt><dd>official 2025 features</dd></div>
+          <div><dt>32</dt><dd>rollouts validated</dd></div>
+        </dl>
+      </div>
+      <aside class="hero-panel" aria-label="CLI preview">
+        <div class="panel-top">
+          <span><span class="status-dot"></span>wosac-preflight</span>
+          <span>mock mode</span>
+        </div>
+        <div class="terminal">
+          <span class="prompt">$</span>pip install wosac-preflight<br />
+          <span class="prompt">$</span>wosac-preflight doctor sample_receipt.json<br />
+          <span class="prompt">$</span>wosac-preflight score --scenario-tfrecord ... --rollouts ...
+        </div>
+        <div class="card" style="margin:0">
+          <h3>Weakest feature</h3>
+          <div class="metametric" style="font-size:1.1rem;color:var(--warn)">traffic light violation</div>
+          <p class="metametric-label">likelihood 0.310 · new in 2025 metrics</p>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section" id="problem">
+      <h2 class="section-title">The problem Waymo is solving</h2>
+      <div class="solution-grid">
+        <article class="solution-card">
+          <span class="solution-label">Company mission</span>
+          <p>
+            Simulation with <strong>realistic, interactive agents</strong> is a key task for
+            autonomous driving. WOSAC scores whether your simulator matches real-world
+            behavior distributions — not just one trajectory.
+          </p>
+        </article>
+        <article class="solution-card">
+          <span class="solution-label">Public pain</span>
+          <p>
+            The test set has <strong>44,926 segments</strong>. Official tutorials warn this
+            "may take a significant amount of time." You get <strong>3 test uploads per 30 days</strong>
+            — and the leaderboard shows one meta-metric, not per-scenario diagnostics.
+          </p>
+        </article>
+        <article class="solution-card">
+          <span class="solution-label">This product</span>
+          <p>
+            <code>validate → score → doctor</code> using official
+            <code>waymo-open-dataset</code> metrics (Docker on macOS). Receipt JSON +
+            this dashboard. Independent of any Waymax PR.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="dashboard">
+      <h2 class="section-title">Live dashboard</h2>
+      <div class="dashboard-wrap">
+        <div class="toolbar">
+          <label class="btn btn-primary">
+            Load receipt JSON
+            <input type="file" id="fileInput" accept=".json,application/json" />
+          </label>
+          <button class="btn" id="loadSample" type="button">Load sample</button>
+          <button class="btn" id="copyReceipt" type="button">Copy receipt</button>
+          <span class="scenario-id" id="scenarioLabel"></span>
+        </div>
+
+        <div class="grid grid-hero">
+          <div class="card">
+            <h3>Meta-metric</h3>
+            <div class="metametric" id="metametric">—</div>
+            <div class="metametric-label">2025 weighted realism score</div>
+            <div class="bucket-row">
+              <div class="bucket kinematic"><div class="val" id="kin">—</div><div class="lbl">Kinematic</div></div>
+              <div class="bucket interactive"><div class="val" id="int">—</div><div class="lbl">Interactive</div></div>
+              <div class="bucket map_based"><div class="val" id="map">—</div><div class="lbl">Map-based</div></div>
+            </div>
+            <div class="fix-first" id="fixFirst" hidden></div>
+          </div>
+          <div class="card">
+            <h3>Bucket radar</h3>
+            <canvas id="radarChart" height="200"></canvas>
+          </div>
+          <div class="card">
+            <h3>Format gates</h3>
+            <ul class="gates" id="gateList"></ul>
+          </div>
+        </div>
+
+        <div class="grid grid-mid">
+          <div class="card">
+            <h3>Per-feature likelihood (weakest → strongest)</h3>
+            <table id="featureTable">
+              <thead>
+                <tr><th>Feature</th><th>Bucket</th><th>Likelihood</th><th>Weight</th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="card">
+            <h3>Simulated safety rates</h3>
+            <div class="rates" style="margin-bottom:1rem">
+              <div class="rate" id="rateCollision"><div class="val">—</div><div class="lbl">Collision</div></div>
+              <div class="rate" id="rateOffroad"><div class="val">—</div><div class="lbl">Off-road</div></div>
+              <div class="rate" id="rateTl"><div class="val">—</div><div class="lbl">TL violation</div></div>
+            </div>
+            <h3>vs leaderboard baselines</h3>
+            <table>
+              <thead><tr><th>Method</th><th>Meta</th><th>Δ yours</th></tr></thead>
+              <tbody id="baselineBody"></tbody>
+            </table>
+            <p style="margin-top:0.85rem;color:var(--muted);font-size:0.78rem" id="adeLabel"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="cli">
+      <h2 class="section-title">CLI quickstart</h2>
+      <div class="cli-block">
+        git clone https://github.com/Abhishek21g/wosac-preflight<br />
+        cd wosac-preflight && pip install -e ".[dev]"<br />
+        wosac-preflight demo              # this dashboard<br />
+        wosac-preflight smoke             # official metrics (Docker)<br />
+        wosac-preflight score \<br />
+        &nbsp;&nbsp;--scenario-tfrecord $WOMD/validation/validation.tfrecord-00000-of-00150 \<br />
+        &nbsp;&nbsp;--rollouts my_rollouts.binproto -o receipts/run.json --open
+      </div>
+    </section>
+
+    <footer>
+      Not affiliated with Waymo. Scoring uses <code>waymo_open_dataset.wdl_limited.sim_agents_metrics</code> (Waymo license).
+      Built by <a href="https://enaguthi.com">Abhishek Enaguthi</a> ·
+      <a href="https://github.com/Abhishek21g/wosac-preflight">GitHub</a>
+    </footer>
+  </div>
+</body>
+</html>
