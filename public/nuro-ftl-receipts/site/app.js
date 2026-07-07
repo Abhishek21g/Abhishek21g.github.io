@@ -58,17 +58,18 @@ async function init() {
   if (manifest) {
     const model = manifest.model?.split("/").pop() || "branch.onnx";
     document.getElementById("run-label").textContent =
-      `Run ${manifest.run_id} · ${model} · ${manifest.candidate}`;
+      `Sample scan · ${model}`;
   }
 
   if (summary) {
     document.getElementById("scan-stats").innerHTML = `
-      <div class="stat-box"><span>Failed</span><strong>${summary.tensors_failed}</strong></div>
-      <div class="stat-box"><span>Compared</span><strong>${summary.tensors_compared}</strong></div>
-      <div class="stat-box"><span>Segments</span><strong>${summary.segment_count}</strong></div>
+      <div class="stat-box"><span>Layers drifted</span><strong>${summary.tensors_failed}</strong></div>
+      <div class="stat-box"><span>Layers checked</span><strong>${summary.tensors_compared}</strong></div>
+      <div class="stat-box"><span>Compile chunks</span><strong>${summary.segment_count}</strong></div>
     `;
     const ds = document.getElementById("doctor-status");
-    ds.textContent = `doctor: ${summary.status.toUpperCase()} · parity ${summary.parity_passed}/${summary.parity_total}`;
+    const verdict = summary.status === "pass" ? "PASS — safe to ship" : "FAIL — do not ship";
+    ds.textContent = `${verdict} · output check ${summary.parity_passed}/${summary.parity_total}`;
     ds.className = `doctor-status ${summary.status}`;
   }
 
@@ -76,8 +77,8 @@ async function init() {
     const maxDiff = Math.max(...reg.divergences.map((d) => d.max_abs_diff), reg.atol);
     const ff = reg.first_failure;
     document.getElementById("first-failure").innerHTML = ff
-      ? `<strong>First topo failure:</strong> <code>${ff.producer_node}</code> (${ff.producer_op}) · Δ ${ff.max_abs_diff.toExponential(2)}`
-      : "All tensors within tolerance.";
+      ? `<strong>Drift started at:</strong> <code>${ff.producer_node}</code> (${ff.producer_op})`
+      : "All layers matched within tolerance.";
 
     renderGraph(document.getElementById("graph-svg"), reg.graph_layout, maxDiff, reg.atol);
 
@@ -85,14 +86,14 @@ async function init() {
     const recs = reg.breaker_recommendations || [];
     if (recs.length) {
       panel.innerHTML =
-        "<h4>Recommended breakers</h4>" +
+        "<h4>Suggested fixes</h4>" +
         recs
           .slice(0, 3)
           .map(
             (b) => `
           <div class="breaker-card">
             <strong>${b.node_name}</strong> (${b.op_type})<br>
-            <span style="color:#8fa3b8">break_before · force_fp32 · ORT</span>
+            <span style="color:#8fa3b8">Isolate layer · keep accurate math · use ORT</span>
           </div>`
           )
           .join("");
