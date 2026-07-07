@@ -37,7 +37,7 @@ function renderGraph(svg, layout, maxDiff, atol) {
 
 async function loadJson(path) {
   try {
-    const res = await fetch(path);
+    const res = await fetch(path, { cache: "no-store" });
     if (!res.ok) return null;
     const text = await res.text();
     if (!text.trim()) return null;
