@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="base-path" content="/tensix-hang-workbench/site/" />
+  <title>Tensix Hang Workbench — hang causality receipts for TT-Metalium</title>
+  <meta name="description" content="Turn watcher.log + tt-triage dumps into a root-cause receipt for Tenstorrent device hangs. CLI + mock demo, no hardware required." />
+  <meta property="og:url" content="https://enaguthi.com/tensix-hang-workbench/site/" />
+  <link rel="icon" type="image/svg+xml" href="/tensix-hang-workbench/site/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <header class="hero">
+      <p class="eyebrow">Tenstorrent · runtime debugging</p>
+      <h1>Tensix Hang Workbench</h1>
+      <p class="lead">
+        When a Galaxy model hangs, engineers manually cross-reference <code>watcher.log</code>,
+        <code>tt-triage</code> callstacks, and kernel source across hundreds of cores.
+        This workbench connects those artifacts into a <strong>causality receipt</strong> with a named root blocker.
+      </p>
+      <p style="margin-top:10px">
+        <span class="pill">plan → run → doctor → report</span>
+        <span class="pill">mock mode</span>
+        <span class="pill">receipt JSON</span>
+      </p>
+    </header>
+
+    <div class="grid">
+      <section class="card">
+        <h2>Problem</h2>
+        <p>Watcher shows <em>where</em> cores are stuck. Triage shows <em>which line</em>. Neither tells you the causal chain across mcast/CB handshakes.</p>
+      </section>
+      <section class="card">
+        <h2>Solution</h2>
+        <p>Parse hang artifacts → build causality graph → doctor names root blocker (e.g. <code>cb_reserve_back</code> on 768 readers).</p>
+      </section>
+      <section class="card">
+        <h2>Not the PR</h2>
+        <p>Separate from tt-metal Compiler Explorer docs. This targets <strong>runtime hang forensics</strong>, not SFPI assembly inspection.</p>
+      </section>
+    </div>
+
+    <section class="card">
+      <h2>CLI (60 seconds)</h2>
+      <pre>pip install -e ".[dev]"
+tensix-hang run --demo deepseek-quad-mcast
+tensix-hang doctor latest --json
+tensix-hang report latest</pre>
+      <div class="actions">
+        <a class="button primary" href="https://github.com/Abhishek21g/tensix-hang-workbench">GitHub repo</a>
+        <a class="button secondary" href="https://github.com/tenstorrent/tt-metal/issues/44280">Reference issue #44280</a>
+      </div>
+    </section>
+
+    <section class="card" style="margin-top:14px">
+      <div class="panel-title">
+        <h2>Live demo — DeepSeek QUAD mcast/CB hang</h2>
+        <button id="run-demo" class="primary" type="button">Run demo</button>
+      </div>
+      <p id="run-meta" style="color:var(--muted);font-size:0.92rem;margin-bottom:12px">Loading…</p>
+
+      <div id="results" class="hidden">
+        <p>Doctor status: <span id="doctor-status"></span></p>
+        <div id="root-blocker"></div>
+
+        <h3 style="margin:18px 0 8px;font-size:0.95rem;color:var(--accent)">Findings</h3>
+        <div id="findings"></div>
+
+        <h3 style="margin:18px 0 8px;font-size:0.95rem;color:var(--accent)">Causality edges</h3>
+        <div id="graph-edges"></div>
+
+        <h3 style="margin:18px 0 8px;font-size:0.95rem;color:var(--accent)">Recommendations</h3>
+        <ul id="recommendations" style="padding-left:1.2rem;color:var(--muted)"></ul>
+      </div>
+    </section>
+
+    <footer>
+      <p>
+        Built by <a href="https://enaguthi.com">Abhishek Enaguthi</a> ·
+        <a href="https://github.com/Abhishek21g/tensix-hang-workbench">source</a> ·
+        enaguthiabhishek@gmail.com
+      </p>
+    </footer>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

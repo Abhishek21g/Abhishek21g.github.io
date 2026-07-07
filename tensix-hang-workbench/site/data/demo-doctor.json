@@ -1,0 +1,37 @@
+{
+  "status": "fail",
+  "root_blocker": {
+    "kind": "cb_reserve_back",
+    "location": "minimal_default_reader.cpp:119",
+    "affected_cores": 768,
+    "confidence": 0.86,
+    "summary": "Receiver-side CB reserve stall during AllGatherAsyncDeviceOperation (op 1525): readers cannot reserve cb_in0, preventing multicast delivery and leaving writers in barrier wait."
+  },
+  "findings": [
+    {
+      "severity": "critical",
+      "code": "CB_RESERVE_BACKPRESSURE",
+      "message": "768 reader cores blocked at minimal_default_reader.cpp:119",
+      "evidence": "cb_in0.reserve_back cannot proceed \u2014 input circular buffer is full or undrained."
+    },
+    {
+      "severity": "high",
+      "code": "BARRIER_STALL",
+      "message": "768 writer cores waiting on noc_semaphore_wait_min at minimal_default_writer.cpp:271",
+      "evidence": "Multicast / all-gather barrier cannot complete while receivers are stalled."
+    },
+    {
+      "severity": "info",
+      "code": "ACTIVE_OPS",
+      "message": "Active host operations during hang: AllGatherAsyncDeviceOperation (op 1525), MatmulDeviceOperation (op 1529)",
+      "evidence": "Correlate device-side stall with in-flight TTNN device operations."
+    }
+  ],
+  "recommendations": [
+    "Keep the hung process alive and capture watcher.log plus tt-triage in the same window.",
+    "Compare receiver cb_in0 reserve counts against sender mcast completion on affected cores.",
+    "Inspect compute kernel pop/push on cb_in0 \u2014 undrained tiles block reserve_back.",
+    "Verify mcast receiver count matches sender runtime args (expected receivers vs acks).",
+    "Bisect the active AllGather/Matmul op: rerun with watcher interval=1 on a single layer."
+  ]
+}

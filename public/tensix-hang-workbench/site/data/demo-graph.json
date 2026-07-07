@@ -1,0 +1,85 @@
+{
+  "nodes": [
+    {
+      "id": "watcher:running",
+      "kind": "watcher_state",
+      "label": "running",
+      "count": 45
+    },
+    {
+      "id": "watcher:cb_reserve_back",
+      "kind": "watcher_state",
+      "label": "cb_reserve_back",
+      "count": 9
+    },
+    {
+      "id": "watcher:noc_semaphore_wait",
+      "kind": "watcher_state",
+      "label": "noc_semaphore_wait",
+      "count": 5
+    },
+    {
+      "id": "watcher:noc_semaphore_done",
+      "kind": "watcher_state",
+      "label": "noc_semaphore_done",
+      "count": 1
+    },
+    {
+      "id": "triage:cb_reserve_back:minimal_default_reader.cpp:119",
+      "kind": "triage_pattern",
+      "label": "cb_reserve_back @ minimal_default_reader.cpp:119",
+      "count": 768,
+      "role": "reader"
+    },
+    {
+      "id": "triage:noc_semaphore_wait:minimal_default_writer.cpp:271",
+      "kind": "triage_pattern",
+      "label": "noc_semaphore_wait @ minimal_default_writer.cpp:271",
+      "count": 768,
+      "role": "writer"
+    },
+    {
+      "id": "triage:noc_async_write_wait:minimal_default_writer.cpp:217",
+      "kind": "triage_pattern",
+      "label": "noc_async_write_wait @ minimal_default_writer.cpp:217",
+      "count": 64,
+      "role": "writer"
+    },
+    {
+      "id": "op:AllGatherAsyncDeviceOperation (op 1525)",
+      "kind": "active_op",
+      "label": "AllGatherAsyncDeviceOperation (op 1525)"
+    },
+    {
+      "id": "op:MatmulDeviceOperation (op 1529)",
+      "kind": "active_op",
+      "label": "MatmulDeviceOperation (op 1529)"
+    }
+  ],
+  "edges": [
+    {
+      "source": "triage:cb_reserve_back:minimal_default_reader.cpp:119",
+      "target": "watcher:cb_reserve_back",
+      "relation": "confirms",
+      "evidence": "768 reader cores blocked in cb_reserve_back; receivers cannot accept multicast payload."
+    },
+    {
+      "source": "triage:cb_reserve_back:minimal_default_reader.cpp:119",
+      "target": "triage:noc_semaphore_wait:minimal_default_writer.cpp:271",
+      "relation": "blocks",
+      "evidence": "Readers cannot reserve cb_in0, so downstream writers remain in noc_semaphore_wait_min waiting for ring/barrier completion."
+    },
+    {
+      "source": "triage:noc_semaphore_wait:minimal_default_writer.cpp:271",
+      "target": "triage:noc_async_write_wait:minimal_default_writer.cpp:217",
+      "relation": "correlates",
+      "evidence": "All-gather / matmul writer path stalled across multicast and barrier waits."
+    },
+    {
+      "source": "op:AllGatherAsyncDeviceOperation (op 1525)",
+      "target": "triage:cb_reserve_back:minimal_default_reader.cpp:119",
+      "relation": "context",
+      "evidence": "Hang observed while AllGatherAsyncDeviceOperation (op 1525), MatmulDeviceOperation (op 1529) were active."
+    }
+  ]
+}
