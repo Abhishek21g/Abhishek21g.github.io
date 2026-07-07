@@ -1,0 +1,136 @@
+{
+  "product": "Grok Collections Reliability Kit",
+  "tagline": "Is your collection actually ready for search?",
+  "manifest": {
+    "receipt_version": "1.0",
+    "run_id": "20260707T063955Z-offline-rag-contract",
+    "scenario": "offline-rag-contract",
+    "description": "CI contract test for Grok Collections pipeline \u2014 no API keys. Validates probe \u2192 upload \u2192 index \u2192 search \u2192 multimodal resolve steps in mock mode.\n",
+    "mode": "mock",
+    "fixture_profile": "healthy",
+    "started_at": "2026-07-07T06:39:55.343519+00:00",
+    "finished_at": "2026-07-07T06:39:55.343578+00:00",
+    "expect": {
+      "probes_healthy": true,
+      "indexing_processed_min": 1,
+      "search_succeeds": true,
+      "rag_ready": true,
+      "multimodal_paths_min": 1
+    }
+  },
+  "summary": {
+    "overall": "pass",
+    "failed_steps": 0,
+    "doctor_overall": "healthy",
+    "finding_count": 0
+  },
+  "steps": [
+    {
+      "id": "probe",
+      "action": "probe_channels",
+      "status": "ok",
+      "duration_ms": 0.0,
+      "probes": {
+        "overall": "healthy",
+        "management_key_configured": true,
+        "probes": [
+          {
+            "channel": "api",
+            "check": "list_embedding_models",
+            "status": "ok",
+            "latency_ms": 120
+          },
+          {
+            "channel": "management",
+            "check": "list_collections",
+            "status": "ok",
+            "latency_ms": 180
+          }
+        ]
+      }
+    },
+    {
+      "id": "create",
+      "action": "create_collection",
+      "status": "ok",
+      "duration_ms": 0.0,
+      "collection_id": "mock\u2026-001",
+      "embedding_model": "grok-embedding-small"
+    },
+    {
+      "id": "upload",
+      "action": "upload_documents",
+      "status": "ok",
+      "duration_ms": 0.0,
+      "document_count": 1
+    },
+    {
+      "id": "index",
+      "action": "wait_indexing",
+      "status": "ok",
+      "duration_ms": 0.0,
+      "indexing": {
+        "total_sampled": 3,
+        "processed": 3,
+        "failed": 0,
+        "in_flight": 0,
+        "rag_ready": true,
+        "rag_ready_ratio": 1.0,
+        "counts": {
+          "processed": 3,
+          "failed": 0,
+          "processing": 0,
+          "chunked": 0,
+          "embedding": 0,
+          "writing": 0,
+          "unknown": 0
+        },
+        "failed_documents": [],
+        "in_flight_documents": []
+      }
+    },
+    {
+      "id": "search",
+      "action": "search",
+      "status": "ok",
+      "duration_ms": 0.0,
+      "search": {
+        "status": "ok",
+        "match_count": 2,
+        "latency_ms": 95
+      }
+    },
+    {
+      "id": "multimodal",
+      "action": "resolve_multimodal",
+      "status": "ok",
+      "duration_ms": 0.0,
+      "image_paths": [
+        "[REDACTED_PATH]/widget-a.jpg"
+      ]
+    },
+    {
+      "id": "chat",
+      "action": "chat_ready",
+      "status": "ok",
+      "duration_ms": 0.0,
+      "message": "vision chat inputs validated"
+    }
+  ],
+  "findings": {
+    "overall": "healthy",
+    "finding_count": 0,
+    "findings": [],
+    "scenario": "offline-rag-contract",
+    "run_id": "20260707T063955Z-offline-rag-contract"
+  },
+  "demo_scenarios": [
+    "offline-rag-contract",
+    "single-doc-roundtrip",
+    "multi-doc-stress"
+  ],
+  "issue_refs": {
+    "indexing_scaling": "https://github.com/xai-org/xai-sdk-python/issues/77",
+    "sdk_pr": "https://github.com/xai-org/xai-sdk-python/pull/169"
+  }
+}
