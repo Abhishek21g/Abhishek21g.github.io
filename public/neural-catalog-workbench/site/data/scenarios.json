@@ -1,5 +1,5 @@
 {
-  "thesis": "datarepo catalogs are code \u2014 static sites show declared schemas, not S3 reality. Neural Data Catalog Workbench runs plan \u2192 run \u2192 doctor \u2192 report before pipelines trust the catalog.",
+  "thesis": "Static catalog sites show what Python declares — not what Delta storage contains. Preflight partition queries before pipelines trust the catalog.",
   "scenarios": [
     {
       "id": "spike_bins_probe",
