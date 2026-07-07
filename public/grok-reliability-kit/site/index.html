@@ -1,111 +1,283 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="plan/run/doctor/report for xAI Grok Collections RAG pipelines — CI reliability kit xAI doesn't ship.">
-  <title>Grok Collections Reliability Kit</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <header class="site-header">
-    <a class="brand" href="#">
-      <span class="brand-mark">Grok</span>
-      <span>Collections Reliability Kit</span>
-    </a>
-    <nav>
-      <a href="#demo">Demo receipt</a>
-      <a href="#cli">CLI</a>
-      <a href="https://github.com/xai-org/xai-sdk-python/issues/77">Pain #77</a>
-    </nav>
-    <a class="nav-action" href="https://github.com/xai-org/xai-sdk-python/pull/169">SDK PR</a>
-  </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grok Collections Reliability Kit — plan · run · doctor · report</title>
+    <meta
+      name="description"
+      content="CI reliability kit for Grok Collections RAG pipelines. Test indexing health, search readiness, and doctor findings in your browser — no API keys."
+    />
+    <meta property="og:url" content="https://enaguthi.com/grok-reliability-kit/site/" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <nav class="top-nav">
+        <a class="back" href="https://enaguthi.com/">← enaguthi.com</a>
+        <div class="nav-links">
+          <a href="#solution">Solution</a>
+          <a href="#test">Test it</a>
+          <a href="#receipt">Receipt</a>
+          <a href="#product">Product</a>
+        </div>
+      </nav>
 
-  <main class="layout">
-    <section class="hero">
-      <p class="eyebrow">Not affiliated with xAI · answers #77 production RAG pain</p>
-      <h1>Ship Collections with confidence, not guesswork</h1>
-      <p class="lead">
-        xAI gives you Collections APIs, but no reliability guardrails for the full indexing path.
-        This kit provides an easy contract you can run in CI:
-        <strong>plan → run → doctor → report</strong>.
-      </p>
-      <div class="hero-actions">
-        <a class="btn-primary" href="#demo">See live receipt</a>
-        <a class="btn-secondary" href="#cli-section">Run locally in 60 seconds</a>
-      </div>
-    </section>
+      <main class="window">
+        <div class="titlebar">
+          <span class="dot dot-red"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="titlebar-label">Grok_Collections_Reliability_Kit</span>
+        </div>
 
-    <section class="panel">
-      <h2>What this solves</h2>
-      <div class="value-grid">
-        <article class="value-card">
-          <h3>Stop blind deploys</h3>
-          <p>Verify upload, indexing readiness, and search behavior before release.</p>
-        </article>
-        <article class="value-card">
-          <h3>Readable reliability receipts</h3>
-          <p>Every run emits structured artifacts your team can inspect and compare.</p>
-        </article>
-        <article class="value-card">
-          <h3>Actionable diagnosis</h3>
-          <p>Doctor rules flag probable root causes, not just pass/fail noise.</p>
-        </article>
-      </div>
-    </section>
+        <div class="window-body">
+          <p class="eyebrow">Abhishek Enaguthi · July 2026 · not affiliated with xAI</p>
+          <h1>Is your collection actually ready for search?</h1>
+          <p class="lede">
+            xAI gives you Collections APIs and a multi-stage indexing pipeline — but no
+            <strong>plan → run → doctor → report</strong> kit for CI. This is the operational layer
+            Grok RAG teams need before shipping, anchored on
+            <a href="https://github.com/xai-org/xai-sdk-python/issues/77">indexing pain #77</a>.
+          </p>
 
-    <section class="panel">
-      <h2>How the pipeline contract works</h2>
-      <div class="flow-grid">
-        <article class="flow-card"><span>1</span><strong>Plan</strong><p>Define scenario, invariants, and expected behavior.</p></article>
-        <article class="flow-card"><span>2</span><strong>Run</strong><p>Execute upload/index/search/chat checks (mock or live).</p></article>
-        <article class="flow-card"><span>3</span><strong>Doctor</strong><p>Apply rules to detect indexing backlog and quality regressions.</p></article>
-        <article class="flow-card"><span>4</span><strong>Report</strong><p>Publish a shareable receipt bundle for CI and incident review.</p></article>
-      </div>
-    </section>
+          <div class="tag-row">
+            <span class="tag">mock mode</span>
+            <span class="tag">17 tests</span>
+            <span class="tag">3 scenarios</span>
+            <span class="tag">receipt JSON</span>
+          </div>
 
-    <div id="demo" class="banner pass">
-      <div>
-        <h2 id="banner-title" style="margin:0">Loading…</h2>
-        <p id="banner-meta" class="lead" style="margin:.35rem 0 0;font-size:.9rem"></p>
-      </div>
-      <div id="banner-pill"></div>
+          <section class="solution-section" id="solution">
+            <h2 class="section-title">The solution</h2>
+            <div class="solution-grid">
+              <article class="solution-card problem">
+                <span class="solution-label">Problem</span>
+                <p>
+                  Upload succeeds, but search returns nothing. Docs sit in
+                  <code>embedding</code> for hours. Failures are buried in per-document polling.
+                  Teams ship RAG pipelines blind — exactly what
+                  <a href="https://github.com/xai-org/xai-sdk-python/issues/77">#77</a> describes.
+                </p>
+              </article>
+              <article class="solution-card answer">
+                <span class="solution-label">Solution</span>
+                <p>
+                  <code>grok-collections run</code> executes a scenario contract (probe → upload → index → search → chat),
+                  writes a <strong>receipt bundle</strong>, and <code>doctor</code> flags backlog, failures, and RAG readiness
+                  before you merge.
+                </p>
+              </article>
+              <article class="solution-card separates">
+                <span class="solution-label">What it validates</span>
+                <ul>
+                  <li><strong>Probe health</strong> — API + management channel checks</li>
+                  <li><strong>Indexing state</strong> — processed / failed / in-flight counts</li>
+                  <li><strong>Search smoke</strong> — RAG path actually returns matches</li>
+                  <li><strong>Multimodal paths</strong> — image refs resolve for vision chat</li>
+                </ul>
+              </article>
+            </div>
+          </section>
+
+          <section class="flow-section">
+            <h2 class="section-title">One loop for the whole pipeline</h2>
+            <div class="flow-diagram">
+              <div class="flow-step"><span class="flow-num">1</span><div><strong>Plan</strong><p>Validate scenario YAML, expectations, and step order.</p></div></div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-step"><span class="flow-num">2</span><div><strong>Run</strong><p>Execute probe → upload → index → search → multimodal in mock or live mode.</p></div></div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-step"><span class="flow-num">3</span><div><strong>Doctor</strong><p>Apply rules: backlog, stuck docs, RAG-not-ready, search failures.</p></div></div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-step"><span class="flow-num">4</span><div><strong>Report</strong><p>Emit manifest + summary + steps + findings JSON and markdown report.</p></div></div>
+            </div>
+          </section>
+
+          <section class="test-section" id="test">
+            <div class="test-header">
+              <h2 class="section-title">Test the solution</h2>
+              <p class="test-sub">Pick a fixture profile — runs the same mock engine as the Python CLI. No install, no API keys.</p>
+            </div>
+
+            <div class="profile-picker" role="tablist" aria-label="Fixture profiles">
+              <button type="button" class="profile-btn active" data-profile="healthy" role="tab" aria-selected="true">
+                <strong>Healthy pipeline</strong>
+                <span>All steps pass · RAG-ready</span>
+              </button>
+              <button type="button" class="profile-btn" data-profile="degraded" role="tab" aria-selected="false">
+                <strong>Indexing failures</strong>
+                <span>3 failed · 2 stuck · #77 pain</span>
+              </button>
+              <button type="button" class="profile-btn" data-profile="backlog" role="tab" aria-selected="false">
+                <strong>Backlog stall</strong>
+                <span>0 processed · search blocked</span>
+              </button>
+            </div>
+
+            <div class="test-panel">
+              <button type="button" class="run-button" id="run-pipeline">
+                Run grok-collections run scenarios/offline-rag-contract.yaml --mock
+              </button>
+              <button type="button" class="run-button secondary" id="run-doctor">
+                Run grok-collections doctor out/receipts/latest/
+              </button>
+
+              <div class="terminal" id="terminal" aria-live="polite">
+                <div class="terminal-bar">
+                  <span class="dot dot-red"></span>
+                  <span class="dot"></span>
+                  <span class="dot"></span>
+                  <span class="terminal-title">terminal</span>
+                </div>
+                <div class="terminal-body" id="terminal-log">
+                  <div class="terminal-line muted">Pick a profile and press Run — receipt appears below.</div>
+                </div>
+              </div>
+              <p class="try-status" id="try-status"></p>
+            </div>
+          </section>
+
+          <section class="demo-section" id="receipt">
+            <div class="section-head">
+              <h2 class="section-title">Receipt output</h2>
+              <p class="section-sub" id="demo-meta">Run the pipeline above to generate a receipt</p>
+            </div>
+
+            <div class="demo-panel" id="demo-panel">
+              <div class="demo-header">
+                <div class="status">
+                  <span class="pulse" id="status-pulse"></span>
+                  <span id="status-label">waiting</span>
+                </div>
+                <span class="demo-meta" id="demo-run-meta">—</span>
+              </div>
+
+              <div class="cards" id="summary-cards">
+                <div class="card placeholder"><div class="label">Waiting</div><div class="value">—</div></div>
+              </div>
+
+              <div class="pipeline-viz" id="pipeline-viz">
+                <div class="pipeline-head">
+                  <span>Indexing pipeline</span>
+                  <span id="rag-ready-label">RAG ready: —</span>
+                </div>
+                <div class="pipeline-stages" id="pipeline-stages">
+                  <div class="stage"><span class="stage-count" id="st-processed">—</span><span class="stage-name">processed</span></div>
+                  <div class="stage"><span class="stage-count" id="st-failed">—</span><span class="stage-name">failed</span></div>
+                  <div class="stage"><span class="stage-count" id="st-inflight">—</span><span class="stage-name">in flight</span></div>
+                  <div class="stage"><span class="stage-count" id="st-ratio">—</span><span class="stage-name">ready ratio</span></div>
+                </div>
+                <div class="pipeline-bar" id="pipeline-bar" aria-hidden="true"></div>
+              </div>
+
+              <div class="table-wrap">
+                <table class="receipt-table">
+                  <thead>
+                    <tr>
+                      <th>Step</th>
+                      <th>Action</th>
+                      <th>Status</th>
+                      <th>Duration</th>
+                      <th>Detail</th>
+                    </tr>
+                  </thead>
+                  <tbody id="step-rows">
+                    <tr><td colspan="5" class="empty-row">No receipt yet — click Run pipeline</td></tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="findings-panel" id="findings-panel">
+                <div class="findings-head">
+                  <span>Doctor findings</span>
+                  <span id="findings-count">0 findings</span>
+                </div>
+                <div id="findings-list">
+                  <p class="findings-empty">Run doctor after pipeline completes.</p>
+                </div>
+              </div>
+
+              <div class="tabs" role="tablist">
+                <button class="tab active" data-tab="summary" type="button">summary.json</button>
+                <button class="tab" data-tab="steps" type="button">steps.json</button>
+                <button class="tab" data-tab="findings" type="button">findings.json</button>
+                <button class="tab" data-tab="markdown" type="button">report.md</button>
+                <button class="tab" data-tab="detail" type="button">step detail</button>
+              </div>
+              <pre class="code-view" id="summary-view">// receipt appears here after run</pre>
+              <pre class="code-view hidden" id="steps-view"></pre>
+              <pre class="code-view hidden" id="findings-view"></pre>
+              <pre class="code-view hidden" id="markdown-view"></pre>
+              <pre class="code-view hidden" id="detail-view"></pre>
+            </div>
+          </section>
+
+          <section class="product-section" id="product">
+            <h2 class="section-title">The product</h2>
+            <p class="product-blurb">
+              Open-source Python CLI —
+              <a href="https://github.com/Abhishek21g/grok-collections-reliability-kit">github.com/Abhishek21g/grok-collections-reliability-kit</a>
+            </p>
+            <div class="cmd-block">
+              <span class="cmd-prompt">$</span>
+              <code>git clone https://github.com/Abhishek21g/grok-collections-reliability-kit.git</code>
+            </div>
+            <div class="cmd-block">
+              <span class="cmd-prompt">$</span>
+              <code>cd grok-collections-reliability-kit && uv sync</code>
+            </div>
+            <div class="cmd-block">
+              <span class="cmd-prompt">$</span>
+              <code>uv run grok-collections run scenarios/offline-rag-contract.yaml --mock</code>
+              <span class="cmd-comment"># then doctor + report</span>
+            </div>
+          </section>
+
+          <section class="oss-section" id="oss">
+            <h2 class="section-title">Related work</h2>
+            <table class="oss-table">
+              <thead>
+                <tr><th>Track</th><th>Link</th><th>Status</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Product — indexing reliability (#77)</td>
+                  <td><a href="https://github.com/xai-org/xai-sdk-python/issues/77">xai-sdk-python #77</a></td>
+                  <td><span class="badge open">pain anchor</span></td>
+                </tr>
+                <tr>
+                  <td>PR — multimodal helpers (#78)</td>
+                  <td><a href="https://github.com/xai-org/xai-sdk-python/pull/169">xai-sdk-python #169</a></td>
+                  <td><span class="badge draft">open PR</span></td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="flow-note" style="margin-top:14px">
+              PR track and product track are independent — this kit solves operational reliability; the PR adds library helpers.
+            </p>
+          </section>
+
+          <div class="cta-row">
+            <a class="btn primary" href="https://github.com/Abhishek21g/grok-collections-reliability-kit">Get the repo</a>
+            <a class="btn" href="https://github.com/xai-org/xai-sdk-python/issues/77">Read #77</a>
+            <a class="btn" href="https://enaguthi.com/">Portfolio</a>
+          </div>
+        </div>
+      </main>
+
+      <footer>
+        <p>Built by <strong>Abhishek Enaguthi</strong></p>
+        <p class="footer-sub">Grok Collections Reliability Kit — not affiliated with xAI</p>
+      </footer>
     </div>
 
-    <div class="grid">
-      <div class="card"><span>Steps</span><strong id="stat-steps">—</strong></div>
-      <div class="card"><span>Doctor findings</span><strong id="stat-findings">—</strong></div>
-      <div class="card"><span>Total duration</span><strong id="stat-duration">—</strong></div>
-      <div class="card"><span>Step success rate</span><strong id="stat-success">—</strong></div>
-      <div class="card"><span>Mode</span><strong id="stat-mode">—</strong></div>
-      <div class="card"><span>Doctor</span><strong id="stat-doctor">—</strong></div>
-    </div>
-
-    <section class="panel">
-      <h2>Audit steps (bundled mock run)</h2>
-      <table>
-        <thead><tr><th>Step</th><th>Action</th><th>Status</th><th>Duration</th></tr></thead>
-        <tbody id="steps-table"></tbody>
-      </table>
-    </section>
-
-    <section class="panel">
-      <h2>Doctor findings</h2>
-      <div id="findings-summary" class="finding-summary"></div>
-      <div id="findings"></div>
-    </section>
-
-    <section class="panel" id="cli-section">
-      <h2>60-second local demo</h2>
-      <pre id="cli-block"></pre>
-    </section>
-
-    <p class="disclaimer">
-      PR track: <a href="https://github.com/xai-org/xai-sdk-python/pull/169">#169 multimodal helpers</a> (library code).
-      Product track: this kit (pipeline reliability). See
-      <a href="https://github.com/xai-org/xai-sdk-python/issues/77">#77</a> for why indexing at scale needs a doctor.
-    </p>
-  </main>
-  <script src="app.js"></script>
-</body>
+    <script src="demo-engine.js"></script>
+    <script src="app.js"></script>
+  </body>
 </html>
