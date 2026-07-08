@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rocket Lab Ops Receipts — Constellation Continuity</title>
+    <meta
+      name="description"
+      content="Plan, run, doctor, and report mission ops under launch and constellation constraints. Demo artifact for InterMission / MAX Constellation continuity."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <p class="eyebrow">Constellation Continuity Receipts · Demo</p>
+      <h1>Launch &amp; fleet ops under constraint</h1>
+      <p class="lede">
+        Not a generic space dashboard. A receipt discipline layer for contact passes,
+        downlink backlog, ODySSy-style twin divergence, and fleet replenishment —
+        aligned with Rocket Lab's public InterMission / MAX Constellation story.
+      </p>
+      <p class="disclaimer">Independent demo · Not affiliated with Rocket Lab or Iridium</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="https://github.com/Abhishek21g/rocket-lab-ops-receipts" target="_blank" rel="noreferrer">GitHub</a>
+        <button class="btn" id="run-demo" type="button">Run bundled demo</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="panel">
+        <h2>Workflow</h2>
+        <ol class="steps">
+          <li><code>plan</code> — mission or fleet profile</li>
+          <li><code>run</code> — simulated timeline or Monte Carlo</li>
+          <li><code>doctor</code> — constraint lint</li>
+          <li><code>report</code> — pass/fail receipt JSON</li>
+        </ol>
+      </section>
+
+      <section class="panel">
+        <h2>Profile</h2>
+        <select id="profile-select">
+          <option value="electron">Electron LEO deploy</option>
+          <option value="iridium">Iridium replenishment sketch</option>
+        </select>
+        <pre id="profile-preview" class="code-block"></pre>
+      </section>
+
+      <section class="panel wide">
+        <div class="panel-head">
+          <h2>Receipt</h2>
+          <span id="risk-badge" class="badge">—</span>
+        </div>
+        <div id="constraints" class="constraint-grid"></div>
+        <h3>Doctor findings</h3>
+        <ul id="findings" class="findings"></ul>
+        <h3>JSON</h3>
+        <pre id="receipt-json" class="code-block tall"></pre>
+        <button class="btn" id="download-receipt" type="button">Download receipt.json</button>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        Built for vertical-integration continuity thinking — build → launch → operate → replenish.
+      </p>
+    </footer>
+    <script src="./app.js"></script>
+  </body>
+</html>
