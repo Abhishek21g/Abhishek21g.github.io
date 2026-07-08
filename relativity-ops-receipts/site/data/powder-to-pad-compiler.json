@@ -1,7 +1,7 @@
 {
-  "run_id": "c8bccfe8-d7c7-4f25-96d0-edf4c93ebce3",
+  "run_id": "9e0f2fb6-42cc-4298-ab38-0570cfb92dfc",
   "profile_id": "powder-to-pad-compiler",
-  "generated_at": "2026-07-08T23:04:52.091855+00:00",
+  "generated_at": "2026-07-08T23:26:01.757025+00:00",
   "labels": [
     "DEMO",
     "NOT_RELATIVITY_OFFICIAL",
@@ -9,24 +9,12 @@
     "POWDER_TO_PAD_COMPILER"
   ],
   "constraints": {
-    "total": 2,
+    "total": 0,
     "passed": 0,
-    "failed": 2,
+    "failed": 0,
     "warned": 0
   },
-  "doctor_findings": [
-    {
-      "rule_id": "MISSING_PRINT_GENOME",
-      "severity": "FAIL",
-      "message": "Print job PJ-BRACKET-AUX missing powder lot / genome attestation.",
-      "node_id": "PJ-BRACKET-AUX"
-    },
-    {
-      "rule_id": "GENOME_CHAIN_BROKEN",
-      "severity": "FAIL",
-      "message": "Print genome parent attestation chain is broken."
-    }
-  ],
+  "doctor_findings": [],
   "timeline_summary": {
     "t0_h": 0,
     "critical_path": [
@@ -170,8 +158,8 @@
   ],
   "genome_chain": {
     "enabled": true,
-    "parts_attested": 2,
-    "chain_intact": false,
+    "parts_attested": 3,
+    "chain_intact": true,
     "records": [
       {
         "part_id": "PJ-THRUST-RING",
@@ -181,6 +169,11 @@
       {
         "part_id": "PJ-FEEDLINE-PRIMARY",
         "genome_hash": "38200aa4c920943b",
+        "parent": "PJ-THRUST-RING"
+      },
+      {
+        "part_id": "PJ-BRACKET-AUX",
+        "genome_hash": "97c50a0f87c8289b",
         "parent": "PJ-THRUST-RING"
       }
     ]
