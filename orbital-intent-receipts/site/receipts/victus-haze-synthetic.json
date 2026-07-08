@@ -1,0 +1,196 @@
+{
+  "receipt_version": "0.1.0",
+  "generated_at": "2026-07-08T07:07:46.521156+00:00",
+  "mission_id": "VH-SYN-001",
+  "scenario": "victus-haze-synthetic",
+  "intent_hash": "725c23f57fa2bf1f",
+  "policy_version": "2.3",
+  "effective_policy_version": "2.3",
+  "thread_latency_h": 62.0,
+  "custody_latency_h": 17.0,
+  "latency_budget_h": 72.0,
+  "verdict": "HOLD_FOR_REVIEW",
+  "doctor": {
+    "flags": [
+      {
+        "code": "COMMS_BLACKOUT_CRITICAL",
+        "severity": "critical",
+        "message": "Comms blackout overlaps critical autonomous burn window",
+        "at_h": 40.0,
+        "details": {}
+      },
+      {
+        "code": "HOTL_CHECKPOINT_MISSED",
+        "severity": "critical",
+        "message": "Required human-on-the-loop checkpoint skipped: pre_close_approach",
+        "at_h": 45.0,
+        "details": {
+          "checkpoint": "pre_close_approach"
+        }
+      }
+    ],
+    "pass_count": 0,
+    "warn_count": 0,
+    "critical_count": 2,
+    "healthy": false
+  },
+  "audit_trail": [
+    {
+      "at_h": 0.0,
+      "phase": "tasking",
+      "action": "Receive tasking order; lock intent manifest",
+      "details": {}
+    },
+    {
+      "at_h": 17.0,
+      "phase": "custody",
+      "action": "Acquire target custody (synthetic responsive launch)",
+      "details": {}
+    },
+    {
+      "at_h": 20.0,
+      "phase": "plan",
+      "action": "Mosaic plans sortie task graph",
+      "details": {}
+    },
+    {
+      "at_h": 40.0,
+      "phase": "execute_burn",
+      "action": "Autonomous proximity burn window",
+      "details": {
+        "comms_blackout": true
+      }
+    },
+    {
+      "at_h": 45.0,
+      "phase": "replan",
+      "action": "Autonomous replan after comms degradation",
+      "details": {
+        "hotl_checkpoint_skipped": "pre_close_approach"
+      }
+    },
+    {
+      "at_h": 61.0,
+      "phase": "characterize",
+      "action": "Multiaspect characterization complete",
+      "details": {}
+    },
+    {
+      "at_h": 62.0,
+      "phase": "debrief",
+      "action": "Thread debrief; imagery dissemination",
+      "details": {}
+    }
+  ],
+  "run": {
+    "mission_id": "VH-SYN-001",
+    "scenario": "victus-haze-synthetic",
+    "seed": 42,
+    "intent_hash": "725c23f57fa2bf1f",
+    "policy_version": "2.3",
+    "effective_policy_version": "2.3",
+    "task_graph": [
+      {
+        "id": "t1",
+        "label": "Lock intent manifest",
+        "depends_on": [],
+        "duration_h": 0.5
+      },
+      {
+        "id": "t2",
+        "label": "Custody acquisition",
+        "depends_on": [
+          "t1"
+        ],
+        "duration_h": 17.0
+      },
+      {
+        "id": "t3",
+        "label": "Sortie planning",
+        "depends_on": [
+          "t2"
+        ],
+        "duration_h": 3.0
+      },
+      {
+        "id": "t4",
+        "label": "Proximity burn",
+        "depends_on": [
+          "t3"
+        ],
+        "duration_h": 20.0
+      },
+      {
+        "id": "t5",
+        "label": "Characterization",
+        "depends_on": [
+          "t4"
+        ],
+        "duration_h": 21.0
+      },
+      {
+        "id": "t6",
+        "label": "Debrief",
+        "depends_on": [
+          "t5"
+        ],
+        "duration_h": 1.0
+      }
+    ],
+    "events": [
+      {
+        "at_h": 0.0,
+        "phase": "tasking",
+        "action": "Receive tasking order; lock intent manifest",
+        "details": {}
+      },
+      {
+        "at_h": 17.0,
+        "phase": "custody",
+        "action": "Acquire target custody (synthetic responsive launch)",
+        "details": {}
+      },
+      {
+        "at_h": 20.0,
+        "phase": "plan",
+        "action": "Mosaic plans sortie task graph",
+        "details": {}
+      },
+      {
+        "at_h": 40.0,
+        "phase": "execute_burn",
+        "action": "Autonomous proximity burn window",
+        "details": {
+          "comms_blackout": true
+        }
+      },
+      {
+        "at_h": 45.0,
+        "phase": "replan",
+        "action": "Autonomous replan after comms degradation",
+        "details": {
+          "hotl_checkpoint_skipped": "pre_close_approach"
+        }
+      },
+      {
+        "at_h": 61.0,
+        "phase": "characterize",
+        "action": "Multiaspect characterization complete",
+        "details": {}
+      },
+      {
+        "at_h": 62.0,
+        "phase": "debrief",
+        "action": "Thread debrief; imagery dissemination",
+        "details": {}
+      }
+    ],
+    "thread_latency_h": 62.0,
+    "custody_latency_h": 17.0,
+    "intent_drift": false,
+    "hotl_skipped": [
+      "pre_close_approach"
+    ],
+    "replan_at_h": 45.0
+  }
+}
