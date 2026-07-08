@@ -1,0 +1,194 @@
+{
+  "run_id": "c8bccfe8-d7c7-4f25-96d0-edf4c93ebce3",
+  "profile_id": "powder-to-pad-compiler",
+  "generated_at": "2026-07-08T23:04:52.091855+00:00",
+  "labels": [
+    "DEMO",
+    "NOT_RELATIVITY_OFFICIAL",
+    "SYNTHETIC_DAG",
+    "POWDER_TO_PAD_COMPILER"
+  ],
+  "constraints": {
+    "total": 2,
+    "passed": 0,
+    "failed": 2,
+    "warned": 0
+  },
+  "doctor_findings": [
+    {
+      "rule_id": "MISSING_PRINT_GENOME",
+      "severity": "FAIL",
+      "message": "Print job PJ-BRACKET-AUX missing powder lot / genome attestation.",
+      "node_id": "PJ-BRACKET-AUX"
+    },
+    {
+      "rule_id": "GENOME_CHAIN_BROKEN",
+      "severity": "FAIL",
+      "message": "Print genome parent attestation chain is broken."
+    }
+  ],
+  "timeline_summary": {
+    "t0_h": 0,
+    "critical_path": [
+      "DR-ROOT-STRUCTURE",
+      "PJ-THRUST-RING",
+      "PJ-FEEDLINE-PRIMARY",
+      "NDT-UT-FEEDLINE",
+      "FR-FEEDLINE",
+      "INT-STAGE-MATE",
+      "CHK-FACTORY-FINAL",
+      "TRN-PORT-LB",
+      "TRN-SEA-STENNIS"
+    ],
+    "critical_path_slack_h": 0.0,
+    "makes_transport_window": true,
+    "transport_end_h": 342.0,
+    "total_duration_h": 342.0,
+    "max_queue_wait_h": 0.0
+  },
+  "schedule": [
+    {
+      "node_id": "DR-ROOT-STRUCTURE",
+      "node_type": "design_release",
+      "earliest_start_h": 0.0,
+      "scheduled_start_h": 0.0,
+      "scheduled_end_h": 8.0,
+      "queue_wait_h": 0.0,
+      "slack_h": 0.0,
+      "on_critical_path": true
+    },
+    {
+      "node_id": "PJ-THRUST-RING",
+      "node_type": "print_job",
+      "earliest_start_h": 8.0,
+      "scheduled_start_h": 8.0,
+      "scheduled_end_h": 88.0,
+      "queue_wait_h": 0.0,
+      "slack_h": 0.0,
+      "on_critical_path": true
+    },
+    {
+      "node_id": "PJ-FEEDLINE-PRIMARY",
+      "node_type": "print_job",
+      "earliest_start_h": 88.0,
+      "scheduled_start_h": 88.0,
+      "scheduled_end_h": 144.0,
+      "queue_wait_h": 0.0,
+      "slack_h": 0.0,
+      "on_critical_path": true
+    },
+    {
+      "node_id": "PJ-BRACKET-AUX",
+      "node_type": "print_job",
+      "earliest_start_h": 88.0,
+      "scheduled_start_h": 88.0,
+      "scheduled_end_h": 112.0,
+      "queue_wait_h": 0.0,
+      "slack_h": 40.0,
+      "on_critical_path": false
+    },
+    {
+      "node_id": "NDT-UT-THRUST-RING",
+      "node_type": "ndt_gate",
+      "earliest_start_h": 88.0,
+      "scheduled_start_h": 88.0,
+      "scheduled_end_h": 94.0,
+      "queue_wait_h": 0.0,
+      "slack_h": 56.0,
+      "on_critical_path": false
+    },
+    {
+      "node_id": "NDT-UT-FEEDLINE",
+      "node_type": "ndt_gate",
+      "earliest_start_h": 144.0,
+      "scheduled_start_h": 144.0,
+      "scheduled_end_h": 150.0,
+      "queue_wait_h": 0.0,
+      "slack_h": 0.0,
+      "on_critical_path": true
+    },
+    {
+      "node_id": "FR-THRUST-RING",
+      "node_type": "flight_release",
+      "earliest_start_h": 94.0,
+      "scheduled_start_h": 94.0,
+      "scheduled_end_h": 96.0,
+      "queue_wait_h": 0.0,
+      "slack_h": 56.0,
+      "on_critical_path": false
+    },
+    {
+      "node_id": "FR-FEEDLINE",
+      "node_type": "flight_release",
+      "earliest_start_h": 150.0,
+      "scheduled_start_h": 150.0,
+      "scheduled_end_h": 152.0,
+      "queue_wait_h": 0.0,
+      "slack_h": 0.0,
+      "on_critical_path": true
+    },
+    {
+      "node_id": "INT-STAGE-MATE",
+      "node_type": "integration",
+      "earliest_start_h": 152.0,
+      "scheduled_start_h": 152.0,
+      "scheduled_end_h": 188.0,
+      "queue_wait_h": 0.0,
+      "slack_h": 0.0,
+      "on_critical_path": true
+    },
+    {
+      "node_id": "CHK-FACTORY-FINAL",
+      "node_type": "checkout",
+      "earliest_start_h": 188.0,
+      "scheduled_start_h": 188.0,
+      "scheduled_end_h": 196.0,
+      "queue_wait_h": 0.0,
+      "slack_h": 0.0,
+      "on_critical_path": true
+    },
+    {
+      "node_id": "TRN-PORT-LB",
+      "node_type": "transport",
+      "earliest_start_h": 196.0,
+      "scheduled_start_h": 196.0,
+      "scheduled_end_h": 202.0,
+      "queue_wait_h": 0.0,
+      "slack_h": 0.0,
+      "on_critical_path": true
+    },
+    {
+      "node_id": "TRN-SEA-STENNIS",
+      "node_type": "transport",
+      "earliest_start_h": 202.0,
+      "scheduled_start_h": 202.0,
+      "scheduled_end_h": 342.0,
+      "queue_wait_h": 0.0,
+      "slack_h": 0.0,
+      "on_critical_path": true
+    }
+  ],
+  "genome_chain": {
+    "enabled": true,
+    "parts_attested": 2,
+    "chain_intact": false,
+    "records": [
+      {
+        "part_id": "PJ-THRUST-RING",
+        "genome_hash": "90b97b0e33e908ea",
+        "parent": ""
+      },
+      {
+        "part_id": "PJ-FEEDLINE-PRIMARY",
+        "genome_hash": "38200aa4c920943b",
+        "parent": "PJ-THRUST-RING"
+      }
+    ]
+  },
+  "assumptions": [
+    "synthetic_part_graph",
+    "duration_bands_assumption",
+    "public_order_of_magnitude_only",
+    "scenario:powder_to_pad_genome_chain"
+  ]
+}
