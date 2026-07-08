@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-07-08T23:05:00.000000+00:00",
+  "plan_name": "broken-ripple-field",
+  "plan_path": "examples/demo/broken-ripple-field.yaml",
+  "sol": 1709,
+  "worthy": false,
+  "findings": [
+    {
+      "code": "forbidden_terrain",
+      "severity": "critical",
+      "message": "waypoint (45.0, 30.0) on 'sand_ripple' — SPOC/HiRISE terrain class forbids blind drive",
+      "waypoint": "ripple_trap",
+      "segment": null
+    }
+  ],
+  "summary": {
+    "critical": 1
+  },
+  "notes": [
+    "AI drive through sand ripple — classic VLM terrain-class mistake"
+  ]
+}

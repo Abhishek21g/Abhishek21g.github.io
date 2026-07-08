@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-07-08T23:12:00.000000+00:00",
+  "plan_name": "ref-jezero-drive",
+  "plan_path": "examples/demo/ref-jezero-drive.yaml",
+  "sol": 1707,
+  "worthy": true,
+  "findings": [],
+  "summary": {},
+  "notes": [
+    "Healthy AI-planned breadcrumb trail — sol 1707 class demo",
+    "12 segments under 10 m blind-drive limit",
+    "No keep-out or forbidden terrain violations"
+  ]
+}
