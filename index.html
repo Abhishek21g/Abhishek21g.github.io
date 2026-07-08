@@ -67,7 +67,8 @@
   .principle-card{border:1px solid rgba(20,17,13,0.10);border-radius:10px;padding:14px 16px;background:rgba(255,255,255,0.42);margin-bottom:10px;}
   .principle-card strong{display:block;font-family:'Instrument Sans','IBM Plex Sans',sans-serif;font-size:14px;color:#14110D;margin-bottom:6px;}
   .principle-card span{font-family:'Instrument Sans','IBM Plex Sans',sans-serif;font-size:13px;line-height:1.6;color:#5B5648;}
-  .life-pill{display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:11px;padding:8px 12px;border-radius:999px;background:rgba(226,98,27,0.10);color:#14110D;border:1px solid rgba(226,98,27,0.22);text-decoration:none;margin:0 8px 8px 0;}
+  .life-pill{display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:11px;padding:8px 12px;border-radius:999px;background:rgba(226,98,27,0.10);color:#14110D;border:1px solid rgba(226,98,27,0.22);text-decoration:none;margin:0 8px 8px 0;cursor:pointer;}
+  button.life-pill{appearance:none;}
   .life-pill:hover{background:rgba(226,98,27,0.18);}
   .nd-roman{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#E2621B;}
   .nd-heading{font-family:'Instrument Serif',Georgia,serif;font-weight:400;letter-spacing:0;line-height:.9;color:#14110D;}
@@ -566,8 +567,8 @@
 <h2 class="about-name nd-heading" style="font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:42px;line-height:0.96;color:#14110D;margin:0;">Abhishek<br/>Enaguthi</h2>
 </div>
 </div>
-<p class="about-copy" style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:17px;line-height:1.62;color:#3B3529;margin:0 0 16px;">I live in the layer underneath the framework: compiler backends, kernel-level debugging, distributed systems at HPC scale.</p>
-<p class="about-copy" style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:16px;line-height:1.7;color:#5B5648;margin:0 0 16px;">Outside the terminal: surfing, skydiving, and content as <a href="https://instagram.com/rollingwithabhi" target="_blank" rel="noopener noreferrer" style="color:#E2621B;text-decoration:none;">@rollingwithabhi</a>. Open <button onClick="{{ openPrinciples }}" style="appearance:none;border:0;background:transparent;color:#E2621B;font:inherit;padding:0;cursor:pointer;text-decoration:underline;">Principles.md</button> for TLDR + beliefs.</p>
+<p class="about-copy" style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:17px;line-height:1.62;color:#3B3529;margin:0 0 16px;">I work on compilers, kernel debug, and distributed HPC — the parts of the stack that decide whether the fast demo actually runs.</p>
+<p class="about-copy" style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:16px;line-height:1.7;color:#5B5648;margin:0 0 16px;">Outside the terminal: <button type="button" onClick="{{ openGallerySurf }}" style="appearance:none;border:0;background:transparent;color:#E2621B;font:inherit;padding:0;cursor:pointer;text-decoration:underline;">surfing</button>, <button type="button" onClick="{{ openGallerySkydive }}" style="appearance:none;border:0;background:transparent;color:#E2621B;font:inherit;padding:0;cursor:pointer;text-decoration:underline;">skydiving</button>, and content as <a href="https://instagram.com/rollingwithabhi" target="_blank" rel="noopener noreferrer" style="color:#E2621B;text-decoration:none;">@rollingwithabhi</a>. Open <button onClick="{{ openPrinciples }}" style="appearance:none;border:0;background:transparent;color:#E2621B;font:inherit;padding:0;cursor:pointer;text-decoration:underline;">Principles.md</button> for TLDR + beliefs.</p>
 <p class="about-copy" style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:16px;line-height:1.7;color:#5B5648;margin:0 0 28px;">M.S. in Artificial Intelligence (Thesis) &amp; B.S. Computer Science (AI), Minor in Finance — Oregon State University, expected June 2026.</p>
 <div class="about-stats" style="display:flex;gap:44px;margin-bottom:28px;">
 <div><div style="font-family:'Instrument Serif',Georgia,serif;font-size:46px;color:#E2621B;">4.0</div><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#5B5648;margin-top:4px;">GPA · M.S. Artificial Intelligence</div></div>
@@ -835,8 +836,8 @@
 </div>
 <div class="window-body blog-layout" style="padding:20px;display:flex;gap:18px;background:#F6F2EA;">
 <div class="blog-list" style="width:220px;flex:none;display:flex;flex-direction:column;gap:10px;overflow-y:auto;">
-<sc-for list="{{ blogPosts }}" as="post" hint-placeholder-count="2">
-<div class="blog-list-item" style="display:block;border:1px solid {{ post.borderColor }};border-radius:8px;padding:12px;background:{{ post.background }};">
+<sc-for list="{{ blogPosts }}" as="post" hint-placeholder-count="4">
+<div class="blog-list-item" onClick="{{ post.select }}" style="display:block;border:1px solid {{ post.borderColor }};border-radius:8px;padding:12px;background:{{ post.background }};cursor:pointer;">
 <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#E2621B;margin-bottom:6px;">{{ post.date }}</div>
 <div style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-weight:600;font-size:13px;line-height:1.3;color:#14110D;">{{ post.title }}</div>
 <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#7A7162;margin-top:8px;">{{ post.meta }}</div>
@@ -922,8 +923,8 @@
 <div class="nd-roman" style="margin:24px 0 12px;">Beyond the terminal</div>
 <p style="font-family:'Instrument Sans','IBM Plex Sans',sans-serif;font-size:14px;line-height:1.65;color:#5B5648;margin:0 0 14px;">Same energy in the water, the sky, and behind a camera — calculated risk, presence, and storytelling.</p>
 <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px;">
-<span class="life-pill">🏄 surfing — PNW coast</span>
-<span class="life-pill">🪂 skydiving — freefall focus</span>
+<button type="button" class="life-pill" onClick="{{ openGallerySurf }}">🏄 surfing — PNW coast</button>
+<button type="button" class="life-pill" onClick="{{ openGallerySkydive }}">🪂 skydiving — freefall focus</button>
 <a class="life-pill" href="https://instagram.com/rollingwithabhi" target="_blank" rel="noopener noreferrer">📷 @rollingwithabhi — content</a>
 </div>
 </div>
@@ -1031,14 +1032,14 @@ class Component extends DCLogic {
     { title: "Artifacts over vibes", body: "If it isn't reproducible, it didn't happen. Plan → run → doctor → report." },
     { title: "Measure before you optimize", body: "Profile first. Compiler and kernel work rewards evidence, not intuition alone." },
     { title: "Ship receipts, not hype", body: "Demos are fine; audited outputs and failing tests are better." },
-    { title: "Systems beat framework churn", body: "I live underneath the framework — IRs, runtimes, memory, scheduling." },
+    { title: "Systems beat framework churn", body: "Frameworks rotate. IRs, runtimes, memory, and scheduling are what you still own when the README changes." },
     { title: "Curiosity compounds", body: "Surfing, skydiving, and content keep the same muscle sharp: presence under pressure." }
   ];
 
   commands = {
     help: "available commands:\n\n  ls            list files\n  cd <dir>      move around\n  pwd           print current path\n  cat <file>    read a file\n  tree          map the desktop\n  tldr          short bio\n  principles    open Principles.md\n  today/now     open daily update\n  updates       show update ideas\n  agent         wake the local agent\n  tokens        show context spend\n  graph         show activity graphs\n  whoami        who i am\n  resume        open the credential packet\n  gallery/blog  open apps\n  exit/close    close terminal\n  clear         clear the screen",
     whoami: "abhishek_enaguthi\ncpu architecture & systems engineer — compiler backends, hpc performance\nM.S. Artificial Intelligence · B.S. Computer Science, Oregon State University",
-    about: "M.S. Artificial Intelligence (Thesis) + B.S. Computer Science (AI), Minor in Finance — Oregon State University. GPA 4.0 / 3.95.\nI live in the layer underneath the framework — compiler backends, kernel-level debug, distributed HPC systems.\nSecured a $1M joint research grant from AMD + IBM to advance heterogeneous GPU compiler tech.",
+    about: "M.S. Artificial Intelligence (Thesis) + B.S. Computer Science (AI), Minor in Finance — Oregon State University. GPA 4.0 / 3.95.\nI work on compilers, kernel debug, and distributed HPC — the parts of the stack that decide whether the fast demo actually runs.\nSecured a $1M joint research grant from AMD + IBM to advance heterogeneous GPU compiler tech.",
     experience: "[Mar 2024 – Present] AI Research Engineer — Research Advanced Computing, OSU\n  - secured $1M grant from AMD + IBM for heterogeneous GPU compiler tech\n  - published compiler research enabling ROCm cross-compilation to x86\n  - led team to SC25, top 3/50+ in the IndySCC student cluster competition\n\n[Jun–Sep 2025] LLM Research Intern — University of Washington\n  - built multi-turn synthetic QA generation for NVIDIA NeMo\n  - deployed LLaMA-3 70B + Mistral via vLLM on NVIDIA H200 clusters\n\n[Jun 2024 – Present] Systems Software Engineer — CEOAS, OSU\n  - presented a physics-based digital twin at SC24 (NVIDIA Omniverse + Isaac Sim)\n  - wrote LLVM passes + kernel optimizations, 30% perf boost\n\n[Mar 2024 – Present] HPC Performance Engineer — OSU\n  - automated SLURM RPC + disk monitoring, adopted by 100+ daily users\n  - 20% faster collective comm, 15% higher memory throughput (NCCL/MPI)",
     projects: "mocki/                    multi-agent AI interview coaching — live at mocki.dev\nleetfut/                  football scouting bureau — live at leetfut.mocki.dev\nbluestart/                ROCm on IBM POWER9, CUDA via HIPify\ncompile-your-language/    from-scratch language + compiler techniques guide\ntreehacks-intersystems/   GenAI research assistant, InterSystems IRIS vector search\nrag-pipeline/             235K embeddings, 65K Wikipedia articles, PyTorch DDP across multi-GPU nodes\n\ntype 'open <name>' for more (e.g. 'open mocki')",
     contact: "email     enaguthiabhishek@gmail.com\nlinkedin  linkedin.com/in/abhishekenaguthi\ngithub    github.com/Abhishek21g\ninstagram @rollingwithabhi",
@@ -1074,8 +1075,8 @@ class Component extends DCLogic {
   shellFiles = {
     '~': ['today.txt', 'about.txt', 'principles.md', 'experience.log', 'contact.txt', 'projects/', 'gallery/', 'blog/', 'resume.txt', 'agent/'],
     '~/projects': ['mocki.md', 'leetfut.md', 'bluestart.md', 'compile-your-language.md', 'treehacks-intersystems.md', 'rag-pipeline.md'],
-    '~/gallery': ['sc24-booth.jpg', 'aiweek-wide.jpg', 'portrait.jpg'],
-    '~/blog': ['supercomputing-2024.md', 'lightning-talk.md'],
+    '~/gallery': ['treehacks-karpathy-2023.jpg', 'img_9530-2.jpg', 'img_5446.jpg', 'img_4193-2.jpg', 'img_9799.jpg', 'img_9593.jpg', 'img_4700.jpg', 'img_4698.jpg', 'img_4695.jpg', 'img_5729.jpg', 'img_2683.jpg', 'img_9125.jpg', 'img_1292.jpg', 'sc24-booth.jpg'],
+    '~/blog': ['gtc-2025.md', 'treehacks-karpathy.md', 'lightning-talk.md', 'supercomputing-2024.md'],
     '~/agent': ['README.md', 'status.json', 'tokens.log', 'graph.json', 'workflow.md', 'suggestions.md', 'chat']
   };
 
@@ -1205,8 +1206,10 @@ class Component extends DCLogic {
       'compile-your-language.md': this.openTargets['compile-your-language'],
       'treehacks-intersystems.md': this.openTargets['treehacks-intersystems'],
       'rag-pipeline.md': this.openTargets['rag-pipeline'],
-      'supercomputing-2024.md': this.blogData[1].title + "\n" + this.blogData[1].paragraphs.join("\n\n"),
-      'lightning-talk.md': this.blogData[0].title + "\n" + this.blogData[0].paragraphs.join("\n\n")
+      'gtc-2025.md': this.blogData[0].title + "\n" + this.blogData[0].paragraphs.join("\n\n"),
+      'treehacks-karpathy.md': this.blogData[1].title + "\n" + this.blogData[1].paragraphs.join("\n\n"),
+      'lightning-talk.md': this.blogData[2].title + "\n" + this.blogData[2].paragraphs.join("\n\n"),
+      'supercomputing-2024.md': this.blogData[3].title + "\n" + this.blogData[3].paragraphs.join("\n\n")
     };
     if (file === 'resume.txt') this.openResume();
     if (file === 'principles.md') this.openPrinciples();
@@ -1640,6 +1643,13 @@ class Component extends DCLogic {
   openExperience = () => this.openWindow('experience');
   openProjects = () => this.openWindow('projects');
   openGallery = () => this.openWindow('gallery');
+  openGalleryPhoto = (src) => {
+    const i = this.galleryData.findIndex((p) => p.src === src);
+    if (i >= 0) this.setState({ galleryIndex: i }, () => this.openWindow('gallery'));
+    else this.openWindow('gallery');
+  };
+  openGallerySurf = () => this.openGalleryPhoto('/media/img_5446.jpg');
+  openGallerySkydive = () => this.openGalleryPhoto('/media/img_9530-2.jpg');
   openContact = () => this.openWindow('contact');
   openResume = () => this.openWindow('resume');
   openTerminal = () => {
@@ -1732,6 +1742,19 @@ class Component extends DCLogic {
   closePhoto = () => this.setState({ selectedPhoto: null, photoCaption: '' });
 
   galleryData = [
+    { src: '/media/treehacks-karpathy-2023.jpg', caption: 'TreeHacks 2023 — Andrej Karpathy, talking LLMs + early project ideas' },
+    { src: '/media/img_9530-2.jpg', caption: 'Tandem skydive — freefall over the valley' },
+    { src: '/media/img_5446.jpg', caption: 'Surf morning on the PNW coast — orange softboard, grey skies' },
+    { src: '/media/img_4193-2.jpg', caption: 'GTC — photo with Jensen Huang (NVIDIA)' },
+    { src: '/media/img_9799.jpg', caption: 'GTC 2025 with Nader Khalil (NVIDIA)' },
+    { src: '/media/img_9593.jpg', caption: '#GTC25 sign outside the San Jose convention center' },
+    { src: '/media/img_4700.jpg', caption: 'Oregon State — Class of 2026 portrait in the CIC atrium' },
+    { src: '/media/img_4698.jpg', caption: 'Johnson Hall, OSU — graduation portrait' },
+    { src: '/media/img_4695.jpg', caption: 'OSU graduation — Class of 2026 on campus' },
+    { src: '/media/img_5729.jpg', caption: 'BeaverHacks — team photo with NVIDIA guest' },
+    { src: '/media/img_2683.jpg', caption: 'BeaverHacks — on stage with the team' },
+    { src: '/media/img_9125.jpg', caption: 'BeaverHacks — walking on stage' },
+    { src: '/media/img_1292.jpg', caption: 'BeaverHacks — presentation on stage' },
     { src: '/media/sc24-booth.jpg', caption: "Link Oregon booth, SC24 — OSU's first year at the conference" },
     { src: '/media/sc24-vr.jpg', caption: 'Demoing the Omniverse digital twin on the show floor' },
     { src: '/media/sc24-robot.jpg', caption: 'Supercomputing 2024 show floor, Atlanta' },
@@ -1759,6 +1782,32 @@ class Component extends DCLogic {
   setGalleryIndex = (i) => this.setState({ galleryIndex: i });
 
   blogData = [
+    {
+      title: 'GTC 2025 — hallway GPUs and the compiler crowd',
+      date: 'March 2025',
+      meta: 'NVIDIA GTC · San Jose',
+      hero: '/media/img_9799.jpg',
+      tags: ['gtc', 'nvidia', 'gpu'],
+      paragraphs: [
+        'GTC is one of those weeks where every conversation eventually lands on memory bandwidth, kernel fusion, or why the benchmark lied.',
+        'Caught up with folks from NVIDIA — including Nader Khalil — and traded notes on where ROCm, inference stacks, and real HPC deployments are actually hurting.',
+        'The #GTC25 campus shots are the tourist version. The useful part was the hallway debugging: what people ship, what breaks at scale, and what still needs a receipt before you trust it.',
+        'Left with a longer list of experiments to run and a shorter list of things I pretend are solved.'
+      ]
+    },
+    {
+      title: 'TreeHacks 2023 — five minutes with Karpathy on LLMs',
+      date: 'February 2023',
+      meta: 'TreeHacks · Stanford',
+      hero: '/media/treehacks-karpathy-2023.jpg',
+      tags: ['treehacks', 'llm', 'karpathy'],
+      paragraphs: [
+        'TreeHacks 2023 was early enough that “LLM product” still meant a clever demo, not a category. I was hacking on ideas around language models and systems — half research brain, half sleep deprivation.',
+        'Ran into Andrej Karpathy in a hallway and got a few minutes to talk through what I was building and where I thought models were heading. No pitch deck — just trade-offs: context, data, evals, and what breaks when you leave the notebook.',
+        'What stuck wasn’t a single quote. It was the reminder that the interesting layer is rarely the model card — it’s the loop around it: data, tooling, failure modes, and whether anyone can reproduce your result.',
+        'That conversation nudged me toward receipts-first work: ship something small, measure it, and be honest about what still fails. Still the same instinct behind the compiler and HPC stuff today.'
+      ]
+    },
     {
       title: 'AI Week: Digital Twins, the CIC, and Our Omniverse Demo',
       date: 'April 2025',
@@ -1797,7 +1846,7 @@ class Component extends DCLogic {
   osCommands = {
     help: "commands:\n\n  ls            list files\n  cd <dir>      move around\n  pwd           print current path\n  cat <file>    read a file\n  tree          map the desktop\n  tldr          short bio\n  principles    open Principles.md\n  today/now     open daily update\n  updates       show update ideas\n  agent         wake the local agent\n  tokens        show context spend\n  graph         show activity graphs\n  whoami        who i am\n  resume        open the credential packet\n  gallery/blog  open apps\n  exit/close    close terminal\n  clear         clear the screen",
     whoami: "abhishek_enaguthi\ncpu architecture & systems engineer — compiler backends, hpc performance\nM.S. Artificial Intelligence · B.S. Computer Science, Oregon State University",
-    about: "M.S. Artificial Intelligence (Thesis) + B.S. Computer Science (AI), Minor in Finance — Oregon State University. GPA 4.0 / 3.95.\nI live in the layer underneath the framework — compiler backends, kernel-level debug, distributed HPC systems.\nSecured a $1M joint research grant from AMD + IBM to advance heterogeneous GPU compiler tech.",
+    about: "M.S. Artificial Intelligence (Thesis) + B.S. Computer Science (AI), Minor in Finance — Oregon State University. GPA 4.0 / 3.95.\nI work on compilers, kernel debug, and distributed HPC — the parts of the stack that decide whether the fast demo actually runs.\nSecured a $1M joint research grant from AMD + IBM to advance heterogeneous GPU compiler tech.",
     experience: "[Mar 2024 – Present] AI Research Engineer — Research Advanced Computing, OSU\n  - secured $1M grant from AMD + IBM for heterogeneous GPU compiler tech\n  - published compiler research enabling ROCm cross-compilation to x86\n  - led team to SC25, top 3/50+ in the IndySCC student cluster competition\n\n[Jun–Sep 2025] LLM Research Intern — University of Washington\n  - built multi-turn synthetic QA generation for NVIDIA NeMo\n  - deployed LLaMA-3 70B + Mistral via vLLM on NVIDIA H200 clusters\n\n[Jun 2024 – Present] Systems Software Engineer — CEOAS, OSU\n  - presented a physics-based digital twin at SC24 (NVIDIA Omniverse + Isaac Sim)\n  - wrote LLVM passes + kernel optimizations, 30% perf boost\n\n[Mar 2024 – Present] HPC Performance Engineer — OSU\n  - automated SLURM RPC + disk monitoring, adopted by 100+ daily users\n  - 20% faster collective comm, 15% higher memory throughput (NCCL/MPI)",
     projects: "mocki/                    multi-agent AI interview coaching — live at mocki.dev\nleetfut/                  football scouting bureau — live at leetfut.mocki.dev\nbluestart/                ROCm on IBM POWER9, CUDA via HIPify\ncompile-your-language/    from-scratch language + compiler techniques guide\ntreehacks-intersystems/   GenAI research assistant, InterSystems IRIS vector search\nrag-pipeline/             235K embeddings, 65K Wikipedia articles, PyTorch DDP across multi-GPU nodes\n\ntype 'open <name>' for more (e.g. 'open mocki')",
     contact: "email     enaguthiabhishek@gmail.com\nlinkedin  linkedin.com/in/abhishekenaguthi\ngithub    github.com/Abhishek21g\ninstagram @rollingwithabhi",
@@ -1957,6 +2006,8 @@ class Component extends DCLogic {
       openExperience: this.openExperience,
       openProjects: this.openProjects,
       openGallery: this.openGallery,
+      openGallerySurf: this.openGallerySurf,
+      openGallerySkydive: this.openGallerySkydive,
       openContact: this.openContact,
       openResume: this.openResume,
       openTerminal: this.openTerminal,
