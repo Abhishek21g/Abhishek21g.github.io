@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Print-to-Launch Ops Receipts — compile additive manufacturing lifecycle into auditable flight-release proof. Open CLI + live demo."
+    />
+    <meta property="og:url" content="https://enaguthi.com/relativity-ops-receipts/site/" />
+    <title>Print-to-Launch Ops Receipts</title>
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top">
+        <span class="brand-mark">PL</span>
+        <span>Print-to-Launch Ops Receipts</span>
+      </a>
+      <nav class="nav">
+        <a href="#problem">Problem</a>
+        <a href="#demo">Demo</a>
+        <a href="#cli">CLI</a>
+        <a href="https://github.com/Abhishek21g/relativity-ops-receipts">GitHub</a>
+      </nav>
+      <a class="header-action" href="https://github.com/Abhishek21g/relativity-ops-receipts">View GitHub</a>
+    </header>
+
+    <main id="top" class="shell">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Abhishek Enaguthi · July 2026 · independent demo</p>
+          <h1>Compile powder-to-pad factory lifecycle into flight-release receipts.</h1>
+          <p>
+            Terrestrial Software's Factory Platform orchestrates multi-week additive manufacturing DAGs —
+            print cells, NDT gates, flight release, stage integration, Stennis transport. This workbench
+            runs <strong>plan → run → doctor → report</strong> on a synthetic Terran-R-shaped graph.
+            Inspired by Relativity Space's public story; not affiliated.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#demo">Run live demo</a>
+            <a class="btn" href="https://github.com/Abhishek21g/relativity-ops-receipts">View GitHub</a>
+          </div>
+          <dl class="proof-grid">
+            <div><dt>24</dt><dd>passing tests</dd></div>
+            <div><dt>22</dt><dd>doctor rules</dd></div>
+            <div><dt>1,455</dt><dd>parts/mo (public ref)</dd></div>
+          </dl>
+        </div>
+        <aside class="hero-panel">
+          <div class="panel-top">
+            <span><span class="status-dot"></span><span id="heroProfile">stenis-ship</span></span>
+            <span>synthetic DAG</span>
+          </div>
+          <div class="terminal">
+            <span class="prompt">$</span> relops plan --profile examples/stennis-ship.yaml<br />
+            <span class="prompt">$</span> relops run --manifest .relops/manifest.json<br />
+            <span class="prompt">$</span> relops doctor --receipt .relops/receipt.json
+          </div>
+          <div class="demo-metrics">
+            <article><span>Critical slack</span><strong id="heroSlack">0h</strong></article>
+            <article><span>Doctor findings</span><strong id="heroFindings">5</strong></article>
+            <article><span>Labels</span><strong style="font-size:.85rem">DEMO</strong></article>
+          </div>
+        </aside>
+      </section>
+
+      <section class="section" id="problem">
+        <h2>The impossible coordination problem</h2>
+        <p class="section-lead">
+          Relativity's bet is software-defined additive manufacturing at vehicle scale — 100× fewer parts,
+          Stargate print cells, flight-part release waves, stage ship to Stennis. The Terrestrial Software
+          team must prove the digital thread from powder → print → NDT → mate → pad stays compilable at factory rate.
+          This demo shows the receipt discipline — all synthetic, order-of-magnitude only.
+        </p>
+      </section>
+
+      <section class="section" id="demo">
+        <h2>Live receipt demo</h2>
+        <p class="section-lead">Bundled scenarios from the open CLI — download the full receipt JSON.</p>
+        <div class="demo-grid">
+          <div class="demo-controls">
+            <label for="profileSelect">Scenario profile</label>
+            <select id="profileSelect">
+              <option value="stennis-ship">stennis-ship — S2 factory → Stennis (May 2026 shape)</option>
+              <option value="powder-to-pad-compiler">powder-to-pad-compiler — genome chain mode</option>
+            </select>
+            <button class="btn btn-primary" id="downloadBtn" type="button">Download receipt JSON</button>
+          </div>
+          <div>
+            <div class="demo-metrics">
+              <article><span>Critical slack</span><strong id="metricSlack">—</strong></article>
+              <article><span>Transport window</span><strong id="metricTransport">—</strong></article>
+              <article><span>Findings</span><strong id="metricFindings">—</strong></article>
+            </div>
+            <div class="doctor-list" id="doctorList"></div>
+            <pre class="preview" id="receiptPreview" style="margin-top:14px">Loading…</pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="cli">
+        <h2>CLI</h2>
+        <p class="section-lead">Install from GitHub and run the full pipeline locally.</p>
+        <pre class="cli-block">pip install git+https://github.com/Abhishek21g/relativity-ops-receipts.git
+relops plan --profile examples/stennis-ship.yaml
+relops run  --manifest .relops/manifest.json
+relops doctor --receipt .relops/receipt.json
+relops report --receipt .relops/receipt.json --json
+
+# Powder-to-Pad compiler mode
+relops plan --profile examples/powder-to-pad-compiler.yaml --compile-genome
+relops run  --manifest .relops/manifest.json --compile-genome
+relops doctor --receipt .relops/receipt.json --strict</pre>
+      </section>
+
+      <footer class="footer">
+        <p>
+          Independent demo by <a href="https://enaguthi.com">Abhishek Enaguthi</a>.
+          Labels: DEMO · NOT_RELATIVITY_OFFICIAL · SYNTHETIC_DAG.
+          Not affiliated with Relativity Space. No proprietary Stargate or ITAR data.
+        </p>
+      </footer>
+    </main>
+    <script src="./app.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,265 @@
+{
+  "run_id": "f00c7217-a864-480b-8da7-fba4fba8b251",
+  "profile_id": "stennis-ship",
+  "generated_at": "2026-07-08T23:04:51.874936+00:00",
+  "labels": [
+    "DEMO",
+    "NOT_RELATIVITY_OFFICIAL",
+    "SYNTHETIC_DAG"
+  ],
+  "constraints": {
+    "total": 5,
+    "passed": 0,
+    "failed": 3,
+    "warned": 2
+  },
+  "doctor_findings": [
+    {
+      "rule_id": "PRINT_QUEUE_OVERRUN",
+      "severity": "FAIL",
+      "message": "Print queue wait 122.0h exceeds max 72.0h.",
+      "node_id": "PJ-FEEDLINE-LOX",
+      "observed": 122.0,
+      "threshold": 72.0
+    },
+    {
+      "rule_id": "AS_BUILT_REVISION_DRIFT",
+      "severity": "FAIL",
+      "message": "As-built rev R4 != design rev R3 on PJ-THRUST-RING.",
+      "node_id": "PJ-THRUST-RING"
+    },
+    {
+      "rule_id": "GATE_SIGNOFF_MISSING",
+      "severity": "FAIL",
+      "message": "Node CHK-S2-FACTORY-FINAL missing signoffs: ops-lead.",
+      "node_id": "CHK-S2-FACTORY-FINAL"
+    },
+    {
+      "rule_id": "RELEASE_WAVE_BACKLOG",
+      "severity": "WARN",
+      "message": "Synthetic release-wave queue pressure 20.3 exceeds max 12.0.",
+      "observed": 20.333333333333332,
+      "threshold": 12.0
+    },
+    {
+      "rule_id": "TEST_STAND_NOT_READY",
+      "severity": "WARN",
+      "message": "Stage arrives at Stennis before test stand prep completes.",
+      "node_id": "TRN-SEA-STENNIS"
+    }
+  ],
+  "timeline_summary": {
+    "t0_h": 0,
+    "critical_path": [
+      "DR-S2-STRUCTURE-PKG",
+      "PJ-THRUST-RING",
+      "NDT-UT-THRUST-RING",
+      "FR-THRUST-RING",
+      "INT-THRUST-STRUCTURE",
+      "INT-FLUIDS-SYSTEMS",
+      "INT-RACEWAY-HARDWARE",
+      "CHK-S2-FACTORY-FINAL",
+      "TRN-PORT-LB",
+      "TRN-SEA-STENNIS"
+    ],
+    "critical_path_slack_h": 0.0,
+    "makes_transport_window": true,
+    "transport_end_h": 418.0,
+    "total_duration_h": 520.0,
+    "max_queue_wait_h": 122.0
+  },
+  "schedule": [
+    {
+      "node_id": "DR-S2-STRUCTURE-PKG",
+      "node_type": "design_release",
+      "earliest_start_h": 0.0,
+      "scheduled_start_h": 0.0,
+      "scheduled_end_h": 24.0,
+      "queue_wait_h": 0.0,
+      "slack_h": 102.0,
+      "on_critical_path": true
+    },
+    {
+      "node_id": "DR-S2-AVIONICS-PKG",
+      "node_type": "design_release",
+      "earliest_start_h": 0.0,
+      "scheduled_start_h": 0.0,
+      "scheduled_end_h": 16.0,
+      "queue_wait_h": 0.0,
+      "slack_h": 276.0,
+      "on_critical_path": false
+    },
+    {
+      "node_id": "DR-S2-FLUIDS-PKG",
+      "node_type": "design_release",
+      "earliest_start_h": 0.0,
+      "scheduled_start_h": 0.0,
+      "scheduled_end_h": 12.0,
+      "queue_wait_h": 0.0,
+      "slack_h": 228.0,
+      "on_critical_path": false
+    },
+    {
+      "node_id": "PJ-THRUST-RING",
+      "node_type": "print_job",
+      "earliest_start_h": 24.0,
+      "scheduled_start_h": 24.0,
+      "scheduled_end_h": 134.0,
+      "queue_wait_h": 0.0,
+      "slack_h": 102.0,
+      "on_critical_path": true
+    },
+    {
+      "node_id": "PJ-AFT-DOME",
+      "node_type": "print_job",
+      "earliest_start_h": 24.0,
+      "scheduled_start_h": 24.0,
+      "scheduled_end_h": 120.0,
+      "queue_wait_h": 0.0,
+      "slack_h": 116.0,
+      "on_critical_path": false
+    },
+    {
+      "node_id": "PJ-FEEDLINE-LOX",
+      "node_type": "print_job",
+      "earliest_start_h": 12.0,
+      "scheduled_start_h": 134.0,
+      "scheduled_end_h": 182.0,
+      "queue_wait_h": 122.0,
+      "slack_h": 106.0,
+      "on_critical_path": false
+    },
+    {
+      "node_id": "NDT-UT-THRUST-RING",
+      "node_type": "ndt_gate",
+      "earliest_start_h": 134.0,
+      "scheduled_start_h": 134.0,
+      "scheduled_end_h": 142.0,
+      "queue_wait_h": 0.0,
+      "slack_h": 102.0,
+      "on_critical_path": true
+    },
+    {
+      "node_id": "NDT-UT-AFT-DOME",
+      "node_type": "ndt_gate",
+      "earliest_start_h": 120.0,
+      "scheduled_start_h": 120.0,
+      "scheduled_end_h": 128.0,
+      "queue_wait_h": 0.0,
+      "slack_h": 116.0,
+      "on_critical_path": false
+    },
+    {
+      "node_id": "FR-THRUST-RING",
+      "node_type": "flight_release",
+      "earliest_start_h": 142.0,
+      "scheduled_start_h": 142.0,
+      "scheduled_end_h": 146.0,
+      "queue_wait_h": 0.0,
+      "slack_h": 102.0,
+      "on_critical_path": true
+    },
+    {
+      "node_id": "FR-AFT-DOME",
+      "node_type": "flight_release",
+      "earliest_start_h": 128.0,
+      "scheduled_start_h": 128.0,
+      "scheduled_end_h": 132.0,
+      "queue_wait_h": 0.0,
+      "slack_h": 116.0,
+      "on_critical_path": false
+    },
+    {
+      "node_id": "INT-THRUST-STRUCTURE",
+      "node_type": "integration",
+      "earliest_start_h": 146.0,
+      "scheduled_start_h": 146.0,
+      "scheduled_end_h": 186.0,
+      "queue_wait_h": 0.0,
+      "slack_h": 102.0,
+      "on_critical_path": true
+    },
+    {
+      "node_id": "INT-FLUIDS-SYSTEMS",
+      "node_type": "integration",
+      "earliest_start_h": 186.0,
+      "scheduled_start_h": 186.0,
+      "scheduled_end_h": 218.0,
+      "queue_wait_h": 0.0,
+      "slack_h": 102.0,
+      "on_critical_path": true
+    },
+    {
+      "node_id": "INT-AVIONICS-HARNESSES",
+      "node_type": "integration",
+      "earliest_start_h": 146.0,
+      "scheduled_start_h": 146.0,
+      "scheduled_end_h": 174.0,
+      "queue_wait_h": 0.0,
+      "slack_h": 146.0,
+      "on_critical_path": false
+    },
+    {
+      "node_id": "INT-RACEWAY-HARDWARE",
+      "node_type": "integration",
+      "earliest_start_h": 218.0,
+      "scheduled_start_h": 218.0,
+      "scheduled_end_h": 238.0,
+      "queue_wait_h": 0.0,
+      "slack_h": 102.0,
+      "on_critical_path": true
+    },
+    {
+      "node_id": "CHK-S2-FACTORY-FINAL",
+      "node_type": "checkout",
+      "earliest_start_h": 238.0,
+      "scheduled_start_h": 238.0,
+      "scheduled_end_h": 250.0,
+      "queue_wait_h": 0.0,
+      "slack_h": 102.0,
+      "on_critical_path": true
+    },
+    {
+      "node_id": "TRN-PORT-LB",
+      "node_type": "transport",
+      "earliest_start_h": 250.0,
+      "scheduled_start_h": 250.0,
+      "scheduled_end_h": 258.0,
+      "queue_wait_h": 0.0,
+      "slack_h": 102.0,
+      "on_critical_path": true
+    },
+    {
+      "node_id": "TRN-SEA-STENNIS",
+      "node_type": "transport",
+      "earliest_start_h": 258.0,
+      "scheduled_start_h": 258.0,
+      "scheduled_end_h": 418.0,
+      "queue_wait_h": 0.0,
+      "slack_h": 102.0,
+      "on_critical_path": true
+    },
+    {
+      "node_id": "TSP-A2-ECS-READY",
+      "node_type": "test_stand_prep",
+      "earliest_start_h": 0.0,
+      "scheduled_start_h": 0.0,
+      "scheduled_end_h": 520.0,
+      "queue_wait_h": 0.0,
+      "slack_h": 0.0,
+      "on_critical_path": false
+    }
+  ],
+  "genome_chain": {
+    "enabled": false,
+    "parts_attested": 0,
+    "chain_intact": null,
+    "records": []
+  },
+  "assumptions": [
+    "synthetic_part_graph",
+    "duration_bands_assumption",
+    "public_order_of_magnitude_only",
+    "scenario:second_stage_factory_to_stennis"
+  ]
+}
