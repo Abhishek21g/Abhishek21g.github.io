@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CADRE Mission Oracle — preflight lunar multi-agent autonomy</title>
+  <meta name="description" content="Preflight CADRE-style 3-rover lunar mission plans — leader election, thermal midday, power budgets, GPR formation — before sim or HWIT." />
+  <meta property="og:title" content="CADRE Mission Oracle" />
+  <meta property="og:description" content="Validate distributed lunar rover autonomy plans locally with receipt JSON." />
+  <meta property="og:url" content="https://enaguthi.com/cadre-mission-oracle/site/" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <div class="shell">
+    <nav class="top-nav">
+      <a class="back" href="https://enaguthi.com/">← enaguthi.com</a>
+      <div class="nav-links">
+        <a href="#problem">Problem</a>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#cli">CLI</a>
+        <a href="https://github.com/Abhishek21g/cadre-mission-oracle">GitHub</a>
+      </div>
+    </nav>
+
+    <section class="hero" id="top">
+      <div>
+        <p class="eyebrow">NASA JPL · CADRE · Multi-Agent Autonomy</p>
+        <h1>Preflight three lunar rovers before they wake up on the Moon.</h1>
+        <p class="lede">
+          CADRE deploys <strong>three autonomous rovers</strong> to Reiner Gamma — leader election,
+          GPR formation sync, thermal midday sleep, power budgeting — all without Earth in the loop.
+          Mission Oracle validates distributed PS&amp;E plans locally with <strong>receipt JSON</strong>
+          before sim or test rovers.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#dashboard">Try live dashboard</a>
+          <a class="btn" href="https://github.com/Abhishek21g/cadre-mission-oracle">View on GitHub</a>
+        </div>
+        <dl class="proof-grid">
+          <div><dt>16</dt><dd>passing tests</dd></div>
+          <div><dt>5</dt><dd>constraint rules</dd></div>
+          <div><dt>4</dt><dd>demo missions</dd></div>
+        </dl>
+      </div>
+      <aside class="hero-panel" aria-label="CLI preview">
+        <div class="panel-top">
+          <span><span class="status-dot"></span>cadre-oracle</span>
+          <span>mock mode</span>
+        </div>
+        <div class="terminal">
+          <span class="prompt">$</span>pip install cadre-mission-oracle<br />
+          <span class="prompt">$</span>cadre-oracle run broken-thermal-midday.yaml<br />
+          <span class="prompt">$</span>cadre-oracle doctor out/receipts/latest.json
+        </div>
+        <div class="card" style="margin:0;border:none;border-top:1px solid var(--border);border-radius:0">
+          <h3>Sample result</h3>
+          <div class="ship-badge no" style="font-size:1.1rem">NOT READY</div>
+          <p class="ship-label">thermal_midday_violation · GPR during lunar noon</p>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section" id="problem">
+      <h2 class="section-title">The problem JPL is solving</h2>
+      <div class="solution-grid">
+        <article class="solution-card">
+          <span class="solution-label">CADRE mission</span>
+          <p>
+            Three rovers + base station explore the lunar subsurface via coordinated GPR.
+            The Strategic Planner (MEXEC) schedules surveys and <strong>sleep windows</strong>
+            when midday temperatures hit 140&nbsp;°C.
+          </p>
+        </article>
+        <article class="solution-card">
+          <span class="solution-label">Public pain</span>
+          <p>
+            JPL's V&amp;V team must prove <strong>all autonomy layers integrate</strong> through
+            sim and test rovers — but distributed plan defects surface late.
+            <a href="https://arxiv.org/pdf/2305.11902">Assurance for Autonomy</a> calls for
+            automated oracles, not exhaustive manual review.
+          </p>
+        </article>
+        <article class="solution-card">
+          <span class="solution-label">This product</span>
+          <p>
+            <code>plan → run → doctor → report</code> on mission YAML.
+            Catches leader conflicts, thermal violations, power overruns.
+            <strong>Independent</strong> of any single upstream PR.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="dashboard">
+      <h2 class="section-title">Live dashboard</h2>
+      <div class="dashboard-wrap">
+        <div class="toolbar">
+          <label class="btn btn-primary">
+            Load receipt JSON
+            <input type="file" id="fileInput" accept=".json,application/json" />
+          </label>
+          <button class="btn" id="loadSample" type="button">Load sample</button>
+          <button class="btn" id="copyReceipt" type="button">Copy receipt</button>
+          <span class="topology-label" id="missionLabel"></span>
+        </div>
+
+        <div class="grid grid-hero">
+          <div class="card">
+            <h3>Mission ready</h3>
+            <div class="ship-badge" id="readyBadge">—</div>
+            <div class="ship-label" id="readyLabel">load a receipt to begin</div>
+            <div class="counts">
+              <div class="count critical">
+                <div class="val" id="critCount">0</div>
+                <div class="lbl">Critical</div>
+              </div>
+              <div class="count warning">
+                <div class="val" id="warnCount">0</div>
+                <div class="lbl">Warning</div>
+              </div>
+              <div class="count info">
+                <div class="val" id="infoCount">0</div>
+                <div class="lbl">Info</div>
+              </div>
+            </div>
+            <div class="fix-first" id="fixFirst" hidden></div>
+          </div>
+          <div class="card">
+            <h3>CADRE constraints</h3>
+            <div class="checks-grid">
+              <div class="check-item"><span class="icon">✓</span> Leader election</div>
+              <div class="check-item"><span class="icon">✓</span> Thermal midday</div>
+              <div class="check-item"><span class="icon">✓</span> Power + sleep</div>
+              <div class="check-item"><span class="icon">✓</span> GPR formation</div>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Mission</h3>
+            <p style="font-size:0.85rem;color:#b8c2d4;margin-bottom:0.5rem" id="missionPath">—</p>
+            <p style="font-size:0.78rem;color:var(--muted)" id="generatedAt">—</p>
+            <ul id="notesList" style="margin-top:0.75rem;font-size:0.82rem;color:var(--muted);padding-left:1.1rem"></ul>
+          </div>
+        </div>
+
+        <div class="grid grid-mid">
+          <div class="card">
+            <h3>Findings</h3>
+            <ul class="findings-list" id="findingsList">
+              <li style="color:var(--muted)">No receipt loaded.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Severity breakdown</h3>
+            <canvas id="severityChart" height="180"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="cli">
+      <h2 class="section-title">CLI — 60-second demo</h2>
+      <div class="cli-block">
+        <span style="color:var(--accent)"># install</span><br />
+        pip install cadre-mission-oracle<br /><br />
+        <span style="color:var(--accent)"># healthy lunar day</span><br />
+        cadre-oracle run examples/demo/ref-lunar-day.yaml<br /><br />
+        <span style="color:var(--accent)"># thermal violation (NOT READY, exit 2)</span><br />
+        cadre-oracle run examples/demo/broken-thermal-midday.yaml -o out/receipts/latest.json<br />
+        cadre-oracle doctor out/receipts/latest.json
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>
+        Built by <a href="https://enaguthi.com">Abhishek Enaguthi</a> ·
+        Inspired by JPL CADRE public architecture · Not affiliated with NASA/JPL
+      </p>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-07-08T11:00:38.091754+00:00",
+  "mission_name": "broken-thermal-midday",
+  "mission_path": "examples/demo/broken-thermal-midday.yaml",
+  "ready": false,
+  "findings": [
+    {
+      "code": "thermal_midday_violation",
+      "severity": "critical",
+      "message": "sync task 'gpr_midday_disaster' scheduled during lunar midday (4.0\u20136.0h) \u2014 electronics overheat risk per CADRE thermal envelope",
+      "rover": null,
+      "task": "gpr_midday_disaster"
+    },
+    {
+      "code": "thermal_midday_violation",
+      "severity": "critical",
+      "message": "rover ranger_1 drive at hour 4.5 falls in lunar midday thermal blackout window",
+      "rover": "ranger_1",
+      "task": null
+    }
+  ],
+  "summary": {
+    "critical": 2
+  },
+  "notes": [
+    "GPR drive scheduled during lunar midday thermal blackout \u2014 CADRE thermal envelope violation"
+  ]
+}
