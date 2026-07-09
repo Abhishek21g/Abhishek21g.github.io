@@ -197,6 +197,18 @@ button.secondary {
   color: #cbd5e1;
   overflow-x: auto;
   margin-bottom: 14px;
+  white-space: pre-wrap;
+  line-height: 1.55;
+}
+
+.terminal code {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.cli-block {
+  margin: 0;
 }
 
 .grid-2 {
