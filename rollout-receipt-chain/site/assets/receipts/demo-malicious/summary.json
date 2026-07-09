@@ -1,0 +1,10 @@
+{
+  "run_id": "demo-malicious",
+  "passed": false,
+  "unsafe_count": 1,
+  "run_name": "intellect-2-malicious-claim",
+  "trainer_policy_version": 1200,
+  "trainer_policy_hash": "sha256:honest-policy-v1200",
+  "generated_at": "2026-07-09T06:48:55.747305+00:00",
+  "links": 1
+}

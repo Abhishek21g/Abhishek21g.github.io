@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-07-09T06:48:55.678305+00:00",
+  "run_name": "intellect-2-stale-policy",
+  "trainer_policy_version": 1200,
+  "trainer_policy_hash": "sha256:honest-policy-v1200",
+  "passed": false,
+  "unsafe_count": 1,
+  "links": [
+    {
+      "link_index": 0,
+      "rollout_id": "r-stale-001",
+      "worker_id": "worker-lagos-12",
+      "policy_version_claimed": 1180,
+      "trainer_policy_version": 1200,
+      "policy_hash_claimed": "sha256:stale-policy-v1180",
+      "policy_hash_evidence": "sha256:stale-policy-v1180",
+      "trainer_policy_hash": "sha256:honest-policy-v1200",
+      "policy_binding_ok": false,
+      "version_lag": 20,
+      "max_log_ratio": 3.5,
+      "overflow_token_count": 0,
+      "masked_nan_token_count": 0,
+      "toploc_attestation": "toploc:consistent-v1180",
+      "toploc_status": "hash_mismatch",
+      "train_safe": false,
+      "severity": "error",
+      "reasons": [
+        "policy_hash binding failed (claimed vs evidence vs trainer)",
+        "policy version lag 20 exceeds max_off_policy_lag=8",
+        "TOPLOC attestation inconsistent with policy binding",
+        "rollout stale by 20 trainer steps (async lag)"
+      ],
+      "token_verdicts": [
+        {
+          "token_id": 201,
+          "log_ratio": 2.5,
+          "ratio": 12.182494163513184,
+          "overflows": false,
+          "masked_nan": false
+        },
+        {
+          "token_id": 202,
+          "log_ratio": 3.5,
+          "ratio": 33.11545181274414,
+          "overflows": false,
+          "masked_nan": false
+        }
+      ]
+    }
+  ]
+}

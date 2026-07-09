@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-07-09T06:48:55.747305+00:00",
+  "run_name": "intellect-2-malicious-claim",
+  "trainer_policy_version": 1200,
+  "trainer_policy_hash": "sha256:honest-policy-v1200",
+  "passed": false,
+  "unsafe_count": 1,
+  "links": [
+    {
+      "link_index": 0,
+      "rollout_id": "r-malicious-001",
+      "worker_id": "worker-unknown-99",
+      "policy_version_claimed": 1200,
+      "trainer_policy_version": 1200,
+      "policy_hash_claimed": "sha256:honest-policy-v1200",
+      "policy_hash_evidence": "sha256:actually-ran-v1170",
+      "trainer_policy_hash": "sha256:honest-policy-v1200",
+      "policy_binding_ok": false,
+      "version_lag": 0,
+      "max_log_ratio": 0.10000000000000009,
+      "overflow_token_count": 0,
+      "masked_nan_token_count": 0,
+      "toploc_attestation": "toploc:consistent-v1200",
+      "toploc_status": "hash_mismatch",
+      "train_safe": false,
+      "severity": "error",
+      "reasons": [
+        "policy_hash binding failed (claimed vs evidence vs trainer)",
+        "TOPLOC attestation inconsistent with policy binding"
+      ],
+      "token_verdicts": [
+        {
+          "token_id": 301,
+          "log_ratio": 0.10000000000000009,
+          "ratio": 1.1051709651947021,
+          "overflows": false,
+          "masked_nan": false
+        }
+      ]
+    }
+  ]
+}
