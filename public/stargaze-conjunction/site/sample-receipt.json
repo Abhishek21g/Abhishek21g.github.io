@@ -1,0 +1,83 @@
+{
+  "run_id": "611c91b28eda",
+  "scenario_id": "demo_leo_cluster",
+  "decision": "HOLD",
+  "findings": [
+    {
+      "gate_id": "M05",
+      "category": "maneuver",
+      "severity": "WARN",
+      "action": "ESCALATE",
+      "message": "Ephemeris upload deadline too close to burn window",
+      "observed": "2026-07-09T09:50:00Z",
+      "threshold": 2.0
+    },
+    {
+      "gate_id": "C01",
+      "category": "conjunction",
+      "severity": "FAIL",
+      "action": "MANEUVER",
+      "message": "Miss distance below screening threshold",
+      "observed": 0.45,
+      "threshold": 1.0
+    },
+    {
+      "gate_id": "C02",
+      "category": "conjunction",
+      "severity": "FAIL",
+      "action": "ESCALATE",
+      "message": "Collision probability above threshold",
+      "observed": 0.0023,
+      "threshold": 0.0001
+    },
+    {
+      "gate_id": "C03",
+      "category": "conjunction",
+      "severity": "FAIL",
+      "action": "HOLD",
+      "message": "Ephemeris/TLE catalog entry is stale",
+      "observed": 36.0,
+      "threshold": 24.0
+    },
+    {
+      "gate_id": "C06",
+      "category": "conjunction",
+      "severity": "FAIL",
+      "action": "ESCALATE",
+      "message": "TCA outside maneuver execution horizon",
+      "observed": "2026-07-09T12:30:00Z",
+      "threshold": 2.0
+    },
+    {
+      "gate_id": "R02",
+      "category": "rollup",
+      "severity": "WARN",
+      "action": "HOLD",
+      "message": "Human review required \u2014 escalate/hold gates active",
+      "observed": null,
+      "threshold": null
+    }
+  ],
+  "cdm": {
+    "primary": "SAT-101",
+    "secondary": "DEBRIS-42",
+    "tca": "2026-07-09T12:30:00Z",
+    "miss_distance_km": 0.45,
+    "collision_probability": 0.0023,
+    "relative_speed_mps": 8200.0
+  },
+  "maneuver_plan": {
+    "burn_id": "burn-demo-001",
+    "delta_v_mps": 1.2
+  },
+  "summary": {
+    "generated_at": "2026-07-09T11:08:56.841301+00:00",
+    "maneuver_executed": false,
+    "post_maneuver_miss_km": null,
+    "gate_counts": {
+      "PASS": 0,
+      "WARN": 2,
+      "FAIL": 4
+    }
+  }
+}

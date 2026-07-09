@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Constellation Conjunction Workbench — synthetic CDM + maneuver receipts for constellation SSA. Independent demo inspired by public Space Safety job posts."
+    />
+    <meta property="og:url" content="https://enaguthi.com/stargaze-conjunction/site/" />
+    <title>Constellation Conjunction Workbench</title>
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css?v=1" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top">
+        <span class="brand-mark">CC</span>
+        <span>Constellation Conjunction Workbench</span>
+      </a>
+      <nav class="nav">
+        <a href="#problem">Problem</a>
+        <a href="#demo">Demo</a>
+        <a href="#cli">CLI</a>
+        <a href="https://github.com/Abhishek21g/constellation-conjunction-workbench">GitHub</a>
+      </nav>
+      <a class="header-action" href="https://github.com/Abhishek21g/constellation-conjunction-workbench">View GitHub</a>
+    </header>
+
+    <main id="top">
+      <section class="hero section-shell">
+        <div class="hero-copy">
+          <p class="eyebrow">Abhishek Enaguthi · July 2026 · independent demo · not affiliated with SpaceX</p>
+          <h1>Conjunction receipts for 9,000-satellite-scale SSA.</h1>
+          <p>
+            Replay synthetic CDMs and maneuver plans. Screen miss distance, collision probability,
+            and catalog staleness. Ship auditable <strong>MISS / MANEUVER / ESCALATE</strong> receipts —
+            the workflow Starlink Space Safety teams describe publicly, mockable on a laptop.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#demo">Run live demo</a>
+            <a class="button secondary" href="https://github.com/Abhishek21g/constellation-conjunction-workbench">View GitHub</a>
+          </div>
+          <dl class="proof-grid">
+            <div><dt>22</dt><dd>passing tests</dd></div>
+            <div><dt>16</dt><dd>screening gates</dd></div>
+            <div><dt>0.45 km</dt><dd>demo miss distance</dd></div>
+          </dl>
+        </div>
+
+        <div class="hero-panel">
+          <div class="panel-topline">
+            <div><span class="status-dot warn"></span> demo_leo_cluster · DEBRIS-42</div>
+            <span class="badge hold" id="heroBadge">HOLD</span>
+          </div>
+          <div class="terminal">
+            <span>$</span>
+            <code>conjunction-wb run --scenario demo_leo_cluster.yaml --cdm demo_conjunction.cdm.json</code>
+          </div>
+          <div class="metric-row">
+            <div><span>Miss distance</span><strong>0.45 km</strong></div>
+            <div><span>Pc</span><strong>2.3×10⁻³</strong></div>
+            <div><span>TLE age</span><strong>36 h</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-shell" id="problem">
+        <h2>The impossible problem (made mockable)</h2>
+        <div class="cards">
+          <article>
+            <h3>Mission</h3>
+            <p>Starlink operates the world's largest LEO constellation. SpaceX publicly hires for automated collision avoidance, SSA, and orbit determination at fleet scale.</p>
+          </article>
+          <article>
+            <h3>Public pain</h3>
+            <p>Job posts describe screening thousands of conjunctions, maneuver decisions, and CI-grade automation — but no open receipt toolchain exists for replaying CDM streams with auditable gates.</p>
+          </article>
+          <article>
+            <h3>This product</h3>
+            <p><code>plan → run → doctor → report</code> on synthetic scenarios. Independent of community Starlink monitoring PRs. Receipt JSON a hiring manager can inspect in 60 seconds.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section-shell demo" id="demo">
+        <div class="demo-head">
+          <h2>Live receipt demo</h2>
+          <div class="demo-actions">
+            <button class="button primary" id="loadSample" type="button">Load demo receipt</button>
+            <label class="button secondary">
+              Upload receipt JSON
+              <input type="file" id="fileInput" accept=".json,application/json" hidden />
+            </label>
+          </div>
+        </div>
+
+        <div class="demo-grid">
+          <div class="card verdict-card">
+            <h3>Fleet decision</h3>
+            <div class="verdict" id="verdict">—</div>
+            <p id="scenarioLabel">Load a receipt to begin</p>
+            <dl class="counts" id="counts"></dl>
+          </div>
+          <div class="card">
+            <h3>CDM summary</h3>
+            <dl class="kv" id="cdmKv"></dl>
+          </div>
+          <div class="card wide">
+            <h3>Gate findings</h3>
+            <div id="findings" class="findings"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-shell" id="cli">
+        <h2>CLI</h2>
+        <pre class="cli-block"><code>pip install git+https://github.com/Abhishek21g/constellation-conjunction-workbench
+
+conjunction-wb plan  --scenario scenarios/demo_leo_cluster.yaml --json
+conjunction-wb run   --scenario scenarios/demo_leo_cluster.yaml --cdm fixtures/demo_conjunction.cdm.json
+conjunction-wb doctor --receipt out/receipts/&lt;run-id&gt;/receipt.json --json
+conjunction-wb report --receipt out/receipts/&lt;run-id&gt;/receipt.json</code></pre>
+      </section>
+    </main>
+
+    <footer class="section-shell footer">
+      <p>Independent open-source demo. Synthetic data only. Not affiliated with SpaceX or Starlink.</p>
+      <a href="https://enaguthi.com/">enaguthi.com</a>
+    </footer>
+
+    <script src="./app.js" defer></script>
+  </body>
+</html>
