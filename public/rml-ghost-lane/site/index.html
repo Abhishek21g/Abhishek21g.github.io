@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RML Ghost Lane — preflight AI Mars drives before digital twin</title>
+  <meta name="description" content="Lightweight plan oracle for AI-generated Perseverance drive plans. Catch ripple-field and keep-out violations before 500k-variable digital-twin sim." />
+  <meta property="og:title" content="RML Ghost Lane" />
+  <meta property="og:description" content="Audit what the LLM dreamed up — before the digital twin wakes up." />
+  <meta property="og:url" content="https://enaguthi.com/rml-ghost-lane/site/" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Syne:wght@400;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <div class="shell">
+    <nav class="top-nav">
+      <a class="brand" href="#top">
+        <img src="./favicon.svg" alt="" width="28" height="28" />
+        <span>RML Ghost Lane</span>
+      </a>
+      <div class="nav-links">
+        <a href="#pipeline">Pipeline</a>
+        <a href="#map">Drive map</a>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#cli">CLI</a>
+        <a href="https://github.com/Abhishek21g/rml-ghost-lane" class="nav-gh">GitHub</a>
+      </div>
+      <a class="back" href="https://enaguthi.com/">← enaguthi.com</a>
+    </nav>
+
+    <header class="hero" id="top">
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <div class="sol-badge">
+            <span class="pulse"></span>
+            Sol 1707 · Jezero Crater · Dec 2025 AI drive class
+          </div>
+          <h1>Audit what the LLM dreamed up<br /><em>before</em> the digital twin wakes up.</h1>
+          <p class="lede">
+            JPL's first AI-planned Mars drives: a VLM writes <strong>Rover Markup Language</strong>
+            waypoints, then a digital twin simulates <strong>500,000+ telemetry variables</strong>
+            before uplink. Ghost Lane is the lightweight oracle in between — JPL's own
+            Assurance-for-Autonomy pattern, running in your terminal in seconds.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-mars" href="#dashboard">Try live dashboard</a>
+            <a class="btn btn-ghost" href="#map">See drive map</a>
+            <a class="btn btn-ghost" href="https://github.com/Abhishek21g/rml-ghost-lane">GitHub</a>
+          </div>
+          <dl class="proof-grid">
+            <div><dt>14</dt><dd>passing tests</dd></div>
+            <div><dt>7</dt><dd>oracle rules</dd></div>
+            <div><dt>&lt;10s</dt><dd>preflight time</dd></div>
+            <div><dt>0</dt><dd>GPUs required</dd></div>
+          </dl>
+        </div>
+
+        <aside class="hero-stack">
+          <div class="terminal-card">
+            <div class="term-bar">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="term-title">rml-ghost · sol 1709</span>
+            </div>
+            <pre class="term-body" id="termBody"><span class="c-dim">$</span> rml-ghost run broken-ripple-field.yaml
+
+<span class="c-dim">RML Ghost Lane — broken-ripple-field (sol 1709)</span>
+<span class="c-bad">worthy of twin: NO</span>
+
+  <span class="c-bad">CRITICAL</span> forbidden_terrain [ripple_trap]
+  waypoint (45.0, 30.0) on 'sand_ripple'
+  — SPOC/HiRISE terrain class forbids blind drive
+
+<span class="c-dim">Wrote out/receipts/latest.json</span></pre>
+          </div>
+          <div class="verdict-card bad" id="heroVerdict">
+            <span class="verdict-label">Oracle verdict</span>
+            <span class="verdict-value">NOT WORTHY</span>
+            <span class="verdict-sub">forbidden_terrain · AI drove through sand ripple</span>
+          </div>
+        </aside>
+      </div>
+    </header>
+
+    <section class="section pipeline" id="pipeline">
+      <p class="section-eyebrow">The impossible middle layer</p>
+      <h2 class="section-title">Where Ghost Lane sits in JPL's pipeline</h2>
+      <div class="pipe-flow">
+        <div class="pipe-node">
+          <span class="pipe-icon">🛰</span>
+          <strong>HiRISE + DEM</strong>
+          <span>Orbital imagery + slope data</span>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-node ai">
+          <span class="pipe-icon">✦</span>
+          <strong>VLM / LLM</strong>
+          <span>Generates RML waypoints</span>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-node highlight">
+          <span class="pipe-icon">👻</span>
+          <strong>Ghost Lane</strong>
+          <span>Lightweight plan oracle</span>
+          <span class="pipe-tag">YOU ARE HERE</span>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-node">
+          <span class="pipe-icon">◎</span>
+          <strong>Digital Twin</strong>
+          <span>500k+ variable sim</span>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-node mars">
+          <span class="pipe-icon">🔴</span>
+          <strong>Mars</strong>
+          <span>Perseverance uplink</span>
+        </div>
+      </div>
+      <p class="pipe-note">
+        Ghost Lane does <strong>not</strong> replace the twin. It filters AI-shaped garbage:
+        keep-outs, ripple fields, long blind-drive segments, hallucinated RML tags.<br />
+        Planners skip burning a sim run on a waypoint already inside a sand trap.
+      </p>
+    </section>
+
+    <section class="section" id="map">
+      <div class="map-header">
+        <div>
+          <p class="section-eyebrow">Interactive terrain</p>
+          <h2 class="section-title map-title">Drive map<br />breadcrumb trail + hazards</h2>
+        </div>
+        <div class="map-tabs">
+          <button type="button" class="map-tab active" data-scenario="broken">Broken ripple trap</button>
+          <button type="button" class="map-tab" data-scenario="worthy">Worthy Jezero sol 1707</button>
+        </div>
+      </div>
+      <div class="map-wrap">
+        <canvas id="driveMap" width="900" height="420" aria-label="Mars drive plan map"></canvas>
+        <div class="map-legend">
+          <span><i class="leg safe"></i> Safe path</span>
+          <span><i class="leg bad"></i> Violation</span>
+          <span><i class="leg ripple"></i> Sand ripple</span>
+          <span><i class="leg keep"></i> Keep-out</span>
+          <span><i class="leg wp"></i> Waypoint</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section rules-section">
+      <p class="section-eyebrow">Oracle rules</p>
+      <h2 class="section-title">What Ghost Lane catches without sim</h2>
+      <div class="rules-grid">
+        <article class="rule-card"><code>keep_out_violation</code><p>Waypoint inside declared crater-rim or boulder keep-out</p></article>
+        <article class="rule-card"><code>forbidden_terrain</code><p>Sand ripple, cliff, boulder field. SPOC terrain class mismatch.</p></article>
+        <article class="rule-card"><code>segment_too_long</code><p>Blind-drive segment &gt; ~10 m between waypoints</p></article>
+        <article class="rule-card"><code>slope_violation</code><p>Waypoint slope exceeds rover envelope</p></article>
+        <article class="rule-card"><code>energy_budget_exceeded</code><p>Rough Wh estimate over sol drive budget</p></article>
+        <article class="rule-card"><code>ai_hallucinated_command</code><p>Unknown RML tags from LLM schema drift</p></article>
+        <article class="rule-card"><code>heading_discontinuity</code><p>AutoNav recovery risk from heading jumps</p></article>
+      </div>
+    </section>
+
+    <section class="section" id="dashboard">
+      <p class="section-eyebrow">Live receipt</p>
+      <h2 class="section-title">Dashboard</h2>
+      <div class="dashboard-wrap">
+        <div class="toolbar">
+          <button type="button" class="btn btn-mars" id="loadBroken">Load broken sample</button>
+          <button type="button" class="btn btn-ghost" id="loadWorthy">Load worthy sample</button>
+          <label class="btn btn-ghost">
+            Upload JSON
+            <input type="file" id="fileInput" accept=".json,application/json" />
+          </label>
+          <button type="button" class="btn btn-ghost" id="copyReceipt">Copy receipt</button>
+          <span class="plan-label" id="planLabel"></span>
+        </div>
+
+        <div class="grid grid-hero">
+          <div class="card card-verdict">
+            <h3>Worthy of twin</h3>
+            <div class="worthy-badge" id="worthyBadge">—</div>
+            <div class="worthy-label" id="worthyLabel">load a receipt to begin</div>
+            <div class="counts">
+              <div class="count critical"><div class="val" id="critCount">0</div><div class="lbl">Critical</div></div>
+              <div class="count warning"><div class="val" id="warnCount">0</div><div class="lbl">Warning</div></div>
+              <div class="count info"><div class="val" id="infoCount">0</div><div class="lbl">Info</div></div>
+            </div>
+            <div class="fix-first" id="fixFirst" hidden></div>
+          </div>
+          <div class="card">
+            <h3>Plan metadata</h3>
+            <dl class="meta-dl">
+              <div><dt>Sol</dt><dd id="metaSol">—</dd></div>
+              <div><dt>Path</dt><dd id="planPath">—</dd></div>
+              <div><dt>Generated</dt><dd id="generatedAt">—</dd></div>
+            </dl>
+            <ul id="notesList" class="notes-list"></ul>
+          </div>
+          <div class="card">
+            <h3>Severity</h3>
+            <canvas id="severityChart" height="160"></canvas>
+          </div>
+        </div>
+
+        <div class="card findings-card">
+          <h3>Findings</h3>
+          <ul class="findings-list" id="findingsList">
+            <li class="muted">No receipt loaded.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="cli">
+      <p class="section-eyebrow">60-second demo</p>
+      <h2 class="section-title">CLI</h2>
+      <div class="cli-grid">
+        <div class="cli-block">
+          <span class="cli-comment"># install</span>
+          pip install rml-ghost-lane
+
+          <span class="cli-comment"># AI ripple mistake → NOT WORTHY (exit 2)</span>
+          rml-ghost run examples/demo/broken-ripple-field.yaml
+
+          <span class="cli-comment"># healthy Jezero trail → WORTHY (exit 0)</span>
+          rml-ghost run examples/demo/ref-jezero-drive.yaml
+
+          <span class="cli-comment"># parse RML XML + terrain contract</span>
+          rml-ghost run examples/demo/ref-ai-drive.rml \
+            --terrain examples/demo/terrain-contract.yaml
+        </div>
+        <div class="cite-card">
+          <h3>Grounded in JPL public work</h3>
+          <ul>
+            <li><a href="https://www.jpl.nasa.gov/news/nasas-perseverance-rover-completes-first-ai-planned-drive-on-mars/">Perseverance AI-planned drives (Dec 2025)</a></li>
+            <li><a href="https://arxiv.org/abs/2305.11902">Assurance for Autonomy: plan oracles (JPL)</a></li>
+            <li><a href="https://github.com/Abhishek21g/rml-ghost-lane">Open source on GitHub</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>
+        Built by <a href="https://enaguthi.com">Abhishek Enaguthi</a> ·
+        Inspired by JPL Perseverance AI drives + Assurance for Autonomy ·
+        Not affiliated with NASA/JPL
+      </p>
+    </footer>
+  </div>
+</body>
+</html>
