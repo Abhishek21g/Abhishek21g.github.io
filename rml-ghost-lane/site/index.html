@@ -42,7 +42,7 @@
             <span class="pulse"></span>
             Sol 1707 · Jezero Crater · Dec 2025 AI drive class
           </div>
-          <h1>Audit what the LLM dreamed up — <em>before</em> the digital twin wakes up.</h1>
+          <h1>Audit what the LLM dreamed up<br /><em>before</em> the digital twin wakes up.</h1>
           <p class="lede">
             JPL's first AI-planned Mars drives: a VLM writes <strong>Rover Markup Language</strong>
             waypoints, then a digital twin simulates <strong>500,000+ telemetry variables</strong>
@@ -124,9 +124,9 @@
         </div>
       </div>
       <p class="pipe-note">
-        Ghost Lane does <strong>not</strong> replace the twin. It filters AI-shaped garbage —
-        keep-outs, ripple fields, 35 m blind-drive segments, hallucinated RML tags —
-        so planners don't burn a sim run on a waypoint inside a sand trap.
+        Ghost Lane does <strong>not</strong> replace the twin. It filters AI-shaped garbage:
+        keep-outs, ripple fields, long blind-drive segments, hallucinated RML tags.<br />
+        Planners skip burning a sim run on a waypoint already inside a sand trap.
       </p>
     </section>
 
@@ -134,11 +134,11 @@
       <div class="map-header">
         <div>
           <p class="section-eyebrow">Interactive terrain</p>
-          <h2 class="section-title">Drive map — breadcrumb trail + hazards</h2>
+          <h2 class="section-title map-title">Drive map<br />breadcrumb trail + hazards</h2>
         </div>
         <div class="map-tabs">
-          <button type="button" class="map-tab active" data-scenario="broken">Broken · ripple trap</button>
-          <button type="button" class="map-tab" data-scenario="worthy">Worthy · Jezero sol 1707</button>
+          <button type="button" class="map-tab active" data-scenario="broken">Broken ripple trap</button>
+          <button type="button" class="map-tab" data-scenario="worthy">Worthy Jezero sol 1707</button>
         </div>
       </div>
       <div class="map-wrap">
@@ -158,11 +158,11 @@
       <h2 class="section-title">What Ghost Lane catches without sim</h2>
       <div class="rules-grid">
         <article class="rule-card"><code>keep_out_violation</code><p>Waypoint inside declared crater-rim or boulder keep-out</p></article>
-        <article class="rule-card"><code>forbidden_terrain</code><p>Sand ripple, cliff, boulder field — SPOC terrain class mismatch</p></article>
+        <article class="rule-card"><code>forbidden_terrain</code><p>Sand ripple, cliff, boulder field. SPOC terrain class mismatch.</p></article>
         <article class="rule-card"><code>segment_too_long</code><p>Blind-drive segment &gt; ~10 m between waypoints</p></article>
         <article class="rule-card"><code>slope_violation</code><p>Waypoint slope exceeds rover envelope</p></article>
         <article class="rule-card"><code>energy_budget_exceeded</code><p>Rough Wh estimate over sol drive budget</p></article>
-        <article class="rule-card"><code>ai_hallucinated_command</code><p>Unknown RML tags — LLM schema drift</p></article>
+        <article class="rule-card"><code>ai_hallucinated_command</code><p>Unknown RML tags from LLM schema drift</p></article>
         <article class="rule-card"><code>heading_discontinuity</code><p>AutoNav recovery risk from heading jumps</p></article>
       </div>
     </section>
@@ -240,7 +240,7 @@
           <h3>Grounded in JPL public work</h3>
           <ul>
             <li><a href="https://www.jpl.nasa.gov/news/nasas-perseverance-rover-completes-first-ai-planned-drive-on-mars/">Perseverance AI-planned drives (Dec 2025)</a></li>
-            <li><a href="https://arxiv.org/abs/2305.11902">Assurance for Autonomy — plan oracles (JPL)</a></li>
+            <li><a href="https://arxiv.org/abs/2305.11902">Assurance for Autonomy: plan oracles (JPL)</a></li>
             <li><a href="https://github.com/Abhishek21g/rml-ghost-lane">Open source on GitHub</a></li>
           </ul>
         </div>
