@@ -377,7 +377,8 @@ a:hover { color: var(--mars-bright); }
   align-items: stretch;
   gap: 0.35rem;
   overflow-x: auto;
-  padding-bottom: 0.5rem;
+  overflow-y: visible;
+  padding: 0.75rem 0 0.5rem;
   margin-bottom: 1.5rem;
 }
 
@@ -414,21 +415,23 @@ a:hover { color: var(--mars-bright); }
   box-shadow: 0 0 30px rgba(255, 179, 71, 0.15);
 }
 
-.pipe-node.mars {
-  border-color: rgba(193, 68, 14, 0.5);
-}
-
-.pipe-tag {
-  position: absolute;
-  top: -8px;
-  right: 8px;
+.pipe-here {
+  display: inline-block;
+  align-self: flex-start;
   font-family: var(--mono);
-  font-size: 0.55rem;
+  font-size: 0.58rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   background: var(--ghost);
   color: #1a0a08;
-  padding: 0.15rem 0.4rem;
+  padding: 0.2rem 0.45rem;
   border-radius: 4px;
-  font-weight: 600;
+  font-weight: 700;
+  margin-top: 0.15rem;
+}
+
+.pipe-node.mars {
+  border-color: rgba(193, 68, 14, 0.5);
 }
 
 .pipe-arrow {
@@ -471,19 +474,134 @@ a:hover { color: var(--mars-bright); }
   font-family: inherit;
   font-size: 0.78rem;
   font-weight: 600;
-  padding: 0.45rem 0.85rem;
+  padding: 0.5rem 0.9rem;
   border-radius: 8px;
   border: 1px solid var(--border);
   background: var(--surface);
   color: var(--muted);
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  line-height: 1.2;
 }
 
-.map-tab.active {
-  background: rgba(193, 68, 14, 0.2);
-  border-color: var(--mars);
-  color: var(--ghost);
+.tab-verdict {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  padding: 0.1rem 0.35rem;
+  border-radius: 3px;
 }
+
+.tab-verdict.fail { background: rgba(255, 92, 92, 0.2); color: var(--bad); }
+.tab-verdict.pass { background: rgba(61, 214, 140, 0.15); color: var(--good); }
+
+.map-tab.active.map-tab-fail {
+  background: rgba(255, 92, 92, 0.1);
+  border-color: var(--bad);
+  color: var(--text);
+}
+
+.map-tab.active.map-tab-pass {
+  background: rgba(61, 214, 140, 0.08);
+  border-color: var(--good);
+  color: var(--text);
+}
+
+.scenario-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding: 1rem 1.15rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  margin-bottom: 0.85rem;
+  background: var(--surface);
+}
+
+.scenario-banner.fail {
+  border-color: rgba(255, 92, 92, 0.35);
+  background: rgba(255, 92, 92, 0.06);
+}
+
+.scenario-banner.pass {
+  border-color: rgba(61, 214, 140, 0.35);
+  background: rgba(61, 214, 140, 0.05);
+}
+
+.scenario-banner-left {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  flex: 1;
+  min-width: 240px;
+}
+
+.scenario-pill {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 0.35rem 0.55rem;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.scenario-pill.fail { background: var(--bad); color: #1a0808; }
+.scenario-pill.pass { background: var(--good); color: #061a10; }
+
+.scenario-banner strong {
+  display: block;
+  font-size: 0.95rem;
+  margin-bottom: 0.35rem;
+}
+
+.scenario-banner p {
+  font-size: 0.82rem;
+  color: #b8a8a0;
+  line-height: 1.5;
+}
+
+.scenario-stats {
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.scenario-stats div { text-align: center; }
+
+.scenario-stats dt {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.scenario-stats dd {
+  font-family: var(--mono);
+  font-size: 1rem;
+  color: var(--ghost);
+  margin-top: 0.15rem;
+}
+
+.how-it-works {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.5rem;
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-bottom: 1rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px dashed var(--border);
+}
+
+.how-it-works strong { color: var(--ghost); }
 
 .map-wrap {
   background: var(--surface);
@@ -598,10 +716,32 @@ a:hover { color: var(--mars-bright); }
 }
 
 .grid { display: grid; gap: 1rem; }
-.grid-hero { grid-template-columns: 1.2fr 1fr 0.8fr; margin-bottom: 1rem; }
+.grid-hero { grid-template-columns: 1fr 1fr; margin-bottom: 1rem; }
 
 @media (max-width: 900px) {
   .grid-hero { grid-template-columns: 1fr; }
+}
+
+.chart-wrap {
+  position: relative;
+  min-height: 160px;
+}
+
+.chart-empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--good);
+  font-size: 0.9rem;
+  font-weight: 600;
+  pointer-events: none;
+}
+
+.plan-stats-dl dd {
+  color: var(--ghost);
+  font-weight: 600;
 }
 
 .card {

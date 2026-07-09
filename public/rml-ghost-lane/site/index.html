@@ -107,8 +107,8 @@
         <div class="pipe-node highlight">
           <span class="pipe-icon">👻</span>
           <strong>Ghost Lane</strong>
+          <span class="pipe-here">Oracle runs here</span>
           <span>Lightweight plan oracle</span>
-          <span class="pipe-tag">YOU ARE HERE</span>
         </div>
         <div class="pipe-arrow">→</div>
         <div class="pipe-node">
@@ -136,10 +136,38 @@
           <p class="section-eyebrow">Interactive terrain</p>
           <h2 class="section-title map-title">Drive map<br />breadcrumb trail + hazards</h2>
         </div>
-        <div class="map-tabs">
-          <button type="button" class="map-tab active" data-scenario="broken">Broken ripple trap</button>
-          <button type="button" class="map-tab" data-scenario="worthy">Worthy Jezero sol 1707</button>
+        <div class="map-tabs" role="tablist" aria-label="Demo scenarios">
+          <button type="button" class="map-tab map-tab-fail active" data-scenario="broken" role="tab">
+            <span class="tab-verdict fail">FAIL</span>
+            Sol 1709 ripple trap
+          </button>
+          <button type="button" class="map-tab map-tab-pass" data-scenario="worthy" role="tab">
+            <span class="tab-verdict pass">PASS</span>
+            Sol 1707 Jezero drive
+          </button>
         </div>
+      </div>
+
+      <div class="scenario-banner" id="scenarioBanner" aria-live="polite">
+        <div class="scenario-banner-left">
+          <span class="scenario-pill" id="scenarioPill">NOT WORTHY</span>
+          <div>
+            <strong id="scenarioTitle">Sol 1709: AI drove through sand ripple</strong>
+            <p id="scenarioDesc">Waypoint <code>ripple_trap</code> sits inside forbidden <code>sand_ripple</code> terrain. Ghost Lane rejects before twin sim.</p>
+          </div>
+        </div>
+        <dl class="scenario-stats" id="scenarioStats">
+          <div><dt>Waypoints</dt><dd id="statWaypoints">3</dd></div>
+          <div><dt>Distance</dt><dd id="statDistance">54 m</dd></div>
+          <div><dt>Max segment</dt><dd id="statSegment">26.9 m</dd></div>
+          <div><dt>Findings</dt><dd id="statFindings">3 critical</dd></div>
+        </dl>
+      </div>
+
+      <div class="how-it-works">
+        <span><strong>1.</strong> Pick a demo plan (FAIL or PASS)</span>
+        <span><strong>2.</strong> Map + receipt update together</span>
+        <span><strong>3.</strong> FAIL = do not send to digital twin · PASS = worthy of twin</span>
       </div>
       <div class="map-wrap">
         <canvas id="driveMap" width="900" height="420" aria-label="Mars drive plan map"></canvas>
@@ -172,8 +200,8 @@
       <h2 class="section-title">Dashboard</h2>
       <div class="dashboard-wrap">
         <div class="toolbar">
-          <button type="button" class="btn btn-mars" id="loadBroken">Load broken sample</button>
-          <button type="button" class="btn btn-ghost" id="loadWorthy">Load worthy sample</button>
+          <button type="button" class="btn btn-mars" id="loadBroken">FAIL: ripple trap</button>
+          <button type="button" class="btn btn-ghost" id="loadWorthy">PASS: Jezero sol 1707</button>
           <label class="btn btn-ghost">
             Upload JSON
             <input type="file" id="fileInput" accept=".json,application/json" />
@@ -195,6 +223,15 @@
             <div class="fix-first" id="fixFirst" hidden></div>
           </div>
           <div class="card">
+            <h3>Plan stats</h3>
+            <dl class="meta-dl plan-stats-dl">
+              <div><dt>Waypoints</dt><dd id="dashWaypoints">—</dd></div>
+              <div><dt>Distance</dt><dd id="dashDistance">—</dd></div>
+              <div><dt>Energy est.</dt><dd id="dashEnergy">—</dd></div>
+              <div><dt>Max segment</dt><dd id="dashMaxSeg">—</dd></div>
+            </dl>
+          </div>
+          <div class="card">
             <h3>Plan metadata</h3>
             <dl class="meta-dl">
               <div><dt>Sol</dt><dd id="metaSol">—</dd></div>
@@ -203,9 +240,12 @@
             </dl>
             <ul id="notesList" class="notes-list"></ul>
           </div>
-          <div class="card">
+          <div class="card chart-card">
             <h3>Severity</h3>
-            <canvas id="severityChart" height="160"></canvas>
+            <div class="chart-wrap">
+              <canvas id="severityChart" height="160"></canvas>
+              <p class="chart-empty" id="chartEmpty" hidden>No violations</p>
+            </div>
           </div>
         </div>
 
