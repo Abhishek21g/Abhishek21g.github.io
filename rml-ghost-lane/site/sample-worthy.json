@@ -6,10 +6,20 @@
   "sol": 1707,
   "worthy": true,
   "findings": [],
-  "summary": {},
+  "summary": {
+    "critical": 0,
+    "warning": 0,
+    "info": 0
+  },
   "notes": [
-    "Healthy AI-planned breadcrumb trail — sol 1707 class demo",
-    "12 segments under 10 m blind-drive limit",
+    "Sol 1707 demo: healthy AI breadcrumb trail",
+    "12 segments, each under 10 m blind-drive limit",
     "No keep-out or forbidden terrain violations"
-  ]
+  ],
+  "stats": {
+    "waypoints": 13,
+    "distance_m": 118.8,
+    "energy_wh": 238,
+    "max_segment_m": 9.9
+  }
 }
