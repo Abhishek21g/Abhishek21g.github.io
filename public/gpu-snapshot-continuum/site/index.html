@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="GPU Snapshot Continuum — simulate Modal checkpoint→restore cold starts and catch H100/9p/NCCL failures before deploy."
+    />
+    <meta property="og:url" content="https://enaguthi.com/gpu-snapshot-continuum/site/" />
+    <title>GPU Snapshot Continuum</title>
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css?v=1" />
+  </head>
+  <body>
+    <div class="shell">
+      <header>
+        <a class="brand" href="#top">
+          <span class="brand-mark">GS</span>
+          <span>GPU Snapshot Continuum</span>
+        </a>
+        <nav>
+          <a href="#demo">Demo</a>
+          <a href="#problem">Problem</a>
+          <a href="https://github.com/Abhishek21g/gpu-snapshot-continuum">GitHub</a>
+        </nav>
+      </header>
+
+      <main id="top">
+        <section class="hero">
+          <div>
+            <p class="eyebrow">Abhishek Enaguthi · Modal cold-start research · independent demo</p>
+            <h1>Prove GPU snapshot restore before you burn H100 hours.</h1>
+            <p class="lead">
+              Modal's serverless GPU stack depends on checkpoint→restore across ImageFS, CRIU,
+              CUDA contexts, and 9p volumes. This workbench simulates that continuum locally —
+              mock mode, receipt JSON, no <code>MODAL_TOKEN</code>.
+            </p>
+            <div class="actions">
+              <button class="primary" id="run-demo" type="button">Run live demo</button>
+              <a class="button secondary" href="https://github.com/Abhishek21g/gpu-snapshot-continuum">View GitHub</a>
+            </div>
+            <div class="proof">
+              <div><strong>20</strong><span>pytest doctor rules</span></div>
+              <div><strong>4</strong><span>CLI commands</span></div>
+              <div><strong>50s</strong><span>blog cold-start SLO</span></div>
+            </div>
+          </div>
+
+          <div class="panel" id="demo" aria-label="Live demo panel">
+            <div class="panel-top">
+              <span>mock simulator</span>
+              <span id="verdict-badge" class="badge fail">FAIL</span>
+            </div>
+            <label for="profile-select">Workload profile</label>
+            <select id="profile-select">
+              <option value="broken">ministral3-h100-9p (modal-examples#1558)</option>
+              <option value="fixed">ministral3-h100-9p-fixed (volume commit + reload)</option>
+              <option value="slo">vllm-gpu-snapshot-slo (blog-shaped)</option>
+            </select>
+            <div class="terminal" id="terminal"></div>
+            <p style="color: var(--muted); font-size: 0.85rem; margin-bottom: 10px">
+              Estimated cold start: <strong id="total-seconds">—</strong> · SLO 50s
+            </p>
+          </div>
+        </section>
+
+        <section class="grid-2 section" id="problem">
+          <div class="card">
+            <h2>Cold-start phases</h2>
+            <ul class="phase-list" id="phase-list"></ul>
+          </div>
+          <div class="card">
+            <h2>Doctor flags</h2>
+            <ul class="flag-list" id="flag-list"></ul>
+          </div>
+        </section>
+
+        <section class="card section">
+          <h2>CLI (60 seconds)</h2>
+          <div class="terminal">pip install gpu-snapshot-continuum
+gpu-snapshot-continuum run --profile examples/ministral3-h100-9p.yaml --mock
+gpu-snapshot-continuum doctor --receipt out/receipts/&lt;run-id&gt;/ --profile examples/ministral3-h100-9p.yaml
+gpu-snapshot-continuum report --receipt out/receipts/&lt;run-id&gt;/</div>
+          <p style="color: var(--muted); margin-top: 12px; font-size: 0.92rem">
+            Independent of upstream PRs. Modal runtime is proprietary — this simulates public blog +
+            issue failure modes only.
+          </p>
+        </section>
+      </main>
+
+      <footer>
+        <p>
+          Inspired by
+          <a href="https://modal.com/blog/truly-serverless-gpus">Modal: truly serverless GPUs</a>
+          and
+          <a href="https://github.com/modal-labs/modal-examples/issues/1558">modal-examples#1558</a>.
+          Contact:
+          <a href="mailto:enaguthiabhishek@gmail.com">enaguthiabhishek@gmail.com</a>
+        </p>
+      </footer>
+    </div>
+    <script src="./app.js?v=1"></script>
+  </body>
+</html>
