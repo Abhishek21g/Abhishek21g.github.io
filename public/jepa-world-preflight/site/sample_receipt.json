@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0",
+  "run_id": "demo-run",
+  "generated_at": "2026-07-10T20:27:05.436248+00:00",
+  "overall": "HOLD",
+  "gates": [
+    {
+      "name": "crop_size",
+      "status": "PASS",
+      "detail": "config=224 checkpoint=224",
+      "evidence": {
+        "config": 224,
+        "checkpoint": 224
+      }
+    },
+    {
+      "name": "pred_depth",
+      "status": "PASS",
+      "detail": "config=4 checkpoint blocks=4",
+      "evidence": {
+        "config": 4,
+        "checkpoint": 4
+      }
+    },
+    {
+      "name": "embed_dim",
+      "status": "PASS",
+      "detail": "config=256 checkpoint=256",
+      "evidence": {
+        "config": 256,
+        "checkpoint": 256
+      }
+    },
+    {
+      "name": "checkpoint_keys",
+      "status": "PASS",
+      "detail": "all required keys present (2)",
+      "evidence": {
+        "present": [
+          "encoder",
+          "epoch",
+          "loss",
+          "predictor"
+        ]
+      }
+    },
+    {
+      "name": "action_horizon",
+      "status": "PASS",
+      "detail": "valid_starts=236 goal_offset=64 episode_len=300 \u2014 ensure eval samples choice(N) not choice(N-1)",
+      "evidence": {
+        "episode_len": 300,
+        "goal_offset_steps": 64,
+        "valid_starts": 236,
+        "num_eval": 50
+      }
+    },
+    {
+      "name": "surprise_threshold",
+      "status": "HOLD",
+      "detail": "max surprise 7.49 vs threshold 3.50 \u2014 spikes at steps [4, 29]",
+      "evidence": {
+        "max_surprise": 7.486234546721211,
+        "mean_surprise": 0.09636805908823977,
+        "threshold": 3.5,
+        "spike_indices": [
+          4,
+          29
+        ],
+        "passed": false,
+        "num_steps": 63
+      }
+    }
+  ],
+  "plan_metrics": {
+    "mock": true,
+    "seed": 42,
+    "stack": "lewm",
+    "planning_horizon": 16,
+    "simulated_plan_steps": 16,
+    "success_rate_mock": 0.66,
+    "latent_dim": 32
+  },
+  "surprise": {
+    "max_surprise": 7.486234546721211,
+    "mean_surprise": 0.09636805908823977,
+    "threshold": 3.5,
+    "spike_indices": [
+      4,
+      29
+    ],
+    "passed": false,
+    "num_steps": 63
+  }
+}

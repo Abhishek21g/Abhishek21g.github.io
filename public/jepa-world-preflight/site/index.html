@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JEPA World Preflight — gates before action-conditioned planning</title>
+  <meta name="description" content="Checkpoint/config + LeWM-style surprise gates before world-model planning rollouts. Mock mode, receipt JSON, no GPU." />
+  <meta property="og:title" content="JEPA World Preflight" />
+  <meta property="og:description" content="Preflight world-model planning on config consistency and surprise thresholds." />
+  <meta property="og:url" content="https://enaguthi.com/jepa-world-preflight/site/" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <div class="shell">
+    <nav class="top-nav">
+      <a class="back" href="https://enaguthi.com/">← enaguthi.com</a>
+      <div class="nav-links">
+        <a href="#problem">Problem</a>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#cli">CLI</a>
+        <a href="https://github.com/Abhishek21g/jepa-world-preflight">GitHub</a>
+      </div>
+    </nav>
+
+    <section class="hero" id="top">
+      <div>
+        <p class="eyebrow">LeWorldModel · V-JEPA · AMI mission</p>
+        <h1>Preflight world-model planning before you burn GPU days.</h1>
+        <p class="lede">
+          World models learn in latent space — then teams run action-conditioned planning loops.
+          JEPA World Preflight gates rollouts on <strong>checkpoint/config consistency</strong>
+          and <strong>LeWM-style surprise thresholds</strong> — receipt JSON + this dashboard —
+          without training a model or touching real hardware.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#dashboard">Try live dashboard</a>
+          <a class="btn" href="https://github.com/Abhishek21g/jepa-world-preflight">View on GitHub</a>
+        </div>
+        <dl class="proof-grid">
+          <div><dt>25</dt><dd>passing tests</dd></div>
+          <div><dt>5</dt><dd>doctor gates</dd></div>
+          <div><dt>0</dt><dd>GPUs required</dd></div>
+        </dl>
+      </div>
+      <aside class="hero-panel" aria-label="CLI preview">
+        <div class="panel-top">
+          <span><span class="status-dot"></span>jepa-world-preflight</span>
+          <span>mock mode</span>
+        </div>
+        <div class="terminal">
+          <span class="prompt">$</span>pip install jepa-world-preflight<br />
+          <span class="prompt">$</span>jepa-world-preflight run --mock<br />
+          <span class="prompt">$</span>jepa-world-preflight doctor \<br />
+          &nbsp;&nbsp;--checkpoint lewm_pusht.meta.json \<br />
+          &nbsp;&nbsp;--config demo.yaml --json
+        </div>
+        <div class="card" style="margin:0;border:none;border-top:1px solid var(--border);border-radius:0">
+          <h3>Sample result</h3>
+          <div class="overall-badge HOLD">HOLD</div>
+          <p style="color:var(--muted);font-size:0.85rem">config gates PASS · surprise spike at step 29</p>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section" id="problem">
+      <h2 class="section-title">What this is (and isn't)</h2>
+      <div class="solution-grid">
+        <article class="solution-card">
+          <span class="solution-label">Not a world model</span>
+          <p>
+            We don't train LeWM or V-JEPA. This is <strong>ML systems tooling</strong> —
+            the preflight kit researchers run <em>before</em> MPC / CEM planning on released checkpoints.
+          </p>
+        </article>
+        <article class="solution-card">
+          <span class="solution-label">LeWorldModel paper</span>
+          <p>
+            Maes et al. (LeCun co-author): stable JEPA from pixels, fast latent planning,
+            and <strong>surprise evaluation</strong> — physically implausible latent jumps get flagged.
+            Preflight implements that gate + config doctors.
+          </p>
+        </article>
+        <article class="solution-card">
+          <span class="solution-label">AMI alignment</span>
+          <p>
+            AMI Labs builds <strong>controllable, safe</strong> action-conditioned world models.
+            Public vjepa2 issues show silent crop_size / pred_depth mismatches — this catches them first.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="dashboard">
+      <h2 class="section-title">Live dashboard</h2>
+      <div class="dashboard-wrap">
+        <aside class="card">
+          <h3>Overall</h3>
+          <div id="overallBadge" class="overall-badge HOLD">—</div>
+          <p style="font-family:var(--mono);font-size:0.75rem;color:var(--muted)">run <span id="runId">demo-run</span></p>
+          <h3 style="margin-top:1.25rem">Plan metrics</h3>
+          <dl class="metrics-grid">
+            <div class="metric"><dt>Horizon</dt><dd id="metricHorizon">—</dd></div>
+            <div class="metric"><dt>Steps</dt><dd id="metricSteps">—</dd></div>
+            <div class="metric"><dt>Stack</dt><dd id="metricStack">—</dd></div>
+            <div class="metric"><dt>Mock success</dt><dd id="metricSuccess">—</dd></div>
+          </dl>
+          <h3 style="margin-top:1.25rem">Surprise</h3>
+          <dl class="metrics-grid">
+            <div class="metric"><dt>Max</dt><dd id="surpriseMax">—</dd></div>
+            <div class="metric"><dt>Threshold</dt><dd id="surpriseThreshold">—</dd></div>
+          </dl>
+        </aside>
+        <div class="card">
+          <h3>Gates</h3>
+          <ul id="gateList" class="gate-list"></ul>
+          <h3 style="margin-top:1.5rem">Surprise timeline</h3>
+          <div class="surprise-chart-wrap">
+            <canvas id="surpriseChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="cli">
+      <h2 class="section-title">CLI</h2>
+      <div class="cli-block">
+<span class="prompt">$</span> jepa-world-preflight plan --config configs/demo.yaml \<br />
+&nbsp;&nbsp;--checkpoint examples/checkpoints/lewm_pusht.meta.json<br />
+<span class="prompt">$</span> jepa-world-preflight doctor --checkpoint ... --config ... --json<br />
+<span class="prompt">$</span> jepa-world-preflight run --scenario scenarios/pusht.yaml --mock<br />
+<span class="prompt">$</span> jepa-world-preflight report --receipt out/receipts/demo-run/ --html
+      </div>
+    </section>
+
+    <footer>
+      Not affiliated with AMI Labs, Meta FAIR, or Lucas Maes. Inspired by public research only.<br />
+      <a href="https://enaguthi.com">enaguthi.com</a> · MIT
+    </footer>
+  </div>
+</body>
+</html>
