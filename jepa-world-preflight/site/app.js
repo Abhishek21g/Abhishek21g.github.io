@@ -1,93 +1,76 @@
-function statusClass(s) {
-  if (s === "PASS") return "PASS";
-  if (s === "FAIL") return "FAIL";
-  if (s === "HOLD") return "WARN";
-  return "SKIP";
-}
+const SCENARIOS = {
+  clean: {
+    verdict: "GO",
+    plain: "Everything checks out. Safe to start planning.",
+    hint: "Checkpoint and config agree. Physics looks normal.",
+    checks: [
+      { status: "ok", label: "ok", title: "Image size matches", detail: "Config and checkpoint both use 224" },
+      { status: "ok", label: "ok", title: "Model depth matches", detail: "Predictor blocks line up" },
+      { status: "ok", label: "ok", title: "Embedding size matches", detail: "256-dim on both sides" },
+      { status: "ok", label: "ok", title: "Plan length is valid", detail: "Horizon fits the episode" },
+      { status: "ok", label: "ok", title: "Physics looks plausible", detail: "No weird jumps in latent space" },
+    ],
+  },
+  hold: {
+    verdict: "HOLD",
+    plain: "Configs match, but something in the plan looks physically impossible. Pause before you burn GPU.",
+    hint: "Config looks fine, but the model saw a physically weird jump — hold the plan.",
+    checks: [
+      { status: "ok", label: "ok", title: "Image size matches", detail: "Config and checkpoint both use 224" },
+      { status: "ok", label: "ok", title: "Model depth matches", detail: "Predictor blocks line up" },
+      { status: "ok", label: "ok", title: "Embedding size matches", detail: "256-dim on both sides" },
+      { status: "ok", label: "ok", title: "Plan length is valid", detail: "Horizon fits the episode" },
+      { status: "warn", label: "hold", title: "Physics looks weird", detail: "Surprise spike at step 29 — review before planning" },
+    ],
+  },
+  fail: {
+    verdict: "NO-GO",
+    plain: "Config says one resolution. Checkpoint was trained at another. Don't start — you'll train at the wrong size.",
+    hint: "Classic silent failure: 256 in the config, 384 in the checkpoint.",
+    checks: [
+      { status: "bad", label: "fail", title: "Image size mismatch", detail: "Config 256 · checkpoint 384" },
+      { status: "ok", label: "ok", title: "Model depth matches", detail: "Predictor blocks line up" },
+      { status: "ok", label: "ok", title: "Embedding size matches", detail: "1024-dim on both sides" },
+      { status: "ok", label: "ok", title: "Plan length is valid", detail: "Horizon fits the episode" },
+      { status: "ok", label: "ok", title: "Physics not checked", detail: "Skipped — fix the config first" },
+    ],
+  },
+};
 
-function renderReceipt(r) {
-  const overall = document.getElementById("overallBadge");
-  overall.textContent = r.overall || "—";
-  overall.className = `overall-badge ${r.overall || ""}`;
+function render(mode) {
+  const s = SCENARIOS[mode];
+  if (!s) return;
 
-  document.getElementById("runId").textContent = r.run_id || "demo-run";
+  document.querySelectorAll(".mode-tab").forEach((btn) => {
+    const on = btn.dataset.mode === mode;
+    btn.classList.toggle("active", on);
+    btn.setAttribute("aria-selected", on ? "true" : "false");
+  });
 
-  const gates = document.getElementById("gateList");
-  gates.innerHTML = (r.gates || [])
+  document.getElementById("modeHint").textContent = s.hint;
+
+  const word = document.getElementById("verdictWord");
+  word.textContent = s.verdict;
+  word.className = `verdict-word ${s.verdict}`;
+  document.getElementById("verdictPlain").textContent = s.plain;
+
+  document.getElementById("checklist").innerHTML = s.checks
     .map(
-      (g) => `
+      (c) => `
       <li>
-        <span class="gate-status ${g.status}">${g.status}</span>
-        <span><strong>${g.name}</strong><br/><span style="color:var(--muted)">${g.detail}</span></span>
+        <span class="check-status ${c.status}">${c.label}</span>
+        <span>
+          <span class="check-label">${c.title}</span>
+          <span class="check-detail">${c.detail}</span>
+        </span>
       </li>`
     )
     .join("");
-
-  const m = r.plan_metrics || {};
-  document.getElementById("metricHorizon").textContent = m.planning_horizon ?? "—";
-  document.getElementById("metricSteps").textContent = m.simulated_plan_steps ?? "—";
-  document.getElementById("metricStack").textContent = m.stack ?? "—";
-  document.getElementById("metricSuccess").textContent =
-    m.success_rate_mock != null ? `${(m.success_rate_mock * 100).toFixed(0)}%` : "—";
-
-  const s = r.surprise || {};
-  document.getElementById("surpriseMax").textContent =
-    s.max_surprise != null ? s.max_surprise.toFixed(2) : "—";
-  document.getElementById("surpriseThreshold").textContent =
-    s.threshold != null ? s.threshold.toFixed(2) : "—";
-
-  if (window.surpriseChart) {
-    window.surpriseChart.destroy();
-    window.surpriseChart = null;
-  }
-
-  const canvas = document.getElementById("surpriseChart");
-  if (canvas && s.spike_indices) {
-    const labels = Array.from({ length: s.num_steps || 16 }, (_, i) => i + 1);
-    const data = labels.map((i) => (s.spike_indices.includes(i) ? 1 : 0.15));
-    window.surpriseChart = new Chart(canvas, {
-      type: "bar",
-      data: {
-        labels,
-        datasets: [
-          {
-            label: "surprise spike",
-            data,
-            backgroundColor: labels.map((i) =>
-              s.spike_indices.includes(i) ? "#f5b83d" : "#243044"
-            ),
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
-        scales: {
-          x: { ticks: { maxTicksLimit: 12, color: "#8b9bb5" }, grid: { display: false } },
-          y: { display: false },
-        },
-      },
-    });
-  }
 }
 
-async function loadReceipt() {
-  const params = new URLSearchParams(location.search);
-  const receiptParam = params.get("receipt");
-  let url = "./sample_receipt.json";
-  if (receiptParam) {
-    try {
-      url = new URL(receiptParam).pathname.endsWith(".json")
-        ? receiptParam
-        : receiptParam.replace(/\/$/, "") + "/summary.json";
-    } catch {
-      url = receiptParam;
-    }
-  }
-  const res = await fetch(url);
-  const data = await res.json();
-  renderReceipt(data);
-}
-
-document.addEventListener("DOMContentLoaded", loadReceipt);
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".mode-tab, .scenario").forEach((el) => {
+    el.addEventListener("click", () => render(el.dataset.mode));
+  });
+  render("hold");
+});
