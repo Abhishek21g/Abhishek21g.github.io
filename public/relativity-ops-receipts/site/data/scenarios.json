@@ -1,0 +1,24 @@
+[
+  {
+    "id": "stennis-ship",
+    "title": "Stennis Ship",
+    "subtitle": "Second stage factory → Stennis",
+    "nodes": 18,
+    "gates": 3,
+    "description": "May 2026-shaped milestone: design release wave, Stargate print cells, NDT gates, S2 integration, sea transport to NASA Stennis.",
+    "receipt": "data/stennis-ship.json",
+    "tags": ["integration", "transport", "release-wave"],
+    "health_score": 0
+  },
+  {
+    "id": "powder-to-pad-compiler",
+    "title": "Powder-to-Pad Compiler",
+    "subtitle": "Genome chain attestation mode",
+    "nodes": 12,
+    "gates": 2,
+    "description": "Impossible-demo profile: compile powder lot → print genome → NDT → flight release into one auditable digital thread.",
+    "receipt": "data/powder-to-pad-compiler.json",
+    "tags": ["genome", "compiler", "clean-pass"],
+    "health_score": 100
+  }
+]
