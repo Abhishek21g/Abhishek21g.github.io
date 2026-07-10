@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Live Runner — step through plan/run/doctor/report on synthetic additive manufacturing DAGs." />
+    <title>Live Runner · Print-to-Launch Ops Receipts</title>
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css?v=2" />
+    <script src="./shared.js" defer></script>
+    <script src="./runner.js" defer></script>
+  </head>
+  <body data-page="runner">
+    <div class="site-nav-wrap">
+      <nav class="site-nav" aria-label="Primary">
+        <a href="./index.html" data-page="dashboard">Dashboard</a>
+        <a href="./runner.html" data-page="runner" class="active">Live Runner</a>
+        <a href="./vision.html" data-page="vision">The Vision</a>
+        <button class="theme-toggle" type="button" aria-label="Switch theme">☀</button>
+      </nav>
+    </div>
+
+    <main class="page-shell">
+      <section class="hero" style="padding-bottom: 18px; grid-template-columns: 1fr;">
+        <div class="hero-copy">
+          <p class="hero-kicker">Live runner · virtual factory DAG</p>
+          <h1>Run the receipt pipeline on a synthetic lifecycle.</h1>
+          <p class="hero-lede">
+            Step through <code>plan → run → doctor → report</code> on bundled Terran-R-shaped profiles.
+            The DAG board highlights critical-path nodes and doctor failures — no factory VPN required.
+          </p>
+        </div>
+      </section>
+
+      <div class="runner-layout">
+        <aside class="runner-sidebar">
+          <h2>Scenario</h2>
+          <label class="control-label" for="profileSelect">Profile</label>
+          <select id="profileSelect" style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--border);background:var(--bg-elevated);color:var(--text);margin:8px 0 14px"></select>
+
+          <div class="pipeline-steps" aria-label="Pipeline steps">
+            <div class="pipe-step" data-step="plan">① plan</div>
+            <div class="pipe-step" data-step="run">② run</div>
+            <div class="pipe-step" data-step="doctor">③ doctor</div>
+            <div class="pipe-step" data-step="report">④ report</div>
+          </div>
+
+          <button class="btn btn-primary" id="runPipelineBtn" type="button" style="width:100%;margin-bottom:10px">Run pipeline</button>
+          <button class="btn" id="downloadBtn" type="button" style="width:100%">Download receipt JSON</button>
+
+          <h2 style="margin-top:22px">Terminal</h2>
+          <pre class="terminal" id="terminal">$ waiting…</pre>
+        </aside>
+
+        <section class="runner-main">
+          <h2 style="font-family:var(--serif);font-weight:400;margin:0 0 12px">Factory DAG board</h2>
+          <div class="dag-board" id="dagBoard"></div>
+        </section>
+
+        <aside class="runner-inspector">
+          <h2>Inspector</h2>
+          <div class="metrics-row" style="grid-template-columns:1fr 1fr">
+            <div class="metric-tile"><span>Slack</span><strong id="metricSlack">—</strong></div>
+            <div class="metric-tile"><span>Transport</span><strong id="metricTransport">—</strong></div>
+            <div class="metric-tile"><span>Findings</span><strong id="metricFindings">—</strong></div>
+            <div class="metric-tile"><span>Genome</span><strong id="metricGenome">—</strong></div>
+          </div>
+          <h3 style="font-size:0.85rem;color:var(--muted);margin:14px 0 8px;text-transform:uppercase;letter-spacing:.06em;font-family:var(--mono)">Doctor</h3>
+          <div class="doctor-list" id="doctorList"></div>
+          <h3 style="font-size:0.85rem;color:var(--muted);margin:14px 0 8px;text-transform:uppercase;letter-spacing:.06em;font-family:var(--mono)">Receipt</h3>
+          <pre class="receipt-preview" id="receiptPreview">Loading…</pre>
+        </aside>
+      </div>
+
+      <footer class="site-footer">
+        <p>Open CLI mirror: <code>relops plan|run|doctor|report</code> · <a href="https://github.com/Abhishek21g/relativity-ops-receipts">GitHub</a></p>
+      </footer>
+    </main>
+  </body>
+</html>

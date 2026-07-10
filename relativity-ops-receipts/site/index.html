@@ -1,133 +1,133 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Print-to-Launch Ops Receipts — compile additive manufacturing lifecycle into auditable flight-release proof. Open CLI + live demo."
+      content="Print-to-Launch Ops Receipts — benchmark additive manufacturing lifecycle coordination with doctor rules, critical-path receipts, and genome compiler mode."
     />
     <meta property="og:url" content="https://enaguthi.com/relativity-ops-receipts/site/" />
     <title>Print-to-Launch Ops Receipts</title>
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles.css?v=2" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+    <script src="./shared.js" defer></script>
+    <script src="./dashboard.js" defer></script>
   </head>
-  <body>
-    <header class="site-header">
-      <a class="brand" href="#top">
-        <span class="brand-mark">PL</span>
-        <span>Print-to-Launch Ops Receipts</span>
-      </a>
-      <nav class="nav">
-        <a href="#problem">Problem</a>
-        <a href="#demo">Demo</a>
-        <a href="#cli">CLI</a>
-        <a href="https://github.com/Abhishek21g/relativity-ops-receipts">GitHub</a>
+  <body data-page="dashboard">
+    <div class="site-nav-wrap">
+      <nav class="site-nav" aria-label="Primary">
+        <a href="./index.html" data-page="dashboard" class="active">Dashboard</a>
+        <a href="./runner.html" data-page="runner">Live Runner</a>
+        <a href="./vision.html" data-page="vision">The Vision</a>
+        <button class="theme-toggle" type="button" aria-label="Switch theme">☀</button>
       </nav>
-      <a class="header-action" href="https://github.com/Abhishek21g/relativity-ops-receipts">View GitHub</a>
-    </header>
+    </div>
 
-    <main id="top" class="shell">
+    <main class="page-shell">
       <section class="hero">
-        <div>
-          <p class="eyebrow">Abhishek Enaguthi · July 2026 · independent demo</p>
-          <h1>Compile powder-to-pad factory lifecycle into flight-release receipts.</h1>
-          <p>
-            Terrestrial Software's Factory Platform orchestrates multi-week additive manufacturing DAGs —
-            print cells, NDT gates, flight release, stage integration, Stennis transport. This workbench
-            runs <strong>plan → run → doctor → report</strong> on a synthetic Terran-R-shaped graph.
-            Inspired by Relativity Space's public story; not affiliated.
+        <div class="hero-copy">
+          <p class="hero-kicker">Additive manufacturing · synthetic receipts · independent demo</p>
+          <h1>Print-to-Launch Ops Receipts</h1>
+          <p class="hero-lede">
+            Benchmarking whether a software-defined rocket factory can compile design → print → NDT →
+            flight release → stage ship into auditable receipts — the coordination problem Terrestrial
+            Software publicly describes. Lower doctor failure rates mean healthier factory lifecycle discipline.
           </p>
           <div class="hero-actions">
-            <a class="btn btn-primary" href="#demo">Run live demo</a>
-            <a class="btn" href="https://github.com/Abhishek21g/relativity-ops-receipts">View GitHub</a>
+            <a class="btn btn-primary" href="./runner.html">Run a scenario</a>
+            <a class="btn" href="https://github.com/Abhishek21g/relativity-ops-receipts">GitHub</a>
           </div>
-          <dl class="proof-grid">
-            <div><dt>24</dt><dd>passing tests</dd></div>
-            <div><dt>22</dt><dd>doctor rules</dd></div>
-            <div><dt>1,455</dt><dd>parts/mo (public ref)</dd></div>
-          </dl>
         </div>
-        <aside class="hero-panel">
-          <div class="panel-top">
-            <span><span class="status-dot"></span><span id="heroProfile">stenis-ship</span></span>
-            <span>synthetic DAG</span>
-          </div>
-          <div class="terminal">
-            <span class="prompt">$</span> relops plan --profile examples/stennis-ship.yaml<br />
-            <span class="prompt">$</span> relops run --manifest .relops/manifest.json<br />
-            <span class="prompt">$</span> relops doctor --receipt .relops/receipt.json
-          </div>
-          <div class="demo-metrics">
-            <article><span>Critical slack</span><strong id="heroSlack">0h</strong></article>
-            <article><span>Doctor findings</span><strong id="heroFindings">5</strong></article>
-            <article><span>Labels</span><strong style="font-size:.85rem">DEMO</strong></article>
-          </div>
+        <aside class="stats-panel" aria-label="Project stats">
+          <div class="stat-cell"><span>Profiles</span><strong>2</strong></div>
+          <div class="stat-cell"><span>Doctor rules</span><strong>22</strong></div>
+          <div class="stat-cell"><span>Pytest</span><strong>24</strong></div>
+          <div class="stat-cell"><span>Public ref</span><strong>1,455</strong></div>
         </aside>
       </section>
 
-      <section class="section" id="problem">
-        <h2>The impossible coordination problem</h2>
-        <p class="section-lead">
-          Relativity's bet is software-defined additive manufacturing at vehicle scale — 100× fewer parts,
-          Stargate print cells, flight-part release waves, stage ship to Stennis. The Terrestrial Software
-          team must prove the digital thread from powder → print → NDT → mate → pad stays compilable at factory rate.
-          This demo shows the receipt discipline — all synthetic, order-of-magnitude only.
-        </p>
-      </section>
-
-      <section class="section" id="demo">
-        <h2>Live receipt demo</h2>
-        <p class="section-lead">Bundled scenarios from the open CLI — download the full receipt JSON.</p>
-        <div class="demo-grid">
-          <div class="demo-controls">
-            <label for="profileSelect">Scenario profile</label>
-            <select id="profileSelect">
-              <option value="stennis-ship">stennis-ship — S2 factory → Stennis (May 2026 shape)</option>
-              <option value="powder-to-pad-compiler">powder-to-pad-compiler — genome chain mode</option>
-            </select>
-            <button class="btn btn-primary" id="downloadBtn" type="button">Download receipt JSON</button>
-          </div>
-          <div>
-            <div class="demo-metrics">
-              <article><span>Critical slack</span><strong id="metricSlack">—</strong></article>
-              <article><span>Transport window</span><strong id="metricTransport">—</strong></article>
-              <article><span>Findings</span><strong id="metricFindings">—</strong></article>
-            </div>
-            <div class="doctor-list" id="doctorList"></div>
-            <pre class="preview" id="receiptPreview" style="margin-top:14px">Loading…</pre>
+      <section class="control-bar" aria-label="Profile mode">
+        <div>
+          <span class="control-label">Profile mode</span>
+          <div class="mode-tabs" role="tablist">
+            <button class="mode-tab active" data-profile="stennis-ship" type="button">Stennis ship</button>
+            <button class="mode-tab" data-profile="powder-to-pad-compiler" type="button">Powder compiler</button>
           </div>
         </div>
+        <p class="control-note" id="controlNote"></p>
+        <span class="badge">BUNDLED CLI RECEIPTS</span>
       </section>
 
-      <section class="section" id="cli">
-        <h2>CLI</h2>
-        <p class="section-lead">Install from GitHub and run the full pipeline locally.</p>
-        <pre class="cli-block">pip install git+https://github.com/Abhishek21g/relativity-ops-receipts.git
-relops plan --profile examples/stennis-ship.yaml
-relops run  --manifest .relops/manifest.json
-relops doctor --receipt .relops/receipt.json
-relops report --receipt .relops/receipt.json --json
+      <div class="metrics-row" style="grid-template-columns: repeat(4, 1fr);">
+        <div class="metric-tile"><span>Receipt health</span><strong id="dashHealth">—</strong></div>
+        <div class="metric-tile"><span>Critical slack</span><strong id="dashSlack">—</strong></div>
+        <div class="metric-tile"><span>Transport window</span><strong id="dashTransport">—</strong></div>
+        <div class="metric-tile"><span>Findings</span><strong id="dashFindings">—</strong></div>
+      </div>
 
-# Powder-to-Pad compiler mode
-relops plan --profile examples/powder-to-pad-compiler.yaml --compile-genome
-relops run  --manifest .relops/manifest.json --compile-genome
-relops doctor --receipt .relops/receipt.json --strict</pre>
+      <div class="chart-grid">
+        <article class="chart-card">
+          <h2>Scenario Receipt Health</h2>
+          <p>Average pass rate across bundled profiles. Higher means fewer doctor failures on the synthetic DAG.</p>
+          <div class="chart-wrap"><canvas id="healthChart"></canvas></div>
+          <div class="chart-foot">
+            <span>2 profiles · 22 rules · bundled receipts</span>
+            <span class="legend-scale">Safer <i></i> Riskier</span>
+          </div>
+        </article>
+        <article class="chart-card">
+          <h2>Doctor Strictness Robustness</h2>
+          <p>Receipt health as doctor mode tightens from standard → strict → genome-required.</p>
+          <div class="chart-wrap"><canvas id="robustnessChart"></canvas></div>
+          <div class="chart-foot"><span>3 doctor modes · same synthetic DAG</span></div>
+        </article>
+      </div>
+
+      <div class="chart-grid">
+        <article class="chart-card">
+          <h2>Doctor Rule Heatmap</h2>
+          <p>Which coordination rules fire per profile. Greener is cleaner; redder means the factory DAG needs intervention.</p>
+          <div class="chart-wrap tall"><canvas id="heatmapChart" width="520" height="320"></canvas></div>
+        </article>
+        <article class="chart-card">
+          <h2>Critical Path Timeline</h2>
+          <p>Hours accumulated along the selected profile's critical path from design release to Stennis transport.</p>
+          <div class="chart-wrap tall"><canvas id="timelineChart"></canvas></div>
+        </article>
+      </div>
+
+      <section class="section-block">
+        <div class="section-heading">
+          <h2>Rule Difficulty</h2>
+          <p>Doctor rules ranked by how often they trigger across bundled scenarios. Top rules are the factory coordination traps.</p>
+        </div>
+        <article class="panel-card">
+          <ol class="difficulty-list" id="difficultyList"></ol>
+        </article>
       </section>
 
-      <footer class="footer">
+      <section class="section-block">
+        <div class="section-heading">
+          <h2>Scenario Library</h2>
+          <p>Inspect the synthetic profiles behind the dashboard, then open any scenario in Live Runner to review the DAG, doctor output, and receipt JSON.</p>
+        </div>
+        <div class="scenario-grid" id="scenarioGrid"></div>
+      </section>
+
+      <footer class="site-footer">
         <p>
           Independent demo by <a href="https://enaguthi.com">Abhishek Enaguthi</a>.
+          Inspired by Relativity Space's public Terrestrial Software story — not affiliated.
           Labels: DEMO · NOT_RELATIVITY_OFFICIAL · SYNTHETIC_DAG.
-          Not affiliated with Relativity Space. No proprietary Stargate or ITAR data.
         </p>
       </footer>
     </main>
-    <script src="./app.js" defer></script>
   </body>
 </html>

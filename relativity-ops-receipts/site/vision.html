@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="The vision behind Print-to-Launch Ops Receipts — software-defined additive manufacturing at factory rate." />
+    <title>The Vision · Print-to-Launch Ops Receipts</title>
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css?v=2" />
+    <script src="./shared.js" defer></script>
+  </head>
+  <body data-page="vision">
+    <div class="site-nav-wrap">
+      <nav class="site-nav" aria-label="Primary">
+        <a href="./index.html" data-page="dashboard">Dashboard</a>
+        <a href="./runner.html" data-page="runner">Live Runner</a>
+        <a href="./vision.html" data-page="vision" class="active">The Vision</a>
+        <button class="theme-toggle" type="button" aria-label="Switch theme">☀</button>
+      </nav>
+    </div>
+
+    <main class="page-shell">
+      <section class="vision-hero">
+        <p class="hero-kicker">The Vision · Print-to-Launch Ops Receipts</p>
+        <h1>Compile powder-to-pad factory lifecycle before it becomes launch risk.</h1>
+        <p class="hero-lede">
+          Relativity Space is building software-defined additive manufacturing — Stargate print cells,
+          flight-part release waves, multi-week integration DAGs, stage ship to Stennis. This workbench
+          makes that coordination problem testable with receipts, not slide decks.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="./index.html">See the benchmark</a>
+          <a class="btn" href="./runner.html">Run a scenario yourself</a>
+        </div>
+      </section>
+
+      <section class="vision-block">
+        <p class="judge">Judging question</p>
+        <h2>What did we build, and why?</h2>
+        <p>
+          We built a live runner, scenario library, and benchmark dashboard for testing whether a
+          synthetic additive-manufacturing lifecycle stays coherent from design release through NDT,
+          flight release, integration, and sea transport. Each profile gives the planner a DAG,
+          deterministic schedule, and doctor rules that catch the coordination failures Factory
+          Platform engineers describe publicly.
+        </p>
+        <p>
+          We built it because Relativity's public bet is not "we 3D-print parts" — it is proving a
+          <strong>compilable digital thread</strong> at vehicle rate. The only honest way to demonstrate
+          that discipline outside their factory is to ship open receipts with explicit assumptions.
+        </p>
+      </section>
+
+      <section class="vision-block">
+        <p class="judge">Judging question</p>
+        <h2>Who is this for?</h2>
+        <p>
+          Terrestrial Software / Factory Platform hiring managers, manufacturing software engineers,
+          ops researchers, and anyone evaluating whether an outsider understands multi-week MES
+          orchestration for additive launch hardware.
+        </p>
+        <div class="vision-grid">
+          <article class="vision-card">
+            <h3>Factory Platform</h3>
+            <p>Workflow engines, print scheduling, human escalation, rollback — the job-post pain verbatim.</p>
+          </article>
+          <article class="vision-card">
+            <h3>Integration ops</h3>
+            <p>Stage ship windows, NDT gates, harness ordering — May 2026 S2→Stennis milestone shape.</p>
+          </article>
+          <article class="vision-card">
+            <h3>Receipt discipline</h3>
+            <p>CLI + tests + JSON artifacts — the same bar as Tinker Workbench and trust-me-bro-grade demos.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="vision-block">
+        <p class="judge">Judging question</p>
+        <h2>The impossible idea we chose to demo</h2>
+        <p>
+          <strong>Powder-to-Pad Flight Release Compiler</strong> — can you compile thousands of interdependent
+          additive builds into one auditable flight-release proof before a stage hits the dock? Our genome-chain
+          mode attests powder lot → print job → parent lineage without proprietary Stargate telemetry.
+        </p>
+      </section>
+
+      <section class="vision-block">
+        <p class="judge">Judging question</p>
+        <h2>What can we show right now?</h2>
+        <p>A deployed dashboard with receipt health charts, doctor heatmaps, and critical-path timelines.</p>
+        <p>A live runner with DAG board, animated CLI pipeline, and downloadable receipt JSON.</p>
+        <p>24 pytest-covered doctor rules and two bundled profiles — all labeled synthetic.</p>
+        <div class="source-links">
+          <a href="https://www.relativityspace.com/press-release/2026/6/4/may-2026-company-updatenbspnbsp" target="_blank" rel="noopener">
+            <strong>Source · May 2026 company update</strong>
+            1,455 flight parts released; integrated second stage shipped Long Beach → NASA Stennis.
+          </a>
+          <a href="https://spacecrew.com/space-jobs/mblwz8gh-relativity-space-software-engineer-i-factory-platform" target="_blank" rel="noopener">
+            <strong>Source · Factory Platform job post</strong>
+            Multi-week manufacturing DAGs, durable workflow orchestration, MES from scratch.
+          </a>
+          <a href="https://github.com/Abhishek21g/relativity-ops-receipts" target="_blank" rel="noopener">
+            <strong>Source · Open repository</strong>
+            relops CLI, YAML profiles, doctor rules, and worked receipts.
+          </a>
+        </div>
+      </section>
+
+      <section class="vision-block">
+        <p class="judge">Judging question</p>
+        <h2>What are the next steps?</h2>
+        <ol class="vision-steps">
+          <li><span>01</span><div>Expand scenario library with release-wave pressure and pad-readiness gates.</div></li>
+          <li><span>02</span><div>Add Monte Carlo print-cell saturation across 1,455-part/month envelopes.</div></li>
+          <li><span>03</span><div>Package receipts for CI — doctor strict mode as a merge gate on factory manifests.</div></li>
+          <li><span>04</span><div>Pair with outreach to Terrestrial Software — receipt discipline, not a generic rocket landing page.</div></li>
+        </ol>
+      </section>
+
+      <footer class="site-footer">
+        <p>Gold reference bar: <a href="https://trust-me-bro-mu.vercel.app/">Trust Me Bro</a> · Independent demo · Not affiliated with Relativity Space.</p>
+      </footer>
+    </main>
+  </body>
+</html>

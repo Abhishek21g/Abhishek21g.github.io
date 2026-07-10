@@ -1,0 +1,49 @@
+{
+  "doctor_rules": [
+    "PRINT_QUEUE_OVERRUN",
+    "AS_BUILT_REVISION_DRIFT",
+    "GATE_SIGNOFF_MISSING",
+    "STAGE_TRANSPORT_WINDOW_MISS",
+    "FLIGHT_RELEASE_WITHOUT_NDT",
+    "GENOME_CHAIN_BROKEN",
+    "MISSING_PRINT_GENOME",
+    "CRITICAL_PATH_NEGATIVE_SLACK",
+    "TEST_STAND_NOT_READY",
+    "RELEASE_WAVE_BACKLOG"
+  ],
+  "profiles": {
+    "stennis-ship": {
+      "health_score": 58,
+      "pass_rate": 58,
+      "failed": 3,
+      "warned": 2,
+      "transport_hours": 418,
+      "max_queue_h": 122,
+      "genome_attested": 0
+    },
+    "powder-to-pad-compiler": {
+      "health_score": 100,
+      "pass_rate": 100,
+      "failed": 0,
+      "warned": 0,
+      "transport_hours": 342,
+      "max_queue_h": 0,
+      "genome_attested": 3
+    }
+  },
+  "robustness": {
+    "labels": ["Standard", "Strict doctor", "Genome required"],
+    "stennis-ship": [58, 42, 35],
+    "powder-to-pad-compiler": [100, 100, 100]
+  },
+  "rule_difficulty": [
+    { "rule": "PRINT_QUEUE_OVERRUN", "trigger_rate": 50 },
+    { "rule": "AS_BUILT_REVISION_DRIFT", "trigger_rate": 50 },
+    { "rule": "GATE_SIGNOFF_MISSING", "trigger_rate": 50 },
+    { "rule": "TEST_STAND_NOT_READY", "trigger_rate": 50 },
+    { "rule": "RELEASE_WAVE_BACKLOG", "trigger_rate": 50 },
+    { "rule": "STAGE_TRANSPORT_WINDOW_MISS", "trigger_rate": 0 },
+    { "rule": "GENOME_CHAIN_BROKEN", "trigger_rate": 0 },
+    { "rule": "MISSING_PRINT_GENOME", "trigger_rate": 0 }
+  ]
+}
