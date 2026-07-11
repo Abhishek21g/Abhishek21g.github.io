@@ -1,0 +1,40 @@
+{
+  "scenario_id": "mcp-fs-validation-pass",
+  "receipt_dir": "site/demo-receipts/mcp-fs-validation-pass",
+  "harness_profile": "mcp-atlas",
+  "evaluated_at": "2026-07-11T06:50:20.757005+00:00",
+  "passed": true,
+  "gates": [
+    {
+      "name": "mcp_server_pins",
+      "passed": true,
+      "detail": "all 1 pin(s) meet profile minimums"
+    },
+    {
+      "name": "patch_apply_dry_run",
+      "passed": true,
+      "detail": "git apply --check passed"
+    },
+    {
+      "name": "grading_env_fingerprint",
+      "passed": true,
+      "detail": "manifest=services/agent-environment/pyproject.toml lock=sha256:demo-lock-ok image=sha256:ghcr.io/scal..."
+    },
+    {
+      "name": "credential_preflight",
+      "passed": true,
+      "detail": "mock_mode \u2014 credentials not required"
+    },
+    {
+      "name": "receipt_completeness",
+      "passed": true,
+      "detail": "1 task(s) with artifact paths"
+    },
+    {
+      "name": "timeout_policy",
+      "passed": true,
+      "detail": "run 600s within mcp-atlas ceiling 7200s"
+    }
+  ],
+  "overall": "PASS"
+}
