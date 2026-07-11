@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Epistemic Fork — agent grounding trace diff for Perplexity Agent API</title>
+  <meta name="description" content="Fork, replay, and diff Perplexity Agent API web_search trajectories. See which citation step flipped the answer before burning another deep-research call." />
+  <meta property="og:title" content="Epistemic Fork Workbench" />
+  <meta property="og:description" content="Git for agent web-grounding traces — citation flip receipts before blind retries." />
+  <meta property="og:url" content="https://enaguthi.com/epistemic-fork/site/" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <div class="shell">
+    <nav class="top-nav">
+      <a class="back" href="https://enaguthi.com/">← enaguthi.com</a>
+      <div class="nav-links">
+        <a href="#problem">Problem</a>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#cli">CLI</a>
+        <a href="https://github.com/Abhishek21g/epistemic-fork">GitHub</a>
+      </div>
+    </nav>
+
+    <section class="hero" id="top">
+      <div>
+        <p class="eyebrow">Perplexity Agent API · grounding audit</p>
+        <h1>Fork agent research at step N — before you burn another deep-search call.</h1>
+        <p class="lede">
+          Perplexity's Agent API runs multi-step <code>web_search</code> loops, but integrators debug with blind retries.
+          Epistemic Fork replays bundled traces, diffs citations, and emits <strong>trust receipts</strong> —
+          independent of any upstream PR.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#dashboard">Try live dashboard</a>
+          <a class="btn" href="https://github.com/Abhishek21g/epistemic-fork">View on GitHub</a>
+        </div>
+        <dl class="proof-grid">
+          <div><dt>21</dt><dd>passing tests</dd></div>
+          <div><dt>6</dt><dd>doctor gates</dd></div>
+          <div><dt>0</dt><dd>API keys required</dd></div>
+        </dl>
+      </div>
+      <aside class="hero-panel">
+        <div class="panel-top"><span>epistemic-fork</span><span>mock mode</span></div>
+        <div class="terminal">
+          <span class="prompt">$</span>pip install epistemic-fork<br />
+          <span class="prompt">$</span>epistemic-fork plan --trace examples/competitive-brief.trace.json --fork-at 3<br />
+          <span class="prompt">$</span>epistemic-fork run --profile examples/recency-hour.alt.yaml --mock<br />
+          <span class="prompt">$</span>epistemic-fork doctor --receipt out/receipts/sample/
+        </div>
+        <div class="card" style="margin:0;border:none;border-top:1px solid var(--border);border-radius:0">
+          <h3>Sample fork</h3>
+          <div class="trust-badge no">HOLD · fail</div>
+          <p style="margin-top:0.75rem;color:var(--muted);font-size:0.85rem">conclusion_flip at step 3 · recency=hour branch</p>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section" id="problem">
+      <h2 class="section-title">The problem Perplexity is solving</h2>
+      <div class="solution-grid">
+        <article class="solution-card">
+          <span class="solution-label">Mission</span>
+          <p>Trustworthy, cited answers from the live web — exposed to developers via Search API, Sonar, and the multi-provider Agent API.</p>
+        </article>
+        <article class="solution-card">
+          <span class="solution-label">Public pain</span>
+          <p>Agent loops call <code>web_search</code> across turns, but there is no open tooling to answer <em>which search step flipped the conclusion</em> when grounding diverges.</p>
+        </article>
+        <article class="solution-card">
+          <span class="solution-label">This product</span>
+          <p><code>plan → run → doctor → report</code> on Agent API-style traces. Mock mode uses bundled fixtures — no Perplexity API key.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="dashboard">
+      <h2 class="section-title">Live dashboard</h2>
+      <div class="dashboard-wrap">
+        <div class="toolbar">
+          <label class="btn btn-primary">Load receipt JSON<input type="file" id="fileInput" accept=".json" /></label>
+          <button class="btn" id="loadSample" type="button">Load sample</button>
+          <span id="traceLabel" class="code-tag"></span>
+        </div>
+        <div class="grid grid-hero">
+          <div class="card">
+            <h3>Trust verdict</h3>
+            <div class="trust-badge" id="trustBadge">—</div>
+            <p id="trustLabel" style="margin-top:0.75rem;color:var(--muted);font-size:0.85rem">load a receipt to begin</p>
+            <div class="counts">
+              <div class="count"><div class="val" id="passCount">0</div><div class="lbl">Pass</div></div>
+              <div class="count"><div class="val" id="failCount">0</div><div class="lbl">Fail</div></div>
+              <div class="count"><div class="val" id="warnCount">0</div><div class="lbl">Warn</div></div>
+              <div class="count"><div class="val" id="skipCount">0</div><div class="lbl">Skip</div></div>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Fork metadata</h3>
+            <p>Fork at step <strong id="forkAt">—</strong></p>
+            <p>Branch <code id="branchKey">—</code></p>
+            <p id="overallLabel" style="margin-top:0.5rem;color:var(--muted)">—</p>
+          </div>
+          <div class="card">
+            <h3>Citation diff</h3>
+            <p style="font-size:0.85rem;color:var(--muted)">Added / removed URLs across the fork branch</p>
+            <ul class="citation-list" id="diffAdded"></ul>
+            <ul class="citation-list" id="diffRemoved" style="margin-top:0.5rem"></ul>
+          </div>
+        </div>
+        <div class="grid grid-mid">
+          <div class="card">
+            <h3>Doctor gates</h3>
+            <ul class="gate-list" id="gateList"></ul>
+          </div>
+          <div class="card">
+            <h3>Citation graph</h3>
+            <ul class="citation-list" id="citationGraph"></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cli" id="cli">
+      <h2 class="section-title">CLI</h2>
+      <pre>git clone https://github.com/Abhishek21g/epistemic-fork
+cd epistemic-fork && pip install -e ".[dev]"
+
+epistemic-fork plan --trace examples/competitive-brief.trace.json --fork-at 3 --json
+epistemic-fork run  --trace examples/competitive-brief.trace.json --fork-at 3 \
+  --profile examples/recency-hour.alt.yaml --mock
+epistemic-fork doctor --receipt out/receipts/sample/
+epistemic-fork report --receipt out/receipts/sample/ --html out/receipts/sample/report.html</pre>
+    </section>
+
+    <footer class="footer">
+      <p>Built by <a href="https://enaguthi.com">Abhishek Enaguthi</a> · Independent product artifact · Not affiliated with Perplexity</p>
+    </footer>
+  </div>
+</body>
+</html>
