@@ -1,0 +1,18 @@
+{
+  "run_id": "36dba1a2",
+  "scenario_id": "womd-intersection-good",
+  "overall": "GO",
+  "manifest_hash": "2d5a65881a2dd1bf",
+  "replay_fingerprint": "564d38333542",
+  "profile_name": "closed-loop",
+  "mode": "mock:good",
+  "gates": [
+    {"name": "traffic_light_sync", "passed": true, "detail": "1 TL(s) aligned to sim clock"},
+    {"name": "sensor_timestamp_delta", "passed": true, "detail": "10 frames within 50000µs"},
+    {"name": "scenario_bounds", "passed": true, "detail": "route 3 wp, 10 steps"},
+    {"name": "agent_action_rate", "passed": true, "detail": "action_hz=10.0 matches sim step 100ms"},
+    {"name": "manifest_hash", "passed": true, "detail": "hash=2d5a65881a2dd1bf fingerprint=564d38333542"}
+  ],
+  "passed_count": 5,
+  "total_gates": 5
+}
