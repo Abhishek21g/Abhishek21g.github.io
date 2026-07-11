@@ -10,80 +10,38 @@
     {
       "name": "fork_point_load",
       "status": "pass",
-      "message": "Fork step 3 has 1 load-bearing citation(s)",
-      "details": {
-        "load_bearing_urls": [
-          "https://www.reuters.com/technology/acme-warehouse-pilot-2026-03-01/"
-        ]
-      }
+      "message": "Fork step 3 has 1 load-bearing citation(s)"
     },
     {
       "name": "citation_divergence",
       "status": "warn",
-      "message": "Citation divergence: +1 / -1 URLs",
-      "details": {
-        "added": [
-          "https://www.bloomberg.com/news/articles/2026-07-11/acme-robotics-fda-hold"
-        ],
-        "removed": [
-          "https://www.reuters.com/technology/acme-warehouse-pilot-2026-03-01/"
-        ],
-        "shared": [
-          "https://www.acmerobotics.com/about",
-          "https://www.crunchbase.com/organization/acme-robotics/company_financials",
-          "https://techcrunch.com/2026/02/10/acme-robotics-series-b"
-        ],
-        "rank_shift": true
-      }
+      "message": "Citation divergence: +1 / -1 URLs"
     },
     {
       "name": "conclusion_flip",
       "status": "fail",
-      "message": "Final answers materially diverged",
-      "details": {
-        "token_overlap": 0.25,
-        "baseline_excerpt": "Acme Robotics is a warehouse automation company that raised a $120M Series B in February 2026. The brief highlights steady enterprise traction through a March 2",
-        "fork_excerpt": "Acme Robotics still raised $120M Series B, but a July 2026 regulatory review paused its flagship warehouse pilot. The forked brief now flags near-term deploymen"
-      }
+      "message": "Final answers materially diverged"
     },
     {
       "name": "recency_sensitivity",
       "status": "pass",
-      "message": "Fork branch includes 4 citation(s) inside recency=hour",
-      "details": {
-        "recent_urls": 4,
-        "window_hours": 1
-      }
+      "message": "Fork branch includes 4 citation(s) inside recency=hour"
     },
     {
       "name": "multi_provider_branch",
       "status": "skip",
-      "message": "No alternate model in fork profile",
-      "details": {}
+      "message": "No alternate model in fork profile"
     },
     {
       "name": "cost_envelope",
       "status": "pass",
-      "message": "Fork branch stays inside mock retry budget",
-      "details": {
-        "delta_tokens": -1095,
-        "delta_latency_ms": -2770
-      }
+      "message": "Fork branch stays inside mock retry budget"
     }
   ],
-  "summary": {
-    "pass": 3,
-    "fail": 1,
-    "warn": 1,
-    "skip": 1
-  },
+  "summary": { "pass": 3, "fail": 1, "warn": 1, "skip": 1 },
   "fork_diff": {
-    "added": [
-      "https://www.bloomberg.com/news/articles/2026-07-11/acme-robotics-fda-hold"
-    ],
-    "removed": [
-      "https://www.reuters.com/technology/acme-warehouse-pilot-2026-03-01/"
-    ],
+    "added": ["https://www.bloomberg.com/news/articles/2026-07-11/acme-robotics-fda-hold"],
+    "removed": ["https://www.reuters.com/technology/acme-warehouse-pilot-2026-03-01/"],
     "shared": [
       "https://www.acmerobotics.com/about",
       "https://www.crunchbase.com/organization/acme-robotics/company_financials",
@@ -91,71 +49,7 @@
     ],
     "rank_shift": true
   },
-  "citations_graph": {
-    "fork_at": 3,
-    "nodes": [
-      {
-        "side": "baseline",
-        "url": "https://www.acmerobotics.com/about",
-        "title": "Acme Robotics \u2014 About",
-        "date": "2025-11-12"
-      },
-      {
-        "side": "baseline",
-        "url": "https://www.crunchbase.com/organization/acme-robotics/company_financials",
-        "title": "Acme Robotics funding profile",
-        "date": "2026-02-18"
-      },
-      {
-        "side": "baseline",
-        "url": "https://techcrunch.com/2026/02/10/acme-robotics-series-b",
-        "title": "Acme Robotics raises $120M Series B",
-        "date": "2026-02-10"
-      },
-      {
-        "side": "baseline",
-        "url": "https://www.reuters.com/technology/acme-warehouse-pilot-2026-03-01/",
-        "title": "Acme expands warehouse pilot with major retailer",
-        "date": "2026-03-01"
-      },
-      {
-        "side": "fork",
-        "url": "https://www.acmerobotics.com/about",
-        "title": "Acme Robotics \u2014 About",
-        "date": "2026-07-11T05:44:08.940776+00:00"
-      },
-      {
-        "side": "fork",
-        "url": "https://www.crunchbase.com/organization/acme-robotics/company_financials",
-        "title": "Acme Robotics funding profile",
-        "date": "2026-07-11T05:44:08.940776+00:00"
-      },
-      {
-        "side": "fork",
-        "url": "https://techcrunch.com/2026/02/10/acme-robotics-series-b",
-        "title": "Acme Robotics raises $120M Series B",
-        "date": "2026-07-11T05:44:08.940776+00:00"
-      },
-      {
-        "side": "fork",
-        "url": "https://www.bloomberg.com/news/articles/2026-07-11/acme-robotics-fda-hold",
-        "title": "Acme Robotics pauses pilot after regulatory review",
-        "date": "2026-07-11T05:44:08.940776+00:00"
-      }
-    ],
-    "diff": {
-      "added": [
-        "https://www.bloomberg.com/news/articles/2026-07-11/acme-robotics-fda-hold"
-      ],
-      "removed": [
-        "https://www.reuters.com/technology/acme-warehouse-pilot-2026-03-01/"
-      ],
-      "shared": [
-        "https://www.acmerobotics.com/about",
-        "https://www.crunchbase.com/organization/acme-robotics/company_financials",
-        "https://techcrunch.com/2026/02/10/acme-robotics-series-b"
-      ],
-      "rank_shift": true
-    }
-  }
+  "token_overlap": 0.25,
+  "baseline_excerpt": "Acme Robotics is a warehouse automation company that raised a $120M Series B in February 2026. The brief highlights steady enterprise traction through a March 2026 retailer pilot.",
+  "fork_excerpt": "Acme Robotics still raised $120M Series B, but a July 2026 regulatory review paused its flagship warehouse pilot. The forked brief now flags near-term deployment risk."
 }
