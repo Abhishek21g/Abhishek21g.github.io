@@ -639,19 +639,27 @@
 </div>
 <div class="window-body" style="padding:32px 36px;overflow-y:auto;">
 <section class="featured-projects" aria-label="Featured projects">
+<a class="featured-card" href="https://certusai.dev" target="_blank" rel="noopener noreferrer">
+<span>Startup</span>
+<strong>Certus AI</strong>
+<p>TurboTax for safety certification — structured, traceable ISO 26262 docs from a system description.</p>
+<em>certusai.dev ↗</em>
+</a>
 <a class="featured-card" href="https://mocki.dev" target="_blank" rel="noopener noreferrer">
 <span>Featured project</span>
 <strong>Mocki</strong>
 <p>Multi-agent AI interview coaching with an adaptive NVIDIA NIM-backed interview loop.</p>
 <em>mocki.dev ↗</em>
 </a>
-<a class="featured-card" href="https://leetfut.mocki.dev" target="_blank" rel="noopener noreferrer">
-<span>Featured project</span>
-<strong>LEETFUT</strong>
-<p>The official scouting bureau for football-style player discovery and roster intelligence.</p>
-<em>leetfut.mocki.dev ↗</em>
-</a>
 </section>
+<div style="margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid rgba(20,17,13,0.1);">
+<h3 style="font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:28px;color:#14110D;margin:0 0 8px;">Certus AI — TurboTax for Safety Certification</h3>
+<p style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:13px;line-height:1.6;color:#3B3529;margin:0 0 10px;">Describe your system. Certus generates structured, traceable, standard-compliant safety documentation — and flags anything that needs human review. Live wedge: ISO 26262 automotive functional safety (HARA, safety goals, safety concept), with expansion into ISO 21434, IEC 62304, DO-178C, and more.</p>
+<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;">React · Vite · Claude API · ISO 26262 · Vercel</div>
+<a href="https://certusai.dev" target="_blank" rel="noopener noreferrer" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#E2621B;text-decoration:none;">certusai.dev ↗</a>
+</div>
+</div>
 <div style="margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid rgba(20,17,13,0.1);">
 <h3 style="font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:28px;color:#14110D;margin:0 0 8px;">Mocki — Multi-Agent Interview Coaching</h3>
 <p style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:13px;line-height:1.6;color:#3B3529;margin:0 0 10px;">Coordinator → Interviewer → Evaluator → Report Generator, adaptive difficulty via the NVIDIA NIM API. 1st place, NVIDIA Nemotron track at BeaverHacks 2026 (RTX 5070 prize), out of 50+ teams.</p>
@@ -769,9 +777,10 @@
 <aside class="resume-sidebar">
 <div class="nd-roman" style="margin-bottom:10px;">V. Credential Packet</div>
 <h3 class="nd-heading" style="font-size:42px;margin:0 0 16px;">Resume</h3>
-<p class="nd-copy" style="font-size:14px;line-height:1.65;margin:0 0 18px;">A one-page systems snapshot: compiler work, GPU/HPC research, production infra, and the projects worth opening first.</p>
+<p class="nd-copy" style="font-size:14px;line-height:1.65;margin:0 0 18px;">A one-page systems snapshot: Certus AI (certusai.dev), compiler work, GPU/HPC research, and the projects worth opening first.</p>
 <a class="resume-action" href="/resume.pdf" target="_blank" rel="noopener noreferrer">open full tab ↗</a>
 <div style="display:flex;flex-wrap:wrap;gap:8px;margin:22px 0;">
+<span style="font:700 10px 'IBM Plex Mono',monospace;color:#5B5648;background:rgba(20,17,13,0.07);border-radius:999px;padding:6px 9px;">Startup</span>
 <span style="font:700 10px 'IBM Plex Mono',monospace;color:#5B5648;background:rgba(20,17,13,0.07);border-radius:999px;padding:6px 9px;">Compilers</span>
 <span style="font:700 10px 'IBM Plex Mono',monospace;color:#5B5648;background:rgba(20,17,13,0.07);border-radius:999px;padding:6px 9px;">GPU/HPC</span>
 <span style="font:700 10px 'IBM Plex Mono',monospace;color:#5B5648;background:rgba(20,17,13,0.07);border-radius:999px;padding:6px 9px;">Research</span>
@@ -1043,7 +1052,7 @@ class Component extends DCLogic {
     whoami: "abhishek_enaguthi\ncpu architecture & systems engineer — compiler backends, hpc performance\nM.S. Artificial Intelligence · B.S. Computer Science, Oregon State University",
     about: "M.S. Artificial Intelligence (Thesis) + B.S. Computer Science (AI), Minor in Finance — Oregon State University. GPA 4.0 / 3.95.\nI work on compilers, kernel debug, and distributed HPC — mostly performance, correctness, and getting code to run on real clusters.\nSecured a $1M joint research grant from AMD + IBM to advance heterogeneous GPU compiler tech.",
     experience: "[Mar 2024 – Present] AI Research Engineer — Research Advanced Computing, OSU\n  - secured $1M grant from AMD + IBM for heterogeneous GPU compiler tech\n  - published compiler research enabling ROCm cross-compilation to x86\n  - led team to SC25, top 3/50+ in the IndySCC student cluster competition\n\n[Jun–Sep 2025] LLM Research Intern — University of Washington\n  - built multi-turn synthetic QA generation for NVIDIA NeMo\n  - deployed LLaMA-3 70B + Mistral via vLLM on NVIDIA H200 clusters\n\n[Jun 2024 – Present] Systems Software Engineer — CEOAS, OSU\n  - presented a physics-based digital twin at SC24 (NVIDIA Omniverse + Isaac Sim)\n  - wrote LLVM passes + kernel optimizations, 30% perf boost\n\n[Mar 2024 – Present] HPC Performance Engineer — OSU\n  - automated SLURM RPC + disk monitoring, adopted by 100+ daily users\n  - 20% faster collective comm, 15% higher memory throughput (NCCL/MPI)",
-    projects: "mocki/                    multi-agent AI interview coaching — live at mocki.dev\nleetfut/                  football scouting bureau — live at leetfut.mocki.dev\nbluestart/                ROCm on IBM POWER9, CUDA via HIPify\ncompile-your-language/    from-scratch language + compiler techniques guide\ntreehacks-intersystems/   GenAI research assistant, InterSystems IRIS vector search\nrag-pipeline/             235K embeddings, 65K Wikipedia articles, PyTorch DDP across multi-GPU nodes\n\ntype 'open <name>' for more (e.g. 'open mocki')",
+    projects: "certus/                   TurboTax for safety certification — live at certusai.dev\nmocki/                    multi-agent AI interview coaching — live at mocki.dev\nleetfut/                  football scouting bureau — live at leetfut.mocki.dev\nbluestart/                ROCm on IBM POWER9, CUDA via HIPify\ncompile-your-language/    from-scratch language + compiler techniques guide\ntreehacks-intersystems/   GenAI research assistant, InterSystems IRIS vector search\nrag-pipeline/             235K embeddings, 65K Wikipedia articles, PyTorch DDP across multi-GPU nodes\n\ntype 'open <name>' for more (e.g. 'open certus')",
     contact: "email     enaguthiabhishek@gmail.com\nlinkedin  linkedin.com/in/abhishekenaguthi\ngithub    github.com/Abhishek21g\ninstagram @rollingwithabhi",
     resume: "opening Resume...",
     gallery: "opening Gallery...",
@@ -1060,23 +1069,23 @@ class Component extends DCLogic {
   });
 
   todayData = {
-    title: 'Portfolio OS build log',
-    summary: 'Today is about making the site feel alive: visible windows, a daily update surface, and terminal commands that make the desktop feel like Abhi is actively building here.',
-    date: '2026-07-02',
-    buildCount: '04',
-    shipCount: '02',
+    title: 'Certus AI is live',
+    summary: 'Featuring Certus AI — TurboTax for safety certification — on the portfolio desktop. Live at certusai.dev; open Projects/ to see it first.',
+    date: '2026-07-15',
+    buildCount: '05',
+    shipCount: '03',
     streak: '01',
     items: [
-      { kind: 'ship', text: 'Fixed the OS layout so windows stay visible after browser resize and zoom changes.' },
-      { kind: 'live', text: 'GitHub activity feed refreshes after deploys and every six hours.' },
-      { kind: 'next', text: 'Turn Today.txt into a markdown-backed daily update feed.' },
-      { kind: 'agent', text: 'Future hook: show Codex/Claude work sessions, token spend, and deploy activity from real logs.' }
+      { kind: 'ship', text: 'Featured Certus AI as the lead startup card in Projects/ with a full write-up and certusai.dev link.' },
+      { kind: 'live', text: 'Certus AI is live at https://certusai.dev — ISO 26262 HARA / safety-doc generation.' },
+      { kind: 'next', text: 'Keep Mocki and LEETFUT in the project trail; Certus stays the first thing recruiters open.' },
+      { kind: 'agent', text: 'Terminal: open certus · agent explain certus · projects' }
     ]
   };
 
   shellFiles = {
     '~': ['today.txt', 'about.txt', 'principles.md', 'experience.log', 'contact.txt', 'projects/', 'gallery/', 'blog/', 'resume.txt', 'agent/'],
-    '~/projects': ['mocki.md', 'leetfut.md', 'bluestart.md', 'compile-your-language.md', 'treehacks-intersystems.md', 'rag-pipeline.md'],
+    '~/projects': ['certus.md', 'mocki.md', 'leetfut.md', 'bluestart.md', 'compile-your-language.md', 'treehacks-intersystems.md', 'rag-pipeline.md'],
     '~/gallery': ['treehacks-karpathy-2023.jpg', 'img_9530-2.jpg', 'img_5446.jpg', 'img_4193-2.jpg', 'img_9799.jpg', 'img_9593.jpg', 'img_4700.jpg', 'img_4698.jpg', 'img_4695.jpg', 'img_5729.jpg', 'img_2683.jpg', 'img_9125.jpg', 'img_1292.jpg', 'sc24-booth.jpg'],
     '~/blog': ['gtc-2025.md', 'jensen-osu.md', 'treehacks-karpathy.md', 'lightning-talk.md', 'supercomputing-2024.md'],
     '~/agent': ['README.md', 'status.json', 'tokens.log', 'graph.json', 'workflow.md', 'suggestions.md', 'chat']
@@ -1124,8 +1133,8 @@ class Component extends DCLogic {
       'help', 'history', 'clear', 'exit', 'close', 'ls', 'cd projects', 'cd agent', 'pwd', 'tree',
       'tldr', 'principles', 'cat principles.md', 'cat today.txt', 'cat experience.log', 'cat agent/status.json',
       'open resume', 'open projects', 'open gallery', 'open blog',
-      'search cuda', 'search compiler', 'agent route recruiter', 'agent explain mocki',
-      'agent suggest', 'tokens', 'graph', 'today'
+      'search cuda', 'search compiler', 'agent route recruiter', 'agent explain certus',
+      'agent explain mocki', 'agent suggest', 'tokens', 'graph', 'today'
     ];
     return tokens.filter((token) => token.indexOf(raw) === 0 || token.indexOf(' ' + raw) !== -1).slice(0, 3);
   }
@@ -1152,10 +1161,10 @@ class Component extends DCLogic {
       this.setState({ shellPath: target });
       return 'entered ' + target;
     }
-    if (cmd === 'tree') return ".\n├── today.txt\n├── about.txt\n├── principles.md\n├── experience.log\n├── contact.txt\n├── resume.txt\n├── projects/\n│   ├── mocki.md\n│   ├── leetfut.md\n│   ├── bluestart.md\n│   ├── compile-your-language.md\n│   ├── treehacks-intersystems.md\n│   └── rag-pipeline.md\n├── gallery/\n│   ├── sc24-booth.jpg\n│   └── aiweek-wide.jpg\n├── blog/\n│   ├── supercomputing-2024.md\n│   └── lightning-talk.md\n└── agent/\n    ├── status.json\n    ├── tokens.log\n    ├── graph.json\n    ├── workflow.md\n    └── chat";
+    if (cmd === 'tree') return ".\n├── today.txt\n├── about.txt\n├── principles.md\n├── experience.log\n├── contact.txt\n├── resume.txt\n├── projects/\n│   ├── certus.md\n│   ├── mocki.md\n│   ├── leetfut.md\n│   ├── bluestart.md\n│   ├── compile-your-language.md\n│   ├── treehacks-intersystems.md\n│   └── rag-pipeline.md\n├── gallery/\n│   ├── sc24-booth.jpg\n│   └── aiweek-wide.jpg\n├── blog/\n│   ├── supercomputing-2024.md\n│   └── lightning-talk.md\n└── agent/\n    ├── status.json\n    ├── tokens.log\n    ├── graph.json\n    ├── workflow.md\n    └── chat";
     if (cmd === 'tokens') return "context meter\nused: 67%\nremaining: ~18k tokens\nmode: build + verify\nnote: static display for now; ready for real Codex/Claude logs.";
     if (cmd === 'graph') return this.githubGraphText();
-    if (cmd === 'agent') return "rudhra-agent static shell\n\ntry: agent route recruiter\ntry: agent explain mocki\ntry: agent suggest\nnote: this public site can route and summarize, but private actions stay in GitHub/Rudhra.";
+    if (cmd === 'agent') return "rudhra-agent static shell\n\ntry: agent route recruiter\ntry: agent explain certus\ntry: agent explain mocki\ntry: agent suggest\nnote: this public site can route and summarize, but private actions stay in GitHub/Rudhra.";
     if (cmd.indexOf('agent ') === 0) return "agent: " + this.agentReply(cmd.slice(6).trim());
     if (cmd.indexOf('cat ') === 0) return this.catFile(cmd.slice(4).trim());
     if (cmd === 'today' || cmd === 'now') {
@@ -1201,7 +1210,8 @@ class Component extends DCLogic {
       'README.md': 'agent shell: route visitors, explain projects, and reveal the portfolio OS safely.',
       'status.json': '{ \"mode\": \"static-public\", \"privateActions\": false, \"routes\": [\"recruiter\", \"compiler\", \"hpc\", \"gallery\"] }',
       'workflow.md': '1. inspect\n2. design\n3. implement\n4. verify\n5. push only when Abhi says push',
-      'suggestions.md': 'agent route recruiter\nagent explain mocki\nsearch compiler\nopen resume',
+      'suggestions.md': 'agent route recruiter\nagent explain certus\nagent explain mocki\nsearch compiler\nopen resume',
+      'certus.md': this.openTargets.certus,
       'mocki.md': this.openTargets.mocki,
       'leetfut.md': this.openTargets.leetfut,
       'bluestart.md': this.openTargets.bluestart,
@@ -1221,9 +1231,10 @@ class Component extends DCLogic {
 
   agentReply(text) {
     if (!text) return "give me a tiny task and I will route it.";
-    if (text.indexOf('route') !== -1 && text.indexOf('recruiter') !== -1) return "route selected: recruiter_fast_path\n1. open resume\n2. open projects\n3. cat experience.log\nnote: strongest signal is compiler/HPC depth plus shipped AI projects.";
+    if (text.indexOf('route') !== -1 && text.indexOf('recruiter') !== -1) return "route selected: recruiter_fast_path\n1. open projects  (Certus AI first)\n2. open resume\n3. cat experience.log\nnote: strongest signal is the Certus AI startup plus compiler/HPC depth.";
     if (text.indexOf('compiler') !== -1 || text.indexOf('llvm') !== -1) return "compiler trail\n- cat projects/compile-your-language.md\n- cat experience.log\n- search rocm\n- open resume";
-    if (text.indexOf('suggest') !== -1) return "suggestions\n- open projects\n- agent route recruiter\n- search cuda\n- cat today.txt";
+    if (text.indexOf('suggest') !== -1) return "suggestions\n- open projects\n- agent route recruiter\n- agent explain certus\n- search cuda\n- cat today.txt";
+    if (text.indexOf('explain certus') !== -1 || text.indexOf('certus') !== -1) return this.openTargets.certus;
     if (text.indexOf('explain mocki') !== -1 || text.indexOf('mocki') !== -1) return this.openTargets.mocki;
     if (text.indexOf('status') !== -1) return "agent status: public-static\nprivate actions: disabled\nadmin work: use /ops once added\nlast local commit: Today.txt JSON feed";
     if (text.indexOf('logs') !== -1) return "public logs only:\n- deploy workflow: GitHub Actions\n- today feed: /updates/today.json\n- github feed: /live/github-activity.json";
@@ -1235,8 +1246,8 @@ class Component extends DCLogic {
 
   helpFor(topic) {
     const help = {
-      open: "open <target>\nexamples: open resume, open projects, open gallery, open mocki",
-      agent: "agent route recruiter\nagent explain mocki\nagent suggest\nagent status",
+      open: "open <target>\nexamples: open resume, open projects, open gallery, open certus, open mocki",
+      agent: "agent route recruiter\nagent explain certus\nagent explain mocki\nagent suggest\nagent status",
       search: "search <term>\nexamples: search cuda, search compiler, search gallery",
       cd: "cd projects | cd blog | cd agent | cd .. | cd ~"
     };
@@ -1250,6 +1261,7 @@ class Component extends DCLogic {
       ['compiler', 'experience.log', 'LLVM, compiler backends, ROCm research'],
       ['cuda', 'projects/rag-pipeline.md', 'PyTorch DDP, CUDA, multi-GPU nodes'],
       ['rocm', 'projects/bluestart.md', 'ROCm on POWER9 and HIPify'],
+      ['certus', 'projects/certus.md', 'TurboTax for safety certification — certusai.dev'],
       ['mocki', 'projects/mocki.md', 'NVIDIA Nemotron multi-agent interview coach'],
       ['gallery', 'gallery/', 'SC24 and AI Week photos'],
       ['resume', 'resume.txt', 'credential packet'],
@@ -1270,6 +1282,7 @@ class Component extends DCLogic {
   }
 
   openTargets = {
+    certus: "Certus AI — TurboTax for safety certification.\nDescribe your system; Certus generates structured, traceable, standard-compliant safety documentation and flags what needs human review.\nWedge: ISO 26262 automotive functional safety (HARA, safety goals, safety concept).\nStack: React, Vite, Claude API, Express, Vercel.\nlive: certusai.dev",
     mocki: "Mocki — multi-agent AI mock interview platform. React, Node.js, NVIDIA Nemotron, NIM API, Tailwind.\n4-agent pipeline: Coordinator → Interviewer → Evaluator → Report Generator, adaptive difficulty via NVIDIA NIM API.\n1st place, NVIDIA Nemotron track @ BeaverHacks 2026 (RTX 5070 prize), out of 50+ teams.\nlive: mocki.dev",
     leetfut: "LEETFUT — official scouting bureau from the Mocki ecosystem.\nFootball-style player discovery and roster intelligence with a polished public product surface.\nlive: leetfut.mocki.dev",
     bluestart: "bluestart — configuring ROCm for compatibility with the IBM POWER9 architecture, enabling CUDA code to run on AMD GPUs via HIPify.\ngithub.com/Abhishek21g/bluestart",
@@ -1864,7 +1877,7 @@ class Component extends DCLogic {
     whoami: "abhishek_enaguthi\ncpu architecture & systems engineer — compiler backends, hpc performance\nM.S. Artificial Intelligence · B.S. Computer Science, Oregon State University",
     about: "M.S. Artificial Intelligence (Thesis) + B.S. Computer Science (AI), Minor in Finance — Oregon State University. GPA 4.0 / 3.95.\nI work on compilers, kernel debug, and distributed HPC — mostly performance, correctness, and getting code to run on real clusters.\nSecured a $1M joint research grant from AMD + IBM to advance heterogeneous GPU compiler tech.",
     experience: "[Mar 2024 – Present] AI Research Engineer — Research Advanced Computing, OSU\n  - secured $1M grant from AMD + IBM for heterogeneous GPU compiler tech\n  - published compiler research enabling ROCm cross-compilation to x86\n  - led team to SC25, top 3/50+ in the IndySCC student cluster competition\n\n[Jun–Sep 2025] LLM Research Intern — University of Washington\n  - built multi-turn synthetic QA generation for NVIDIA NeMo\n  - deployed LLaMA-3 70B + Mistral via vLLM on NVIDIA H200 clusters\n\n[Jun 2024 – Present] Systems Software Engineer — CEOAS, OSU\n  - presented a physics-based digital twin at SC24 (NVIDIA Omniverse + Isaac Sim)\n  - wrote LLVM passes + kernel optimizations, 30% perf boost\n\n[Mar 2024 – Present] HPC Performance Engineer — OSU\n  - automated SLURM RPC + disk monitoring, adopted by 100+ daily users\n  - 20% faster collective comm, 15% higher memory throughput (NCCL/MPI)",
-    projects: "mocki/                    multi-agent AI interview coaching — live at mocki.dev\nleetfut/                  football scouting bureau — live at leetfut.mocki.dev\nbluestart/                ROCm on IBM POWER9, CUDA via HIPify\ncompile-your-language/    from-scratch language + compiler techniques guide\ntreehacks-intersystems/   GenAI research assistant, InterSystems IRIS vector search\nrag-pipeline/             235K embeddings, 65K Wikipedia articles, PyTorch DDP across multi-GPU nodes\n\ntype 'open <name>' for more (e.g. 'open mocki')",
+    projects: "certus/                   TurboTax for safety certification — live at certusai.dev\nmocki/                    multi-agent AI interview coaching — live at mocki.dev\nleetfut/                  football scouting bureau — live at leetfut.mocki.dev\nbluestart/                ROCm on IBM POWER9, CUDA via HIPify\ncompile-your-language/    from-scratch language + compiler techniques guide\ntreehacks-intersystems/   GenAI research assistant, InterSystems IRIS vector search\nrag-pipeline/             235K embeddings, 65K Wikipedia articles, PyTorch DDP across multi-GPU nodes\n\ntype 'open <name>' for more (e.g. 'open certus')",
     contact: "email     enaguthiabhishek@gmail.com\nlinkedin  linkedin.com/in/abhishekenaguthi\ngithub    github.com/Abhishek21g\ninstagram @rollingwithabhi",
     resume: "opening Resume...",
     gallery: "opening Gallery...",
@@ -1875,6 +1888,7 @@ class Component extends DCLogic {
   };
 
   osOpenTargets = {
+    certus: "Certus AI — TurboTax for safety certification.\nDescribe your system; Certus generates structured, traceable, standard-compliant safety documentation and flags what needs human review.\nWedge: ISO 26262 automotive functional safety (HARA, safety goals, safety concept).\nStack: React, Vite, Claude API, Express, Vercel.\nlive: certusai.dev",
     mocki: "Mocki — multi-agent AI mock interview platform. React, Node.js, NVIDIA Nemotron, NIM API, Tailwind.\n4-agent pipeline: Coordinator → Interviewer → Evaluator → Report Generator, adaptive difficulty via NVIDIA NIM API.\n1st place, NVIDIA Nemotron track @ BeaverHacks 2026 (RTX 5070 prize), out of 50+ teams.\nlive: mocki.dev",
     leetfut: "LEETFUT — official scouting bureau from the Mocki ecosystem.\nFootball-style player discovery and roster intelligence with a polished public product surface.\nlive: leetfut.mocki.dev",
     bluestart: "bluestart — configuring ROCm for compatibility with the IBM POWER9 architecture, enabling CUDA code to run on AMD GPUs via HIPify.\ngithub.com/Abhishek21g/bluestart",

@@ -1,30 +1,26 @@
 {
-  "title": "Portfolio OS build log",
-  "summary": "Today is about tightening the OS: cleaner glass widgets, real data surfaces, a daily update file, and an agent plan for the next portfolio passes.",
-  "date": "2026-07-02",
-  "buildCount": "07",
+  "title": "Certus AI is live",
+  "summary": "Featuring Certus AI — TurboTax for safety certification — on the portfolio desktop. Live at certusai.dev; open Projects/ to see it first.",
+  "date": "2026-07-15",
+  "buildCount": "05",
   "shipCount": "03",
   "streak": "01",
   "items": [
     {
       "kind": "ship",
-      "text": "Made the Now.log rail card compact so the desktop feels calmer."
-    },
-    {
-      "kind": "ship",
-      "text": "Fixed GitHub Pages output by removing generated template-placeholder files."
+      "text": "Featured Certus AI as the lead startup card in Projects/ with a full write-up and certusai.dev link."
     },
     {
       "kind": "live",
-      "text": "GitHub activity feed refreshes after deploys and every six hours."
-    },
-    {
-      "kind": "agent",
-      "text": "Split the remaining work into design polish, Today.txt, mobile, terminal, live data, integration, and admin monitoring agents."
+      "text": "Certus AI is live at https://certusai.dev — ISO 26262 HARA / safety-doc generation."
     },
     {
       "kind": "next",
-      "text": "Wire GitHub activity and sanitized agent-runtime metrics into the OS rail."
+      "text": "Keep Mocki and LEETFUT in the project trail; Certus stays the first thing recruiters open."
+    },
+    {
+      "kind": "agent",
+      "text": "Terminal: open certus · agent explain certus · projects"
     }
   ]
 }
