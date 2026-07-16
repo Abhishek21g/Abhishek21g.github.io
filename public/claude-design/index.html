@@ -158,6 +158,18 @@
   .ambient-row{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:13px;color:rgba(246,242,234,0.72);}
   .ambient-row strong{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;font-weight:600;text-align:right;}
   .ambient-meta{margin-top:8px;font:11px 'IBM Plex Mono',monospace;color:rgba(246,242,234,0.46);}
+  .ambient-card.certus-spotlight{background:linear-gradient(145deg,rgba(226,98,27,0.28),rgba(20,17,13,0.55) 48%,rgba(246,242,234,0.06));border-color:rgba(226,98,27,0.45);text-decoration:none;display:block;color:inherit;}
+  .ambient-card.certus-spotlight .ambient-title{font-size:32px;}
+  .ambient-card.certus-spotlight p{margin:10px 0 0;font-size:13px;line-height:1.45;color:rgba(246,242,234,0.78);max-width:28em;}
+  .ambient-card.certus-spotlight .ambient-meta{color:rgba(246,242,234,0.72);}
+  .about-certus{display:flex;flex-direction:column;gap:8px;margin:0 0 22px;padding:18px 20px;border-radius:10px;background:linear-gradient(135deg,#14110D,#2A2118 62%,#E2621B);color:#F6F2EA;text-decoration:none;box-shadow:0 14px 36px rgba(20,17,13,0.18);position:relative;overflow:hidden;}
+  .about-certus::after{content:"";position:absolute;right:-28px;bottom:-36px;width:100px;height:100px;border-radius:999px;background:rgba(246,242,234,0.12);filter:blur(2px);}
+  .about-certus > *{position:relative;z-index:1;}
+  .about-certus span{font:700 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:rgba(246,242,234,.58);}
+  .about-certus strong{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:28px;line-height:.95;color:#F6F2EA;}
+  .about-certus p{font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:13px;line-height:1.45;color:rgba(246,242,234,.76);margin:0;max-width:36em;}
+  .about-certus em{font:700 11px 'IBM Plex Mono',monospace;color:#F6F2EA;font-style:normal;margin-top:4px;}
+  .about-certus:hover{filter:brightness(1.05);}
   .compact-log{padding:13px 14px!important;}
   .compact-log .ambient-kicker{margin-bottom:8px;}
   .compact-log .ambient-title{font-size:20px!important;line-height:1.02;}
@@ -395,7 +407,7 @@
 <div class="gov-strip">
 <span class="gov-dot"></span>
 <span class="mac-menu-items"><strong>AE</strong><span>Finder</span><span>File</span><span>Edit</span><span>View</span><span>Go</span><span>Window</span></span>
-<span style="margin-left:auto;">Systems · Compilers · HPC</span>
+<span style="margin-left:auto;">Certus AI · Systems · Compilers · HPC</span>
 </div>
 <div style="height:40px;width:100%;display:flex;align-items:center;justify-content:space-between;padding:0 20px;box-sizing:border-box;">
 <div style="display:flex;align-items:center;gap:10px;">
@@ -420,6 +432,12 @@
 <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(135deg, rgba(246,242,234,0.015) 0px, rgba(246,242,234,0.015) 1px, transparent 1px, transparent 40px);pointer-events:none;"></div>
 
 <div class="ambient-rail {{ ambientRailClass }}" aria-label="Ambient status widgets">
+<a class="ambient-card certus-spotlight" href="https://certusai.dev" target="_blank" rel="noopener noreferrer">
+<div class="ambient-kicker">Featured · Startup</div>
+<div class="ambient-title">Certus AI</div>
+<p>TurboTax for safety certification — live ISO 26262 docs from a system description.</p>
+<div class="ambient-meta">certusai.dev ↗</div>
+</a>
 <section class="ambient-card">
 <div class="ambient-kicker">I. GitHub Pulse</div>
 <div class="ambient-row"><span>Contribution graph</span><strong>{{ githubActivityStatus }}</strong></div>
@@ -568,7 +586,13 @@
 <h2 class="about-name nd-heading" style="font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:42px;line-height:0.96;color:#14110D;margin:0;">Abhishek<br/>Enaguthi</h2>
 </div>
 </div>
-<p class="about-copy" style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:17px;line-height:1.62;color:#3B3529;margin:0 0 16px;">I work on compilers, kernel debug, and distributed HPC — mostly performance, correctness, and getting code to run on real clusters.</p>
+<a class="about-certus" href="https://certusai.dev" target="_blank" rel="noopener noreferrer">
+<span>Featured · Startup</span>
+<strong>Certus AI</strong>
+<p>TurboTax for safety certification — structured, traceable ISO 26262 docs from a system description.</p>
+<em>certusai.dev ↗</em>
+</a>
+<p class="about-copy" style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:17px;line-height:1.62;color:#3B3529;margin:0 0 16px;">Founder of Certus AI. I also work on compilers, kernel debug, and distributed HPC — mostly performance, correctness, and getting code to run on real clusters.</p>
 <p class="about-copy" style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:16px;line-height:1.7;color:#5B5648;margin:0 0 16px;">Outside the terminal: <button type="button" onClick="{{ openGallerySurf }}" style="appearance:none;border:0;background:transparent;color:#E2621B;font:inherit;padding:0;cursor:pointer;text-decoration:underline;">surfing</button>, <button type="button" onClick="{{ openGallerySkydive }}" style="appearance:none;border:0;background:transparent;color:#E2621B;font:inherit;padding:0;cursor:pointer;text-decoration:underline;">skydiving</button>, and content as <a href="https://instagram.com/rollingwithabhi" target="_blank" rel="noopener noreferrer" style="color:#E2621B;text-decoration:none;">@rollingwithabhi</a>. Open <button onClick="{{ openPrinciples }}" style="appearance:none;border:0;background:transparent;color:#E2621B;font:inherit;padding:0;cursor:pointer;text-decoration:underline;">Principles.md</button> for TLDR + beliefs.</p>
 <p class="about-copy" style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:16px;line-height:1.7;color:#5B5648;margin:0 0 28px;">M.S. in Artificial Intelligence (Thesis) &amp; B.S. Computer Science (AI), Minor in Finance — Oregon State University, expected June 2026.</p>
 <div class="about-stats" style="display:flex;gap:44px;margin-bottom:28px;">
