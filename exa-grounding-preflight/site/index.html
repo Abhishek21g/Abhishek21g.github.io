@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Exa Grounding Preflight — retrieval &amp; citation gates before agent trust</title>
+  <meta name="description" content="Gate Exa-backed agent runs on retrieval completeness, citation/schema receipts, and wrong-entity failure modes before trusting answers." />
+  <meta property="og:title" content="Exa Grounding Preflight" />
+  <meta property="og:description" content="Empty retrieval and wrong founders slip past agent demos. Preflight before you ship." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+:root {
+  --bg: #0e1210;
+  --fg: #e6ebe7;
+  --muted: #8a948c;
+  --panel: #161b18;
+  --surface: #1c221e;
+  --border: rgba(230, 235, 231, 0.1);
+  --accent: #c4a35a;
+  --accent-soft: rgba(196, 163, 90, 0.14);
+  --ok: #3dba7a;
+  --fail: #e85d4c;
+  --font: "DM Sans", system-ui, sans-serif;
+  --serif: "Source Serif 4", Georgia, serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+:root[data-theme="light"] {
+  --bg: #f3f1eb;
+  --fg: #1a1f1c;
+  --muted: #5c6560;
+  --panel: #ffffff;
+  --surface: #ebe8e0;
+  --border: rgba(26, 31, 28, 0.12);
+  --accent: #8a6a28;
+  --accent-soft: rgba(138, 106, 40, 0.12);
+  --ok: #1a8f52;
+  --fail: #c43a2c;
+}
+* { box-sizing: border-box; margin: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(196, 163, 90, 0.08), transparent 55%),
+    var(--bg);
+  color: var(--fg);
+  line-height: 1.55;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { opacity: 0.85; }
+code {
+  font-family: var(--mono);
+  font-size: 0.86em;
+  padding: 0.12em 0.35em;
+  border-radius: 4px;
+  background: var(--surface);
+}
+.wrap { max-width: 960px; margin: 0 auto; padding: 1.25rem 1.25rem 4rem; }
+@media (min-width: 640px) { .wrap { padding: 1.5rem 2rem 5rem; } }
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0 1.5rem;
+}
+.brand-mark {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.nav-actions { display: flex; gap: 0.5rem; align-items: center; }
+.nav-actions a, .theme-btn {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--border);
+  padding: 0.4rem 0.75rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  font-family: inherit;
+}
+.nav-actions a:hover, .theme-btn:hover { color: var(--fg); background: var(--surface); }
+
+.hero { padding: 1.5rem 0 2.5rem; animation: rise 0.7s ease-out both; }
+@keyframes rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(2.6rem, 7vw, 3.8rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 0.98;
+  max-width: 14ch;
+}
+.hero .lede {
+  margin-top: 1.1rem;
+  color: var(--muted);
+  font-size: 1.05rem;
+  max-width: 36rem;
+  line-height: 1.7;
+}
+.cta-row {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.65rem 1.1rem;
+  border-radius: 0.45rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+.btn-primary {
+  background: var(--accent);
+  color: #12140f;
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--fg);
+  border-color: var(--border);
+}
+.btn-ghost:hover { background: var(--surface); }
+
+.section { margin-top: 2.75rem; animation: rise 0.7s ease-out 0.12s both; }
+.section h2 {
+  font-family: var(--serif);
+  font-size: 1.55rem;
+  font-weight: 500;
+  margin-bottom: 0.4rem;
+}
+.section .sub {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin-bottom: 1.15rem;
+  max-width: 40rem;
+}
+
+.cli-block {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 1.15rem 1.25rem;
+  overflow-x: auto;
+  box-shadow: 0 20px 50px -36px rgba(0,0,0,0.85);
+}
+.cli-block pre {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  line-height: 1.65;
+  color: var(--fg);
+  white-space: pre;
+}
+.cli-block .prompt { color: var(--accent); }
+
+.gates {
+  display: grid;
+  gap: 0.65rem;
+}
+@media (min-width: 700px) { .gates { grid-template-columns: 1fr 1fr; } }
+.gate {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 0.65rem;
+  padding: 0.95rem 1.05rem;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.gate:hover { border-color: var(--accent); transform: translateY(-1px); }
+.gate .name {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--accent);
+  margin-bottom: 0.35rem;
+}
+.gate p { font-size: 0.9rem; color: var(--muted); line-height: 1.5; }
+
+.demo-panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+.demo-tabs {
+  display: flex;
+  gap: 0.25rem;
+  padding: 0.65rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  overflow-x: auto;
+}
+.demo-tabs button {
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--muted);
+  background: transparent;
+  border: none;
+  padding: 0.45rem 0.75rem;
+  border-radius: 0.35rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.demo-tabs button.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.demo-body { padding: 1.15rem 1.25rem 1.35rem; }
+.overall {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.85rem;
+}
+.overall.pass { color: var(--ok); }
+.overall.fail { color: var(--fail); }
+.gate-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.88rem;
+}
+.gate-row:last-child { border-bottom: none; }
+.gate-row .gname { font-family: var(--mono); font-size: 0.78rem; }
+.gate-row .status.pass { color: var(--ok); font-weight: 600; }
+.gate-row .status.fail { color: var(--fail); font-weight: 600; }
+.gate-row .detail { grid-column: 1 / -1; color: var(--muted); font-size: 0.82rem; }
+
+footer {
+  margin-top: 3.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+footer a { color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav>
+      <div class="brand-mark">Exa Grounding Preflight</div>
+      <div class="nav-actions">
+        <a href="https://github.com/Abhishek21g">GitHub</a>
+        <button type="button" class="theme-btn" id="themeBtn" aria-label="Toggle theme">Theme</button>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <h1>Exa Grounding Preflight</h1>
+      <p class="lede">
+        Gate Exa-backed agent runs on retrieval completeness, citation/schema receipts,
+        and empty or wrong-entity failure modes — before you trust the answer.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#demo">60s demo</a>
+        <a class="btn btn-ghost" href="#gates">Six gates</a>
+      </div>
+    </header>
+
+    <section class="section" id="demo">
+      <h2>CLI</h2>
+      <p class="sub">Mock mode — no API key required. Plan → run → doctor → report.</p>
+      <div class="cli-block">
+        <pre><span class="prompt">$</span> pip install -e ".[dev]"
+<span class="prompt">$</span> exa-ground run --mock --scenario examples/company-research.yaml --seed 42
+<span class="prompt">$</span> exa-ground doctor --receipt out/receipts/company-research-pass/ --profile profiles/agent-search.yaml
+<span class="prompt">$</span> exa-ground report --receipt out/receipts/company-research-pass/ --html</pre>
+      </div>
+    </section>
+
+    <section class="section" id="gates">
+      <h2>Doctor gates</h2>
+      <p class="sub">Six invariants. Any fail → exit code 2. Receipts stay under <code>out/receipts/</code>.</p>
+      <div class="gates">
+        <div class="gate"><div class="name">non_empty_retrieval</div><p>Fail if zero search results.</p></div>
+        <div class="gate"><div class="name">schema_valid_structured_content</div><p>Structured monitor/answer content must be object or list when schema expected.</p></div>
+        <div class="gate"><div class="name">citation_coverage</div><p>Citations cover claim-count threshold.</p></div>
+        <div class="gate"><div class="name">auth_config_sanity</div><p>mock_mode OR api_key_present OR oauth_login_url — no live key probe.</p></div>
+        <div class="gate"><div class="name">entity_grounding_confidence</div><p>Founder-class entities must pass confidence/domain filter.</p></div>
+        <div class="gate"><div class="name">receipt_completeness</div><p>manifest.json + summary fields present.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Live receipt preview</h2>
+      <p class="sub">Toggle pass vs fail modes — same gates, different fixture outcomes.</p>
+      <div class="demo-panel">
+        <div class="demo-tabs" role="tablist">
+          <button type="button" class="active" data-mode="pass">company-research-pass</button>
+          <button type="button" data-mode="empty">empty retrieval</button>
+          <button type="button" data-mode="founder">wrong founders</button>
+          <button type="button" data-mode="citation">citation gap</button>
+        </div>
+        <div class="demo-body" id="demoBody"></div>
+      </div>
+    </section>
+
+    <footer>
+      Independent tooling for grounding preflight. Not affiliated with Exa Labs.
+      · <a href="https://enaguthi.com">enaguthi.com</a>
+    </footer>
+  </div>
+
+  <script>
+  const MODES = {
+    pass: {
+      overall: "PASS",
+      gates: [
+        ["non_empty_retrieval", true, "3 search result(s) present"],
+        ["schema_valid_structured_content", true, "structured content is object"],
+        ["citation_coverage", true, "coverage 1.00 (4/4) >= threshold 0.80"],
+        ["auth_config_sanity", true, "mock_mode — live auth not required"],
+        ["entity_grounding_confidence", true, "2 founder-class entit(y/ies) passed"],
+        ["receipt_completeness", true, "manifest.json fields + summary keys present"]
+      ]
+    },
+    empty: {
+      overall: "FAIL",
+      gates: [
+        ["non_empty_retrieval", false, "zero search results — retrieval empty"],
+        ["schema_valid_structured_content", true, "structured content is object"],
+        ["citation_coverage", false, "coverage 0.00 (0/2) below threshold 0.80"],
+        ["auth_config_sanity", true, "mock_mode — live auth not required"],
+        ["entity_grounding_confidence", true, "no founder-class entities to validate"],
+        ["receipt_completeness", true, "manifest.json fields + summary keys present"]
+      ]
+    },
+    founder: {
+      overall: "FAIL",
+      gates: [
+        ["non_empty_retrieval", true, "2 search result(s) present"],
+        ["schema_valid_structured_content", true, "structured content is object"],
+        ["citation_coverage", true, "coverage 1.00 (2/2) >= threshold 0.80"],
+        ["auth_config_sanity", true, "mock_mode — live auth not required"],
+        ["entity_grounding_confidence", false, "Jane Fake (founder): confidence 0.35 < 0.70, domain_match=false"],
+        ["receipt_completeness", true, "manifest.json fields + summary keys present"]
+      ]
+    },
+    citation: {
+      overall: "FAIL",
+      gates: [
+        ["non_empty_retrieval", true, "2 search result(s) present"],
+        ["schema_valid_structured_content", true, "structured content is object"],
+        ["citation_coverage", false, "coverage 0.20 (1/5) below threshold 0.80"],
+        ["auth_config_sanity", true, "mock_mode — live auth not required"],
+        ["entity_grounding_confidence", true, "no founder-class entities to validate"],
+        ["receipt_completeness", true, "manifest.json fields + summary keys present"]
+      ]
+    }
+  };
+
+  function render(mode) {
+    const data = MODES[mode];
+    const body = document.getElementById("demoBody");
+    const cls = data.overall === "PASS" ? "pass" : "fail";
+    let html = `<div class="overall ${cls}">Overall · ${data.overall}</div>`;
+    for (const [name, ok, detail] of data.gates) {
+      html += `<div class="gate-row">
+        <span class="gname">${name}</span>
+        <span class="status ${ok ? "pass" : "fail"}">${ok ? "PASS" : "FAIL"}</span>
+        <span class="detail">${detail}</span>
+      </div>`;
+    }
+    body.innerHTML = html;
+  }
+
+  document.querySelectorAll(".demo-tabs button").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".demo-tabs button").forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      render(btn.dataset.mode);
+    });
+  });
+  render("pass");
+
+  const root = document.documentElement;
+  const themeBtn = document.getElementById("themeBtn");
+  function setTheme(t) {
+    if (t === "light") root.setAttribute("data-theme", "light");
+    else root.removeAttribute("data-theme");
+    localStorage.setItem("egp-theme", t);
+  }
+  setTheme(localStorage.getItem("egp-theme") || "dark");
+  themeBtn.addEventListener("click", () => {
+    const next = root.getAttribute("data-theme") === "light" ? "dark" : "light";
+    setTheme(next);
+  });
+  </script>
+</body>
+</html>
