@@ -114,15 +114,22 @@
     .desktop-icons .desktop-icon:nth-child(9){grid-column:2;grid-row:4;}
     .desktop-hint{display:none!important;}
   }
-  .mac-dock{position:absolute;right:18px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;padding:12px 10px;border-radius:22px;background:linear-gradient(145deg,rgba(246,242,234,0.22),rgba(246,242,234,0.09));border:1px solid rgba(246,242,234,0.22);box-shadow:0 24px 70px rgba(0,0,0,0.45),inset 0 1px 0 rgba(255,255,255,0.25);backdrop-filter:blur(28px) saturate(1.3);-webkit-backdrop-filter:blur(28px) saturate(1.3);z-index:8;}
-  .mac-dock button{appearance:none;border:0;width:48px;height:48px;border-radius:13px;background:#F6F2EA;color:#14110D;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 8px 18px rgba(0,0,0,0.28);transition:transform .16s ease,filter .16s ease;}
+  .mac-dock{position:absolute;right:0;top:50%;transform:translateY(-50%) translateX(calc(100% - 22px));display:flex;flex-direction:column;align-items:center;gap:10px;padding:12px 10px 12px 18px;border-radius:22px 0 0 22px;background:linear-gradient(145deg,rgba(246,242,234,0.22),rgba(246,242,234,0.09));border:1px solid rgba(246,242,234,0.22);border-right:0;box-shadow:0 24px 70px rgba(0,0,0,0.45),inset 0 1px 0 rgba(255,255,255,0.25);backdrop-filter:blur(28px) saturate(1.3);-webkit-backdrop-filter:blur(28px) saturate(1.3);z-index:8;transition:transform .22s cubic-bezier(.2,.8,.2,1);cursor:pointer;}
+  .mac-dock::before{content:"";position:absolute;left:6px;top:50%;transform:translateY(-50%);width:4px;height:42px;border-radius:999px;background:rgba(246,242,234,0.45);pointer-events:none;}
+  .mac-dock:hover,.mac-dock:focus-within,.mac-dock.is-open{transform:translateY(-50%) translateX(0);cursor:default;padding-left:10px;border-radius:22px;border-right:1px solid rgba(246,242,234,0.22);right:14px;}
+  .mac-dock:hover::before,.mac-dock:focus-within::before,.mac-dock.is-open::before{opacity:0;}
+  .mac-dock button{appearance:none;border:0;width:48px;height:48px;border-radius:13px;background:#F6F2EA;color:#14110D;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 8px 18px rgba(0,0,0,0.28);transition:transform .16s ease,filter .16s ease;opacity:.35;pointer-events:none;}
+  .mac-dock:hover button,.mac-dock:focus-within button,.mac-dock.is-open button{opacity:1;pointer-events:auto;}
   .mac-dock button:hover{transform:translateX(-5px) scale(1.04);filter:brightness(1.06);}
   .mac-dock button:active{transform:translateX(-2px) scale(.98);}
   .mac-dock .dock-hot{background:#E2621B;}
   .mac-dock .dock-dark{background:#0A0A0A;color:#E2621B;border:1px solid rgba(246,242,234,0.16);}
-  .mac-dock-separator{width:34px;height:1px;background:rgba(246,242,234,0.24);margin:2px 0;}
+  .mac-dock-separator{width:34px;height:1px;background:rgba(246,242,234,0.24);margin:2px 0;opacity:.35;}
+  .mac-dock:hover .mac-dock-separator,.mac-dock:focus-within .mac-dock-separator,.mac-dock.is-open .mac-dock-separator{opacity:1;}
   @media (min-width: 1700px) and (min-height: 900px){
-    .mac-dock{left:50%;right:auto;top:auto;bottom:18px;transform:translateX(-50%);flex-direction:row;padding:10px 12px;}
+    .mac-dock{left:50%;right:auto;top:auto;bottom:0;transform:translateX(-50%) translateY(calc(100% - 22px));flex-direction:row;padding:18px 12px 10px;border-radius:22px 22px 0 0;border-right:1px solid rgba(246,242,234,0.22);border-bottom:0;}
+    .mac-dock::before{left:50%;top:6px;transform:translateX(-50%);width:42px;height:4px;}
+    .mac-dock:hover,.mac-dock:focus-within,.mac-dock.is-open{transform:translateX(-50%) translateY(0);bottom:14px;border-radius:22px;border-bottom:1px solid rgba(246,242,234,0.22);padding-top:10px;}
     .mac-dock button:hover{transform:translateY(-5px) scale(1.04);}
     .mac-dock button:active{transform:translateY(-2px) scale(.98);}
     .mac-dock-separator{width:1px;height:34px;margin:0 2px;}
@@ -139,14 +146,24 @@
   .gallery-rail::-webkit-scrollbar-track,.window-body::-webkit-scrollbar-track{background:rgba(20,17,13,0.08);}
   .blog-list-item{transition:background .16s ease, border-color .16s ease;}
   .blog-list-item:hover{background:rgba(20,17,13,.055);}
-  .ambient-rail{position:absolute;right:22px;top:62px;width:330px;display:grid;gap:12px;z-index:1;pointer-events:none;transition:opacity .18s ease,transform .18s ease,filter .18s ease;}
+  .ambient-rail{position:absolute;right:36px;top:62px;width:300px;max-height:calc(100% - 88px);overflow-y:auto;overflow-x:hidden;display:grid;gap:10px;z-index:1;pointer-events:none;transition:opacity .18s ease,transform .18s ease,filter .18s ease;scrollbar-width:thin;scrollbar-color:rgba(226,98,27,0.35) transparent;}
+  .ambient-rail::-webkit-scrollbar{width:6px;}
+  .ambient-rail::-webkit-scrollbar-thumb{background:rgba(226,98,27,0.35);border-radius:999px;}
+  .ambient-rail::-webkit-scrollbar-track{background:transparent;}
   @media (min-width: 1500px){
-    .ambient-rail{right:32px;top:72px;width:360px;}
+    .ambient-rail{right:40px;top:72px;width:320px;}
     .about-window{box-shadow:0 48px 90px rgba(0,0,0,0.52)!important;}
   }
-  @media (min-width: 1900px){
-    .ambient-rail{right:40px;width:380px;}
+  @media (min-width: 1700px) and (min-height: 900px){
+    .ambient-rail{right:28px;width:340px;}
   }
+  @media (min-width: 1900px){
+    .ambient-rail{right:36px;width:360px;}
+  }
+  .about-window .window-body{scrollbar-gutter:stable;scrollbar-width:thin;scrollbar-color:rgba(226,98,27,0.28) transparent;}
+  .about-window .window-body::-webkit-scrollbar{width:8px;}
+  .about-window .window-body::-webkit-scrollbar-track{background:transparent;}
+  .about-window .window-body::-webkit-scrollbar-thumb{background:rgba(226,98,27,0.28);border-radius:999px;border:2px solid transparent;background-clip:content-box;}
   .ambient-rail.is-hidden{opacity:.32;transform:none;filter:blur(2px) saturate(.9);pointer-events:none;}
   .ambient-card{pointer-events:auto;position:relative;overflow:hidden;padding:14px;border-radius:18px;background:linear-gradient(145deg,rgba(255,255,255,0.18),rgba(246,242,234,0.055) 52%,rgba(226,98,27,0.055));border:1px solid rgba(246,242,234,0.22);box-shadow:0 18px 46px rgba(0,0,0,0.30),inset 0 1px 0 rgba(255,255,255,0.24),inset 0 -1px 0 rgba(255,255,255,0.05);backdrop-filter:blur(26px) saturate(1.22);-webkit-backdrop-filter:blur(26px) saturate(1.22);color:#F6F2EA;font-family:'Instrument Sans','Instrument Sans','National Park','IBM Plex Sans',sans-serif;transition:transform .18s ease,border-color .18s ease,background .18s ease,box-shadow .18s ease;}
   .ambient-card::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,rgba(255,255,255,.18),transparent 36%,rgba(255,255,255,.055) 70%,transparent);opacity:.66;pointer-events:none;}
@@ -160,17 +177,18 @@
   .ambient-row{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:13px;color:rgba(246,242,234,0.72);}
   .ambient-row strong{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;font-weight:600;text-align:right;}
   .ambient-meta{margin-top:8px;font:11px 'IBM Plex Mono',monospace;color:rgba(246,242,234,0.46);}
-  .ambient-card.certus-spotlight{background:linear-gradient(145deg,rgba(226,98,27,0.28),rgba(20,17,13,0.55) 48%,rgba(246,242,234,0.06));border-color:rgba(226,98,27,0.45);text-decoration:none;display:block;color:inherit;}
-  .ambient-card.certus-spotlight .ambient-title{font-size:32px;}
-  .ambient-card.certus-spotlight p{margin:10px 0 0;font-size:13px;line-height:1.45;color:rgba(246,242,234,0.78);max-width:28em;}
-  .ambient-card.certus-spotlight .ambient-meta{color:rgba(246,242,234,0.72);}
-  .about-certus{display:flex;flex-direction:column;gap:8px;margin:0 0 22px;padding:18px 20px;border-radius:10px;background:linear-gradient(135deg,#14110D,#2A2118 62%,#E2621B);color:#F6F2EA;text-decoration:none;box-shadow:0 14px 36px rgba(20,17,13,0.18);position:relative;overflow:hidden;}
+  .ambient-card.certus-spotlight{background:linear-gradient(145deg,rgba(226,98,27,0.28),rgba(20,17,13,0.55) 48%,rgba(246,242,234,0.06));border-color:rgba(226,98,27,0.45);text-decoration:none;display:block;color:inherit;padding:12px 14px;}
+  .ambient-card.certus-spotlight .ambient-title{font-size:26px;}
+  .ambient-card.certus-spotlight p{margin:8px 0 0;font-size:12px;line-height:1.4;color:rgba(246,242,234,0.78);max-width:28em;}
+  .ambient-card.certus-spotlight .ambient-meta{color:rgba(246,242,234,0.72);margin-top:6px;}
+  .ambient-card.certus-spotlight .ambient-kicker{margin-bottom:6px;}
+  .about-certus{display:flex;flex-direction:column;gap:6px;margin:0 0 16px;padding:16px 18px;border-radius:10px;background:linear-gradient(135deg,#14110D,#2A2118 62%,#E2621B);color:#F6F2EA;text-decoration:none;box-shadow:0 14px 36px rgba(20,17,13,0.18);position:relative;overflow:hidden;}
   .about-certus::after{content:"";position:absolute;right:-28px;bottom:-36px;width:100px;height:100px;border-radius:999px;background:rgba(246,242,234,0.12);filter:blur(2px);}
   .about-certus > *{position:relative;z-index:1;}
   .about-certus span{font:700 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:rgba(246,242,234,.58);}
-  .about-certus strong{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:28px;line-height:.95;color:#F6F2EA;}
-  .about-certus p{font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:13px;line-height:1.45;color:rgba(246,242,234,.76);margin:0;max-width:36em;}
-  .about-certus em{font:700 11px 'IBM Plex Mono',monospace;color:#F6F2EA;font-style:normal;margin-top:4px;}
+  .about-certus strong{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:26px;line-height:.95;color:#F6F2EA;}
+  .about-certus p{font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:12px;line-height:1.4;color:rgba(246,242,234,.76);margin:0;max-width:36em;}
+  .about-certus em{font:700 11px 'IBM Plex Mono',monospace;color:#F6F2EA;font-style:normal;margin-top:2px;}
   .about-certus:hover{filter:brightness(1.05);}
   .compact-log{padding:13px 14px!important;}
   .compact-log .ambient-kicker{margin-bottom:8px;}
@@ -557,7 +575,7 @@
 </div>
 </div>
 
-<div class="mac-dock" aria-label="Mac-style app dock">
+<div class="mac-dock {{ dockClass }}" aria-label="Mac-style app dock" onClick="{{ toggleDock }}" onMouseLeave="{{ closeDock }}">
 <button onClick="{{ openAbout }}" title="About.txt" aria-label="Open About">☰</button>
 <button class="dock-hot" onClick="{{ openProjects }}" title="Projects/" aria-label="Open Projects">&lt;/&gt;</button>
 <button onClick="{{ openGallery }}" title="Gallery" aria-label="Open Gallery">▧</button>
@@ -578,8 +596,8 @@
 <span onClick="{{ zoomAbout }}" onMouseDown="{{ stopProp }}" style="width:11px;height:11px;border-radius:50%;background:rgba(20,17,13,0.15);display:inline-block;"></span>
 <div style="flex:1;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;margin-right:33px;">About.txt</div>
 </div>
-<div class="window-body" style="padding:32px 36px;overflow-y:auto;">
-<div class="about-head" style="display:flex;gap:22px;align-items:flex-start;margin-bottom:22px;">
+<div class="window-body" style="padding:28px 32px 32px;overflow-y:auto;">
+<div class="about-head" style="display:flex;gap:22px;align-items:flex-start;margin-bottom:18px;">
 <div class="about-photo" style="width:120px;height:150px;flex:none;overflow:hidden;background:#E4E0D3;border-radius:8px;">
 <img src="/media/portrait.jpg" alt="Abhishek Enaguthi" style="width:100%;height:100%;object-fit:cover;display:block;" />
 </div>
@@ -594,12 +612,12 @@
 <p>TurboTax for safety certification — structured, traceable ISO 26262 docs from a system description.</p>
 <em>certusai.dev ↗</em>
 </a>
-<p class="about-copy" style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:17px;line-height:1.62;color:#3B3529;margin:0 0 16px;">Founder of Certus AI. I also work on compilers, kernel debug, and distributed HPC — mostly performance, correctness, and getting code to run on real clusters.</p>
-<p class="about-copy" style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:16px;line-height:1.7;color:#5B5648;margin:0 0 16px;">Outside the terminal: <button type="button" onClick="{{ openGallerySurf }}" style="appearance:none;border:0;background:transparent;color:#E2621B;font:inherit;padding:0;cursor:pointer;text-decoration:underline;">surfing</button>, <button type="button" onClick="{{ openGallerySkydive }}" style="appearance:none;border:0;background:transparent;color:#E2621B;font:inherit;padding:0;cursor:pointer;text-decoration:underline;">skydiving</button>, and content as <a href="https://instagram.com/rollingwithabhi" target="_blank" rel="noopener noreferrer" style="color:#E2621B;text-decoration:none;">@rollingwithabhi</a>. Open <button onClick="{{ openPrinciples }}" style="appearance:none;border:0;background:transparent;color:#E2621B;font:inherit;padding:0;cursor:pointer;text-decoration:underline;">Principles.md</button> for TLDR + beliefs.</p>
-<p class="about-copy" style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:16px;line-height:1.7;color:#5B5648;margin:0 0 28px;">M.S. in Artificial Intelligence (Thesis) &amp; B.S. Computer Science (AI), Minor in Finance — Oregon State University, expected June 2026.</p>
-<div class="about-stats" style="display:flex;gap:44px;margin-bottom:28px;">
-<div><div style="font-family:'Instrument Serif',Georgia,serif;font-size:46px;color:#E2621B;">4.0</div><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#5B5648;margin-top:4px;">GPA · M.S. Artificial Intelligence</div></div>
-<div><div style="font-family:'Instrument Serif',Georgia,serif;font-size:46px;color:#E2621B;">$1M</div><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#5B5648;margin-top:4px;">AMD / IBM research grant secured</div></div>
+<p class="about-copy" style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:17px;line-height:1.55;color:#3B3529;margin:0 0 12px;">Founder of Certus AI. I also work on compilers, kernel debug, and distributed HPC — mostly performance, correctness, and getting code to run on real clusters.</p>
+<p class="about-copy" style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:15px;line-height:1.6;color:#5B5648;margin:0 0 12px;">Outside the terminal: <button type="button" onClick="{{ openGallerySurf }}" style="appearance:none;border:0;background:transparent;color:#E2621B;font:inherit;padding:0;cursor:pointer;text-decoration:underline;">surfing</button>, <button type="button" onClick="{{ openGallerySkydive }}" style="appearance:none;border:0;background:transparent;color:#E2621B;font:inherit;padding:0;cursor:pointer;text-decoration:underline;">skydiving</button>, and content as <a href="https://instagram.com/rollingwithabhi" target="_blank" rel="noopener noreferrer" style="color:#E2621B;text-decoration:none;">@rollingwithabhi</a>. Open <button onClick="{{ openPrinciples }}" style="appearance:none;border:0;background:transparent;color:#E2621B;font:inherit;padding:0;cursor:pointer;text-decoration:underline;">Principles.md</button> for TLDR + beliefs.</p>
+<p class="about-copy" style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:15px;line-height:1.6;color:#5B5648;margin:0 0 20px;">M.S. in Artificial Intelligence (Thesis) &amp; B.S. Computer Science (AI), Minor in Finance — Oregon State University, expected June 2026.</p>
+<div class="about-stats" style="display:flex;gap:44px;margin-bottom:20px;">
+<div><div style="font-family:'Instrument Serif',Georgia,serif;font-size:42px;color:#E2621B;line-height:1;">4.0</div><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#5B5648;margin-top:4px;">GPA · M.S. Artificial Intelligence</div></div>
+<div><div style="font-family:'Instrument Serif',Georgia,serif;font-size:42px;color:#E2621B;line-height:1;">$1M</div><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#5B5648;margin-top:4px;">AMD / IBM research grant secured</div></div>
 </div>
 <div class="skill-pills" style="display:flex;flex-wrap:wrap;gap:8px;">
 <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:5px 11px;border-radius:20px;background:rgba(20,17,13,0.06);color:#5B5648;">Python</span>
@@ -1017,7 +1035,7 @@ class Component extends DCLogic {
     ],
     input: '',
     windows: {
-      about: { open: true, x: 180, y: 90, w: 620, h: 560, minW: 420, minH: 390, z: 2 },
+      about: { open: true, x: 180, y: 72, w: 680, h: 760, minW: 420, minH: 520, z: 2 },
       experience: { open: false, x: 540, y: 90, w: 660, h: 620, minW: 460, minH: 420, z: 1 },
       projects: { open: false, x: 260, y: 160, w: 720, h: 640, minW: 500, minH: 430, z: 1 },
       gallery: { open: false, x: 640, y: 130, w: 760, h: 560, minW: 480, minH: 380, z: 1 },
@@ -1047,6 +1065,7 @@ class Component extends DCLogic {
     blogIndex: 0,
     selectedPhoto: null,
     photoCaption: '',
+    dockOpen: false,
     githubActivity: {
       status: 'fallback',
       updatedAt: '',
@@ -1566,17 +1585,17 @@ class Component extends DCLogic {
           windows[id] = this.clampWindow({ ...windows[id], open: shouldOpen, x: 10, y: 74, w: bounds.width - 20, h: bounds.height - 108 });
         });
       } else {
-        const railW = bounds.width >= 1900 ? 420 : (bounds.width >= 1320 ? 390 : (bounds.width >= 1100 ? 310 : 0));
-        const dockW = bounds.width >= 1000 ? 118 : 0;
-        const contentLeft = dockW + 36;
-        const contentRight = bounds.width - railW - 36;
+        const railW = bounds.width >= 1900 ? 400 : (bounds.width >= 1320 ? 360 : (bounds.width >= 1100 ? 300 : 0));
+        const iconW = bounds.width >= 1000 ? 210 : 0;
+        const contentLeft = iconW + 24;
+        const contentRight = bounds.width - railW - 28;
         const contentW = Math.max(620, contentRight - contentLeft);
-        const aboutW = Math.min(bounds.width >= 1800 ? 860 : 760, Math.max(620, contentW - 90));
+        const aboutW = Math.min(bounds.width >= 1800 ? 860 : 720, Math.max(640, contentW - 60));
         const aboutX = bounds.width >= 1400
-          ? Math.round(contentLeft + Math.max(0, contentW - aboutW) * 0.36)
+          ? Math.round(contentLeft + Math.max(0, contentW - aboutW) * 0.28)
           : Math.round((bounds.width - aboutW) / 2);
-        const aboutH = Math.min(bounds.width >= 1500 ? 650 : 620, bounds.height - 120);
-        windows.about = this.clampWindow({ ...windows.about, x: aboutX, y: bounds.width >= 1500 ? 82 : 72, w: aboutW, h: aboutH, open: initial ? true : windows.about.open });
+        const aboutH = Math.min(Math.max(720, Math.round(bounds.height * 0.82)), bounds.height - 88);
+        windows.about = this.clampWindow({ ...windows.about, x: aboutX, y: bounds.width >= 1500 ? 64 : 56, w: aboutW, h: aboutH, open: initial ? true : windows.about.open });
         windows.onboarding = this.clampWindow({ ...windows.onboarding, open: false, x: Math.min(contentRight - 420, 930), y: 92 });
         if (bounds.width >= 1400) {
           windows.projects = this.clampWindow({ ...windows.projects, open: initial ? false : windows.projects.open, x: Math.max(contentLeft, contentRight - 720), y: 96, w: Math.min(700, contentW), h: Math.min(600, bounds.height - 130) });
@@ -1701,6 +1720,14 @@ class Component extends DCLogic {
   openToday = () => this.openWindow('today');
   openPrinciples = () => this.openWindow('principles');
   openOnboarding = () => this.openWindow('onboarding');
+
+  toggleDock = (e) => {
+    if (e && e.target && e.target.closest && e.target.closest('button')) return;
+    this.setState((s) => ({ dockOpen: !s.dockOpen }));
+  };
+  closeDock = () => {
+    if (this.state.dockOpen) this.setState({ dockOpen: false });
+  };
 
   closeAbout = (e) => this.closeWindow('about', e);
   closeExperience = (e) => this.closeWindow('experience', e);
@@ -2045,6 +2072,9 @@ class Component extends DCLogic {
 
       windows: this.state.windows,
       ambientRailClass: this.hasActiveWorkspaceWindow() ? 'is-hidden' : '',
+      dockClass: this.state.dockOpen ? 'is-open' : '',
+      toggleDock: this.toggleDock,
+      closeDock: this.closeDock,
       time: this.state.time,
       abhiTime: this.state.abhiTime,
       visitorTime: this.state.visitorTime,
