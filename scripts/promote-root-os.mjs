@@ -11,10 +11,15 @@ if (!existsSync(osHtmlPath)) {
 
 copyFileSync(osHtmlPath, rootHtmlPath)
 
+const cfToken = process.env.CF_WEB_ANALYTICS_TOKEN?.trim()
+const cfBeacon = cfToken
+  ? `\n<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"${cfToken}"}'></script>`
+  : ''
+
 const rootHtml = readFileSync(rootHtmlPath, 'utf8')
   .replace(
     '<meta name="viewport" content="width=device-width, initial-scale=1">',
-    '<meta name="viewport" content="width=device-width, initial-scale=1">\n<link rel="canonical" href="https://enaguthi.com/">'
+    `<meta name="viewport" content="width=device-width, initial-scale=1">\n<link rel="canonical" href="https://enaguthi.com/">${cfBeacon}`
   )
 
 writeFileSync(rootHtmlPath, rootHtml)
