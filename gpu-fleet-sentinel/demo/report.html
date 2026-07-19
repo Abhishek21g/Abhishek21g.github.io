@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GPU Fleet Sentinel — DEGRADED</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #070b10;
+      --panel: #0e151e;
+      --border: #243041;
+      --text: #e8eef6;
+      --muted: #8a9bb2;
+      --accent: #5ee0c5;
+      --bad: #f56565;
+      --ok: #3dd68c;
+      --font: "Instrument Sans", system-ui, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+      --serif: "Instrument Serif", Georgia, serif;
+    }
+    * { box-sizing: border-box; margin: 0; }
+    body {
+      font-family: var(--font); background: var(--bg); color: var(--text);
+      line-height: 1.55; min-height: 100vh;
+      background-image:
+        radial-gradient(ellipse 70% 45% at 20% -10%, rgba(94,224,197,0.12), transparent),
+        radial-gradient(ellipse 50% 40% at 100% 0%, rgba(245,101,101,0.08), transparent);
+    }
+    .shell { max-width: 1100px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    .brand { font-family: var(--serif); font-size: 1.35rem; margin-bottom: 0.35rem; }
+    .muted { color: var(--muted); font-size: 0.9rem; }
+    h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(1.8rem, 4vw, 2.6rem);
+         margin: 1.25rem 0 0.5rem; }
+    .verdict { display: inline-block; font-family: var(--mono); font-size: 0.8rem;
+                letter-spacing: 0.08em; padding: 0.35rem 0.7rem; border-radius: 999px;
+                border: 1px solid var(--border); }
+    .verdict.ok { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 40%, var(--border)); }
+    .verdict.bad { color: var(--bad); border-color: color-mix(in srgb, var(--bad) 40%, var(--border)); }
+    .meta { display: flex; flex-wrap: wrap; gap: 1rem; margin: 1.25rem 0 1.75rem; color: var(--muted);
+             font-family: var(--mono); font-size: 0.78rem; }
+    .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+    .chip { font-family: var(--mono); font-size: 0.72rem; padding: 0.35rem 0.65rem;
+             border: 1px solid var(--border); border-radius: 0.4rem; background: var(--panel); }
+    .chip.ok { color: var(--ok); }
+    table { width: 100%; border-collapse: collapse; background: var(--panel);
+             border: 1px solid var(--border); border-radius: 0.6rem; overflow: hidden; }
+    th, td { text-align: left; padding: 0.75rem 0.9rem; border-bottom: 1px solid var(--border);
+              vertical-align: top; font-size: 0.9rem; }
+    th { font-family: var(--mono); font-size: 0.7rem; text-transform: uppercase;
+          letter-spacing: 0.06em; color: var(--muted); background: #0a1118; }
+    tr:last-child td { border-bottom: none; }
+    code { font-family: var(--mono); font-size: 0.82rem; }
+    .sev { font-family: var(--mono); font-size: 0.75rem; text-transform: uppercase; }
+    details { margin-top: 2rem; }
+    summary { cursor: pointer; color: var(--accent); font-family: var(--mono); font-size: 0.85rem; }
+    pre { margin-top: 0.75rem; padding: 1rem; overflow: auto; background: #0a1118;
+           border: 1px solid var(--border); border-radius: 0.5rem; font-family: var(--mono);
+           font-size: 0.72rem; color: var(--muted); }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="brand">GPU Fleet Sentinel</div>
+    <p class="muted">Silent degradations from <code>nvidia-smi -q -x</code> — thermal · PCIe · ECC · NVLink</p>
+    <h1>Fleet scan report</h1>
+    <span class="verdict bad">DEGRADED</span>
+    <div class="meta">
+      <span>run 6c988cc47eb7</span>
+      <span>2026-07-16T21:37:24.108179+00:00</span>
+      <span>3 nodes · 6 GPUs</span>
+      <span>8 findings</span>
+    </div>
+    <div class="chips"><span class='chip'>ecc_correctable_rising · 1</span><span class='chip'>ecc_uncorrectable · 2</span><span class='chip'>nvlink_link_errors · 1</span><span class='chip'>nvlink_partial_drop · 1</span><span class='chip'>pcie_link_degradation · 2</span><span class='chip'>thermal_throttling · 1</span></div>
+    <table>
+      <thead>
+        <tr><th>Severity</th><th>Code</th><th>Node</th><th>GPU</th><th>Signal</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><span class='sev' style='color:#f56565'>critical</span></td><td><code>pcie_link_degradation</code></td><td>node-07-pcie-thermal</td><td><code>00000000:18:00.0</code><br><span class='muted'>NVIDIA H100 80GB HBM3</span></td><td>PCIe link degraded (Gen5→Gen3) — host↔GPU bandwidth silently cut</td></tr><tr><td><span class='sev' style='color:#f56565'>critical</span></td><td><code>thermal_throttling</code></td><td>node-07-pcie-thermal</td><td><code>00000000:3a:00.0</code><br><span class='muted'>NVIDIA H100 80GB HBM3</span></td><td>Thermal throttling ACTIVE (clocks_throttle_reason_hw_thermal_slowdown, clocks_throttle_reason_sw_thermal_slowdown)</td></tr><tr><td><span class='sev' style='color:#f56565'>critical</span></td><td><code>nvlink_partial_drop</code></td><td>node-12-nvlink-ecc</td><td><code>00000000:18:00.0</code><br><span class='muted'>NVIDIA H100 80GB HBM3</span></td><td>NVLink partial drop: 2/4 links inactive (link_1, link_3)</td></tr><tr><td><span class='sev' style='color:#f56565'>critical</span></td><td><code>ecc_uncorrectable</code></td><td>node-12-nvlink-ecc</td><td><code>00000000:3a:00.0</code><br><span class='muted'>NVIDIA H100 80GB HBM3</span></td><td>Uncorrectable ECC errors (volatile): 1 — pull GPU from pool</td></tr><tr><td><span class='sev' style='color:#f56565'>critical</span></td><td><code>ecc_uncorrectable</code></td><td>node-12-nvlink-ecc</td><td><code>00000000:3a:00.0</code><br><span class='muted'>NVIDIA H100 80GB HBM3</span></td><td>Uncorrectable ECC errors (aggregate): 1 — pull GPU from pool</td></tr><tr><td><span class='sev' style='color:#f5a623'>high</span></td><td><code>nvlink_link_errors</code></td><td>node-12-nvlink-ecc</td><td><code>00000000:18:00.0</code><br><span class='muted'>NVIDIA H100 80GB HBM3</span></td><td>NVLink link_2 reporting 16 CRC/replay/recovery errors</td></tr><tr><td><span class='sev' style='color:#f5a623'>high</span></td><td><code>pcie_link_degradation</code></td><td>node-12-nvlink-ecc</td><td><code>00000000:3a:00.0</code><br><span class='muted'>NVIDIA H100 80GB HBM3</span></td><td>PCIe link degraded (x16→x8) — host↔GPU bandwidth silently cut</td></tr><tr><td><span class='sev' style='color:#f5d76e'>medium</span></td><td><code>ecc_correctable_rising</code></td><td>node-07-pcie-thermal</td><td><code>00000000:3a:00.0</code><br><span class='muted'>NVIDIA H100 80GB HBM3</span></td><td>Correctable ECC errors rising (volatile): 4</td></tr>
+      </tbody>
+    </table>
+    <details>
+      <summary>receipt.json</summary>
+      <pre>{
+  &quot;run_id&quot;: &quot;6c988cc47eb7&quot;,
+  &quot;generated_at&quot;: &quot;2026-07-16T21:37:24.108179+00:00&quot;,
+  &quot;source&quot;: &quot;/Users/enaguthiabhishek/Documents/nvidia/gpu-fleet-sentinel/examples/fleet&quot;,
+  &quot;healthy&quot;: false,
+  &quot;nodes&quot;: [
+    &quot;node-01-healthy&quot;,
+    &quot;node-07-pcie-thermal&quot;,
+    &quot;node-12-nvlink-ecc&quot;
+  ],
+  &quot;gpu_count&quot;: 6,
+  &quot;findings&quot;: [
+    {
+      &quot;code&quot;: &quot;pcie_link_degradation&quot;,
+      &quot;severity&quot;: &quot;critical&quot;,
+      &quot;node&quot;: &quot;node-07-pcie-thermal&quot;,
+      &quot;gpu_id&quot;: &quot;00000000:18:00.0&quot;,
+      &quot;gpu_name&quot;: &quot;NVIDIA H100 80GB HBM3&quot;,
+      &quot;message&quot;: &quot;PCIe link degraded (Gen5\u2192Gen3) \u2014 host\u2194GPU bandwidth silently cut&quot;,
+      &quot;evidence&quot;: {
+        &quot;pcie_gen_max&quot;: 5,
+        &quot;pcie_gen_current&quot;: 3,
+        &quot;pcie_width_max&quot;: 16,
+        &quot;pcie_width_current&quot;: 16
+      }
+    },
+    {
+      &quot;code&quot;: &quot;thermal_throttling&quot;,
+      &quot;severity&quot;: &quot;critical&quot;,
+      &quot;node&quot;: &quot;node-07-pcie-thermal&quot;,
+      &quot;gpu_id&quot;: &quot;00000000:3a:00.0&quot;,
+      &quot;gpu_name&quot;: &quot;NVIDIA H100 80GB HBM3&quot;,
+      &quot;message&quot;: &quot;Thermal throttling ACTIVE (clocks_throttle_reason_hw_thermal_slowdown, clocks_throttle_reason_sw_thermal_slowdown)&quot;,
+      &quot;evidence&quot;: {
+        &quot;gpu_temp_c&quot;: 88.0,
+        &quot;slow_threshold_c&quot;: 87.0,
+        &quot;active_reasons&quot;: [
+          &quot;clocks_throttle_reason_hw_thermal_slowdown&quot;,
+          &quot;clocks_throttle_reason_sw_thermal_slowdown&quot;
+        ]
+      }
+    },
+    {
+      &quot;code&quot;: &quot;nvlink_partial_drop&quot;,
+      &quot;severity&quot;: &quot;critical&quot;,
+      &quot;node&quot;: &quot;node-12-nvlink-ecc&quot;,
+      &quot;gpu_id&quot;: &quot;00000000:18:00.0&quot;,
+      &quot;gpu_name&quot;: &quot;NVIDIA H100 80GB HBM3&quot;,
+      &quot;message&quot;: &quot;NVLink partial drop: 2/4 links inactive (link_1, link_3)&quot;,
+      &quot;evidence&quot;: {
+        &quot;inactive&quot;: [
+          &quot;link_1&quot;,
+          &quot;link_3&quot;
+        ],
+        &quot;expected_links&quot;: 4
+      }
+    },
+    {
+      &quot;code&quot;: &quot;ecc_uncorrectable&quot;,
+      &quot;severity&quot;: &quot;critical&quot;,
+      &quot;node&quot;: &quot;node-12-nvlink-ecc&quot;,
+      &quot;gpu_id&quot;: &quot;00000000:3a:00.0&quot;,
+      &quot;gpu_name&quot;: &quot;NVIDIA H100 80GB HBM3&quot;,
+      &quot;message&quot;: &quot;Uncorrectable ECC errors (volatile): 1 \u2014 pull GPU from pool&quot;,
+      &quot;evidence&quot;: {
+        &quot;scope&quot;: &quot;volatile&quot;,
+        &quot;uncorrectable&quot;: 1,
+        &quot;block&quot;: {
+          &quot;sram_correctable&quot;: 0,
+          &quot;sram_uncorrectable&quot;: 0,
+          &quot;dram_correctable&quot;: 2,
+          &quot;dram_uncorrectable&quot;: 1
+        }
+      }
+    },
+    {
+      &quot;code&quot;: &quot;ecc_uncorrectable&quot;,
+      &quot;severity&quot;: &quot;critical&quot;,
+      &quot;node&quot;: &quot;node-12-nvlink-ecc&quot;,
+      &quot;gpu_id&quot;: &quot;00000000:3a:00.0&quot;,
+      &quot;gpu_name&quot;: &quot;NVIDIA H100 80GB HBM3&quot;,
+      &quot;message&quot;: &quot;Uncorrectable ECC errors (aggregate): 1 \u2014 pull GPU from pool&quot;,
+      &quot;evidence&quot;: {
+        &quot;scope&quot;: &quot;aggregate&quot;,
+        &quot;uncorrectable&quot;: 1,
+        &quot;block&quot;: {
+          &quot;sram_correctable&quot;: 0,
+          &quot;sram_uncorrectable&quot;: 0,
+          &quot;dram_correctable&quot;: 9,
+          &quot;dram_uncorrectable&quot;: 1
+        }
+      }
+    },
+    {
+      &quot;code&quot;: &quot;nvlink_link_errors&quot;,
+      &quot;severity&quot;: &quot;high&quot;,
+      &quot;node&quot;: &quot;node-12-nvlink-ecc&quot;,
+      &quot;gpu_id&quot;: &quot;00000000:18:00.0&quot;,
+      &quot;gpu_name&quot;: &quot;NVIDIA H100 80GB HBM3&quot;,
+      &quot;message&quot;: &quot;NVLink link_2 reporting 16 CRC/replay/recovery errors&quot;,
+      &quot;evidence&quot;: {
+        &quot;link&quot;: {
+          &quot;id&quot;: &quot;link_2&quot;,
+          &quot;status&quot;: &quot;Active&quot;,
+          &quot;crc_errors&quot;: 12,
+          &quot;replay_errors&quot;: 3,
+          &quot;recovery_errors&quot;: 1
+        }
+      }
+    },
+    {
+      &quot;code&quot;: &quot;pcie_link_degradation&quot;,
+      &quot;severity&quot;: &quot;high&quot;,
+      &quot;node&quot;: &quot;node-12-nvlink-ecc&quot;,
+      &quot;gpu_id&quot;: &quot;00000000:3a:00.0&quot;,
+      &quot;gpu_name&quot;: &quot;NVIDIA H100 80GB HBM3&quot;,
+      &quot;message&quot;: &quot;PCIe link degraded (x16\u2192x8) \u2014 host\u2194GPU bandwidth silently cut&quot;,
+      &quot;evidence&quot;: {
+        &quot;pcie_gen_max&quot;: 5,
+        &quot;pcie_gen_current&quot;: 5,
+        &quot;pcie_width_max&quot;: 16,
+        &quot;pcie_width_current&quot;: 8
+      }
+    },
+    {
+      &quot;code&quot;: &quot;ecc_correctable_rising&quot;,
+      &quot;severity&quot;: &quot;medium&quot;,
+      &quot;node&quot;: &quot;node-07-pcie-thermal&quot;,
+      &quot;gpu_id&quot;: &quot;00000000:3a:00.0&quot;,
+      &quot;gpu_name&quot;: &quot;NVIDIA H100 80GB HBM3&quot;,
+      &quot;message&quot;: &quot;Correctable ECC errors rising (volatile): 4&quot;,
+      &quot;evidence&quot;: {
+        &quot;scope&quot;: &quot;volatile&quot;,
+        &quot;correctable&quot;: 4,
+        &quot;block&quot;: {
+          &quot;sram_correctable&quot;: 0,
+          &quot;sram_uncorrectable&quot;: 0,
+          &quot;dram_correctable&quot;: 4,
+          &quot;dram_uncorrectable&quot;: 0
+        }
+      }
+    }
+  ],
+  &quot;summary&quot;: {
+    &quot;critical&quot;: 5,
+    &quot;pcie_link_degradation&quot;: 2,
+    &quot;thermal_throttling&quot;: 1,
+    &quot;nvlink_partial_drop&quot;: 1,
+    &quot;ecc_uncorrectable&quot;: 2,
+    &quot;high&quot;: 2,
+    &quot;nvlink_link_errors&quot;: 1,
+    &quot;medium&quot;: 1,
+    &quot;ecc_correctable_rising&quot;: 1
+  },
+  &quot;notes&quot;: [
+    &quot;seeded sample fleet \u2014 PCIe Gen5\u2192Gen3, thermal throttle, partial NVLink drop&quot;
+  ]
+}</pre>
+    </details>
+    <p class="muted" style="margin-top:2rem">
+      Source: <code>/Users/enaguthiabhishek/Documents/nvidia/gpu-fleet-sentinel/examples/fleet</code> ·
+      <a href="https://github.com/Abhishek21g/gpu-fleet-sentinel">github.com/Abhishek21g/gpu-fleet-sentinel</a>
+    </p>
+  </div>
+</body>
+</html>
