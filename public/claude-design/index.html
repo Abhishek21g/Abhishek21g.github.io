@@ -85,55 +85,38 @@
   .os-window{border-radius:14px!important;border:1px solid rgba(246,242,234,0.12)!important;box-shadow:0 34px 90px rgba(0,0,0,0.52),0 1px 0 rgba(255,255,255,0.22) inset!important;}
   .os-window .window-titlebar{background:linear-gradient(180deg,rgba(237,234,226,0.96),rgba(224,219,207,0.91))!important;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);}
   .terminal-window .window-titlebar{background:linear-gradient(180deg,rgba(28,28,26,0.96),rgba(12,12,11,0.92))!important;}
-  .desktop-icons{position:absolute;left:32px;top:28px;display:grid;grid-template-columns:88px 88px;grid-auto-rows:minmax(76px,auto);column-gap:12px;row-gap:clamp(8px,1.4dvh,22px);z-index:3;align-items:start;}
-  .desktop-icon{transition:transform .16s ease,filter .16s ease;}
-  .desktop-icon:hover{transform:translateY(-2px);filter:brightness(1.07);}
-  .desktop-icons .desktop-icon{position:relative!important;left:auto!important;top:auto!important;width:88px!important;display:flex!important;flex-direction:column!important;align-items:center!important;gap:8px!important;}
-  .desktop-icons .desktop-icon:nth-child(1){grid-column:2;grid-row:1;}
-  .desktop-icons .desktop-icon:nth-child(2){grid-column:1;grid-row:1;}
-  .desktop-icons .desktop-icon:nth-child(3){grid-column:1;grid-row:2;}
-  .desktop-icons .desktop-icon:nth-child(4){grid-column:1;grid-row:3;}
-  .desktop-icons .desktop-icon:nth-child(5){grid-column:1;grid-row:4;}
-  .desktop-icons .desktop-icon:nth-child(6){grid-column:1;grid-row:5;}
-  .desktop-icons .desktop-icon:nth-child(7){grid-column:1;grid-row:6;}
-  .desktop-icons .desktop-icon:nth-child(8){grid-column:1;grid-row:7;}
-  .desktop-icons .desktop-icon:nth-child(9){grid-column:1;grid-row:8;}
+  .desktop-icons,.desktop-icon{display:none!important;}
   .desktop-hint{pointer-events:none;}
   @media (min-width: 641px) and (max-height: 860px){
-    .desktop-icons{left:30px;top:20px;row-gap:8px;column-gap:10px;grid-template-columns:76px 76px;}
-    .desktop-icons .desktop-icon{width:76px!important;gap:5px!important;}
-    .desktop-icon > div:first-child{width:56px!important;height:56px!important;}
-    .desktop-icon > div:last-child{font-size:10px!important;line-height:1.08!important;max-width:76px!important;text-align:center!important;}
-    .desktop-hint{left:140px!important;bottom:12px!important;font-size:9px!important;}
+    .desktop-hint{left:20px!important;bottom:12px!important;font-size:9px!important;}
   }
   @media (min-width: 641px) and (max-height: 760px){
-    .desktop-icons .desktop-icon:nth-child(7){grid-column:2;grid-row:2;}
-    .desktop-icons .desktop-icon:nth-child(8){grid-column:2;grid-row:3;}
-    .desktop-icons .desktop-icon:nth-child(9){grid-column:2;grid-row:4;}
     .desktop-hint{display:none!important;}
   }
-  .mac-dock{position:absolute;right:0;top:50%;transform:translateY(-50%) translateX(calc(100% - 22px));display:flex;flex-direction:column;align-items:center;gap:10px;padding:12px 10px 12px 18px;border-radius:22px 0 0 22px;background:linear-gradient(145deg,rgba(246,242,234,0.22),rgba(246,242,234,0.09));border:1px solid rgba(246,242,234,0.22);border-right:0;box-shadow:0 24px 70px rgba(0,0,0,0.45),inset 0 1px 0 rgba(255,255,255,0.25);backdrop-filter:blur(28px) saturate(1.3);-webkit-backdrop-filter:blur(28px) saturate(1.3);z-index:8;transition:transform .22s cubic-bezier(.2,.8,.2,1);cursor:pointer;}
+  .mac-dock{position:absolute;right:0;top:50%;transform:translateY(-50%) translateX(calc(100% - 22px));display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 10px 12px 18px;border-radius:22px 0 0 22px;background:linear-gradient(145deg,rgba(246,242,234,0.22),rgba(246,242,234,0.09));border:1px solid rgba(246,242,234,0.22);border-right:0;box-shadow:0 24px 70px rgba(0,0,0,0.45),inset 0 1px 0 rgba(255,255,255,0.25);backdrop-filter:blur(28px) saturate(1.3);-webkit-backdrop-filter:blur(28px) saturate(1.3);z-index:8;transition:transform .22s cubic-bezier(.2,.8,.2,1);cursor:pointer;max-height:calc(100% - 40px);overflow-y:auto;overflow-x:hidden;scrollbar-width:none;}
+  .mac-dock::-webkit-scrollbar{display:none;}
   .mac-dock::before{content:"";position:absolute;left:6px;top:50%;transform:translateY(-50%);width:4px;height:42px;border-radius:999px;background:rgba(246,242,234,0.45);pointer-events:none;}
   .mac-dock:hover,.mac-dock:focus-within,.mac-dock.is-open{transform:translateY(-50%) translateX(0);cursor:default;padding-left:10px;border-radius:22px;border-right:1px solid rgba(246,242,234,0.22);right:14px;}
   .mac-dock:hover::before,.mac-dock:focus-within::before,.mac-dock.is-open::before{opacity:0;}
-  .mac-dock button{appearance:none;border:0;width:48px;height:48px;border-radius:13px;background:#F6F2EA;color:#14110D;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 8px 18px rgba(0,0,0,0.28);transition:transform .16s ease,filter .16s ease;opacity:.35;pointer-events:none;}
+  .mac-dock button{appearance:none;border:0;width:44px;height:44px;border-radius:12px;background:#F6F2EA;color:#14110D;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 8px 18px rgba(0,0,0,0.28);transition:transform .16s ease,filter .16s ease;opacity:.35;pointer-events:none;font:700 11px 'IBM Plex Mono',monospace;flex:none;}
   .mac-dock:hover button,.mac-dock:focus-within button,.mac-dock.is-open button{opacity:1;pointer-events:auto;}
   .mac-dock button:hover{transform:translateX(-5px) scale(1.04);filter:brightness(1.06);}
   .mac-dock button:active{transform:translateX(-2px) scale(.98);}
   .mac-dock .dock-hot{background:#E2621B;}
   .mac-dock .dock-dark{background:#0A0A0A;color:#E2621B;border:1px solid rgba(246,242,234,0.16);}
-  .mac-dock-separator{width:34px;height:1px;background:rgba(246,242,234,0.24);margin:2px 0;opacity:.35;}
+  .mac-dock-separator{width:30px;height:1px;background:rgba(246,242,234,0.24);margin:2px 0;opacity:.35;flex:none;}
   .mac-dock:hover .mac-dock-separator,.mac-dock:focus-within .mac-dock-separator,.mac-dock.is-open .mac-dock-separator{opacity:1;}
-  @media (min-width: 1700px) and (min-height: 900px){
-    .mac-dock{left:50%;right:auto;top:auto;bottom:0;transform:translateX(-50%) translateY(calc(100% - 22px));flex-direction:row;padding:18px 12px 10px;border-radius:22px 22px 0 0;border-right:1px solid rgba(246,242,234,0.22);border-bottom:0;}
+  @media (min-width: 1100px) and (min-height: 820px){
+    .mac-dock{left:50%;right:auto;top:auto;bottom:0;transform:translateX(-50%) translateY(calc(100% - 22px));flex-direction:row;padding:18px 12px 10px;border-radius:22px 22px 0 0;border-right:1px solid rgba(246,242,234,0.22);border-bottom:0;max-height:none;overflow:visible;}
     .mac-dock::before{left:50%;top:6px;transform:translateX(-50%);width:42px;height:4px;}
-    .mac-dock:hover,.mac-dock:focus-within,.mac-dock.is-open{transform:translateX(-50%) translateY(0);bottom:14px;border-radius:22px;border-bottom:1px solid rgba(246,242,234,0.22);padding-top:10px;}
+    .mac-dock:hover,.mac-dock:focus-within,.mac-dock.is-open{transform:translateX(-50%) translateY(0);bottom:14px;border-radius:22px;border-bottom:1px solid rgba(246,242,234,0.22);padding-top:10px;right:auto;}
     .mac-dock button:hover{transform:translateY(-5px) scale(1.04);}
     .mac-dock button:active{transform:translateY(-2px) scale(.98);}
-    .mac-dock-separator{width:1px;height:34px;margin:0 2px;}
+    .mac-dock-separator{width:1px;height:30px;margin:0 2px;}
   }
-  @media (max-width: 1320px),(max-height: 620px){
-    .mac-dock{display:none!important;}
+  @media (max-width: 640px){
+    .mac-dock{right:0;top:auto;bottom:12px;transform:translateY(0) translateX(calc(100% - 22px));max-height:none;flex-direction:column;}
+    .mac-dock:hover,.mac-dock:focus-within,.mac-dock.is-open{transform:translateY(0) translateX(0);right:10px;bottom:12px;}
   }
   .gallery-main-photo{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;object-position:center;background:#0D0C09;}
   .gallery-thumb-img{object-fit:contain;object-position:center;background:#14110D;}
@@ -259,11 +242,10 @@
     .top-links a{display:inline-flex!important;}
     .top-links .status-dot,.top-links .clock-full{display:none!important;}
     .top-links .clock-short{display:inline-flex!important;}
-    .desktop-icon{left:auto!important;top:auto!important;position:relative!important;width:78px!important;min-height:86px!important;}
-    .desktop-icon > div:first-child{width:52px!important;height:52px!important;}
-    .desktop-icon > div:last-child{font-size:10px!important;line-height:1.14!important;text-align:center!important;max-width:78px!important;overflow:visible!important;text-overflow:clip!important;white-space:normal!important;}
-    .desktop-icons{position:relative!important;left:auto!important;right:auto!important;top:auto!important;order:2!important;display:grid!important;grid-template-columns:repeat(3,minmax(70px,78px))!important;justify-content:center!important;gap:16px 14px!important;overflow:visible!important;padding:0 0 8px!important;flex:none!important;}
+    .desktop-icons,.desktop-icon{display:none!important;}
     .desktop-hint{display:none!important;}
+    .mac-dock{position:fixed!important;right:0!important;top:auto!important;bottom:max(14px,env(safe-area-inset-bottom))!important;left:auto!important;transform:translateX(calc(100% - 22px))!important;z-index:95!important;max-height:min(70dvh,520px)!important;}
+    .mac-dock:hover,.mac-dock:focus-within,.mac-dock.is-open{transform:translateX(0)!important;right:10px!important;bottom:max(14px,env(safe-area-inset-bottom))!important;}
     .ambient-rail{position:relative!important;left:auto!important;right:auto!important;top:auto!important;order:3!important;width:100%!important;display:grid!important;grid-template-columns:1fr!important;gap:10px!important;z-index:1!important;pointer-events:auto!important;}
     .ambient-card{padding:13px!important;border-radius:16px!important;background:linear-gradient(135deg,rgba(246,242,234,0.18),rgba(246,242,234,0.06))!important;}
     .about-window{position:relative!important;left:auto!important;top:auto!important;order:1!important;width:100%!important;max-width:none!important;height:auto!important;min-height:0!important;max-height:none!important;flex:none!important;z-index:2!important;border-radius:18px!important;overflow:hidden!important;box-shadow:0 18px 42px rgba(0,0,0,0.38)!important;}
@@ -317,11 +299,10 @@
   .mobile-preview .top-links a{display:inline-flex!important;}
   .mobile-preview .top-links .status-dot,.mobile-preview .top-links .clock-full{display:none!important;}
   .mobile-preview .top-links .clock-short{display:inline-flex!important;}
-  .mobile-preview .desktop-icon{left:auto!important;top:auto!important;position:relative!important;width:78px!important;min-height:86px!important;}
-  .mobile-preview .desktop-icon > div:first-child{width:52px!important;height:52px!important;}
-  .mobile-preview .desktop-icon > div:last-child{font-size:10px!important;line-height:1.14!important;text-align:center!important;max-width:78px!important;overflow:visible!important;text-overflow:clip!important;white-space:normal!important;}
-  .mobile-preview .desktop-icons{position:relative!important;left:auto!important;right:auto!important;top:auto!important;order:2!important;display:grid!important;grid-template-columns:repeat(3,minmax(70px,78px))!important;justify-content:center!important;gap:16px 14px!important;overflow:visible!important;padding:0 0 8px!important;flex:none!important;}
+  .mobile-preview .desktop-icons,.mobile-preview .desktop-icon{display:none!important;}
   .mobile-preview .desktop-hint{display:none!important;}
+  .mobile-preview .mac-dock{position:fixed!important;right:0!important;top:auto!important;bottom:max(14px,env(safe-area-inset-bottom))!important;left:auto!important;transform:translateX(calc(100% - 22px))!important;z-index:95!important;}
+  .mobile-preview .mac-dock:hover,.mobile-preview .mac-dock:focus-within,.mobile-preview .mac-dock.is-open{transform:translateX(0)!important;right:10px!important;}
   .mobile-preview .ambient-rail{position:relative!important;left:auto!important;right:auto!important;top:auto!important;order:3!important;width:100%!important;display:grid!important;grid-template-columns:1fr!important;gap:10px!important;z-index:1!important;pointer-events:auto!important;}
   .mobile-preview .ambient-card{padding:13px!important;border-radius:16px!important;background:linear-gradient(135deg,rgba(246,242,234,0.18),rgba(246,242,234,0.06))!important;}
   .mobile-preview .about-window{position:relative!important;left:auto!important;top:auto!important;order:1!important;width:100%!important;max-width:none!important;height:auto!important;min-height:0!important;max-height:none!important;flex:none!important;z-index:2!important;border-radius:18px!important;overflow:hidden!important;box-shadow:0 18px 42px rgba(0,0,0,0.38)!important;}
@@ -489,94 +470,15 @@
 </section>
 </div>
 
-<div class="desktop-icons">
-<div class="desktop-icon" onClick="{{ openToday }}" style="position:absolute;left:140px;top:28px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
-<div style="width:56px;height:56px;border-radius:12px;background:#F6F2EA;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(0,0,0,0.35);position:relative;overflow:hidden;">
-<span style="position:absolute;left:13px;top:12px;width:30px;height:2px;background:#E2621B;"></span>
-<span style="position:absolute;left:13px;top:22px;width:24px;height:2px;background:#5B5648;"></span>
-<span style="position:absolute;left:13px;top:32px;width:30px;height:2px;background:#5B5648;"></span>
-<span style="position:absolute;right:9px;bottom:7px;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:9px;color:#E2621B;">NOW</span>
-</div>
-<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;text-shadow:0 1px 3px rgba(0,0,0,0.6);">Today.txt</div>
 </div>
 
-<div class="desktop-icon" onClick="{{ openPrinciples }}" style="position:absolute;left:140px;top:128px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
-<div style="width:56px;height:56px;border-radius:12px;background:#F6F2EA;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;box-shadow:0 6px 16px rgba(0,0,0,0.35);position:relative;overflow:hidden;">
-<span style="font-family:'Instrument Serif',Georgia,serif;font-size:22px;color:#E2621B;line-height:1;">§</span>
-<span style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:8px;color:#5B5648;letter-spacing:.06em;">TLDR</span>
-</div>
-<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;text-shadow:0 1px 3px rgba(0,0,0,0.6);">Principles.md</div>
-</div>
-
-<div class="desktop-icon" onClick="{{ openAbout }}" style="position:absolute;left:40px;top:28px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
-<div style="width:56px;height:56px;border-radius:12px;background:#F6F2EA;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;box-shadow:0 6px 16px rgba(0,0,0,0.35);">
-<div style="width:28px;height:2px;background:#5B5648;"></div>
-<div style="width:28px;height:2px;background:#5B5648;"></div>
-<div style="width:18px;height:2px;background:#5B5648;"></div>
-</div>
-<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;text-shadow:0 1px 3px rgba(0,0,0,0.6);">About.txt</div>
-</div>
-
-<div class="desktop-icon" onClick="{{ openExperience }}" style="position:absolute;left:40px;top:128px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
-<div style="width:56px;height:56px;border-radius:12px;background:#F6F2EA;display:flex;align-items:flex-end;justify-content:center;gap:4px;padding-bottom:9px;box-shadow:0 6px 16px rgba(0,0,0,0.35);">
-<div style="width:7px;height:16px;background:#E2621B;"></div>
-<div style="width:7px;height:26px;background:#E2621B;"></div>
-<div style="width:7px;height:20px;background:#E2621B;"></div>
-</div>
-<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;text-shadow:0 1px 3px rgba(0,0,0,0.6);">Experience.log</div>
-</div>
-
-<div class="desktop-icon" onClick="{{ openProjects }}" style="position:absolute;left:40px;top:228px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
-<div style="width:56px;height:56px;border-radius:12px;background:#E2621B;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(0,0,0,0.35);">
-<span style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:15px;color:#14110D;">&lt;/&gt;</span>
-</div>
-<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;text-shadow:0 1px 3px rgba(0,0,0,0.6);">Projects/</div>
-</div>
-
-<div class="desktop-icon" onClick="{{ openResume }}" style="position:absolute;left:40px;top:328px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
-<div style="width:56px;height:56px;border-radius:12px;background:#F6F2EA;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(0,0,0,0.35);position:relative;overflow:hidden;">
-<span style="position:absolute;left:13px;top:13px;width:28px;height:2px;background:#E2621B;"></span>
-<span style="position:absolute;left:13px;top:22px;width:31px;height:2px;background:#5B5648;"></span>
-<span style="position:absolute;left:13px;top:31px;width:24px;height:2px;background:#5B5648;"></span>
-<span style="position:absolute;right:9px;bottom:7px;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:10px;color:#E2621B;">CV</span>
-</div>
-<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;text-shadow:0 1px 3px rgba(0,0,0,0.6);">Resume.txt</div>
-</div>
-
-<div class="desktop-icon" onClick="{{ openGallery }}" style="position:absolute;left:40px;top:428px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
-<div style="width:56px;height:56px;position:relative;">
-<div style="position:absolute;width:46px;height:46px;background:#F6F2EA;border-radius:8px;transform:rotate(-8deg);top:7px;left:2px;box-shadow:0 4px 10px rgba(0,0,0,0.3);"></div>
-<div style="position:absolute;width:46px;height:46px;background-image:url('/media/sc24-booth.jpg');background-size:cover;background-position:center;border-radius:8px;transform:rotate(5deg);top:3px;left:7px;box-shadow:0 6px 14px rgba(0,0,0,0.4);"></div>
-</div>
-<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;text-shadow:0 1px 3px rgba(0,0,0,0.6);">Gallery</div>
-</div>
-
-<div class="desktop-icon" onClick="{{ openContact }}" style="position:absolute;left:40px;top:528px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
-<div style="width:56px;height:56px;border-radius:12px;background:#F6F2EA;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(0,0,0,0.35);">
-<span style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:20px;color:#14110D;">@</span>
-</div>
-<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;text-shadow:0 1px 3px rgba(0,0,0,0.6);">Contact</div>
-</div>
-
-<div class="desktop-icon" onClick="{{ openTerminal }}" style="position:absolute;left:40px;top:628px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
-<div style="width:56px;height:56px;border-radius:12px;background:#0A0A0A;border:1px solid rgba(246,242,234,0.15);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(0,0,0,0.35);">
-<span style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:#E2621B;">&gt;_</span>
-</div>
-<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;text-shadow:0 1px 3px rgba(0,0,0,0.6);">Terminal</div>
-</div>
-
-<div class="desktop-icon" onClick="{{ openBlog }}" style="position:absolute;left:40px;top:728px;width:88px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;">
-<div style="width:56px;height:56px;border-radius:12px;background:#F6F2EA;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(0,0,0,0.35);">
-<span style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:22px;color:#14110D;">¶</span>
-</div>
-<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#F6F2EA;text-shadow:0 1px 3px rgba(0,0,0,0.6);">Blog</div>
-</div>
-</div>
-
-<div class="mac-dock {{ dockClass }}" aria-label="Mac-style app dock" onClick="{{ toggleDock }}" onMouseLeave="{{ closeDock }}">
+<div class="mac-dock {{ dockClass }}" aria-label="App dock" onClick="{{ toggleDock }}" onMouseLeave="{{ closeDock }}">
 <button onClick="{{ openAbout }}" title="About.txt" aria-label="Open About">☰</button>
+<button onClick="{{ openToday }}" title="Today.txt" aria-label="Open Today">NOW</button>
+<button onClick="{{ openExperience }}" title="Experience.log" aria-label="Open Experience">≡</button>
 <button class="dock-hot" onClick="{{ openProjects }}" title="Projects/" aria-label="Open Projects">&lt;/&gt;</button>
 <button onClick="{{ openGallery }}" title="Gallery" aria-label="Open Gallery">▧</button>
+<button onClick="{{ openContact }}" title="Contact" aria-label="Open Contact">@</button>
 <button onClick="{{ openPrinciples }}" title="Principles.md" aria-label="Open Principles">§</button>
 <button class="dock-dark" onClick="{{ openTerminal }}" title="Terminal" aria-label="Open Terminal">&gt;_</button>
 <span class="mac-dock-separator"></span>
@@ -584,7 +486,7 @@
 <button onClick="{{ openBlog }}" title="Blog" aria-label="Open Blog">¶</button>
 </div>
 
-<div class="desktop-hint" style="position:absolute;left:154px;bottom:20px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(246,242,234,0.42);">click an icon · drag titlebar · resize corner · <span style="color:rgba(226,98,27,0.85);">× or Esc closes a window</span> · terminal: type <span style="color:rgba(226,98,27,0.85);">exit</span></div>
+<div class="desktop-hint" style="position:absolute;left:24px;bottom:20px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(246,242,234,0.42);">peek the right edge for apps · drag titlebar · resize corner · <span style="color:rgba(226,98,27,0.85);">× or Esc closes</span></div>
 
 <sc-if value="{{ windows.about.open }}" hint-placeholder-val="{{ true }}">
 <div class="os-window about-window" data-window-id="about" onMouseDown="{{ focusAbout }}" style="position:absolute;left:{{ windows.about.x }}px;top:{{ windows.about.y }}px;width:{{ windows.about.w }}px;height:{{ windows.about.h }}px;z-index:{{ windows.about.z }};background:#F6F2EA;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);">
@@ -995,7 +897,7 @@
 <div class="window-body" style="padding:24px;overflow-y:auto;">
 <div class="nd-roman" style="margin-bottom:10px;">Start Here</div>
 <h3 class="nd-heading" style="font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:30px;line-height:1.0;color:#14110D;margin:0 0 14px;">Welcome to the desktop.</h3>
-<p style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:14px;line-height:1.7;color:#3B3529;margin:0 0 16px;">Open apps from the icons or dock. Drag titlebars, resize corners, and use Terminal commands like <span style="font-family:'IBM Plex Mono',monospace;color:#E2621B;">projects</span>, <span style="font-family:'IBM Plex Mono',monospace;color:#E2621B;">blog</span>, and <span style="font-family:'IBM Plex Mono',monospace;color:#E2621B;">gallery</span>.</p>
+<p style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:14px;line-height:1.7;color:#3B3529;margin:0 0 16px;">Peek the dock on the right edge for apps. Drag titlebars, resize corners, and use Terminal commands like <span style="font-family:'IBM Plex Mono',monospace;color:#E2621B;">projects</span>, <span style="font-family:'IBM Plex Mono',monospace;color:#E2621B;">blog</span>, and <span style="font-family:'IBM Plex Mono',monospace;color:#E2621B;">gallery</span>.</p>
 <div style="display:grid;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5B5648;">
 <button onClick="{{ openProjects }}" style="border:1px solid rgba(20,17,13,0.12);background:white;border-radius:7px;padding:9px 10px;text-align:left;cursor:pointer;">open Projects/</button>
 <button onClick="{{ openResume }}" style="border:1px solid rgba(20,17,13,0.12);background:white;border-radius:7px;padding:9px 10px;text-align:left;cursor:pointer;">open Resume</button>
@@ -1584,13 +1486,12 @@ class Component extends DCLogic {
         });
       } else {
         const railW = bounds.width >= 1900 ? 400 : (bounds.width >= 1320 ? 360 : (bounds.width >= 1100 ? 300 : 0));
-        const iconW = bounds.width >= 1000 ? 210 : 0;
-        const contentLeft = iconW + 24;
+        const contentLeft = 28;
         const contentRight = bounds.width - railW - 28;
         const contentW = Math.max(620, contentRight - contentLeft);
-        const aboutW = Math.min(bounds.width >= 1800 ? 860 : 720, Math.max(640, contentW - 60));
+        const aboutW = Math.min(bounds.width >= 1800 ? 860 : 720, Math.max(640, contentW - 40));
         const aboutX = bounds.width >= 1400
-          ? Math.round(contentLeft + Math.max(0, contentW - aboutW) * 0.28)
+          ? Math.round(contentLeft + Math.max(0, contentW - aboutW) * 0.22)
           : Math.round((bounds.width - aboutW) / 2);
         const aboutH = Math.min(Math.max(720, Math.round(bounds.height * 0.82)), bounds.height - 88);
         windows.about = this.clampWindow({ ...windows.about, x: aboutX, y: bounds.width >= 1500 ? 64 : 56, w: aboutW, h: aboutH, open: initial ? true : windows.about.open });
