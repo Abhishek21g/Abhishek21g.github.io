@@ -2,12 +2,1296 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta http-equiv="refresh" content="0; url=/inferact-deep-dive/" />
-  <link rel="canonical" href="https://enaguthi.com/inferact-deep-dive/" />
-  <title>Redirecting…</title>
-  <script>location.replace("/inferact-deep-dive/" + location.hash);</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ROCm on POWER9 · Inferact deep dive</title>
+  <meta name="description" content="Abhishek Enaguthi. ROCm + HIP on POWER9. Inferact AMD GPU Performance Engineering deep dive." />
+  <link rel="canonical" href="https://enaguthi.com/pitch/inferact/" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" />
+  <style>
+    :root {
+      --ink: #1c1412;
+      --muted: #6f6562;
+      --paper: #ffffff;
+      --wash: #faf7f5;
+      --line: #ebe4e0;
+      --shell: #faf6f3;
+      --signal: #e86f4c;
+      --ok: #2f9e6b;
+      --term: #0e0c0b;
+      --term-fg: #e8ddd6;
+      --term-dim: #8a7c74;
+      --term-line: #2a2420;
+      --kw: #e8c47c;
+      --hi: #7eb8d4;
+      --ok-term: #7dcea0;
+      --shadow: rgba(10, 10, 10, 0.28);
+      --shadow-ring: rgba(10, 10, 10, 0.06);
+      --serif: "Instrument Serif", "Iowan Old Style", Palatino, "Palatino Linotype", Georgia, "Times New Roman", serif;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      color-scheme: light;
+    }
+    html.dark {
+      --ink: #f4ece7;
+      --muted: #b3a59e;
+      --paper: #12100e;
+      --wash: #1a1614;
+      --line: #2f2926;
+      --shell: #171310;
+      --signal: #ef7d5a;
+      --ok: #6dcea0;
+      --shadow: rgba(0, 0, 0, 0.55);
+      --shadow-ring: rgba(255, 255, 255, 0.06);
+      color-scheme: dark;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: var(--wash);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.4;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    button { font: inherit; color: inherit; }
+    .serif { font-family: var(--serif); font-weight: 400; font-synthesis: none; }
+
+    .app {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      height: 100dvh;
+      overflow: hidden;
+      background: var(--wash);
+    }
+    .glow {
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 55% 70% at 8% 108%, rgba(232, 111, 76, 0.10), transparent 70%),
+        radial-gradient(ellipse 40% 50% at 92% -8%, rgba(28, 20, 18, 0.04), transparent 65%);
+    }
+    html.dark .glow {
+      background:
+        radial-gradient(ellipse 55% 70% at 8% 108%, rgba(239, 125, 90, 0.12), transparent 70%),
+        radial-gradient(ellipse 40% 50% at 92% -8%, rgba(244, 236, 231, 0.04), transparent 65%);
+    }
+
+    .top {
+      position: relative;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 24px;
+    }
+    .brand {
+      font-family: var(--serif);
+      font-size: 1.125rem;
+      font-weight: 400;
+      font-synthesis: none;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .top-actions { display: flex; align-items: center; gap: 10px; }
+    .icon-btn, .ghost, .solid, .nav-btn {
+      border-radius: 999px;
+      cursor: pointer;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      color: var(--ink);
+    }
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ghost, .solid, .nav-btn {
+      padding: 6px 14px;
+      font-size: 0.875rem;
+    }
+    .solid {
+      background: var(--ink);
+      color: var(--paper);
+      border-color: var(--ink);
+    }
+    .solid:disabled, .ghost:disabled { opacity: 0.3; cursor: default; }
+    .sections-toggle { display: none; }
+
+    .body {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex: 1;
+      min-height: 0;
+      width: 100%;
+      max-width: 1320px;
+      margin: 0 auto;
+      gap: 16px;
+      padding: 0 20px 8px;
+    }
+    .jump {
+      width: 176px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .jump-label {
+      margin: 0 0 8px;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .jump nav { display: flex; flex-direction: column; gap: 2px; }
+    .jump button {
+      width: 100%;
+      text-align: left;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+    .jump button:hover { background: var(--paper); color: var(--ink); }
+    .jump button.on { background: var(--ink); color: var(--paper); }
+    .jump .appendix-toggle {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+    .jump .appendix-list {
+      display: none;
+      flex-direction: column;
+      gap: 2px;
+      margin: 2px 0 0 8px;
+      padding-left: 8px;
+      border-left: 1px solid var(--line);
+    }
+    .jump .appendix-list.open { display: flex; }
+
+    .stage {
+      flex: 1;
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border: 2px solid var(--line);
+      border-radius: 16px;
+      background: var(--paper);
+      box-shadow: 0 1px 2px var(--shadow-ring), 0 18px 48px -24px var(--shadow);
+    }
+    .slide {
+      display: none;
+      flex: 1;
+      min-height: 0;
+      flex-direction: column;
+      overflow: hidden;
+      padding: 18px 28px 18px;
+    }
+    .slide.on { display: flex; animation: rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
+    .slide.cover { align-items: stretch; justify-content: flex-start; text-align: left; overflow-y: auto; }
+    .slide.fill { justify-content: flex-start; }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .slide.on { animation: none; }
+    }
+
+    .eyebrow {
+      margin: 0;
+      flex-shrink: 0;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--signal);
+    }
+    h1 {
+      margin: 6px 0 0;
+      flex-shrink: 0;
+      max-width: none;
+      font-family: var(--serif);
+      font-size: clamp(1.5rem, 2.8vw, 2.2rem);
+      font-weight: 400;
+      font-synthesis: none;
+      line-height: 1.16;
+      letter-spacing: -0.02em;
+      text-wrap: balance;
+    }
+    .cover h1 {
+      max-width: none;
+      font-size: clamp(2rem, 4.4vw, 3.35rem);
+      line-height: 1.06;
+    }
+    .lede {
+      margin: 10px 0 0;
+      max-width: 36em;
+      font-size: clamp(0.98rem, 1.5vw, 1.18rem);
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    .hint {
+      margin: 8px 0 0;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .grow {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      margin-top: 12px;
+      gap: 10px;
+    }
+
+    .marks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--line);
+      background: var(--wash);
+      border-radius: 999px;
+      padding: 5px 10px 5px 6px;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+    }
+    .mark i {
+      width: 22px;
+      height: 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 7px;
+      background: var(--ink);
+      color: var(--paper);
+      font-style: normal;
+      font-size: 10px;
+      font-weight: 600;
+    }
+    .mark.amd i { background: #ed1c24; }
+    .mark.ibm i { background: #054ada; }
+    .mark.hip i { background: #e86f4c; }
+
+    .split {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 12px;
+    }
+    .split.even { grid-template-columns: 1fr 1fr; }
+    .split.wide-right { grid-template-columns: 0.92fr 1.08fr; }
+
+    .machine {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 1fr 56px 1fr;
+      align-items: stretch;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--wash) 70%, transparent), var(--wash)),
+        repeating-linear-gradient(0deg, transparent, transparent 23px, color-mix(in srgb, var(--line) 70%, transparent) 24px);
+      border-radius: 14px;
+      padding: 12px;
+    }
+    .box {
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      border-radius: 12px;
+      padding: 12px 14px;
+    }
+    .box.had {
+      border-color: color-mix(in srgb, var(--signal) 55%, var(--line));
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--signal) 25%, transparent);
+    }
+    .box-kicker {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .box.had .box-kicker { color: var(--signal); }
+    .box-title {
+      font-family: var(--serif);
+      font-size: clamp(1.25rem, 2.2vw, 1.7rem);
+      line-height: 1.1;
+    }
+    .box-meta {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .box ul {
+      list-style: none;
+      margin: 8px 0 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .box li {
+      font-size: 13px;
+      color: var(--muted);
+      padding-left: 12px;
+      position: relative;
+    }
+    .box li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 6px;
+      height: 6px;
+      border-radius: 99px;
+      background: var(--signal);
+    }
+    .bus {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      color: var(--signal);
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+    }
+    .bus svg { width: 28px; height: 28px; }
+
+    .arch {
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .layer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      border: 1px solid var(--line);
+      background: var(--wash);
+      border-radius: 10px;
+      padding: 9px 12px;
+      font-size: 13px;
+    }
+    .layer b { font-weight: 600; }
+    .layer span {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .layer.gpu {
+      background: var(--ink);
+      color: var(--paper);
+      border-color: var(--ink);
+    }
+    .layer.gpu span { color: color-mix(in srgb, var(--paper) 70%, transparent); }
+    .layer.broke {
+      border-color: color-mix(in srgb, var(--signal) 50%, var(--line));
+      background: color-mix(in srgb, var(--signal) 12%, var(--paper));
+    }
+    .layer.ok {
+      border-color: color-mix(in srgb, var(--ok) 45%, var(--line));
+      background: color-mix(in srgb, var(--ok) 10%, var(--paper));
+    }
+
+    .term {
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: var(--term);
+      color: var(--term-fg);
+      border: 1px solid var(--term-line);
+      border-radius: 12px;
+      box-shadow: 0 12px 32px -18px rgba(0,0,0,0.7);
+    }
+    .term-bar {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      background: #171310;
+      border-bottom: 1px solid var(--term-line);
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--term-dim);
+    }
+    .dots { display: flex; gap: 5px; }
+    .dots i {
+      width: 8px;
+      height: 8px;
+      border-radius: 99px;
+      background: #3a3330;
+      font-style: normal;
+    }
+    .dots i:nth-child(1) { background: #c45c4a; }
+    .dots i:nth-child(2) { background: #c4a15a; }
+    .dots i:nth-child(3) { background: #5aa36b; }
+    .term-body {
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
+      margin: 0;
+      padding: 12px 14px;
+      font-family: var(--mono);
+      font-size: clamp(11px, 1.05vw, 12.5px);
+      line-height: 1.55;
+      white-space: pre;
+    }
+    .term .p { color: var(--ok-term); }
+    .term .k { color: var(--kw); }
+    .term .c { color: var(--hi); }
+    .term .d { color: var(--term-dim); }
+    .term .f { color: #ef7d5a; }
+    .term .g { color: var(--ok-term); font-weight: 600; }
+    .term .w { color: #f4ece7; }
+
+    .job {
+      flex-shrink: 0;
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: var(--ink);
+      color: var(--paper);
+      font-size: clamp(0.95rem, 1.5vw, 1.12rem);
+      line-height: 1.35;
+    }
+
+    .flow {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      align-items: stretch;
+      gap: 8px;
+    }
+    .step {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+      border: 1px solid var(--line);
+      background: var(--wash);
+      border-radius: 14px;
+      padding: 14px 12px;
+    }
+    .step strong {
+      display: block;
+      font-size: clamp(0.98rem, 1.5vw, 1.14rem);
+      font-weight: 600;
+      line-height: 1.25;
+    }
+    .step span {
+      color: var(--muted);
+      font-size: clamp(0.8rem, 1.1vw, 0.92rem);
+      line-height: 1.4;
+    }
+    .n {
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      background: var(--ink);
+      color: var(--paper);
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .arrow {
+      flex-shrink: 0;
+      align-self: center;
+      color: var(--signal);
+      width: 18px;
+      height: 18px;
+    }
+
+    .trio {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+    }
+    .failcard {
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--paper);
+    }
+    .failcard h2 {
+      margin: 0;
+      padding: 10px 12px 8px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--signal);
+    }
+    .failcard .term {
+      flex: 1;
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    .loop {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      grid-template-rows: 1fr auto 1fr;
+      gap: 8px;
+      align-items: stretch;
+    }
+    .loop .step { min-height: 0; }
+    .loop .a { grid-column: 1; grid-row: 1; }
+    .loop .b { grid-column: 3; grid-row: 1; }
+    .loop .c { grid-column: 3; grid-row: 3; }
+    .loop .d { grid-column: 1; grid-row: 3; }
+    .loop .ab { grid-column: 2; grid-row: 1; align-self: center; }
+    .loop .bc { grid-column: 3; grid-row: 2; justify-self: center; }
+    .loop .cd { grid-column: 2; grid-row: 3; align-self: center; }
+    .loop .da { grid-column: 1; grid-row: 2; justify-self: center; }
+    .arr-down { transform: rotate(90deg); }
+    .arr-left { transform: rotate(180deg); }
+    .arr-up { transform: rotate(-90deg); }
+    .step .term-inline {
+      margin-top: 6px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: var(--term);
+      color: var(--term-fg);
+      font-family: var(--mono);
+      font-size: 11px;
+      line-height: 1.45;
+      white-space: pre;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .chip {
+      border: 1px solid var(--line);
+      background: var(--wash);
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .cover-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .cover-row .step { min-height: 0; padding: 12px; }
+
+    .hexrow {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+      font-family: var(--mono);
+      font-size: 12px;
+    }
+    .byte {
+      width: 34px;
+      text-align: center;
+      padding: 4px 0;
+      border-radius: 6px;
+      background: #1c1816;
+      color: var(--kw);
+    }
+    .byte.rot { background: #3a1c16; color: #ef7d5a; }
+
+    .foot {
+      position: relative;
+      z-index: 10;
+      flex-shrink: 0;
+      padding: 4px 20px max(10px, env(safe-area-inset-bottom));
+    }
+    .foot-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .progress-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .count {
+      flex-shrink: 0;
+      font-size: 11px;
+      font-variant-numeric: tabular-nums;
+      color: var(--muted);
+    }
+    .bars {
+      display: flex;
+      flex: 1;
+      min-width: 0;
+      gap: 4px;
+    }
+    .bars button {
+      height: 8px;
+      flex: 1;
+      min-width: 0;
+      border: 0;
+      border-radius: 999px;
+      background: var(--line);
+      cursor: pointer;
+      padding: 0;
+    }
+    .bars button.done { background: color-mix(in srgb, var(--ink) 45%, transparent); }
+    .bars button.now { background: var(--ink); }
+    .bars button.gap { margin-left: 8px; }
+    .nav-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .keys { font-size: 12px; color: var(--muted); }
+
+    .mobile-menu {
+      display: none;
+      position: absolute;
+      z-index: 30;
+      left: 16px;
+      right: 16px;
+      top: 52px;
+      max-height: 60dvh;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--paper);
+      padding: 12px;
+      box-shadow: 0 18px 48px -24px var(--shadow);
+    }
+    .mobile-menu.open { display: block; }
+    .mobile-menu p {
+      margin: 0 0 8px;
+      padding: 0 8px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .mobile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .mobile-grid button {
+      text-align: left;
+      border: 0;
+      border-radius: 12px;
+      padding: 10px 12px;
+      background: var(--wash);
+      cursor: pointer;
+    }
+    .mobile-grid button.on { background: var(--ink); color: var(--paper); }
+
+    @media (max-width: 1024px) {
+      .jump { display: none; }
+      .sections-toggle { display: inline; }
+      .slide { padding: 16px 16px 20px; overflow-y: auto; }
+      .split, .trio, .cover-row, .loop, .machine { grid-template-columns: 1fr; }
+      .loop { grid-template-rows: none; }
+      .loop .a, .loop .b, .loop .c, .loop .d, .loop .ab, .loop .bc, .loop .cd, .loop .da {
+        grid-column: auto;
+        grid-row: auto;
+      }
+      .loop .ab, .loop .bc, .loop .cd, .loop .da { display: none; }
+      .flow { flex-direction: column; }
+      .arrow { transform: rotate(90deg); align-self: center; }
+      .keys { display: none; }
+      .bus { flex-direction: row; padding: 4px 0; }
+    }
+  </style>
 </head>
 <body>
-  <p><a href="/inferact-deep-dive/">ROCm on POWER9 · Inferact deep dive</a></p>
+  <div class="app" id="app">
+    <div class="glow" aria-hidden="true"></div>
+
+    <header class="top">
+      <a class="brand" href="https://enaguthi.com">Abhishek Enaguthi</a>
+      <div class="top-actions">
+        <button type="button" class="ghost sections-toggle" id="menuBtn">Sections</button>
+        <button type="button" class="icon-btn" id="themeBtn" aria-label="Toggle theme" title="Theme"></button>
+        <button type="button" class="solid" id="fsBtn">Fullscreen</button>
+      </div>
+    </header>
+
+    <div class="mobile-menu" id="mobileMenu">
+      <p>Jump to section</p>
+      <div class="mobile-grid" id="mobileNav"></div>
+    </div>
+
+    <div class="body">
+      <aside class="jump">
+        <p class="jump-label">Jump to</p>
+        <nav id="jumpNav" aria-label="Deck sections"></nav>
+      </aside>
+      <section class="stage" id="stage"></section>
+    </div>
+
+    <footer class="foot">
+      <div class="foot-inner">
+        <div class="progress-row">
+          <p class="count" id="count">1 / 8 · 7 left</p>
+          <div class="bars" id="bars" role="tablist" aria-label="Slide position"></div>
+        </div>
+        <div class="nav-row">
+          <button type="button" class="ghost" id="prev">Prev</button>
+          <p class="keys">Arrow keys · swipe · F fullscreen</p>
+          <button type="button" class="solid" id="next">Next</button>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const X = `<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`;
+    const AR = `<svg class="arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    const BUS = `<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    const DOTS = `<span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>`;
+
+    const SLIDES = [
+      {
+        id: "cover",
+        nav: "Cover",
+        layout: "cover",
+        html: `
+          <p class="eyebrow">Inferact · AMD GPU Performance Engineering</p>
+          <h1>ROCm + HIP on POWER9</h1>
+          <p class="lede">Wrong host. Make the GPU work. Then prove it.</p>
+          <div class="marks">
+            <span class="mark amd"><i>R</i> ROCm</span>
+            <span class="mark hip"><i>H</i> HIP</span>
+            <span class="mark ibm"><i>P9</i> POWER9</span>
+          </div>
+          <div class="grow">
+            <div class="split">
+              <div class="machine">
+                <div class="box had">
+                  <div class="box-kicker">Host</div>
+                  <div class="box-title">IBM POWER9</div>
+                  <div class="box-meta">ppc64 · big-endian</div>
+                  <ul>
+                    <li>CMake / hipcc</li>
+                    <li>ROCK patches</li>
+                  </ul>
+                </div>
+                <div class="bus">${BUS}<span>PCIe</span></div>
+                <div class="box">
+                  <div class="box-kicker">Device</div>
+                  <div class="box-title">AMD GPU</div>
+                  <div class="box-meta">HIP kernels</div>
+                  <ul>
+                    <li>queues / HBM</li>
+                    <li>compute path</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="term">
+                <div class="term-bar">${DOTS} rocminfo · ppc64</div>
+                <pre class="term-body"><span class="d">======= HSA System =======</span>
+Machine Model:     <span class="k">LARGE</span>
+System Endianness: <span class="f">BIG</span>
+
+<span class="d">******* Agent 1 *******</span>
+  Name:         <span class="w">Power9</span>
+  Vendor Name:  IBM
+  Device Type:  <span class="c">CPU</span>
+
+<span class="d">******* Agent 2 *******</span>
+  Name:         <span class="w">gfx9</span>
+  Vendor Name:  AMD
+  Device Type:  <span class="g">GPU</span></pre>
+              </div>
+            </div>
+            <div class="cover-row">
+              <div class="step"><span class="n">1</span><strong>Wrong host</strong><span>ROCm wanted x86. We had POWER9.</span></div>
+              <div class="step"><span class="n">2</span><strong>Make it run</strong><span>Build, drivers, libs. The ugly path.</span></div>
+              <div class="step"><span class="n">3</span><strong>Prove it</strong><span>HIP smoke, then framework GPU util.</span></div>
+            </div>
+          </div>
+        `,
+      },
+      {
+        id: "problem",
+        nav: "Problem",
+        layout: "fill",
+        html: `
+          <p class="eyebrow">The problem</p>
+          <h1>ROCm assumed x86. We needed POWER9.</h1>
+          <div class="grow">
+            <div class="split even">
+              <div class="arch">
+                <div class="layer ok"><b>HIP / apps</b><span>x86 path</span></div>
+                <div class="layer ok"><b>hipcc + runtime</b><span>fits</span></div>
+                <div class="layer ok"><b>ROCm libs</b><span>prebuilt</span></div>
+                <div class="layer ok"><b>ROCK / amdgpu</b><span>x86_64</span></div>
+                <div class="layer gpu"><b>AMD GPU</b><span>little-endian host</span></div>
+              </div>
+              <div class="arch">
+                <div class="layer broke"><b>HIP / apps</b><span>wrong ABI</span></div>
+                <div class="layer broke"><b>hipcc + runtime</b><span>host mismatch</span></div>
+                <div class="layer broke"><b>ROCm libs</b><span>x86 .so files</span></div>
+                <div class="layer broke"><b>ROCK / amdgpu</b><span>assumes x86</span></div>
+                <div class="layer gpu"><b>AMD GPU</b><span>ppc64 · big-endian</span></div>
+              </div>
+            </div>
+            <div class="term">
+              <div class="term-bar">${DOTS} power9 · /opt/rocm</div>
+              <pre class="term-body"><span class="p">$</span> uname -m
+<span class="k">ppc64</span>
+<span class="p">$</span> file /opt/rocm/lib/libamdhip64.so
+libamdhip64.so: <span class="f">ELF 64-bit LSB shared object, x86-64</span>
+<span class="p">$</span> ldd /opt/rocm/lib/libamdhip64.so
+<span class="f">not a dynamic executable</span>
+<span class="d"># Exec format error. GPU is a paperweight until this loads.</span></pre>
+            </div>
+            <p class="job">Job: make ROCm + HIP actually run, not a paperweight GPU.</p>
+          </div>
+        `,
+      },
+      {
+        id: "owned",
+        nav: "Owned",
+        layout: "fill",
+        html: `
+          <p class="eyebrow">What I owned</p>
+          <h1>Build. Drivers. Libs. Proof.</h1>
+          <div class="grow">
+            <div class="split wide-right">
+              <div class="arch">
+                <div class="layer"><b>4 · HIP smoke</b><span>matmul + notes</span></div>
+                <div class="layer"><b>3 · ROCm libs</b><span>rebuild or shim</span></div>
+                <div class="layer"><b>2 · ROCK</b><span>kernel modules</span></div>
+                <div class="layer"><b>1 · CMake</b><span>PowerPC host</span></div>
+                <div class="layer gpu"><b>AMD GPU on POWER9</b><span>enablement</span></div>
+              </div>
+              <div class="term">
+                <div class="term-bar">${DOTS} build.log · ROCK-Kernel-Driver</div>
+                <pre class="term-body"><span class="d">-- CMAKE_SYSTEM_PROCESSOR=ppc64</span>
+<span class="d">-- dropping x86-only dep</span>
+<span class="p">$</span> make -C ROCK-Kernel-Driver
+  CC    amdgpu.o
+  LD    <span class="c">amdgpu.ko</span>
+<span class="p">$</span> hipcc -O2 matmul.hip -o matmul
+<span class="d">clang: bundling host ppc64 + amdgcn</span>
+<span class="g">[hip] runtime linked</span></pre>
+              </div>
+            </div>
+            <p class="job">Enablement. Not a rewrite of ROCm.</p>
+          </div>
+        `,
+      },
+      {
+        id: "hard",
+        nav: "Hard",
+        layout: "fill",
+        html: `
+          <p class="eyebrow">Why it was hard</p>
+          <h1>Not a pip install.</h1>
+          <div class="grow">
+            <div class="trio">
+              <div class="failcard">
+                <h2>Byte order</h2>
+                <div class="term">
+                  <div class="term-bar">${DOTS} endian · float 1.0f</div>
+                  <pre class="term-body"><span class="d">x86 LE</span>  <span class="k">00 00 80 3F</span>
+<span class="d">POWER BE</span> <span class="c">3F 80 00 00</span>
+
+read LE as BE:
+<span class="f">4.60e-41</span>  garbage
+
+<span class="d"># numbers silently rot</span></pre>
+                </div>
+              </div>
+              <div class="failcard">
+                <h2>x86 binaries</h2>
+                <div class="term">
+                  <div class="term-bar">${DOTS} file · shared libs</div>
+                  <pre class="term-body"><span class="p">$</span> file libfoo.so
+ELF 64-bit LSB
+<span class="f">x86-64</span>, not ppc64
+
+<span class="p">$</span> hipcc main.hip
+<span class="f">cannot load:
+Exec format error</span>
+
+tree "builds". load fails.</pre>
+                </div>
+              </div>
+              <div class="failcard">
+                <h2>Kernel drivers</h2>
+                <div class="term">
+                  <div class="term-bar">${DOTS} dmesg · kfd</div>
+                  <pre class="term-body"><span class="d">[12.408]</span> amdgpu: init
+<span class="d">[12.410]</span> kfd: expected
+             <span class="k">x86_64</span> host
+<span class="f">[12.411] kfd: refuse probe
+         on ppc64</span>
+
+user-mode is not enough</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        `,
+      },
+      {
+        id: "proof",
+        nav: "Proof",
+        layout: "fill",
+        html: `
+          <p class="eyebrow">Proof</p>
+          <h1>Boring on purpose.</h1>
+          <div class="grow">
+            <div class="split">
+              <div class="term">
+                <div class="term-bar">${DOTS} hipcc · ./matmul</div>
+                <pre class="term-body"><span class="p">$</span> hipcc -O2 matmul.hip -o matmul
+<span class="p">$</span> ./matmul
+hipMalloc             <span class="g">hipSuccess</span>
+hipMemcpy H2D         <span class="g">hipSuccess</span>
+hipLaunchKernelGGL    <span class="c">matmul_kernel</span>
+hipMemcpy D2H         <span class="g">hipSuccess</span>
+max |GPU-CPU| = <span class="k">8.41e-06</span>
+tol 1e-5
+<span class="g">PASS</span></pre>
+              </div>
+              <div class="arch">
+                <div class="layer ok"><b>1 · alloc</b><span>hipMalloc</span></div>
+                <div class="layer ok"><b>2 · copy in</b><span>host to device</span></div>
+                <div class="layer ok"><b>3 · launch</b><span>HIP matmul</span></div>
+                <div class="layer ok"><b>4 · check</b><span>copy back vs CPU</span></div>
+                <div class="layer gpu"><b>then framework smokes</b><span>GPU util</span></div>
+              </div>
+            </div>
+            <div class="chips">
+              <span class="chip">Then PyTorch / TensorFlow smokes: GPU util, not hello-world</span>
+              <span class="chip">Workspace: /ROCm · /ROCK-Kernel-Driver · /build</span>
+            </div>
+          </div>
+        `,
+      },
+      {
+        id: "loop",
+        nav: "Loop",
+        layout: "fill",
+        html: `
+          <p class="eyebrow">How I work</p>
+          <h1>Right first. Then one change.</h1>
+          <div class="grow">
+            <div class="loop">
+              <div class="step a"><span class="n">1</span><strong>Minimal HIP</strong><span>Get one path green.</span><div class="term-inline"><span class="g">PASS</span>  ./vec_add</div></div>
+              <span class="ab">${AR}</span>
+              <div class="step b"><span class="n">2</span><strong>Where it hurts</strong><span>Look. Don't guess.</span><div class="term-inline"><span class="d">gdb / logs / rocprof</span></div></div>
+              <span class="bc arr-down">${AR}</span>
+              <div class="step c"><span class="n">3</span><strong>One layer</strong><span>Flags, driver, or memory. Not five.</span><div class="term-inline"><span class="k">one</span> CMake flag</div></div>
+              <span class="cd arr-left">${AR}</span>
+              <div class="step d"><span class="n">4</span><strong>Re-check</strong><span>Still correct? Then next.</span><div class="term-inline"><span class="g">PASS</span>  ./matmul</div></div>
+              <span class="da arr-up">${AR}</span>
+            </div>
+            <p class="job">Same loop I'd bring to AMD in vLLM.</p>
+          </div>
+        `,
+      },
+      {
+        id: "seat",
+        nav: "This seat",
+        layout: "fill",
+        html: `
+          <p class="eyebrow">This seat</p>
+          <h1>Defaults still assume CUDA.</h1>
+          <div class="grow">
+            <div class="split even">
+              <div class="term">
+                <div class="term-bar">${DOTS} golden path</div>
+                <pre class="term-body"><span class="d">vLLM engine</span>
+  scheduler · KV · sampling
+
+<span class="k">backend:</span> CUDA
+<span class="d">host:</span>     x86_64
+<span class="d">smi:</span>      nvidia-smi
+
+<span class="g">most stacks just work</span></pre>
+              </div>
+              <div class="term">
+                <div class="term-bar">${DOTS} this job</div>
+                <pre class="term-body"><span class="d">vLLM engine</span>
+  scheduler · KV · sampling
+
+<span class="k">backend:</span> ROCm / HIP
+<span class="d">host:</span>     off the CUDA default
+<span class="d">smi:</span>      rocminfo / rocm-smi
+
+<span class="f">first-class only if you make it real</span></pre>
+              </div>
+            </div>
+            <p class="job">I've lived ROCm off that golden path. Bring-up, then honest numbers, then the hot path.</p>
+          </div>
+        `,
+      },
+      {
+        id: "grant",
+        nav: "Grant",
+        appendix: true,
+        layout: "fill",
+        html: `
+          <p class="eyebrow">Only if you want a second thread</p>
+          <h1>Separate: compiler grant.</h1>
+          <div class="grow">
+            <div class="split wide-right">
+              <div class="arch">
+                <div class="layer"><b>1 · Measure</b><span>find the hot path</span></div>
+                <div class="layer"><b>2 · Change it</b><span>one LLVM / ROCm path</span></div>
+                <div class="layer ok"><b>3 · Re-measure</b><span>~30% on those loads</span></div>
+                <div class="layer gpu"><b>Not POWER9</b><span>don't mash them</span></div>
+              </div>
+              <div class="term">
+                <div class="term-bar">${DOTS} grant · compiler loop</div>
+                <pre class="term-body"><span class="d"># different story from bring-up</span>
+<span class="p">$</span> profile hot path
+<span class="c">kernel / llvm pass</span>
+<span class="p">$</span> change one path
+<span class="p">$</span> re-measure
+<span class="g">~30% on targeted workloads</span>
+<span class="d"># not a blanket number</span></pre>
+              </div>
+            </div>
+            <p class="job">Not the same story as POWER9. Don't mash them.</p>
+          </div>
+        `,
+      },
+    ];
+
+    const stage = document.getElementById("stage");
+    const jumpNav = document.getElementById("jumpNav");
+    const mobileNav = document.getElementById("mobileNav");
+    const bars = document.getElementById("bars");
+    const count = document.getElementById("count");
+    const prev = document.getElementById("prev");
+    const next = document.getElementById("next");
+    const fsBtn = document.getElementById("fsBtn");
+    const themeBtn = document.getElementById("themeBtn");
+    const menuBtn = document.getElementById("menuBtn");
+    const mobileMenu = document.getElementById("mobileMenu");
+
+    const sun = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.1 5.1l1.6 1.6M17.3 17.3l1.6 1.6M18.9 5.1l-1.6 1.6M6.7 17.3l-1.6 1.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`;
+    const moon = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 14.3A8.4 8.4 0 0 1 9.7 3 7.2 7.2 0 1 0 21 14.3Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+    SLIDES.forEach((slide) => {
+      const el = document.createElement("article");
+      el.className = "slide " + (slide.layout || "fill");
+      el.id = slide.id;
+      el.innerHTML = slide.html;
+      stage.appendChild(el);
+    });
+
+    const slideEls = Array.from(document.querySelectorAll(".slide"));
+    const main = SLIDES.map((s, i) => ({ s, i })).filter(({ s }) => !s.appendix);
+    const appendix = SLIDES.map((s, i) => ({ s, i })).filter(({ s }) => s.appendix);
+    let i = 0;
+    let appendixOpen = false;
+    let touchX = null;
+    let touchY = null;
+
+    function indexFromHash() {
+      const hash = location.hash.replace(/^#/, "");
+      if (hash === "maps") return SLIDES.findIndex((s) => s.id === "seat");
+      const found = SLIDES.findIndex((s) => s.id === hash);
+      return found >= 0 ? found : 0;
+    }
+
+    function themeIcon() {
+      const dark = document.documentElement.classList.contains("dark");
+      themeBtn.innerHTML = dark ? sun : moon;
+      themeBtn.title = dark ? "Light mode" : "Dark mode";
+    }
+
+    function applyTheme(mode) {
+      document.documentElement.classList.toggle("dark", mode === "dark");
+      try { localStorage.setItem("inferact-deck-theme", mode); } catch (e) {}
+      themeIcon();
+    }
+
+    function renderJump() {
+      const mk = (item, idx, on) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.textContent = item.nav;
+        if (on) b.className = "on";
+        b.onclick = () => go(idx);
+        return b;
+      };
+      jumpNav.innerHTML = "";
+      main.forEach(({ s, i: idx }) => jumpNav.appendChild(mk(s, idx, idx === i)));
+      if (appendix.length) {
+        const tog = document.createElement("button");
+        tog.type = "button";
+        tog.className = "appendix-toggle";
+        tog.innerHTML = `<span>Appendix</span><span>${appendixOpen || SLIDES[i].appendix ? "▾" : "▸"}</span>`;
+        tog.onclick = () => {
+          appendixOpen = !appendixOpen;
+          renderJump();
+        };
+        jumpNav.appendChild(tog);
+        const wrap = document.createElement("div");
+        wrap.className = "appendix-list" + (appendixOpen || SLIDES[i].appendix ? " open" : "");
+        appendix.forEach(({ s, i: idx }) => wrap.appendChild(mk(s, idx, idx === i)));
+        jumpNav.appendChild(wrap);
+      }
+
+      mobileNav.innerHTML = "";
+      main.forEach(({ s, i: idx }) => {
+        const b = mk(s, idx, idx === i);
+        b.onclick = () => { go(idx); mobileMenu.classList.remove("open"); };
+        mobileNav.appendChild(b);
+      });
+      appendix.forEach(({ s, i: idx }) => {
+        const b = mk(s, idx, idx === i);
+        b.onclick = () => { go(idx); mobileMenu.classList.remove("open"); };
+        mobileNav.appendChild(b);
+      });
+    }
+
+    function go(n) {
+      i = Math.max(0, Math.min(n, SLIDES.length - 1));
+      slideEls.forEach((el, k) => el.classList.toggle("on", k === i));
+      const left = SLIDES.length - i - 1;
+      count.textContent = `${i + 1} / ${SLIDES.length}` + (left > 0 ? ` · ${left} left` : " · last");
+      prev.disabled = i === 0;
+      next.disabled = i === SLIDES.length - 1;
+      bars.querySelectorAll("button").forEach((b, k) => {
+        b.className = k < i ? "done" : k === i ? "now" : "";
+        if (SLIDES[k].appendix && !SLIDES[k - 1]?.appendix) b.classList.add("gap");
+      });
+      const id = SLIDES[i].id;
+      history.replaceState(null, "", `${location.pathname}${location.search}#${id}`);
+      if (SLIDES[i].appendix) appendixOpen = true;
+      renderJump();
+      menuBtn.textContent = "Sections";
+    }
+
+    bars.innerHTML = "";
+    SLIDES.forEach((s, idx) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.setAttribute("aria-label", `Go to ${s.nav}`);
+      b.onclick = () => go(idx);
+      bars.appendChild(b);
+    });
+
+    prev.onclick = () => go(i - 1);
+    next.onclick = () => go(i + 1);
+    fsBtn.onclick = () => {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+      else document.exitFullscreen();
+    };
+    themeBtn.onclick = () => {
+      applyTheme(document.documentElement.classList.contains("dark") ? "light" : "dark");
+    };
+    menuBtn.onclick = () => {
+      const open = mobileMenu.classList.toggle("open");
+      menuBtn.textContent = open ? "Close" : "Sections";
+    };
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight" || e.key === " " || e.key === "PageDown") {
+        e.preventDefault();
+        go(i + 1);
+      }
+      if (e.key === "ArrowLeft" || e.key === "PageUp") {
+        e.preventDefault();
+        go(i - 1);
+      }
+      if (e.key === "Home") go(0);
+      if (e.key === "End") go(SLIDES.length - 1);
+      if (e.key === "f" || e.key === "F") {
+        e.preventDefault();
+        fsBtn.click();
+      }
+      if (e.key === "Escape") mobileMenu.classList.remove("open");
+    });
+
+    const app = document.getElementById("app");
+    app.addEventListener("touchstart", (e) => {
+      const t = e.changedTouches[0];
+      if (!t) return;
+      touchX = t.clientX;
+      touchY = t.clientY;
+    }, { passive: true });
+    app.addEventListener("touchend", (e) => {
+      const t = e.changedTouches[0];
+      if (!t || touchX == null) return;
+      const dx = t.clientX - touchX;
+      const dy = t.clientY - touchY;
+      touchX = touchY = null;
+      if (Math.abs(dx) < 48 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
+      if (dx < 0) go(i + 1);
+      else go(i - 1);
+    });
+
+    (function initTheme() {
+      let mode = "dark";
+      try {
+        const stored = localStorage.getItem("inferact-deck-theme");
+        if (stored === "light" || stored === "dark") mode = stored;
+      } catch (e) {}
+      applyTheme(mode);
+    })();
+
+    go(indexFromHash());
+    window.addEventListener("hashchange", () => go(indexFromHash()));
+  </script>
 </body>
 </html>
