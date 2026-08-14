@@ -576,7 +576,7 @@
     .term-line {
       white-space: pre;
       min-height: 1.55em;
-      animation: termIn 0.24s ease both;
+      animation: termIn 0.36s ease both;
     }
     .term-cursor {
       display: inline-block;
@@ -588,7 +588,7 @@
       box-shadow: 0 0 8px rgba(94, 224, 160, 0.55);
       animation: caret 1s steps(1) infinite;
     }
-    .term-line.pass-flash .g { animation: passPop 0.55s ease; }
+    .term-line.pass-flash .g { animation: passPop 0.83s ease; }
     .stack-live .layer {
       position: relative;
       overflow: hidden;
@@ -693,7 +693,7 @@
       filter: none;
       border-color: color-mix(in srgb, var(--ok) 45%, var(--line));
     }
-    .byte.flash { animation: passPop 0.45s ease; }
+    .byte.flash { animation: passPop 0.68s ease; }
     .checklist {
       flex: 1;
       min-height: 0;
@@ -1444,20 +1444,20 @@
 
     const sims = {};
     const quiet = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    // Perceived ~1.5x of a normal type (was ~2x). Values are ~1.33x prior.
-    const TYPE_MS = 17;       // was 13
-    const CMD_PAUSE = 93;     // was 70
-    const LINE_FAST = 186;    // was 140
-    const LINE_DELAY = 213;   // was 160
-    const BUILD_MS = 200;     // was 150
-    const PHASE_START = 505;  // was 380
-    const PHASE_PAUSE = 293;  // was 220
-    const PHASE_GAP = 319;    // was 240
-    const HIP_WAIT = 239;     // was 180
-    const HIP_DONE = 266;     // was 200
-    const STEP_MS = 372;      // was 280
-    const LAUNCH_MS = 426;    // was 320
-    const FW_PAUSE = 559;     // was 420
+    // Perceived ~1x of a normal type (was ~1.5x). Values are ~1.5x prior.
+    const TYPE_MS = 26;       // was 17
+    const CMD_PAUSE = 140;    // was 93
+    const LINE_FAST = 279;    // was 186
+    const LINE_DELAY = 320;   // was 213
+    const BUILD_MS = 300;     // was 200
+    const PHASE_START = 758;  // was 505
+    const PHASE_PAUSE = 440;  // was 293
+    const PHASE_GAP = 479;    // was 319
+    const HIP_WAIT = 359;     // was 239
+    const HIP_DONE = 399;     // was 266
+    const STEP_MS = 558;      // was 372
+    const LAUNCH_MS = 639;    // was 426
+    const FW_PAUSE = 839;     // was 559
 
     function stopSim(name) {
       const ctx = sims[name];
