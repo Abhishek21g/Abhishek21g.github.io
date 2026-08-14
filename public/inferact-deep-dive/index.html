@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ROCm on POWER9 · Inferact deep dive</title>
-  <meta name="description" content="Abhishek Enaguthi. ROCm + HIP on POWER9. Inferact AMD GPU Performance Engineering deep dive." />
+  <title>AMD and IBM grant · ROCm on POWER9</title>
+  <meta name="description" content="Abhishek Enaguthi. AMD and IBM grant. ROCm + HIP on POWER9 bring-up, then kernels and ML workloads." />
   <link rel="canonical" href="https://enaguthi.com/inferact-deep-dive/" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -955,7 +955,7 @@
         nav: "Cover",
         layout: "cover",
         html: `
-          <p class="eyebrow">Inferact · AMD GPU Performance Engineering</p>
+          <p class="eyebrow">AMD and IBM grant</p>
           <h1>ROCm + HIP on POWER9</h1>
           <p class="lede">Wrong host. Make the GPU work. Then prove it.</p>
           <div class="marks">
@@ -1070,7 +1070,7 @@ libamdhip64.so: <span class="f">ELF 64-bit LSB shared object, x86-64</span>
                 <div class="term-body" id="ownedTerm" aria-live="polite"></div>
               </div>
             </div>
-            <p class="job">Enablement. Not a rewrite of ROCm.</p>
+            <p class="job">Make the stack load. Prove a kernel. Understand the layers.</p>
           </div>
         `,
       },
@@ -1079,7 +1079,7 @@ libamdhip64.so: <span class="f">ELF 64-bit LSB shared object, x86-64</span>
         nav: "Hard",
         layout: "fill",
         html: `
-          <p class="eyebrow">Why it was hard</p>
+          <p class="eyebrow">Where it actually got hard</p>
           <h1>Not a pip install.</h1>
           <div class="grow">
             <div class="trio">
@@ -1134,7 +1134,7 @@ user-mode is not enough</pre>
         layout: "fill",
         html: `
           <p class="eyebrow">Proof</p>
-          <h1>Boring on purpose.</h1>
+          <h1>Simple on purpose.</h1>
           <div class="grow">
             <div class="split">
               <div class="term sim">
@@ -1174,43 +1174,38 @@ user-mode is not enough</pre>
               <div class="step d"><span class="n">4</span><strong>Re-check</strong><span>Still correct? Then next.</span><div class="term-inline"><span class="g">PASS</span>  ./matmul</div></div>
               <span class="da arr-up">${AR}</span>
             </div>
-            <p class="job">Same loop I'd bring to AMD in vLLM.</p>
+            <p class="job">Tiny HIP first. Then one change. Then re-check.</p>
           </div>
         `,
       },
       {
-        id: "seat",
-        nav: "This seat",
+        id: "improvements",
+        nav: "Improved",
         layout: "fill",
         html: `
-          <p class="eyebrow">This seat</p>
-          <h1>Defaults still assume CUDA.</h1>
+          <p class="eyebrow">After bring-up</p>
+          <h1>Measure. Change the hot path. Run the workloads.</h1>
           <div class="grow">
             <div class="split even">
-              <div class="term">
-                <div class="term-bar">${DOTS} golden path</div>
-                <pre class="term-body"><span class="d">vLLM engine</span>
-  scheduler · KV · sampling
-
-<span class="k">backend:</span> CUDA
-<span class="d">host:</span>     x86_64
-<span class="d">smi:</span>      nvidia-smi
-
-<span class="g">most stacks just work</span></pre>
+              <div class="arch">
+                <div class="layer"><b>1 · Profile</b><span>where time actually went</span></div>
+                <div class="layer"><b>2 · Kernels / hot paths</b><span>one change, then re-check</span></div>
+                <div class="layer ok"><b>3 · ML workloads</b><span>PyTorch / TensorFlow on GPU</span></div>
+                <div class="layer gpu"><b>Same grant</b><span>correctness, then speed</span></div>
               </div>
               <div class="term">
-                <div class="term-bar">${DOTS} this job</div>
-                <pre class="term-body"><span class="d">vLLM engine</span>
-  scheduler · KV · sampling
-
-<span class="k">backend:</span> ROCm / HIP
-<span class="d">host:</span>     off the CUDA default
-<span class="d">smi:</span>      rocminfo / rocm-smi
-
-<span class="f">first-class only if you make it real</span></pre>
+                <div class="term-bar">${DOTS} after it ran</div>
+                <pre class="term-body"><span class="d"># stack loads. GPU does math.</span>
+<span class="p">$</span> profile hot path
+<span class="c">kernel / memory / launch</span>
+<span class="p">$</span> change one path
+<span class="p">$</span> re-check correctness
+<span class="p">$</span> re-measure ML loads
+<span class="g">~30% on targeted workloads</span>
+<span class="d"># not a blanket number</span></pre>
               </div>
             </div>
-            <p class="job">I've lived ROCm off that golden path. Bring-up, then honest numbers, then the hot path.</p>
+            <p class="job">After ROCm and HIP ran: profiling, kernels, ML workloads.</p>
           </div>
         `,
       },
@@ -1220,28 +1215,29 @@ user-mode is not enough</pre>
         appendix: true,
         layout: "fill",
         html: `
-          <p class="eyebrow">Only if you want a second thread</p>
-          <h1>Separate: compiler grant.</h1>
+          <p class="eyebrow">Same grant. Extra detail</p>
+          <h1>After it ran: measure, change, re-measure.</h1>
           <div class="grow">
             <div class="split wide-right">
               <div class="arch">
                 <div class="layer"><b>1 · Measure</b><span>find the hot path</span></div>
-                <div class="layer"><b>2 · Change it</b><span>one LLVM / ROCm path</span></div>
+                <div class="layer"><b>2 · Change it</b><span>one kernel / compiler path</span></div>
                 <div class="layer ok"><b>3 · Re-measure</b><span>~30% on those loads</span></div>
-                <div class="layer gpu"><b>Not POWER9</b><span>don't mash them</span></div>
+                <div class="layer gpu"><b>Same AMD and IBM grant</b><span>after POWER9 ROCm/HIP ran</span></div>
               </div>
               <div class="term">
-                <div class="term-bar">${DOTS} grant · compiler loop</div>
-                <pre class="term-body"><span class="d"># different story from bring-up</span>
+                <div class="term-bar">${DOTS} grant · after bring-up</div>
+                <pre class="term-body"><span class="d"># same story, later in the work</span>
 <span class="p">$</span> profile hot path
-<span class="c">kernel / llvm pass</span>
+<span class="c">kernel / compiler path</span>
 <span class="p">$</span> change one path
+<span class="p">$</span> re-check correctness
 <span class="p">$</span> re-measure
 <span class="g">~30% on targeted workloads</span>
 <span class="d"># not a blanket number</span></pre>
               </div>
             </div>
-            <p class="job">Not the same story as POWER9. Don't mash them.</p>
+            <p class="job">Same grant as the POWER9 bring-up. After the stack existed.</p>
           </div>
         `,
       },
@@ -1280,7 +1276,7 @@ user-mode is not enough</pre>
 
     function indexFromHash() {
       const hash = location.hash.replace(/^#/, "");
-      if (hash === "maps") return SLIDES.findIndex((s) => s.id === "seat");
+      if (hash === "maps" || hash === "seat") return SLIDES.findIndex((s) => s.id === "improvements");
       const found = SLIDES.findIndex((s) => s.id === hash);
       return found >= 0 ? found : 0;
     }
