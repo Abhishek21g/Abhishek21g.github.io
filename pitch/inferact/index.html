@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ROCm on POWER9 · Inferact deep dive</title>
-  <meta name="description" content="Abhishek Enaguthi. ROCm + HIP on POWER9. Inferact AMD GPU Performance Engineering deep dive." />
+  <title>AMD and IBM grant · ROCm on POWER9</title>
+  <meta name="description" content="Abhishek Enaguthi. AMD and IBM grant. ROCm + HIP on POWER9 bring-up, then kernels and ML workloads." />
   <link rel="canonical" href="https://enaguthi.com/inferact-deep-dive/" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -261,6 +261,24 @@
       font-size: 0.9rem;
       color: var(--muted);
     }
+    .gloss {
+      margin: 8px 0 0;
+      max-width: 42em;
+      font-size: 0.84rem;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+    .gloss b { color: var(--ink); font-weight: 600; }
+    .col-label {
+      margin: 0 0 6px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .col-label.ok { color: var(--ok); }
+    .col-label.bad { color: var(--signal); }
 
     .grow {
       flex: 1;
@@ -931,7 +949,7 @@
     <footer class="foot">
       <div class="foot-inner">
         <div class="progress-row">
-          <p class="count" id="count">1 / 8 · 7 left</p>
+          <p class="count" id="count">1 / 6 · 5 left</p>
           <div class="bars" id="bars" role="tablist" aria-label="Slide position"></div>
         </div>
         <div class="nav-row">
@@ -955,9 +973,10 @@
         nav: "Cover",
         layout: "cover",
         html: `
-          <p class="eyebrow">Inferact · AMD GPU Performance Engineering</p>
+          <p class="eyebrow">AMD and IBM grant</p>
           <h1>ROCm + HIP on POWER9</h1>
-          <p class="lede">Wrong host. Make the GPU work. Then prove it.</p>
+          <p class="lede">Make the stack run. Prove GPU work. Then kernels and ML.</p>
+          <p class="gloss"><b>POWER9</b> is IBM's server CPU family. <b>ROCm</b> is AMD's GPU stack. <b>HIP</b> is CUDA-like GPU code.</p>
           <div class="marks">
             <span class="mark amd"><i>R</i> ROCm</span>
             <span class="mark hip"><i>H</i> HIP</span>
@@ -969,10 +988,10 @@
                 <div class="box had">
                   <div class="box-kicker">Host</div>
                   <div class="box-title">IBM POWER9</div>
-                  <div class="box-meta">ppc64 · big-endian</div>
+                  <div class="box-meta">IBM server CPU family</div>
                   <ul>
-                    <li>CMake / hipcc</li>
-                    <li>ROCK patches</li>
+                    <li>Not an x86 PC</li>
+                    <li>ROCm would not load</li>
                   </ul>
                 </div>
                 <div class="bus">${BUS}<span>PCIe</span></div>
@@ -981,13 +1000,13 @@
                   <div class="box-title">AMD GPU</div>
                   <div class="box-meta">HIP kernels</div>
                   <ul>
-                    <li>queues / HBM</li>
-                    <li>compute path</li>
+                    <li>Prove real math</li>
+                    <li>Then ML workloads</li>
                   </ul>
                 </div>
               </div>
               <div class="term">
-                <div class="term-bar">${DOTS} rocminfo · ppc64</div>
+                <div class="term-bar">${DOTS} rocminfo · POWER9</div>
                 <pre class="term-body"><span class="d">======= HSA System =======</span>
 Machine Model:     <span class="k">LARGE</span>
 System Endianness: <span class="f">BIG</span>
@@ -1004,9 +1023,9 @@ System Endianness: <span class="f">BIG</span>
               </div>
             </div>
             <div class="cover-row">
-              <div class="step"><span class="n">1</span><strong>Wrong host</strong><span>ROCm wanted x86. We had POWER9.</span></div>
-              <div class="step"><span class="n">2</span><strong>Make it run</strong><span>Build, drivers, libs. The ugly path.</span></div>
-              <div class="step"><span class="n">3</span><strong>Prove it</strong><span>HIP smoke, then framework GPU util.</span></div>
+              <div class="step"><span class="n">1</span><strong>Make it run</strong><span>GPU unused. ROCm would not load.</span></div>
+              <div class="step"><span class="n">2</span><strong>Prove it</strong><span>HIP kernel. Real math, not a fake success.</span></div>
+              <div class="step"><span class="n">3</span><strong>Kernels and ML</strong><span>After it ran. Measure. Change.</span></div>
             </div>
           </div>
         `,
@@ -1017,22 +1036,29 @@ System Endianness: <span class="f">BIG</span>
         layout: "fill",
         html: `
           <p class="eyebrow">The problem</p>
-          <h1>ROCm assumed x86. We needed POWER9.</h1>
+          <h1>Same GPU. Left PC works. Right POWER9 does not.</h1>
+          <p class="gloss"><b>Endianness</b> is byte order. This box lined numbers up the opposite way from a PC.</p>
           <div class="grow">
             <div class="split even">
-              <div class="arch">
-                <div class="layer ok"><b>HIP / apps</b><span>x86 path</span></div>
-                <div class="layer ok"><b>hipcc + runtime</b><span>fits</span></div>
-                <div class="layer ok"><b>ROCm libs</b><span>prebuilt</span></div>
-                <div class="layer ok"><b>ROCK / amdgpu</b><span>x86_64</span></div>
-                <div class="layer gpu"><b>AMD GPU</b><span>little-endian host</span></div>
+              <div>
+                <p class="col-label ok">Left · PC works</p>
+                <div class="arch">
+                  <div class="layer ok"><b>HIP / apps</b><span>pip install</span></div>
+                  <div class="layer ok"><b>hipcc + runtime</b><span>loads</span></div>
+                  <div class="layer ok"><b>ROCm libs</b><span>built for PCs</span></div>
+                  <div class="layer ok"><b>ROCK / amdgpu</b><span>x86 host</span></div>
+                  <div class="layer gpu"><b>AMD GPU</b><span>same card</span></div>
+                </div>
               </div>
-              <div class="arch">
-                <div class="layer broke"><b>HIP / apps</b><span>wrong ABI</span></div>
-                <div class="layer broke"><b>hipcc + runtime</b><span>host mismatch</span></div>
-                <div class="layer broke"><b>ROCm libs</b><span>x86 .so files</span></div>
-                <div class="layer broke"><b>ROCK / amdgpu</b><span>assumes x86</span></div>
-                <div class="layer gpu"><b>AMD GPU</b><span>ppc64 · big-endian</span></div>
+              <div>
+                <p class="col-label bad">Right · POWER9 does not</p>
+                <div class="arch">
+                  <div class="layer broke"><b>HIP / apps</b><span>will not load</span></div>
+                  <div class="layer broke"><b>hipcc + runtime</b><span>wrong CPU family</span></div>
+                  <div class="layer broke"><b>ROCm libs</b><span>exec format error</span></div>
+                  <div class="layer broke"><b>ROCK / amdgpu</b><span>refuses POWER</span></div>
+                  <div class="layer gpu"><b>AMD GPU</b><span>paperweight</span></div>
+                </div>
               </div>
             </div>
             <div class="term">
@@ -1045,7 +1071,7 @@ libamdhip64.so: <span class="f">ELF 64-bit LSB shared object, x86-64</span>
 <span class="f">not a dynamic executable</span>
 <span class="d"># Exec format error. GPU is a paperweight until this loads.</span></pre>
             </div>
-            <p class="job">Job: make ROCm + HIP actually run, not a paperweight GPU.</p>
+            <p class="job">That's the job. I was making the software even exist on this box.</p>
           </div>
         `,
       },
@@ -1056,13 +1082,14 @@ libamdhip64.so: <span class="f">ELF 64-bit LSB shared object, x86-64</span>
         html: `
           <p class="eyebrow">What I owned</p>
           <h1>Build. Drivers. Libs. Proof.</h1>
+          <p class="gloss"><b>CMake</b> is the build recipe. <b>ROCK</b> is the Linux driver. <b>HIP</b> is CUDA-like GPU code. <b>PowerPC</b> is the instruction set POWER9 uses.</p>
           <div class="grow">
             <div class="split wide-right">
               <div class="arch stack-live" id="ownedStack">
-                <div class="layer" data-phase="hip"><b>4 · HIP smoke</b><span>matmul + notes</span></div>
-                <div class="layer" data-phase="libs"><b>3 · ROCm libs</b><span>rebuild or shim</span></div>
-                <div class="layer" data-phase="rock"><b>2 · ROCK</b><span>kernel modules</span></div>
-                <div class="layer" data-phase="cmake"><b>1 · CMake</b><span>PowerPC host</span></div>
+                <div class="layer" data-phase="hip"><b>4 · HIP proof</b><span>alloc, copy, launch</span></div>
+                <div class="layer" data-phase="libs"><b>3 · Libs</b><span>rebuild or shim</span></div>
+                <div class="layer" data-phase="rock"><b>2 · Drivers</b><span>ROCK so Linux talks to the GPU</span></div>
+                <div class="layer" data-phase="cmake"><b>1 · Build</b><span>CMake for PowerPC</span></div>
                 <div class="layer gpu" data-phase="gpu"><b>AMD GPU on POWER9</b><span>enablement</span></div>
               </div>
               <div class="term sim">
@@ -1070,7 +1097,7 @@ libamdhip64.so: <span class="f">ELF 64-bit LSB shared object, x86-64</span>
                 <div class="term-body" id="ownedTerm" aria-live="polite"></div>
               </div>
             </div>
-            <p class="job">Enablement. Not a rewrite of ROCm.</p>
+            <p class="job">Make the stack load. Prove a kernel was right. Understand the layers.</p>
           </div>
         `,
       },
@@ -1079,21 +1106,22 @@ libamdhip64.so: <span class="f">ELF 64-bit LSB shared object, x86-64</span>
         nav: "Hard",
         layout: "fill",
         html: `
-          <p class="eyebrow">Why it was hard</p>
-          <h1>Not a pip install.</h1>
+          <p class="eyebrow">Not a pip install</p>
+          <h1>Where it actually got hard.</h1>
+          <p class="gloss"><b>Byte order</b> is endianness. <b>Probe</b> is the driver claiming the GPU at boot. <b>User-mode</b> is libraries in your program, not the OS kernel.</p>
           <div class="grow">
             <div class="trio">
               <div class="failcard">
                 <h2>Byte order</h2>
                 <div class="term">
                   <div class="term-bar">${DOTS} endian · float 1.0f</div>
-                  <pre class="term-body"><span class="d">x86 LE</span>  <span class="k">00 00 80 3F</span>
-<span class="d">POWER BE</span> <span class="c">3F 80 00 00</span>
+                  <pre class="term-body"><span class="d">PC</span>    <span class="k">00 00 80 3F</span>
+<span class="d">POWER</span> <span class="c">3F 80 00 00</span>
 
-read LE as BE:
-<span class="f">4.60e-41</span>  garbage
+read them wrong:
+<span class="f">1.0 becomes garbage</span>
 
-<span class="d"># numbers silently rot</span></pre>
+<span class="d"># nothing crashes. silent rot.</span></pre>
                 </div>
               </div>
               <div class="failcard">
@@ -1102,24 +1130,24 @@ read LE as BE:
                   <div class="term-bar">${DOTS} file · shared libs</div>
                   <pre class="term-body"><span class="p">$</span> file libfoo.so
 ELF 64-bit LSB
-<span class="f">x86-64</span>, not ppc64
+<span class="f">x86-64</span>, not PowerPC
 
 <span class="p">$</span> hipcc main.hip
 <span class="f">cannot load:
 Exec format error</span>
 
-tree "builds". load fails.</pre>
+tree builds. load fails.</pre>
                 </div>
               </div>
               <div class="failcard">
                 <h2>Kernel drivers</h2>
                 <div class="term">
-                  <div class="term-bar">${DOTS} dmesg · kfd</div>
+                  <div class="term-bar">${DOTS} dmesg · ROCK</div>
                   <pre class="term-body"><span class="d">[12.408]</span> amdgpu: init
-<span class="d">[12.410]</span> kfd: expected
-             <span class="k">x86_64</span> host
-<span class="f">[12.411] kfd: refuse probe
-         on ppc64</span>
+<span class="d">[12.410]</span> expected
+             <span class="k">x86</span> host
+<span class="f">[12.411] refuse probe
+         on POWER</span>
 
 user-mode is not enough</pre>
                 </div>
@@ -1134,7 +1162,8 @@ user-mode is not enough</pre>
         layout: "fill",
         html: `
           <p class="eyebrow">Proof</p>
-          <h1>Boring on purpose.</h1>
+          <h1>Simple on purpose.</h1>
+          <p class="gloss"><b>HIP</b> is CUDA-like: allocate, copy in, launch, copy back. <b>1e-5</b> is the written tolerance versus CPU.</p>
           <div class="grow">
             <div class="split">
               <div class="term sim">
@@ -1142,106 +1171,50 @@ user-mode is not enough</pre>
                 <div class="term-body" id="proofTerm" aria-live="polite"></div>
               </div>
               <div class="arch stack-live" id="proofStack">
-                <div class="layer" data-phase="alloc"><b>1 · alloc</b><span>hipMalloc</span></div>
+                <div class="layer" data-phase="alloc"><b>1 · alloc</b><span>memory on the GPU</span></div>
                 <div class="layer" data-phase="copy"><b>2 · copy in</b><span>host to device</span></div>
-                <div class="layer" data-phase="launch"><b>3 · launch</b><span>HIP matmul</span></div>
-                <div class="layer" data-phase="check"><b>4 · check</b><span>copy back vs CPU</span></div>
-                <div class="layer gpu" data-phase="fw"><b>then framework smokes</b><span>GPU util</span></div>
+                <div class="layer" data-phase="launch"><b>3 · launch</b><span>small matrix multiply</span></div>
+                <div class="layer" data-phase="check"><b>4 · check</b><span>copy back vs CPU ~1e-5</span></div>
+                <div class="layer gpu" data-phase="fw"><b>then ML samples</b><span>GPU actually busy</span></div>
               </div>
             </div>
             <div class="chips">
-              <span class="chip">Then PyTorch / TensorFlow smokes: GPU util, not hello-world</span>
-              <span class="chip">Workspace: /ROCm · /ROCK-Kernel-Driver · /build</span>
+              <span class="chip">Then PyTorch and TensorFlow samples. GPU busy, not hello-world.</span>
+              <span class="chip">Workspace: ROCm · ROCK-Kernel-Driver · build</span>
             </div>
           </div>
         `,
       },
       {
-        id: "loop",
-        nav: "Loop",
+        id: "improvements",
+        nav: "Improvements",
         layout: "fill",
         html: `
-          <p class="eyebrow">How I work</p>
-          <h1>Right first. Then one change.</h1>
-          <div class="grow">
-            <div class="loop">
-              <div class="step a"><span class="n">1</span><strong>Minimal HIP</strong><span>Get one path green.</span><div class="term-inline"><span class="g">PASS</span>  ./vec_add</div></div>
-              <span class="ab">${AR}</span>
-              <div class="step b"><span class="n">2</span><strong>Where it hurts</strong><span>Look. Don't guess.</span><div class="term-inline"><span class="d">gdb / logs / rocprof</span></div></div>
-              <span class="bc arr-down">${AR}</span>
-              <div class="step c"><span class="n">3</span><strong>One layer</strong><span>Flags, driver, or memory. Not five.</span><div class="term-inline"><span class="k">one</span> CMake flag</div></div>
-              <span class="cd arr-left">${AR}</span>
-              <div class="step d"><span class="n">4</span><strong>Re-check</strong><span>Still correct? Then next.</span><div class="term-inline"><span class="g">PASS</span>  ./matmul</div></div>
-              <span class="da arr-up">${AR}</span>
-            </div>
-            <p class="job">Same loop I'd bring to AMD in vLLM.</p>
-          </div>
-        `,
-      },
-      {
-        id: "seat",
-        nav: "This seat",
-        layout: "fill",
-        html: `
-          <p class="eyebrow">This seat</p>
-          <h1>Defaults still assume CUDA.</h1>
+          <p class="eyebrow">After it ran</p>
+          <h1>Measure. Kernels. ML workloads.</h1>
+          <p class="gloss">Tiny HIP first. Then one change. Then re-check. If the numbers drift, the change does not count.</p>
           <div class="grow">
             <div class="split even">
-              <div class="term">
-                <div class="term-bar">${DOTS} golden path</div>
-                <pre class="term-body"><span class="d">vLLM engine</span>
-  scheduler · KV · sampling
-
-<span class="k">backend:</span> CUDA
-<span class="d">host:</span>     x86_64
-<span class="d">smi:</span>      nvidia-smi
-
-<span class="g">most stacks just work</span></pre>
-              </div>
-              <div class="term">
-                <div class="term-bar">${DOTS} this job</div>
-                <pre class="term-body"><span class="d">vLLM engine</span>
-  scheduler · KV · sampling
-
-<span class="k">backend:</span> ROCm / HIP
-<span class="d">host:</span>     off the CUDA default
-<span class="d">smi:</span>      rocminfo / rocm-smi
-
-<span class="f">first-class only if you make it real</span></pre>
-              </div>
-            </div>
-            <p class="job">I've lived ROCm off that golden path. Bring-up, then honest numbers, then the hot path.</p>
-          </div>
-        `,
-      },
-      {
-        id: "grant",
-        nav: "Grant",
-        appendix: true,
-        layout: "fill",
-        html: `
-          <p class="eyebrow">Only if you want a second thread</p>
-          <h1>Separate: compiler grant.</h1>
-          <div class="grow">
-            <div class="split wide-right">
               <div class="arch">
-                <div class="layer"><b>1 · Measure</b><span>find the hot path</span></div>
-                <div class="layer"><b>2 · Change it</b><span>one LLVM / ROCm path</span></div>
-                <div class="layer ok"><b>3 · Re-measure</b><span>~30% on those loads</span></div>
-                <div class="layer gpu"><b>Not POWER9</b><span>don't mash them</span></div>
+                <div class="layer"><b>1 · Measure</b><span>where time actually went</span></div>
+                <div class="layer"><b>2 · Kernels / hot paths</b><span>one change, then re-check</span></div>
+                <div class="layer ok"><b>3 · ML workloads</b><span>PyTorch / TensorFlow on GPU</span></div>
+                <div class="layer gpu"><b>Same AMD and IBM grant</b><span>~30% on targeted loads</span></div>
               </div>
               <div class="term">
-                <div class="term-bar">${DOTS} grant · compiler loop</div>
-                <pre class="term-body"><span class="d"># different story from bring-up</span>
+                <div class="term-bar">${DOTS} after it ran</div>
+                <pre class="term-body"><span class="d"># stack loads. GPU does math.</span>
+<span class="p">$</span> tiny HIP first
 <span class="p">$</span> profile hot path
-<span class="c">kernel / llvm pass</span>
+<span class="c">kernel / memory / launch</span>
 <span class="p">$</span> change one path
-<span class="p">$</span> re-measure
+<span class="p">$</span> re-check correctness
+<span class="p">$</span> re-measure ML loads
 <span class="g">~30% on targeted workloads</span>
 <span class="d"># not a blanket number</span></pre>
               </div>
             </div>
-            <p class="job">Not the same story as POWER9. Don't mash them.</p>
+            <p class="job">After ROCm and HIP ran: profiling, kernels, ML workloads.</p>
           </div>
         `,
       },
@@ -1280,7 +1253,9 @@ user-mode is not enough</pre>
 
     function indexFromHash() {
       const hash = location.hash.replace(/^#/, "");
-      if (hash === "maps") return SLIDES.findIndex((s) => s.id === "seat");
+      if (hash === "maps" || hash === "seat" || hash === "loop" || hash === "grant") {
+        return SLIDES.findIndex((s) => s.id === "improvements");
+      }
       const found = SLIDES.findIndex((s) => s.id === hash);
       return found >= 0 ? found : 0;
     }
