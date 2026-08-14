@@ -26,6 +26,10 @@
       --kw: #e8c47c;
       --hi: #7eb8d4;
       --ok-term: #7dcea0;
+      --amd-red: #ed1c24;
+      --amd-orange: #f26522;
+      --amd-teal: #4ec4e0;
+      --cream: #f3e4d2;
       --shadow: rgba(10, 10, 10, 0.28);
       --shadow-ring: rgba(10, 10, 10, 0.06);
       --serif: "Instrument Serif", "Iowan Old Style", Palatino, "Palatino Linotype", Georgia, "Times New Roman", serif;
@@ -79,8 +83,8 @@
     }
     html.dark .glow {
       background:
-        radial-gradient(ellipse 55% 70% at 8% 108%, rgba(239, 125, 90, 0.12), transparent 70%),
-        radial-gradient(ellipse 40% 50% at 92% -8%, rgba(244, 236, 231, 0.04), transparent 65%);
+        radial-gradient(ellipse 55% 70% at 8% 108%, rgba(237, 28, 36, 0.18), transparent 70%),
+        radial-gradient(ellipse 42% 52% at 94% -6%, rgba(242, 101, 34, 0.14), transparent 65%);
     }
 
     .top {
@@ -421,6 +425,7 @@
       background: var(--ink);
       color: var(--paper);
       border-color: var(--ink);
+      box-shadow: inset 3px 0 0 var(--amd-red);
     }
     .layer.gpu span { color: color-mix(in srgb, var(--paper) 70%, transparent); }
     .layer.broke {
@@ -484,6 +489,149 @@
     .term .f { color: #ef7d5a; }
     .term .g { color: var(--ok-term); font-weight: 600; }
     .term .w { color: #f4ece7; }
+    .term .num { color: #f0c14a; }
+
+    .term.sim {
+      position: relative;
+      background:
+        linear-gradient(180deg, rgba(237, 28, 36, 0.08), transparent 26%),
+        var(--term);
+      box-shadow:
+        0 12px 32px -18px rgba(0,0,0,0.7),
+        inset 0 0 0 1px rgba(242, 101, 34, 0.18);
+    }
+    .term.sim .term-bar {
+      background: #1a120f;
+    }
+    .term.sim .term-body {
+      white-space: normal;
+      background-image: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(255,255,255,0.018) 3px
+      );
+    }
+    .term.sim .p { color: #5ee0a0; }
+    .term.sim .c { color: var(--amd-teal); }
+    .term.sim .k, .term.sim .num { color: #f0c14a; }
+    .term.sim .g {
+      color: #5ee0a0;
+      display: inline-block;
+      text-shadow: 0 0 12px rgba(94, 224, 160, 0.45);
+    }
+    .term.sim .f { color: #ff6b5a; }
+    .term-live {
+      margin-left: auto;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--term-dim);
+    }
+    .term-live.go {
+      color: var(--amd-orange);
+    }
+    .term-live.go::before {
+      content: "";
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      margin-right: 6px;
+      border-radius: 99px;
+      background: var(--amd-orange);
+      box-shadow: 0 0 8px var(--amd-orange);
+      animation: livePulse 1s ease infinite;
+    }
+    .term-live.ok {
+      color: #5ee0a0;
+    }
+    .term-live.ok::before {
+      content: "";
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      margin-right: 6px;
+      border-radius: 99px;
+      background: #5ee0a0;
+      box-shadow: 0 0 8px #5ee0a0;
+    }
+    .term-line {
+      white-space: pre;
+      min-height: 1.55em;
+      animation: termIn 0.18s ease both;
+    }
+    .term-cursor {
+      display: inline-block;
+      width: 7px;
+      height: 1.05em;
+      margin-left: 2px;
+      vertical-align: text-bottom;
+      background: #5ee0a0;
+      box-shadow: 0 0 8px rgba(94, 224, 160, 0.55);
+      animation: caret 1s steps(1) infinite;
+    }
+    .term-line.pass-flash .g { animation: passPop 0.55s ease; }
+    .stack-live .layer {
+      position: relative;
+      overflow: hidden;
+      transition: background 0.28s ease, border-color 0.28s ease, color 0.28s ease, box-shadow 0.28s ease;
+    }
+    .stack-live .layer.run {
+      background: var(--cream);
+      color: #1c1412;
+      border-color: var(--amd-orange);
+      box-shadow:
+        0 0 0 1px rgba(242, 101, 34, 0.35),
+        0 10px 24px -14px rgba(237, 28, 36, 0.55);
+    }
+    .stack-live .layer.run span { color: #6f4a38; }
+    .stack-live .layer.run::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--amd-orange);
+    }
+    .stack-live .layer.done {
+      border-color: color-mix(in srgb, var(--ok) 55%, var(--line));
+      background: color-mix(in srgb, var(--ok) 14%, var(--paper));
+    }
+    .stack-live .layer.gpu.run {
+      background: var(--cream);
+      color: #1c1412;
+      border-color: var(--amd-red);
+      box-shadow: inset 3px 0 0 var(--amd-red), 0 10px 24px -14px rgba(237, 28, 36, 0.55);
+    }
+    .stack-live .layer.gpu.run span { color: #6a4034; }
+    .stack-live .layer.gpu.done {
+      background: var(--ink);
+      color: var(--paper);
+      border-color: var(--ink);
+      box-shadow: inset 3px 0 0 #5ee0a0;
+    }
+    .stack-live .layer.gpu.done span { color: color-mix(in srgb, var(--paper) 70%, transparent); }
+    @keyframes caret {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+    @keyframes livePulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.35; }
+    }
+    @keyframes termIn {
+      from { opacity: 0; transform: translateX(-5px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes passPop {
+      0% { transform: scale(1); filter: brightness(1); }
+      40% { transform: scale(1.08); filter: brightness(1.45); }
+      100% { transform: scale(1); filter: brightness(1); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .term-line, .term-cursor, .term-live.go::before, .term-line.pass-flash .g { animation: none; }
+    }
 
     .job {
       flex-shrink: 0;
@@ -910,23 +1058,16 @@ libamdhip64.so: <span class="f">ELF 64-bit LSB shared object, x86-64</span>
           <h1>Build. Drivers. Libs. Proof.</h1>
           <div class="grow">
             <div class="split wide-right">
-              <div class="arch">
-                <div class="layer"><b>4 · HIP smoke</b><span>matmul + notes</span></div>
-                <div class="layer"><b>3 · ROCm libs</b><span>rebuild or shim</span></div>
-                <div class="layer"><b>2 · ROCK</b><span>kernel modules</span></div>
-                <div class="layer"><b>1 · CMake</b><span>PowerPC host</span></div>
-                <div class="layer gpu"><b>AMD GPU on POWER9</b><span>enablement</span></div>
+              <div class="arch stack-live" id="ownedStack">
+                <div class="layer" data-phase="hip"><b>4 · HIP smoke</b><span>matmul + notes</span></div>
+                <div class="layer" data-phase="libs"><b>3 · ROCm libs</b><span>rebuild or shim</span></div>
+                <div class="layer" data-phase="rock"><b>2 · ROCK</b><span>kernel modules</span></div>
+                <div class="layer" data-phase="cmake"><b>1 · CMake</b><span>PowerPC host</span></div>
+                <div class="layer gpu" data-phase="gpu"><b>AMD GPU on POWER9</b><span>enablement</span></div>
               </div>
-              <div class="term">
-                <div class="term-bar">${DOTS} build.log · ROCK-Kernel-Driver</div>
-                <pre class="term-body"><span class="d">-- CMAKE_SYSTEM_PROCESSOR=ppc64</span>
-<span class="d">-- dropping x86-only dep</span>
-<span class="p">$</span> make -C ROCK-Kernel-Driver
-  CC    amdgpu.o
-  LD    <span class="c">amdgpu.ko</span>
-<span class="p">$</span> hipcc -O2 matmul.hip -o matmul
-<span class="d">clang: bundling host ppc64 + amdgcn</span>
-<span class="g">[hip] runtime linked</span></pre>
+              <div class="term sim">
+                <div class="term-bar">${DOTS} build.log<span class="term-live" id="ownedLive">ready</span></div>
+                <div class="term-body" id="ownedTerm" aria-live="polite"></div>
               </div>
             </div>
             <p class="job">Enablement. Not a rewrite of ROCm.</p>
@@ -996,24 +1137,16 @@ user-mode is not enough</pre>
           <h1>Boring on purpose.</h1>
           <div class="grow">
             <div class="split">
-              <div class="term">
-                <div class="term-bar">${DOTS} hipcc · ./matmul</div>
-                <pre class="term-body"><span class="p">$</span> hipcc -O2 matmul.hip -o matmul
-<span class="p">$</span> ./matmul
-hipMalloc             <span class="g">hipSuccess</span>
-hipMemcpy H2D         <span class="g">hipSuccess</span>
-hipLaunchKernelGGL    <span class="c">matmul_kernel</span>
-hipMemcpy D2H         <span class="g">hipSuccess</span>
-max |GPU-CPU| = <span class="k">8.41e-06</span>
-tol 1e-5
-<span class="g">PASS</span></pre>
+              <div class="term sim">
+                <div class="term-bar">${DOTS} hipcc · ./matmul<span class="term-live" id="proofLive">ready</span></div>
+                <div class="term-body" id="proofTerm" aria-live="polite"></div>
               </div>
-              <div class="arch">
-                <div class="layer ok"><b>1 · alloc</b><span>hipMalloc</span></div>
-                <div class="layer ok"><b>2 · copy in</b><span>host to device</span></div>
-                <div class="layer ok"><b>3 · launch</b><span>HIP matmul</span></div>
-                <div class="layer ok"><b>4 · check</b><span>copy back vs CPU</span></div>
-                <div class="layer gpu"><b>then framework smokes</b><span>GPU util</span></div>
+              <div class="arch stack-live" id="proofStack">
+                <div class="layer" data-phase="alloc"><b>1 · alloc</b><span>hipMalloc</span></div>
+                <div class="layer" data-phase="copy"><b>2 · copy in</b><span>host to device</span></div>
+                <div class="layer" data-phase="launch"><b>3 · launch</b><span>HIP matmul</span></div>
+                <div class="layer" data-phase="check"><b>4 · check</b><span>copy back vs CPU</span></div>
+                <div class="layer gpu" data-phase="fw"><b>then framework smokes</b><span>GPU util</span></div>
               </div>
             </div>
             <div class="chips">
@@ -1204,6 +1337,258 @@ tol 1e-5
       });
     }
 
+    const sims = {};
+    const quiet = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function stopSim(name) {
+      const ctx = sims[name];
+      if (!ctx) return;
+      ctx.dead = true;
+      (ctx.timers || []).forEach(clearTimeout);
+      sims[name] = null;
+    }
+
+    function newCtx(name) {
+      stopSim(name);
+      const ctx = { dead: false, timers: [] };
+      sims[name] = ctx;
+      return ctx;
+    }
+
+    function wait(ctx, ms) {
+      return new Promise((resolve) => {
+        if (ctx.dead) { resolve(); return; }
+        const t = setTimeout(resolve, quiet() ? 0 : ms);
+        ctx.timers.push(t);
+      });
+    }
+
+    function setLive(id, text, cls) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.textContent = text;
+      el.className = "term-live" + (cls ? " " + cls : "");
+    }
+
+    function setPhase(stackId, order, phase) {
+      const root = document.getElementById(stackId);
+      if (!root) return;
+      const idx = order.indexOf(phase);
+      root.querySelectorAll("[data-phase]").forEach((n) => {
+        const id = n.getAttribute("data-phase");
+        n.classList.remove("run", "done");
+        if (id === phase) n.classList.add("run");
+        else if (idx >= 0 && order.indexOf(id) < idx) n.classList.add("done");
+      });
+    }
+
+    function finishPhases(stackId) {
+      const root = document.getElementById(stackId);
+      if (!root) return;
+      root.querySelectorAll("[data-phase]").forEach((n) => {
+        n.classList.remove("run");
+        n.classList.add("done");
+      });
+    }
+
+    function clearTerm(body) {
+      body.innerHTML = "";
+    }
+
+    function parkCursor(line) {
+      document.querySelectorAll(".term-cursor").forEach((c) => {
+        if (c.parentElement !== line) c.remove();
+      });
+      let cur = line.querySelector(".term-cursor");
+      if (!cur) {
+        cur = document.createElement("i");
+        cur.className = "term-cursor";
+        cur.setAttribute("aria-hidden", "true");
+        line.appendChild(cur);
+      }
+    }
+
+    async function typeCmd(body, cmd, ctx) {
+      const line = document.createElement("div");
+      line.className = "term-line";
+      const prompt = document.createElement("span");
+      prompt.className = "p";
+      prompt.textContent = "$ ";
+      const typed = document.createElement("span");
+      typed.className = "w";
+      line.append(prompt, typed);
+      body.appendChild(line);
+      parkCursor(line);
+      if (quiet()) {
+        typed.textContent = cmd;
+        body.scrollTop = body.scrollHeight;
+        return;
+      }
+      for (const ch of cmd) {
+        if (ctx.dead) return;
+        typed.textContent += ch;
+        body.scrollTop = body.scrollHeight;
+        await wait(ctx, 13);
+      }
+      await wait(ctx, 70);
+    }
+
+    function addLine(body, html, extraClass) {
+      const line = document.createElement("div");
+      line.className = "term-line" + (extraClass ? " " + extraClass : "");
+      line.innerHTML = html;
+      body.appendChild(line);
+      parkCursor(line);
+      body.scrollTop = body.scrollHeight;
+    }
+
+    async function playOwned() {
+      const body = document.getElementById("ownedTerm");
+      if (!body) return;
+      const ctx = newCtx("owned");
+      const order = ["gpu", "cmake", "rock", "libs", "hip"];
+      clearTerm(body);
+      setLive("ownedLive", "bring-up", "go");
+
+      const dump = quiet();
+      setPhase("ownedStack", order, "gpu");
+      await wait(ctx, dump ? 0 : 380);
+      if (ctx.dead) return;
+
+      setPhase("ownedStack", order, "cmake");
+      setLive("ownedLive", "cmake", "go");
+      await typeCmd(body, "cmake -S . -B /build -DCMAKE_SYSTEM_PROCESSOR=ppc64", ctx);
+      if (ctx.dead) return;
+      addLine(body, `<span class="d">-- CMAKE_SYSTEM_PROCESSOR=</span><span class="num">ppc64</span>`);
+      await wait(ctx, 160);
+      if (ctx.dead) return;
+      addLine(body, `<span class="d">-- HIP_PLATFORM=</span><span class="c">amd</span>`);
+      await wait(ctx, 140);
+      if (ctx.dead) return;
+      addLine(body, `<span class="d">-- dropping x86-only dep</span>`);
+      await wait(ctx, 140);
+      if (ctx.dead) return;
+      addLine(body, `<span class="g">-- Configuring done</span>`);
+      await wait(ctx, 220);
+      if (ctx.dead) return;
+
+      setPhase("ownedStack", order, "rock");
+      setLive("ownedLive", "ROCK", "go");
+      addLine(body, `<span class="d"></span>`);
+      await typeCmd(body, "make -C ROCK-Kernel-Driver", ctx);
+      if (ctx.dead) return;
+      addLine(body, `  CC    <span class="c">amdgpu.o</span>`);
+      await wait(ctx, 150);
+      if (ctx.dead) return;
+      addLine(body, `  CC    <span class="c">kfd_device.o</span>`);
+      await wait(ctx, 150);
+      if (ctx.dead) return;
+      addLine(body, `  LD    <span class="c">amdgpu.ko</span>`);
+      await wait(ctx, 150);
+      if (ctx.dead) return;
+      addLine(body, `  INSTALL  <span class="g">amdgpu.ko</span>`);
+      await wait(ctx, 240);
+      if (ctx.dead) return;
+
+      setPhase("ownedStack", order, "libs");
+      setLive("ownedLive", "ROCm libs", "go");
+      addLine(body, `<span class="d"></span>`);
+      await typeCmd(body, "cmake --build /build --target hipblas rocfft", ctx);
+      if (ctx.dead) return;
+      addLine(body, `[<span class="num">42%</span>] Built target <span class="c">hipblas</span>`);
+      await wait(ctx, 160);
+      if (ctx.dead) return;
+      addLine(body, `[<span class="num">88%</span>] Built target <span class="c">rocfft</span>`);
+      await wait(ctx, 160);
+      if (ctx.dead) return;
+      addLine(body, `[<span class="num">100%</span>] <span class="g">ROCm libs ready (ppc64)</span>`);
+      await wait(ctx, 240);
+      if (ctx.dead) return;
+
+      setPhase("ownedStack", order, "hip");
+      setLive("ownedLive", "hipcc", "go");
+      addLine(body, `<span class="d"></span>`);
+      await typeCmd(body, "hipcc -O2 matmul.hip -o matmul", ctx);
+      if (ctx.dead) return;
+      addLine(body, `<span class="d">clang: bundling host ppc64 + amdgcn</span>`);
+      await wait(ctx, 180);
+      if (ctx.dead) return;
+      addLine(body, `<span class="g">[hip] runtime linked</span>`, "pass-flash");
+      await wait(ctx, 200);
+      if (ctx.dead) return;
+
+      finishPhases("ownedStack");
+      setLive("ownedLive", "done", "ok");
+    }
+
+    async function playProof() {
+      const body = document.getElementById("proofTerm");
+      if (!body) return;
+      const ctx = newCtx("proof");
+      const order = ["alloc", "copy", "launch", "check", "fw"];
+      clearTerm(body);
+      document.getElementById("proofStack")?.querySelectorAll("[data-phase]").forEach((n) => {
+        n.classList.remove("run", "done");
+      });
+      setLive("proofLive", "hipcc", "go");
+
+      await typeCmd(body, "hipcc -O2 matmul.hip -o matmul", ctx);
+      if (ctx.dead) return;
+      await wait(ctx, 160);
+      if (ctx.dead) return;
+      await typeCmd(body, "./matmul", ctx);
+      if (ctx.dead) return;
+      await wait(ctx, 180);
+      if (ctx.dead) return;
+
+      setPhase("proofStack", order, "alloc");
+      setLive("proofLive", "alloc", "go");
+      addLine(body, `hipMalloc             <span class="g">hipSuccess</span>`);
+      await wait(ctx, 280);
+      if (ctx.dead) return;
+
+      setPhase("proofStack", order, "copy");
+      setLive("proofLive", "copy in", "go");
+      addLine(body, `hipMemcpy H2D         <span class="g">hipSuccess</span>`);
+      await wait(ctx, 280);
+      if (ctx.dead) return;
+
+      setPhase("proofStack", order, "launch");
+      setLive("proofLive", "launch", "go");
+      addLine(body, `hipLaunchKernelGGL    <span class="c">matmul_kernel</span>`);
+      await wait(ctx, 320);
+      if (ctx.dead) return;
+
+      setPhase("proofStack", order, "check");
+      setLive("proofLive", "check", "go");
+      addLine(body, `hipMemcpy D2H         <span class="g">hipSuccess</span>`);
+      await wait(ctx, 220);
+      if (ctx.dead) return;
+      addLine(body, `max |GPU-CPU| = <span class="num">8.41e-06</span>`);
+      await wait(ctx, 180);
+      if (ctx.dead) return;
+      addLine(body, `<span class="d">tol 1e-5</span>`);
+      await wait(ctx, 160);
+      if (ctx.dead) return;
+      addLine(body, `<span class="g">PASS</span>`, "pass-flash");
+      await wait(ctx, 280);
+      if (ctx.dead) return;
+
+      setPhase("proofStack", order, "fw");
+      setLive("proofLive", "smokes", "go");
+      await wait(ctx, 420);
+      if (ctx.dead) return;
+      finishPhases("proofStack");
+      setLive("proofLive", "PASS", "ok");
+    }
+
+    function startSlideSim(id) {
+      if (id !== "owned") stopSim("owned");
+      if (id !== "proof") stopSim("proof");
+      if (id === "owned") playOwned();
+      if (id === "proof") playProof();
+    }
+
     function go(n) {
       i = Math.max(0, Math.min(n, SLIDES.length - 1));
       slideEls.forEach((el, k) => el.classList.toggle("on", k === i));
@@ -1220,6 +1605,7 @@ tol 1e-5
       if (SLIDES[i].appendix) appendixOpen = true;
       renderJump();
       menuBtn.textContent = "Sections";
+      startSlideSim(id);
     }
 
     bars.innerHTML = "";
