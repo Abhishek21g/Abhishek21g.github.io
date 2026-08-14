@@ -630,6 +630,14 @@
       box-shadow: inset 3px 0 0 #5ee0a0;
     }
     .stack-live .layer.gpu.done span { color: color-mix(in srgb, var(--paper) 70%, transparent); }
+    .arch .layer.broke-forced {
+      border-color: color-mix(in srgb, var(--signal) 50%, var(--line));
+      background: color-mix(in srgb, var(--signal) 12%, var(--paper));
+    }
+    .arch .layer.ok-forced {
+      border-color: color-mix(in srgb, var(--ok) 45%, var(--line));
+      background: color-mix(in srgb, var(--ok) 10%, var(--paper));
+    }
     @keyframes caret {
       0%, 49% { opacity: 1; }
       50%, 100% { opacity: 0; }
@@ -651,6 +659,122 @@
       .term-line, .term-cursor, .term-live.go::before, .term-line.pass-flash .g { animation: none; }
     }
 
+
+    .box.dim { opacity: 0.45; filter: saturate(0.7); transition: opacity 0.35s ease, filter 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease; }
+    .box.lit {
+      opacity: 1;
+      filter: none;
+      border-color: color-mix(in srgb, var(--amd-orange) 55%, var(--line));
+      box-shadow: 0 0 0 1px rgba(242, 101, 34, 0.28), 0 14px 28px -18px rgba(237, 28, 36, 0.45);
+    }
+    .box.gpu-lit {
+      border-color: color-mix(in srgb, var(--amd-red) 60%, var(--line));
+      box-shadow: 0 0 0 1px rgba(237, 28, 36, 0.35), 0 14px 32px -16px rgba(237, 28, 36, 0.55);
+    }
+    .bus.lit { color: var(--amd-teal); text-shadow: 0 0 12px rgba(78, 196, 224, 0.45); }
+    .mark.dim { opacity: 0.35; transition: opacity 0.3s ease, transform 0.3s ease; }
+    .mark.pop { opacity: 1; transform: translateY(-1px); }
+    .dual-term {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .failcard.dim { opacity: 0.42; filter: saturate(0.65); transition: opacity 0.3s ease, filter 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; }
+    .failcard.run {
+      opacity: 1;
+      filter: none;
+      border-color: color-mix(in srgb, var(--amd-orange) 55%, var(--line));
+      box-shadow: 0 0 0 1px rgba(242, 101, 34, 0.3), 0 12px 28px -18px rgba(237, 28, 36, 0.4);
+    }
+    .failcard.done {
+      opacity: 1;
+      filter: none;
+      border-color: color-mix(in srgb, var(--ok) 45%, var(--line));
+    }
+    .byte.flash { animation: passPop 0.45s ease; }
+    .checklist {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .check {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      border: 1px solid var(--line);
+      background: var(--wash);
+      border-radius: 12px;
+      padding: 12px 14px;
+      opacity: 0.35;
+      transform: translateY(6px);
+      transition: opacity 0.35s ease, transform 0.35s ease, border-color 0.35s ease, background 0.35s ease;
+    }
+    .check.on {
+      opacity: 1;
+      transform: none;
+      border-color: color-mix(in srgb, var(--ok) 50%, var(--line));
+      background: color-mix(in srgb, var(--ok) 10%, var(--paper));
+    }
+    .check .tick {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--ink);
+      color: var(--paper);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .check.on .tick { background: var(--ok); }
+    .check strong { display: block; font-size: 0.98rem; }
+    .check span { color: var(--muted); font-size: 0.86rem; line-height: 1.4; }
+    .future-grid {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+    }
+    .future-card {
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      border: 1px solid var(--line);
+      background: var(--wash);
+      border-radius: 14px;
+      padding: 14px 14px;
+      opacity: 0.4;
+      transform: translateY(8px);
+      transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+    }
+    .future-card.on {
+      opacity: 1;
+      transform: none;
+      border-color: color-mix(in srgb, var(--amd-teal) 45%, var(--line));
+      box-shadow: 0 10px 24px -18px rgba(78, 196, 224, 0.45);
+    }
+    .future-card .n { background: #054ada; }
+    .future-card strong { font-size: clamp(1rem, 1.6vw, 1.18rem); }
+    .future-card span { color: var(--muted); font-size: 0.88rem; line-height: 1.4; }
+    @media (max-width: 1024px) {
+      .dual-term, .future-grid { grid-template-columns: 1fr; }
+    }
+
+    .step.dim { opacity: 0.4; transition: opacity 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease; }
+    .step.pop {
+      opacity: 1;
+      border-color: color-mix(in srgb, var(--amd-orange) 45%, var(--line));
+      box-shadow: 0 8px 20px -14px rgba(237, 28, 36, 0.4);
+    }
+    .bus.dim { opacity: 0.4; transition: opacity 0.35s ease, color 0.35s ease, text-shadow 0.35s ease; }
     .job {
       flex-shrink: 0;
       padding: 12px 16px;
@@ -949,7 +1073,7 @@
     <footer class="foot">
       <div class="foot-inner">
         <div class="progress-row">
-          <p class="count" id="count">1 / 6 · 5 left</p>
+          <p class="count" id="count">1 / 8 · 7 left</p>
           <div class="bars" id="bars" role="tablist" aria-label="Slide position"></div>
         </div>
         <div class="nav-row">
@@ -967,6 +1091,7 @@
     const BUS = `<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
     const DOTS = `<span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>`;
 
+
     const SLIDES = [
       {
         id: "cover",
@@ -977,15 +1102,15 @@
           <h1>ROCm + HIP on POWER9</h1>
           <p class="lede">Make the stack run. Prove GPU work. Then kernels and ML.</p>
           <p class="gloss"><b>POWER9</b> is IBM's server CPU family. <b>ROCm</b> is AMD's GPU stack. <b>HIP</b> is CUDA-like GPU code.</p>
-          <div class="marks">
-            <span class="mark amd"><i>R</i> ROCm</span>
-            <span class="mark hip"><i>H</i> HIP</span>
-            <span class="mark ibm"><i>P9</i> POWER9</span>
+          <div class="marks" id="coverMarks">
+            <span class="mark amd dim" data-mark="rocm"><i>R</i> ROCm</span>
+            <span class="mark hip dim" data-mark="hip"><i>H</i> HIP</span>
+            <span class="mark ibm dim" data-mark="p9"><i>P9</i> POWER9</span>
           </div>
           <div class="grow">
             <div class="split">
-              <div class="machine">
-                <div class="box had">
+              <div class="machine" id="coverMachine">
+                <div class="box had dim" id="coverHost">
                   <div class="box-kicker">Host</div>
                   <div class="box-title">IBM POWER9</div>
                   <div class="box-meta">IBM server CPU family</div>
@@ -994,8 +1119,8 @@
                     <li>ROCm would not load</li>
                   </ul>
                 </div>
-                <div class="bus">${BUS}<span>PCIe</span></div>
-                <div class="box">
+                <div class="bus dim" id="coverBus">${BUS}<span>PCIe</span></div>
+                <div class="box dim" id="coverGpu">
                   <div class="box-kicker">Device</div>
                   <div class="box-title">AMD GPU</div>
                   <div class="box-meta">HIP kernels</div>
@@ -1005,27 +1130,15 @@
                   </ul>
                 </div>
               </div>
-              <div class="term">
-                <div class="term-bar">${DOTS} rocminfo · POWER9</div>
-                <pre class="term-body"><span class="d">======= HSA System =======</span>
-Machine Model:     <span class="k">LARGE</span>
-System Endianness: <span class="f">BIG</span>
-
-<span class="d">******* Agent 1 *******</span>
-  Name:         <span class="w">Power9</span>
-  Vendor Name:  IBM
-  Device Type:  <span class="c">CPU</span>
-
-<span class="d">******* Agent 2 *******</span>
-  Name:         <span class="w">gfx9</span>
-  Vendor Name:  AMD
-  Device Type:  <span class="g">GPU</span></pre>
+              <div class="term sim">
+                <div class="term-bar">${DOTS} rocminfo · POWER9<span class="term-live" id="coverLive">ready</span></div>
+                <div class="term-body" id="coverTerm" aria-live="polite"></div>
               </div>
             </div>
-            <div class="cover-row">
-              <div class="step"><span class="n">1</span><strong>Make it run</strong><span>GPU unused. ROCm would not load.</span></div>
-              <div class="step"><span class="n">2</span><strong>Prove it</strong><span>HIP kernel. Real math, not a fake success.</span></div>
-              <div class="step"><span class="n">3</span><strong>Kernels and ML</strong><span>After it ran. Measure. Change.</span></div>
+            <div class="cover-row" id="coverSteps">
+              <div class="step dim" data-step="1"><span class="n">1</span><strong>Make it run</strong><span>GPU unused. ROCm would not load.</span></div>
+              <div class="step dim" data-step="2"><span class="n">2</span><strong>Prove it</strong><span>HIP kernel. Real math, not a fake success.</span></div>
+              <div class="step dim" data-step="3"><span class="n">3</span><strong>Kernels and ML</strong><span>After it ran. Measure. Change.</span></div>
             </div>
           </div>
         `,
@@ -1042,34 +1155,34 @@ System Endianness: <span class="f">BIG</span>
             <div class="split even">
               <div>
                 <p class="col-label ok">Left · PC works</p>
-                <div class="arch">
-                  <div class="layer ok"><b>HIP / apps</b><span>pip install</span></div>
-                  <div class="layer ok"><b>hipcc + runtime</b><span>loads</span></div>
-                  <div class="layer ok"><b>ROCm libs</b><span>built for PCs</span></div>
-                  <div class="layer ok"><b>ROCK / amdgpu</b><span>x86 host</span></div>
-                  <div class="layer gpu"><b>AMD GPU</b><span>same card</span></div>
+                <div class="arch stack-live" id="problemLeft">
+                  <div class="layer" data-phase="hip"><b>HIP / apps</b><span>pip install</span></div>
+                  <div class="layer" data-phase="rt"><b>hipcc + runtime</b><span>loads</span></div>
+                  <div class="layer" data-phase="libs"><b>ROCm libs</b><span>built for PCs</span></div>
+                  <div class="layer" data-phase="rock"><b>ROCK / amdgpu</b><span>x86 host</span></div>
+                  <div class="layer gpu" data-phase="gpu"><b>AMD GPU</b><span>same card</span></div>
                 </div>
               </div>
               <div>
                 <p class="col-label bad">Right · POWER9 does not</p>
-                <div class="arch">
-                  <div class="layer broke"><b>HIP / apps</b><span>will not load</span></div>
-                  <div class="layer broke"><b>hipcc + runtime</b><span>wrong CPU family</span></div>
-                  <div class="layer broke"><b>ROCm libs</b><span>exec format error</span></div>
-                  <div class="layer broke"><b>ROCK / amdgpu</b><span>refuses POWER</span></div>
-                  <div class="layer gpu"><b>AMD GPU</b><span>paperweight</span></div>
+                <div class="arch stack-live" id="problemRight">
+                  <div class="layer" data-phase="hip"><b>HIP / apps</b><span>will not load</span></div>
+                  <div class="layer" data-phase="rt"><b>hipcc + runtime</b><span>wrong CPU family</span></div>
+                  <div class="layer" data-phase="libs"><b>ROCm libs</b><span>exec format error</span></div>
+                  <div class="layer" data-phase="rock"><b>ROCK / amdgpu</b><span>refuses POWER</span></div>
+                  <div class="layer gpu" data-phase="gpu"><b>AMD GPU</b><span>paperweight</span></div>
                 </div>
               </div>
             </div>
-            <div class="term">
-              <div class="term-bar">${DOTS} power9 · /opt/rocm</div>
-              <pre class="term-body"><span class="p">$</span> uname -m
-<span class="k">ppc64</span>
-<span class="p">$</span> file /opt/rocm/lib/libamdhip64.so
-libamdhip64.so: <span class="f">ELF 64-bit LSB shared object, x86-64</span>
-<span class="p">$</span> ldd /opt/rocm/lib/libamdhip64.so
-<span class="f">not a dynamic executable</span>
-<span class="d"># Exec format error. GPU is a paperweight until this loads.</span></pre>
+            <div class="dual-term">
+              <div class="term sim">
+                <div class="term-bar">${DOTS} pc · x86_64<span class="term-live" id="problemLeftLive">ready</span></div>
+                <div class="term-body" id="problemLeftTerm" aria-live="polite"></div>
+              </div>
+              <div class="term sim">
+                <div class="term-bar">${DOTS} power9 · ppc64<span class="term-live" id="problemRightLive">ready</span></div>
+                <div class="term-body" id="problemRightTerm" aria-live="polite"></div>
+              </div>
             </div>
             <p class="job">That's the job. I was making the software even exist on this box.</p>
           </div>
@@ -1111,45 +1224,25 @@ libamdhip64.so: <span class="f">ELF 64-bit LSB shared object, x86-64</span>
           <p class="gloss"><b>Byte order</b> is endianness. <b>Probe</b> is the driver claiming the GPU at boot. <b>User-mode</b> is libraries in your program, not the OS kernel.</p>
           <div class="grow">
             <div class="trio">
-              <div class="failcard">
+              <div class="failcard dim" id="hardCard1" data-hard="endian">
                 <h2>Byte order</h2>
-                <div class="term">
-                  <div class="term-bar">${DOTS} endian · float 1.0f</div>
-                  <pre class="term-body"><span class="d">PC</span>    <span class="k">00 00 80 3F</span>
-<span class="d">POWER</span> <span class="c">3F 80 00 00</span>
-
-read them wrong:
-<span class="f">1.0 becomes garbage</span>
-
-<span class="d"># nothing crashes. silent rot.</span></pre>
+                <div class="term sim">
+                  <div class="term-bar">${DOTS} endian · float 1.0f<span class="term-live" id="hardLive1">ready</span></div>
+                  <div class="term-body" id="hardTerm1" aria-live="polite"></div>
                 </div>
               </div>
-              <div class="failcard">
+              <div class="failcard dim" id="hardCard2" data-hard="bins">
                 <h2>x86 binaries</h2>
-                <div class="term">
-                  <div class="term-bar">${DOTS} file · shared libs</div>
-                  <pre class="term-body"><span class="p">$</span> file libfoo.so
-ELF 64-bit LSB
-<span class="f">x86-64</span>, not PowerPC
-
-<span class="p">$</span> hipcc main.hip
-<span class="f">cannot load:
-Exec format error</span>
-
-tree builds. load fails.</pre>
+                <div class="term sim">
+                  <div class="term-bar">${DOTS} file · shared libs<span class="term-live" id="hardLive2">ready</span></div>
+                  <div class="term-body" id="hardTerm2" aria-live="polite"></div>
                 </div>
               </div>
-              <div class="failcard">
+              <div class="failcard dim" id="hardCard3" data-hard="kfd">
                 <h2>Kernel drivers</h2>
-                <div class="term">
-                  <div class="term-bar">${DOTS} dmesg · ROCK</div>
-                  <pre class="term-body"><span class="d">[12.408]</span> amdgpu: init
-<span class="d">[12.410]</span> expected
-             <span class="k">x86</span> host
-<span class="f">[12.411] refuse probe
-         on POWER</span>
-
-user-mode is not enough</pre>
+                <div class="term sim">
+                  <div class="term-bar">${DOTS} dmesg · ROCK<span class="term-live" id="hardLive3">ready</span></div>
+                  <div class="term-body" id="hardTerm3" aria-live="polite"></div>
                 </div>
               </div>
             </div>
@@ -1195,26 +1288,63 @@ user-mode is not enough</pre>
           <p class="gloss">Tiny HIP first. Then one change. Then re-check. If the numbers drift, the change does not count.</p>
           <div class="grow">
             <div class="split even">
-              <div class="arch">
-                <div class="layer"><b>1 · Measure</b><span>where time actually went</span></div>
-                <div class="layer"><b>2 · Kernels / hot paths</b><span>one change, then re-check</span></div>
-                <div class="layer ok"><b>3 · ML workloads</b><span>PyTorch / TensorFlow on GPU</span></div>
-                <div class="layer gpu"><b>Same AMD and IBM grant</b><span>~30% on targeted loads</span></div>
+              <div class="arch stack-live" id="improveStack">
+                <div class="layer" data-phase="measure"><b>1 · Measure</b><span>where time actually went</span></div>
+                <div class="layer" data-phase="change"><b>2 · Kernels / hot paths</b><span>one change, then re-check</span></div>
+                <div class="layer" data-phase="ml"><b>3 · ML workloads</b><span>PyTorch / TensorFlow on GPU</span></div>
+                <div class="layer gpu" data-phase="gain"><b>Same AMD and IBM grant</b><span>~30% on targeted loads</span></div>
               </div>
-              <div class="term">
-                <div class="term-bar">${DOTS} after it ran</div>
-                <pre class="term-body"><span class="d"># stack loads. GPU does math.</span>
-<span class="p">$</span> tiny HIP first
-<span class="p">$</span> profile hot path
-<span class="c">kernel / memory / launch</span>
-<span class="p">$</span> change one path
-<span class="p">$</span> re-check correctness
-<span class="p">$</span> re-measure ML loads
-<span class="g">~30% on targeted workloads</span>
-<span class="d"># not a blanket number</span></pre>
+              <div class="term sim">
+                <div class="term-bar">${DOTS} after it ran<span class="term-live" id="improveLive">ready</span></div>
+                <div class="term-body" id="improveTerm" aria-live="polite"></div>
               </div>
             </div>
             <p class="job">After ROCm and HIP ran: profiling, kernels, ML workloads.</p>
+          </div>
+        `,
+      },
+      {
+        id: "outcome",
+        nav: "Outcome",
+        layout: "fill",
+        html: `
+          <p class="eyebrow">What landed</p>
+          <h1>Stack running. HIP proof. ML workloads.</h1>
+          <p class="gloss">Project facts from the AMD and IBM grant. Same POWER9 box. Same correctness bar.</p>
+          <div class="grow">
+            <div class="split">
+              <div class="checklist" id="outcomeList">
+                <div class="check" data-out="stack"><span class="tick">1</span><div><strong>Stack compiled, installed, running</strong><span>ROCm + HIP on POWER9. GPU work on that box.</span></div></div>
+                <div class="check" data-out="hip"><span class="tick">2</span><div><strong>HIP proof green</strong><span>Matmul vs CPU around 1e-5. Real math, not a fake success.</span></div></div>
+                <div class="check" data-out="ml"><span class="tick">3</span><div><strong>ML workloads on the GPU</strong><span>PyTorch and TensorFlow samples. GPU actually busy.</span></div></div>
+                <div class="check" data-out="gain"><span class="tick">4</span><div><strong>~30% on targeted grant loads</strong><span>After bring-up. Not a blanket number for every model.</span></div></div>
+              </div>
+              <div class="term sim">
+                <div class="term-bar">${DOTS} grant · outcome<span class="term-live" id="outcomeLive">ready</span></div>
+                <div class="term-body" id="outcomeTerm" aria-live="polite"></div>
+              </div>
+            </div>
+          </div>
+        `,
+      },
+      {
+        id: "future",
+        nav: "Future",
+        layout: "fill",
+        html: `
+          <p class="eyebrow">Next on this grant</p>
+          <h1>Power10. More workloads. Cleaner recipe.</h1>
+          <p class="gloss">Same project path. Keep the bring-up discipline. Widen what runs on it.</p>
+          <div class="grow">
+            <div class="future-grid" id="futureGrid">
+              <div class="future-card" data-fut="p10"><span class="n">1</span><strong>Power10 path</strong><span>Take the same ROCm + HIP bring-up toward the next POWER host.</span></div>
+              <div class="future-card" data-fut="ml"><span class="n">2</span><strong>More workloads</strong><span>Run more ML loads on the recipe that already works on POWER9.</span></div>
+              <div class="future-card" data-fut="recipe"><span class="n">3</span><strong>Cleaner recipe</strong><span>Tighten the workspace and docs so the next person reproduces faster.</span></div>
+            </div>
+            <div class="term sim" style="flex:0 0 auto; min-height:140px;">
+              <div class="term-bar">${DOTS} grant · next<span class="term-live" id="futureLive">ready</span></div>
+              <div class="term-body" id="futureTerm" aria-live="polite"></div>
+            </div>
           </div>
         `,
       },
@@ -1431,12 +1561,212 @@ user-mode is not enough</pre>
       body.scrollTop = body.scrollHeight;
     }
 
+
+    function resetStack(stackId) {
+      const root = document.getElementById(stackId);
+      if (!root) return;
+      root.querySelectorAll("[data-phase]").forEach((n) => n.classList.remove("run", "done"));
+    }
+
+    function markHard(cardId, mode) {
+      const el = document.getElementById(cardId);
+      if (!el) return;
+      el.classList.remove("dim", "run", "done");
+      if (mode === "dim") el.classList.add("dim");
+      if (mode === "run") el.classList.add("run");
+      if (mode === "done") el.classList.add("done");
+    }
+
+    async function playCover() {
+      const body = document.getElementById("coverTerm");
+      if (!body) return;
+      const ctx = newCtx("cover");
+      clearTerm(body);
+      const host = document.getElementById("coverHost");
+      const bus = document.getElementById("coverBus");
+      const gpu = document.getElementById("coverGpu");
+      [host, bus, gpu].forEach((n) => {
+        if (!n) return;
+        n.classList.add("dim");
+        n.classList.remove("lit", "gpu-lit");
+      });
+      document.querySelectorAll("#coverMarks .mark").forEach((m) => {
+        m.classList.add("dim");
+        m.classList.remove("pop");
+      });
+      document.querySelectorAll("#coverSteps .step").forEach((s) => {
+        s.classList.add("dim");
+        s.classList.remove("pop");
+      });
+      setLive("coverLive", "rocminfo", "go");
+
+      await typeCmd(body, "rocminfo", ctx);
+      if (ctx.dead) return;
+      await wait(ctx, LINE_DELAY);
+      if (ctx.dead) return;
+      addLine(body, `<span class="d">======= HSA System =======</span>`);
+      await wait(ctx, LINE_FAST);
+      if (ctx.dead) return;
+      addLine(body, `Machine Model:     <span class="k">LARGE</span>`);
+      await wait(ctx, LINE_FAST);
+      if (ctx.dead) return;
+      addLine(body, `System Endianness: <span class="f">BIG</span>`);
+      await wait(ctx, PHASE_PAUSE);
+      if (ctx.dead) return;
+
+      host?.classList.remove("dim");
+      host?.classList.add("lit");
+      document.querySelector('#coverMarks [data-mark="p9"]')?.classList.remove("dim");
+      document.querySelector('#coverMarks [data-mark="p9"]')?.classList.add("pop");
+      setLive("coverLive", "CPU agent", "go");
+      addLine(body, `<span class="d"></span>`);
+      addLine(body, `<span class="d">******* Agent 1 *******</span>`);
+      await wait(ctx, LINE_FAST);
+      if (ctx.dead) return;
+      addLine(body, `  Name:         <span class="w">Power9</span>`);
+      await wait(ctx, LINE_FAST);
+      if (ctx.dead) return;
+      addLine(body, `  Vendor Name:  IBM`);
+      await wait(ctx, LINE_FAST);
+      if (ctx.dead) return;
+      addLine(body, `  Device Type:  <span class="c">CPU</span>`);
+      await wait(ctx, PHASE_GAP);
+      if (ctx.dead) return;
+
+      bus?.classList.remove("dim");
+      bus?.classList.add("lit");
+      setLive("coverLive", "PCIe", "go");
+      addLine(body, `<span class="d"></span>`);
+      addLine(body, `<span class="c">PCIe link up · host sees AMD GPU</span>`);
+      await wait(ctx, PHASE_PAUSE);
+      if (ctx.dead) return;
+
+      gpu?.classList.remove("dim");
+      gpu?.classList.add("lit", "gpu-lit");
+      document.querySelector('#coverMarks [data-mark="rocm"]')?.classList.remove("dim");
+      document.querySelector('#coverMarks [data-mark="rocm"]')?.classList.add("pop");
+      document.querySelector('#coverMarks [data-mark="hip"]')?.classList.remove("dim");
+      document.querySelector('#coverMarks [data-mark="hip"]')?.classList.add("pop");
+      setLive("coverLive", "GPU agent", "go");
+      addLine(body, `<span class="d"></span>`);
+      addLine(body, `<span class="d">******* Agent 2 *******</span>`);
+      await wait(ctx, LINE_FAST);
+      if (ctx.dead) return;
+      addLine(body, `  Name:         <span class="w">gfx9</span>`);
+      await wait(ctx, LINE_FAST);
+      if (ctx.dead) return;
+      addLine(body, `  Vendor Name:  AMD`);
+      await wait(ctx, LINE_FAST);
+      if (ctx.dead) return;
+      addLine(body, `  Device Type:  <span class="g">GPU</span>`, "pass-flash");
+      await wait(ctx, PHASE_PAUSE);
+      if (ctx.dead) return;
+
+      for (const n of ["1", "2", "3"]) {
+        const step = document.querySelector(`#coverSteps [data-step="${n}"]`);
+        step?.classList.remove("dim");
+        step?.classList.add("pop");
+        await wait(ctx, LINE_FAST);
+        if (ctx.dead) return;
+      }
+      setLive("coverLive", "agents up", "ok");
+    }
+
+    async function playProblem() {
+      const left = document.getElementById("problemLeftTerm");
+      const right = document.getElementById("problemRightTerm");
+      if (!left || !right) return;
+      const ctx = newCtx("problem");
+      clearTerm(left);
+      clearTerm(right);
+      resetStack("problemLeft");
+      resetStack("problemRight");
+      document.querySelectorAll("#problemLeft [data-phase], #problemRight [data-phase]").forEach((n) => {
+        n.classList.remove("ok-forced", "broke-forced");
+      });
+      setLive("problemLeftLive", "pc", "go");
+      setLive("problemRightLive", "idle", "");
+
+      const leftOrder = ["hip", "rt", "libs", "rock", "gpu"];
+      await typeCmd(left, "pip install torch --index-url https://download.pytorch.org/whl/rocm", ctx);
+      if (ctx.dead) return;
+      setPhase("problemLeft", leftOrder, "hip");
+      addLine(left, `<span class="g">Successfully installed</span>`);
+      await wait(ctx, LINE_DELAY);
+      if (ctx.dead) return;
+      await typeCmd(left, "python -c 'import torch; print(torch.cuda.is_available())'", ctx);
+      if (ctx.dead) return;
+      setPhase("problemLeft", leftOrder, "rt");
+      addLine(left, `<span class="g">True</span>`);
+      await wait(ctx, LINE_FAST);
+      if (ctx.dead) return;
+      setPhase("problemLeft", leftOrder, "libs");
+      await wait(ctx, LINE_FAST);
+      if (ctx.dead) return;
+      setPhase("problemLeft", leftOrder, "rock");
+      await wait(ctx, LINE_FAST);
+      if (ctx.dead) return;
+      setPhase("problemLeft", leftOrder, "gpu");
+      addLine(left, `<span class="d"># same AMD GPU. stack just loads.</span>`);
+      await wait(ctx, PHASE_PAUSE);
+      if (ctx.dead) return;
+      finishPhases("problemLeft");
+      setLive("problemLeftLive", "OK", "ok");
+
+      setLive("problemRightLive", "power9", "go");
+      const rightOrder = ["hip", "rt", "libs", "rock", "gpu"];
+      await typeCmd(right, "uname -m", ctx);
+      if (ctx.dead) return;
+      addLine(right, `<span class="k">ppc64</span>`);
+      await wait(ctx, LINE_DELAY);
+      if (ctx.dead) return;
+      await typeCmd(right, "file /opt/rocm/lib/libamdhip64.so", ctx);
+      if (ctx.dead) return;
+      setPhase("problemRight", rightOrder, "libs");
+      addLine(right, `libamdhip64.so: <span class="f">ELF 64-bit LSB shared object, x86-64</span>`);
+      await wait(ctx, PHASE_PAUSE);
+      if (ctx.dead) return;
+      await typeCmd(right, "ldd /opt/rocm/lib/libamdhip64.so", ctx);
+      if (ctx.dead) return;
+      setPhase("problemRight", rightOrder, "rt");
+      addLine(right, `<span class="f">not a dynamic executable</span>`);
+      await wait(ctx, LINE_DELAY);
+      if (ctx.dead) return;
+      setPhase("problemRight", rightOrder, "hip");
+      addLine(right, `<span class="f">Exec format error</span>`, "pass-flash");
+      await wait(ctx, PHASE_PAUSE);
+      if (ctx.dead) return;
+      setPhase("problemRight", rightOrder, "rock");
+      await wait(ctx, LINE_FAST);
+      if (ctx.dead) return;
+      setPhase("problemRight", rightOrder, "gpu");
+      addLine(right, `<span class="d"># GPU is a paperweight until this loads.</span>`);
+      await wait(ctx, HIP_DONE);
+      if (ctx.dead) return;
+      const pl = document.getElementById("problemLeft");
+      if (pl) {
+        pl.querySelectorAll("[data-phase]").forEach((n) => {
+          n.classList.remove("run", "done");
+          n.classList.add("ok-forced");
+        });
+      }
+      const pr = document.getElementById("problemRight");
+      if (pr) {
+        pr.querySelectorAll("[data-phase]").forEach((n) => {
+          n.classList.remove("run", "done");
+          if (!n.classList.contains("gpu")) n.classList.add("broke-forced");
+        });
+      }
+      setLive("problemRightLive", "FAIL", "go");
+    }
+
     async function playOwned() {
       const body = document.getElementById("ownedTerm");
       if (!body) return;
       const ctx = newCtx("owned");
       const order = ["gpu", "cmake", "rock", "libs", "hip"];
       clearTerm(body);
+      resetStack("ownedStack");
       setLive("ownedLive", "bring-up", "go");
 
       const dump = quiet();
@@ -1510,15 +1840,100 @@ user-mode is not enough</pre>
       setLive("ownedLive", "done", "ok");
     }
 
+    async function playHard() {
+      const t1 = document.getElementById("hardTerm1");
+      const t2 = document.getElementById("hardTerm2");
+      const t3 = document.getElementById("hardTerm3");
+      if (!t1 || !t2 || !t3) return;
+      const ctx = newCtx("hard");
+      clearTerm(t1); clearTerm(t2); clearTerm(t3);
+      markHard("hardCard1", "dim");
+      markHard("hardCard2", "dim");
+      markHard("hardCard3", "dim");
+      setLive("hardLive1", "ready", "");
+      setLive("hardLive2", "ready", "");
+      setLive("hardLive3", "ready", "");
+
+      markHard("hardCard1", "run");
+      setLive("hardLive1", "endian", "go");
+      addLine(t1, `<span class="d">float 1.0f · four bytes</span>`);
+      await wait(ctx, LINE_DELAY);
+      if (ctx.dead) return;
+      addLine(t1, `<span class="d">PC</span>    <span class="k">00 00 80 3F</span>`);
+      await wait(ctx, LINE_DELAY);
+      if (ctx.dead) return;
+      addLine(t1, `<span class="d">POWER</span> <span class="c">3F 80 00 00</span>`, "pass-flash");
+      await wait(ctx, PHASE_PAUSE);
+      if (ctx.dead) return;
+      addLine(t1, `read them wrong:`);
+      await wait(ctx, LINE_FAST);
+      if (ctx.dead) return;
+      addLine(t1, `<span class="f">1.0 becomes garbage</span>`);
+      await wait(ctx, LINE_DELAY);
+      if (ctx.dead) return;
+      addLine(t1, `<span class="d"># nothing crashes. silent rot.</span>`);
+      await wait(ctx, PHASE_GAP);
+      if (ctx.dead) return;
+      markHard("hardCard1", "done");
+      setLive("hardLive1", "rot", "ok");
+
+      markHard("hardCard2", "run");
+      setLive("hardLive2", "file", "go");
+      await typeCmd(t2, "file libfoo.so", ctx);
+      if (ctx.dead) return;
+      addLine(t2, `ELF 64-bit LSB`);
+      await wait(ctx, LINE_FAST);
+      if (ctx.dead) return;
+      addLine(t2, `<span class="f">x86-64</span>, not PowerPC`);
+      await wait(ctx, PHASE_PAUSE);
+      if (ctx.dead) return;
+      await typeCmd(t2, "hipcc main.hip", ctx);
+      if (ctx.dead) return;
+      addLine(t2, `<span class="f">cannot load:</span>`);
+      await wait(ctx, LINE_FAST);
+      if (ctx.dead) return;
+      addLine(t2, `<span class="f">Exec format error</span>`, "pass-flash");
+      await wait(ctx, LINE_DELAY);
+      if (ctx.dead) return;
+      addLine(t2, `<span class="d">tree builds. load fails.</span>`);
+      await wait(ctx, PHASE_GAP);
+      if (ctx.dead) return;
+      markHard("hardCard2", "done");
+      setLive("hardLive2", "ELF", "ok");
+
+      markHard("hardCard3", "run");
+      setLive("hardLive3", "kfd", "go");
+      addLine(t3, `<span class="d">[12.408]</span> amdgpu: init`);
+      await wait(ctx, LINE_DELAY);
+      if (ctx.dead) return;
+      addLine(t3, `<span class="d">[12.410]</span> expected <span class="k">x86</span> host`);
+      await wait(ctx, PHASE_PAUSE);
+      if (ctx.dead) return;
+      addLine(t3, `<span class="f">[12.411] refuse probe on POWER</span>`, "pass-flash");
+      await wait(ctx, PHASE_PAUSE);
+      if (ctx.dead) return;
+      addLine(t3, `<span class="d">user-mode is not enough</span>`);
+      await wait(ctx, LINE_DELAY);
+      if (ctx.dead) return;
+      await typeCmd(t3, "make -C ROCK-Kernel-Driver", ctx);
+      if (ctx.dead) return;
+      addLine(t3, `  CC  <span class="c">kfd_device.o</span>`);
+      await wait(ctx, BUILD_MS);
+      if (ctx.dead) return;
+      addLine(t3, `  LD  <span class="g">amdgpu.ko</span>`);
+      await wait(ctx, HIP_DONE);
+      if (ctx.dead) return;
+      markHard("hardCard3", "done");
+      setLive("hardLive3", "ROCK", "ok");
+    }
+
     async function playProof() {
       const body = document.getElementById("proofTerm");
       if (!body) return;
       const ctx = newCtx("proof");
       const order = ["alloc", "copy", "launch", "check", "fw"];
       clearTerm(body);
-      document.getElementById("proofStack")?.querySelectorAll("[data-phase]").forEach((n) => {
-        n.classList.remove("run", "done");
-      });
+      resetStack("proofStack");
       setLive("proofLive", "hipcc", "go");
 
       await typeCmd(body, "hipcc -O2 matmul.hip -o matmul", ctx);
@@ -1571,11 +1986,146 @@ user-mode is not enough</pre>
       setLive("proofLive", "PASS", "ok");
     }
 
+    async function playImprovements() {
+      const body = document.getElementById("improveTerm");
+      if (!body) return;
+      const ctx = newCtx("improvements");
+      const order = ["measure", "change", "ml", "gain"];
+      clearTerm(body);
+      resetStack("improveStack");
+      setLive("improveLive", "profile", "go");
+
+      setPhase("improveStack", order, "measure");
+      await typeCmd(body, "rocprof --stats ./matmul", ctx);
+      if (ctx.dead) return;
+      addLine(body, `kernel   <span class="num">62%</span>  <span class="c">matmul_kernel</span>`);
+      await wait(ctx, LINE_DELAY);
+      if (ctx.dead) return;
+      addLine(body, `memcpy   <span class="num">21%</span>`);
+      await wait(ctx, LINE_FAST);
+      if (ctx.dead) return;
+      addLine(body, `launch   <span class="num">9%</span>`);
+      await wait(ctx, PHASE_PAUSE);
+      if (ctx.dead) return;
+
+      setPhase("improveStack", order, "change");
+      setLive("improveLive", "one path", "go");
+      addLine(body, `<span class="d"></span>`);
+      await typeCmd(body, "edit hot path · one change", ctx);
+      if (ctx.dead) return;
+      addLine(body, `<span class="c">kernel tile / memory env</span>`);
+      await wait(ctx, LINE_DELAY);
+      if (ctx.dead) return;
+      await typeCmd(body, "./matmul --check", ctx);
+      if (ctx.dead) return;
+      addLine(body, `max |GPU-CPU| = <span class="num">7.2e-06</span>  <span class="g">PASS</span>`);
+      await wait(ctx, PHASE_GAP);
+      if (ctx.dead) return;
+
+      setPhase("improveStack", order, "ml");
+      setLive("improveLive", "ML loads", "go");
+      addLine(body, `<span class="d"></span>`);
+      await typeCmd(body, "python run_pt_tf_smokes.py", ctx);
+      if (ctx.dead) return;
+      addLine(body, `PyTorch   GPU util <span class="g">busy</span>`);
+      await wait(ctx, LINE_DELAY);
+      if (ctx.dead) return;
+      addLine(body, `TensorFlow GPU util <span class="g">busy</span>`);
+      await wait(ctx, PHASE_PAUSE);
+      if (ctx.dead) return;
+
+      setPhase("improveStack", order, "gain");
+      setLive("improveLive", "re-measure", "go");
+      addLine(body, `<span class="d"></span>`);
+      await typeCmd(body, "re-measure targeted grant loads", ctx);
+      if (ctx.dead) return;
+      addLine(body, `baseline → after  <span class="g">~30%</span>`, "pass-flash");
+      await wait(ctx, LINE_DELAY);
+      if (ctx.dead) return;
+      addLine(body, `<span class="d"># not a blanket number</span>`);
+      await wait(ctx, HIP_DONE);
+      if (ctx.dead) return;
+      finishPhases("improveStack");
+      setLive("improveLive", "~30%", "ok");
+    }
+
+    async function playOutcome() {
+      const body = document.getElementById("outcomeTerm");
+      if (!body) return;
+      const ctx = newCtx("outcome");
+      clearTerm(body);
+      document.querySelectorAll("#outcomeList .check").forEach((c) => c.classList.remove("on"));
+      setLive("outcomeLive", "check", "go");
+
+      await typeCmd(body, "grant status", ctx);
+      if (ctx.dead) return;
+      await wait(ctx, LINE_DELAY);
+      if (ctx.dead) return;
+
+      const items = [
+        ["stack", "ROCm + HIP on POWER9", "compiled · installed · running"],
+        ["hip", "HIP matmul proof", "PASS vs CPU ~1e-5"],
+        ["ml", "ML workloads", "PyTorch / TF GPU busy"],
+        ["gain", "targeted grant loads", "~30% after bring-up"],
+      ];
+      for (const [key, label, detail] of items) {
+        document.querySelector(`#outcomeList [data-out="${key}"]`)?.classList.add("on");
+        addLine(body, `<span class="g">PASS</span>  <span class="w">${label}</span>`);
+        await wait(ctx, LINE_FAST);
+        if (ctx.dead) return;
+        addLine(body, `      <span class="d">${detail}</span>`);
+        await wait(ctx, PHASE_PAUSE);
+        if (ctx.dead) return;
+      }
+      addLine(body, `<span class="d"></span>`);
+      addLine(body, `<span class="g">outcome: stack running on that box</span>`, "pass-flash");
+      setLive("outcomeLive", "PASS", "ok");
+    }
+
+    async function playFuture() {
+      const body = document.getElementById("futureTerm");
+      if (!body) return;
+      const ctx = newCtx("future");
+      clearTerm(body);
+      document.querySelectorAll("#futureGrid .future-card").forEach((c) => c.classList.remove("on"));
+      setLive("futureLive", "next", "go");
+
+      await typeCmd(body, "grant roadmap", ctx);
+      if (ctx.dead) return;
+      await wait(ctx, LINE_DELAY);
+      if (ctx.dead) return;
+
+      const steps = [
+        ["p10", "Power10 path", "same bring-up on the next POWER host"],
+        ["ml", "More workloads", "more ML loads on the working recipe"],
+        ["recipe", "Cleaner recipe", "workspace + docs for the next person"],
+      ];
+      for (const [key, title, detail] of steps) {
+        document.querySelector(`#futureGrid [data-fut="${key}"]`)?.classList.add("on");
+        addLine(body, `<span class="c">→</span> <span class="w">${title}</span>`);
+        await wait(ctx, LINE_FAST);
+        if (ctx.dead) return;
+        addLine(body, `  <span class="d">${detail}</span>`);
+        await wait(ctx, PHASE_PAUSE);
+        if (ctx.dead) return;
+      }
+      setLive("futureLive", "next", "ok");
+    }
+
+    const SIM_IDS = ["cover", "problem", "owned", "hard", "proof", "improvements", "outcome", "future"];
+
     function startSlideSim(id) {
-      if (id !== "owned") stopSim("owned");
-      if (id !== "proof") stopSim("proof");
+      SIM_IDS.forEach((name) => {
+        if (name !== id) stopSim(name);
+      });
+      if (id === "cover") playCover();
+      if (id === "problem") playProblem();
       if (id === "owned") playOwned();
+      if (id === "hard") playHard();
       if (id === "proof") playProof();
+      if (id === "improvements") playImprovements();
+      if (id === "outcome") playOutcome();
+      if (id === "future") playFuture();
     }
 
     function go(n) {
