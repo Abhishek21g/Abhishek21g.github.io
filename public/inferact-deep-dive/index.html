@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ROCm on POWER9 · Inferact deep dive</title>
+  <meta name="description" content="Abhishek Enaguthi — ROCm + HIP on POWER9. Inferact AMD GPU Performance Engineering deep dive." />
+  <link rel="canonical" href="https://enaguthi.com/inferact-deep-dive/" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #1c1412;
+      --muted: #6f6562;
+      --paper: #ffffff;
+      --wash: #faf7f5;
+      --line: #ebe4e0;
+      --shell: #faf6f3;
+      --signal: #e86f4c;
+      --shadow: rgba(10, 10, 10, 0.28);
+      --shadow-ring: rgba(10, 10, 10, 0.06);
+      color-scheme: light;
+    }
+    html.dark {
+      --ink: #f4ece7;
+      --muted: #b3a59e;
+      --paper: #12100e;
+      --wash: #1a1614;
+      --line: #2f2926;
+      --shell: #171310;
+      --signal: #ef7d5a;
+      --shadow: rgba(0, 0, 0, 0.55);
+      --shadow-ring: rgba(255, 255, 255, 0.06);
+      color-scheme: dark;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: var(--wash);
+      color: var(--ink);
+      font-family: Inter, system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    button { font: inherit; color: inherit; }
+    .serif { font-family: "Instrument Serif", Georgia, serif; font-weight: 400; }
+
+    .app {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      height: 100dvh;
+      overflow: hidden;
+      background: var(--wash);
+    }
+    .glow {
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 55% 70% at 8% 108%, rgba(232, 111, 76, 0.10), transparent 70%),
+        radial-gradient(ellipse 40% 50% at 92% -8%, rgba(28, 20, 18, 0.04), transparent 65%);
+    }
+    html.dark .glow {
+      background:
+        radial-gradient(ellipse 55% 70% at 8% 108%, rgba(239, 125, 90, 0.12), transparent 70%),
+        radial-gradient(ellipse 40% 50% at 92% -8%, rgba(244, 236, 231, 0.04), transparent 65%);
+    }
+
+    .top {
+      position: relative;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 24px;
+    }
+    .brand {
+      font-family: "Instrument Serif", Georgia, serif;
+      font-size: 1.125rem;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .top-actions { display: flex; align-items: center; gap: 10px; }
+    .icon-btn, .ghost, .solid, .nav-btn {
+      border-radius: 999px;
+      cursor: pointer;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      color: var(--ink);
+    }
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ghost, .solid, .nav-btn {
+      padding: 6px 14px;
+      font-size: 0.875rem;
+    }
+    .solid {
+      background: var(--ink);
+      color: var(--paper);
+      border-color: var(--ink);
+    }
+    .solid:disabled, .ghost:disabled { opacity: 0.3; cursor: default; }
+    .sections-toggle { display: none; }
+
+    .body {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex: 1;
+      min-height: 0;
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      gap: 16px;
+      padding: 0 20px 8px;
+    }
+    .jump {
+      width: 176px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .jump-label {
+      margin: 0 0 8px;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .jump nav { display: flex; flex-direction: column; gap: 2px; }
+    .jump button {
+      width: 100%;
+      text-align: left;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+    .jump button:hover { background: var(--paper); color: var(--ink); }
+    .jump button.on { background: var(--ink); color: var(--paper); }
+    .jump .appendix-toggle {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+    .jump .appendix-list {
+      display: none;
+      flex-direction: column;
+      gap: 2px;
+      margin: 2px 0 0 8px;
+      padding-left: 8px;
+      border-left: 1px solid var(--line);
+    }
+    .jump .appendix-list.open { display: flex; }
+
+    .stage {
+      flex: 1;
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border: 2px solid var(--line);
+      border-radius: 16px;
+      background: var(--paper);
+      box-shadow: 0 1px 2px var(--shadow-ring), 0 18px 48px -24px var(--shadow);
+    }
+    .slide {
+      display: none;
+      flex: 1;
+      min-height: 0;
+      flex-direction: column;
+      overflow-y: auto;
+      padding: 28px 40px 32px;
+    }
+    .slide.on { display: flex; animation: rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
+    .slide.cover { align-items: center; justify-content: center; text-align: center; }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .slide.on { animation: none; }
+    }
+
+    .eyebrow {
+      margin: 0;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--signal);
+    }
+    h1 {
+      margin: 8px 0 0;
+      max-width: 16ch;
+      font-family: "Instrument Serif", Georgia, serif;
+      font-size: clamp(1.7rem, 3.4vw, 2.35rem);
+      font-weight: 400;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+    .cover h1 {
+      max-width: none;
+      font-size: clamp(2.6rem, 6vw, 4.4rem);
+      line-height: 1.02;
+    }
+    .lede {
+      margin: 18px 0 0;
+      max-width: 28em;
+      font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    .hint {
+      margin: 28px 0 0;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+    .lines {
+      list-style: none;
+      margin: 22px 0 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .lines li {
+      position: relative;
+      padding-left: 18px;
+      font-size: clamp(1.15rem, 2.1vw, 1.55rem);
+      line-height: 1.35;
+    }
+    .lines li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.62em;
+      width: 7px;
+      height: 7px;
+      background: var(--signal);
+      border-radius: 1px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 28px;
+    }
+    .card {
+      border: 1px solid var(--line);
+      background: var(--wash);
+      border-radius: 14px;
+      padding: 18px 20px;
+    }
+    .card h2 {
+      margin: 0 0 12px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .card ul { list-style: none; margin: 0; padding: 0; }
+    .card li {
+      font-size: clamp(1.05rem, 1.8vw, 1.3rem);
+      line-height: 1.45;
+      margin: 0.35rem 0;
+    }
+
+    .foot {
+      position: relative;
+      z-index: 10;
+      flex-shrink: 0;
+      padding: 4px 20px max(10px, env(safe-area-inset-bottom));
+    }
+    .foot-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .progress-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .count {
+      flex-shrink: 0;
+      font-size: 11px;
+      font-variant-numeric: tabular-nums;
+      color: var(--muted);
+    }
+    .bars {
+      display: flex;
+      flex: 1;
+      min-width: 0;
+      gap: 4px;
+    }
+    .bars button {
+      height: 8px;
+      flex: 1;
+      min-width: 0;
+      border: 0;
+      border-radius: 999px;
+      background: var(--line);
+      cursor: pointer;
+      padding: 0;
+    }
+    .bars button.done { background: color-mix(in srgb, var(--ink) 45%, transparent); }
+    .bars button.now { background: var(--ink); }
+    .bars button.gap { margin-left: 8px; }
+    .nav-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .keys { font-size: 12px; color: var(--muted); }
+
+    .mobile-menu {
+      display: none;
+      position: absolute;
+      z-index: 30;
+      left: 16px;
+      right: 16px;
+      top: 52px;
+      max-height: 60dvh;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--paper);
+      padding: 12px;
+      box-shadow: 0 18px 48px -24px var(--shadow);
+    }
+    .mobile-menu.open { display: block; }
+    .mobile-menu p {
+      margin: 0 0 8px;
+      padding: 0 8px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .mobile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .mobile-grid button {
+      text-align: left;
+      border: 0;
+      border-radius: 12px;
+      padding: 10px 12px;
+      background: var(--wash);
+      cursor: pointer;
+    }
+    .mobile-grid button.on { background: var(--ink); color: var(--paper); }
+
+    @media (max-width: 1024px) {
+      .jump { display: none; }
+      .sections-toggle { display: inline; }
+      .slide { padding: 22px 22px 28px; }
+      .grid { grid-template-columns: 1fr; }
+      .keys { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app" id="app">
+    <div class="glow" aria-hidden="true"></div>
+
+    <header class="top">
+      <a class="brand" href="https://enaguthi.com">Abhishek Enaguthi</a>
+      <div class="top-actions">
+        <button type="button" class="ghost sections-toggle" id="menuBtn">Sections</button>
+        <button type="button" class="icon-btn" id="themeBtn" aria-label="Toggle theme" title="Theme"></button>
+        <button type="button" class="solid" id="fsBtn">Fullscreen</button>
+      </div>
+    </header>
+
+    <div class="mobile-menu" id="mobileMenu">
+      <p>Jump to section</p>
+      <div class="mobile-grid" id="mobileNav"></div>
+    </div>
+
+    <div class="body">
+      <aside class="jump">
+        <p class="jump-label">Jump to</p>
+        <nav id="jumpNav" aria-label="Deck sections"></nav>
+      </aside>
+      <section class="stage" id="stage"></section>
+    </div>
+
+    <footer class="foot">
+      <div class="foot-inner">
+        <div class="progress-row">
+          <p class="count" id="count">1 / 9 · 8 left</p>
+          <div class="bars" id="bars" role="tablist" aria-label="Slide position"></div>
+        </div>
+        <div class="nav-row">
+          <button type="button" class="ghost" id="prev">Prev</button>
+          <p class="keys">Arrow keys · swipe · F fullscreen</p>
+          <button type="button" class="solid" id="next">Next</button>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const SLIDES = [
+      {
+        id: "cover",
+        nav: "Cover",
+        layout: "cover",
+        html: `
+          <p class="eyebrow">Inferact · AMD GPU Performance Engineering</p>
+          <h1>ROCm + HIP on POWER9</h1>
+          <p class="lede">Hostile-stack bring-up. Correctness first, then proof.</p>
+          <p class="hint">One project, deep · stop me anytime</p>
+        `,
+      },
+      {
+        id: "problem",
+        nav: "Problem",
+        html: `
+          <p class="eyebrow">The problem</p>
+          <h1>ROCm assumed x86. We needed POWER9.</h1>
+          <ul class="lines">
+            <li>Wrong ISA, ABI, endianness, drivers</li>
+            <li>Job: make ROCm + HIP actually run</li>
+            <li>Not a paperweight GPU</li>
+          </ul>
+        `,
+      },
+      {
+        id: "owned",
+        nav: "Owned",
+        html: `
+          <p class="eyebrow">What I owned</p>
+          <h1>Enablement across the stack.</h1>
+          <ul class="lines">
+            <li>CMake / build for PowerPC</li>
+            <li>ROCK kernel modules</li>
+            <li>Libs rebuilt or shimmed for the ABI</li>
+            <li>HIP proof + a documented workspace</li>
+            <li>With Christopher Sullivan — not a rewrite of ROCm</li>
+          </ul>
+        `,
+      },
+      {
+        id: "hard",
+        nav: "Hard",
+        html: `
+          <p class="eyebrow">Why it was hard</p>
+          <h1>Not a pip install.</h1>
+          <ul class="lines">
+            <li>Endianness — silent corruption if you guess</li>
+            <li>Prebuilt x86 libs vs PowerPC ABI</li>
+            <li>Kernel drivers assumed an x86 host</li>
+          </ul>
+        `,
+      },
+      {
+        id: "proof",
+        nav: "Proof",
+        html: `
+          <p class="eyebrow">Proof</p>
+          <h1>Boring on purpose.</h1>
+          <ul class="lines">
+            <li>HIP matmul: alloc → copy → launch → check</li>
+            <li>PyTorch / TensorFlow smokes for GPU util</li>
+            <li>Known-good workspace so someone else could reproduce</li>
+          </ul>
+        `,
+      },
+      {
+        id: "loop",
+        nav: "Loop",
+        html: `
+          <p class="eyebrow">How I work</p>
+          <h1>Correctness → measure → one change.</h1>
+          <ul class="lines">
+            <li>Minimal HIP path green first</li>
+            <li>Then look at where it hurts</li>
+            <li>Change one layer, re-check</li>
+            <li>Same loop as DayZero AMD in vLLM</li>
+          </ul>
+        `,
+      },
+      {
+        id: "maps",
+        nav: "This JD",
+        html: `
+          <p class="eyebrow">This JD</p>
+          <h1>How this hits the AMD seat.</h1>
+          <div class="grid">
+            <div class="card">
+              <h2>Minimum</h2>
+              <ul>
+                <li>ROCm, HIP, AMD stack</li>
+                <li>Execution, memory, toolchain</li>
+                <li>Correctness tests, then measure</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h2>Preferred — honest</h2>
+              <ul>
+                <li>Serving adjacent, not a vLLM PR</li>
+                <li>LLVM / ROCm grant if you pull it</li>
+                <li>Triton: curious, not shipped</li>
+              </ul>
+            </div>
+          </div>
+        `,
+      },
+      {
+        id: "seat",
+        nav: "This seat",
+        html: `
+          <p class="eyebrow">This seat</p>
+          <h1>Defaults still assume CUDA / x86.</h1>
+          <ul class="lines">
+            <li>I've lived ROCm off the golden path</li>
+            <li>Inferact: make AMD first-class in vLLM</li>
+            <li>Bring-up + honest measurement — then the hot path</li>
+          </ul>
+        `,
+      },
+      {
+        id: "grant",
+        nav: "Grant",
+        appendix: true,
+        html: `
+          <p class="eyebrow">Only if you want a second thread</p>
+          <h1>Separate: LLVM / ROCm grant.</h1>
+          <ul class="lines">
+            <li>Measure → change a hot path → re-measure</li>
+            <li>~30% on targeted workloads — not a blanket number</li>
+            <li>Not the same story as POWER9</li>
+          </ul>
+        `,
+      },
+    ];
+
+    const stage = document.getElementById("stage");
+    const jumpNav = document.getElementById("jumpNav");
+    const mobileNav = document.getElementById("mobileNav");
+    const bars = document.getElementById("bars");
+    const count = document.getElementById("count");
+    const prev = document.getElementById("prev");
+    const next = document.getElementById("next");
+    const fsBtn = document.getElementById("fsBtn");
+    const themeBtn = document.getElementById("themeBtn");
+    const menuBtn = document.getElementById("menuBtn");
+    const mobileMenu = document.getElementById("mobileMenu");
+
+    const sun = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.1 5.1l1.6 1.6M17.3 17.3l1.6 1.6M18.9 5.1l-1.6 1.6M6.7 17.3l-1.6 1.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`;
+    const moon = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 14.3A8.4 8.4 0 0 1 9.7 3 7.2 7.2 0 1 0 21 14.3Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+    SLIDES.forEach((slide) => {
+      const el = document.createElement("article");
+      el.className = "slide" + (slide.layout === "cover" ? " cover" : "");
+      el.id = slide.id;
+      el.innerHTML = slide.html;
+      stage.appendChild(el);
+    });
+
+    const slideEls = Array.from(document.querySelectorAll(".slide"));
+    const main = SLIDES.map((s, i) => ({ s, i })).filter(({ s }) => !s.appendix);
+    const appendix = SLIDES.map((s, i) => ({ s, i })).filter(({ s }) => s.appendix);
+    let i = 0;
+    let appendixOpen = false;
+    let touchX = null;
+    let touchY = null;
+
+    function indexFromHash() {
+      const hash = location.hash.replace(/^#/, "");
+      const found = SLIDES.findIndex((s) => s.id === hash);
+      return found >= 0 ? found : 0;
+    }
+
+    function themeIcon() {
+      const dark = document.documentElement.classList.contains("dark");
+      themeBtn.innerHTML = dark ? sun : moon;
+      themeBtn.title = dark ? "Light mode" : "Dark mode";
+    }
+
+    function applyTheme(mode) {
+      document.documentElement.classList.toggle("dark", mode === "dark");
+      try { localStorage.setItem("inferact-deck-theme", mode); } catch (e) {}
+      themeIcon();
+    }
+
+    function renderJump() {
+      const mk = (item, idx, on) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.textContent = item.nav;
+        if (on) b.className = "on";
+        b.onclick = () => go(idx);
+        return b;
+      };
+      jumpNav.innerHTML = "";
+      main.forEach(({ s, i: idx }) => jumpNav.appendChild(mk(s, idx, idx === i)));
+      if (appendix.length) {
+        const tog = document.createElement("button");
+        tog.type = "button";
+        tog.className = "appendix-toggle";
+        tog.innerHTML = `<span>Appendix</span><span>${appendixOpen || SLIDES[i].appendix ? "▾" : "▸"}</span>`;
+        tog.onclick = () => {
+          appendixOpen = !appendixOpen;
+          renderJump();
+        };
+        jumpNav.appendChild(tog);
+        const wrap = document.createElement("div");
+        wrap.className = "appendix-list" + (appendixOpen || SLIDES[i].appendix ? " open" : "");
+        appendix.forEach(({ s, i: idx }) => wrap.appendChild(mk(s, idx, idx === i)));
+        jumpNav.appendChild(wrap);
+      }
+
+      mobileNav.innerHTML = "";
+      main.forEach(({ s, i: idx }) => {
+        const b = mk(s, idx, idx === i);
+        b.onclick = () => { go(idx); mobileMenu.classList.remove("open"); };
+        mobileNav.appendChild(b);
+      });
+      appendix.forEach(({ s, i: idx }) => {
+        const b = mk(s, idx, idx === i);
+        b.onclick = () => { go(idx); mobileMenu.classList.remove("open"); };
+        mobileNav.appendChild(b);
+      });
+    }
+
+    function go(n) {
+      i = Math.max(0, Math.min(n, SLIDES.length - 1));
+      slideEls.forEach((el, k) => el.classList.toggle("on", k === i));
+      const left = SLIDES.length - i - 1;
+      count.textContent = `${i + 1} / ${SLIDES.length}` + (left > 0 ? ` · ${left} left` : " · last");
+      prev.disabled = i === 0;
+      next.disabled = i === SLIDES.length - 1;
+      bars.querySelectorAll("button").forEach((b, k) => {
+        b.className = k < i ? "done" : k === i ? "now" : "";
+        if (SLIDES[k].appendix && !SLIDES[k - 1]?.appendix) b.classList.add("gap");
+      });
+      const id = SLIDES[i].id;
+      history.replaceState(null, "", `${location.pathname}${location.search}#${id}`);
+      if (SLIDES[i].appendix) appendixOpen = true;
+      renderJump();
+      menuBtn.textContent = "Sections";
+    }
+
+    bars.innerHTML = "";
+    SLIDES.forEach((s, idx) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.setAttribute("aria-label", `Go to ${s.nav}`);
+      b.onclick = () => go(idx);
+      bars.appendChild(b);
+    });
+
+    prev.onclick = () => go(i - 1);
+    next.onclick = () => go(i + 1);
+    fsBtn.onclick = () => {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+      else document.exitFullscreen();
+    };
+    themeBtn.onclick = () => {
+      applyTheme(document.documentElement.classList.contains("dark") ? "light" : "dark");
+    };
+    menuBtn.onclick = () => {
+      const open = mobileMenu.classList.toggle("open");
+      menuBtn.textContent = open ? "Close" : "Sections";
+    };
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight" || e.key === " " || e.key === "PageDown") {
+        e.preventDefault();
+        go(i + 1);
+      }
+      if (e.key === "ArrowLeft" || e.key === "PageUp") {
+        e.preventDefault();
+        go(i - 1);
+      }
+      if (e.key === "Home") go(0);
+      if (e.key === "End") go(SLIDES.length - 1);
+      if (e.key === "f" || e.key === "F") {
+        e.preventDefault();
+        fsBtn.click();
+      }
+      if (e.key === "Escape") mobileMenu.classList.remove("open");
+    });
+
+    const app = document.getElementById("app");
+    app.addEventListener("touchstart", (e) => {
+      const t = e.changedTouches[0];
+      if (!t) return;
+      touchX = t.clientX;
+      touchY = t.clientY;
+    }, { passive: true });
+    app.addEventListener("touchend", (e) => {
+      const t = e.changedTouches[0];
+      if (!t || touchX == null) return;
+      const dx = t.clientX - touchX;
+      const dy = t.clientY - touchY;
+      touchX = touchY = null;
+      if (Math.abs(dx) < 48 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
+      if (dx < 0) go(i + 1);
+      else go(i - 1);
+    });
+
+    (function initTheme() {
+      let mode = "dark";
+      try {
+        const stored = localStorage.getItem("inferact-deck-theme");
+        if (stored === "light" || stored === "dark") mode = stored;
+      } catch (e) {}
+      applyTheme(mode);
+    })();
+
+    go(indexFromHash());
+    window.addEventListener("hashchange", () => go(indexFromHash()));
+  </script>
+</body>
+</html>
