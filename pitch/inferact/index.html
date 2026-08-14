@@ -558,7 +558,7 @@
     .term-line {
       white-space: pre;
       min-height: 1.55em;
-      animation: termIn 0.18s ease both;
+      animation: termIn 0.24s ease both;
     }
     .term-cursor {
       display: inline-block;
@@ -1339,6 +1339,20 @@ user-mode is not enough</pre>
 
     const sims = {};
     const quiet = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // Perceived ~1.5x of a normal type (was ~2x). Values are ~1.33x prior.
+    const TYPE_MS = 17;       // was 13
+    const CMD_PAUSE = 93;     // was 70
+    const LINE_FAST = 186;    // was 140
+    const LINE_DELAY = 213;   // was 160
+    const BUILD_MS = 200;     // was 150
+    const PHASE_START = 505;  // was 380
+    const PHASE_PAUSE = 293;  // was 220
+    const PHASE_GAP = 319;    // was 240
+    const HIP_WAIT = 239;     // was 180
+    const HIP_DONE = 266;     // was 200
+    const STEP_MS = 372;      // was 280
+    const LAUNCH_MS = 426;    // was 320
+    const FW_PAUSE = 559;     // was 420
 
     function stopSim(name) {
       const ctx = sims[name];
@@ -1428,9 +1442,9 @@ user-mode is not enough</pre>
         if (ctx.dead) return;
         typed.textContent += ch;
         body.scrollTop = body.scrollHeight;
-        await wait(ctx, 13);
+        await wait(ctx, TYPE_MS);
       }
-      await wait(ctx, 70);
+      await wait(ctx, CMD_PAUSE);
     }
 
     function addLine(body, html, extraClass) {
@@ -1452,7 +1466,7 @@ user-mode is not enough</pre>
 
       const dump = quiet();
       setPhase("ownedStack", order, "gpu");
-      await wait(ctx, dump ? 0 : 380);
+      await wait(ctx, dump ? 0 : PHASE_START);
       if (ctx.dead) return;
 
       setPhase("ownedStack", order, "cmake");
@@ -1460,16 +1474,16 @@ user-mode is not enough</pre>
       await typeCmd(body, "cmake -S . -B /build -DCMAKE_SYSTEM_PROCESSOR=ppc64", ctx);
       if (ctx.dead) return;
       addLine(body, `<span class="d">-- CMAKE_SYSTEM_PROCESSOR=</span><span class="num">ppc64</span>`);
-      await wait(ctx, 160);
+      await wait(ctx, LINE_DELAY);
       if (ctx.dead) return;
       addLine(body, `<span class="d">-- HIP_PLATFORM=</span><span class="c">amd</span>`);
-      await wait(ctx, 140);
+      await wait(ctx, LINE_FAST);
       if (ctx.dead) return;
       addLine(body, `<span class="d">-- dropping x86-only dep</span>`);
-      await wait(ctx, 140);
+      await wait(ctx, LINE_FAST);
       if (ctx.dead) return;
       addLine(body, `<span class="g">-- Configuring done</span>`);
-      await wait(ctx, 220);
+      await wait(ctx, PHASE_PAUSE);
       if (ctx.dead) return;
 
       setPhase("ownedStack", order, "rock");
@@ -1478,16 +1492,16 @@ user-mode is not enough</pre>
       await typeCmd(body, "make -C ROCK-Kernel-Driver", ctx);
       if (ctx.dead) return;
       addLine(body, `  CC    <span class="c">amdgpu.o</span>`);
-      await wait(ctx, 150);
+      await wait(ctx, BUILD_MS);
       if (ctx.dead) return;
       addLine(body, `  CC    <span class="c">kfd_device.o</span>`);
-      await wait(ctx, 150);
+      await wait(ctx, BUILD_MS);
       if (ctx.dead) return;
       addLine(body, `  LD    <span class="c">amdgpu.ko</span>`);
-      await wait(ctx, 150);
+      await wait(ctx, BUILD_MS);
       if (ctx.dead) return;
       addLine(body, `  INSTALL  <span class="g">amdgpu.ko</span>`);
-      await wait(ctx, 240);
+      await wait(ctx, PHASE_GAP);
       if (ctx.dead) return;
 
       setPhase("ownedStack", order, "libs");
@@ -1496,13 +1510,13 @@ user-mode is not enough</pre>
       await typeCmd(body, "cmake --build /build --target hipblas rocfft", ctx);
       if (ctx.dead) return;
       addLine(body, `[<span class="num">42%</span>] Built target <span class="c">hipblas</span>`);
-      await wait(ctx, 160);
+      await wait(ctx, LINE_DELAY);
       if (ctx.dead) return;
       addLine(body, `[<span class="num">88%</span>] Built target <span class="c">rocfft</span>`);
-      await wait(ctx, 160);
+      await wait(ctx, LINE_DELAY);
       if (ctx.dead) return;
       addLine(body, `[<span class="num">100%</span>] <span class="g">ROCm libs ready (ppc64)</span>`);
-      await wait(ctx, 240);
+      await wait(ctx, PHASE_GAP);
       if (ctx.dead) return;
 
       setPhase("ownedStack", order, "hip");
@@ -1511,10 +1525,10 @@ user-mode is not enough</pre>
       await typeCmd(body, "hipcc -O2 matmul.hip -o matmul", ctx);
       if (ctx.dead) return;
       addLine(body, `<span class="d">clang: bundling host ppc64 + amdgcn</span>`);
-      await wait(ctx, 180);
+      await wait(ctx, HIP_WAIT);
       if (ctx.dead) return;
       addLine(body, `<span class="g">[hip] runtime linked</span>`, "pass-flash");
-      await wait(ctx, 200);
+      await wait(ctx, HIP_DONE);
       if (ctx.dead) return;
 
       finishPhases("ownedStack");
@@ -1534,49 +1548,49 @@ user-mode is not enough</pre>
 
       await typeCmd(body, "hipcc -O2 matmul.hip -o matmul", ctx);
       if (ctx.dead) return;
-      await wait(ctx, 160);
+      await wait(ctx, LINE_DELAY);
       if (ctx.dead) return;
       await typeCmd(body, "./matmul", ctx);
       if (ctx.dead) return;
-      await wait(ctx, 180);
+      await wait(ctx, HIP_WAIT);
       if (ctx.dead) return;
 
       setPhase("proofStack", order, "alloc");
       setLive("proofLive", "alloc", "go");
       addLine(body, `hipMalloc             <span class="g">hipSuccess</span>`);
-      await wait(ctx, 280);
+      await wait(ctx, STEP_MS);
       if (ctx.dead) return;
 
       setPhase("proofStack", order, "copy");
       setLive("proofLive", "copy in", "go");
       addLine(body, `hipMemcpy H2D         <span class="g">hipSuccess</span>`);
-      await wait(ctx, 280);
+      await wait(ctx, STEP_MS);
       if (ctx.dead) return;
 
       setPhase("proofStack", order, "launch");
       setLive("proofLive", "launch", "go");
       addLine(body, `hipLaunchKernelGGL    <span class="c">matmul_kernel</span>`);
-      await wait(ctx, 320);
+      await wait(ctx, LAUNCH_MS);
       if (ctx.dead) return;
 
       setPhase("proofStack", order, "check");
       setLive("proofLive", "check", "go");
       addLine(body, `hipMemcpy D2H         <span class="g">hipSuccess</span>`);
-      await wait(ctx, 220);
+      await wait(ctx, PHASE_PAUSE);
       if (ctx.dead) return;
       addLine(body, `max |GPU-CPU| = <span class="num">8.41e-06</span>`);
-      await wait(ctx, 180);
+      await wait(ctx, HIP_WAIT);
       if (ctx.dead) return;
       addLine(body, `<span class="d">tol 1e-5</span>`);
-      await wait(ctx, 160);
+      await wait(ctx, LINE_DELAY);
       if (ctx.dead) return;
       addLine(body, `<span class="g">PASS</span>`, "pass-flash");
-      await wait(ctx, 280);
+      await wait(ctx, STEP_MS);
       if (ctx.dead) return;
 
       setPhase("proofStack", order, "fw");
       setLive("proofLive", "smokes", "go");
-      await wait(ctx, 420);
+      await wait(ctx, FW_PAUSE);
       if (ctx.dead) return;
       finishPhases("proofStack");
       setLive("proofLive", "PASS", "ok");
