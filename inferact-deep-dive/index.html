@@ -8,7 +8,7 @@
   <link rel="canonical" href="https://enaguthi.com/inferact-deep-dive/" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" />
   <style>
     :root {
       --ink: #1c1412;
@@ -20,6 +20,8 @@
       --signal: #e86f4c;
       --shadow: rgba(10, 10, 10, 0.28);
       --shadow-ring: rgba(10, 10, 10, 0.06);
+      --serif: "Instrument Serif", "Iowan Old Style", Palatino, "Palatino Linotype", Georgia, "Times New Roman", serif;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       color-scheme: light;
     }
     html.dark {
@@ -40,12 +42,14 @@
       height: 100%;
       background: var(--wash);
       color: var(--ink);
-      font-family: Inter, system-ui, sans-serif;
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.4;
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
     }
     button { font: inherit; color: inherit; }
-    .serif { font-family: "Instrument Serif", Georgia, serif; font-weight: 400; }
+    .serif { font-family: var(--serif); font-weight: 400; font-synthesis: none; }
 
     .app {
       position: relative;
@@ -79,8 +83,10 @@
       padding: 10px 24px;
     }
     .brand {
-      font-family: "Instrument Serif", Georgia, serif;
+      font-family: var(--serif);
       font-size: 1.125rem;
+      font-weight: 400;
+      font-synthesis: none;
       color: var(--ink);
       text-decoration: none;
     }
@@ -189,11 +195,12 @@
       flex: 1;
       min-height: 0;
       flex-direction: column;
-      overflow-y: auto;
-      padding: 28px 40px 32px;
+      overflow: hidden;
+      padding: 22px 36px 24px;
     }
     .slide.on { display: flex; animation: rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
-    .slide.cover { align-items: center; justify-content: center; text-align: center; }
+    .slide.cover { align-items: center; justify-content: center; text-align: center; overflow-y: auto; }
+    .slide.fill { justify-content: flex-start; }
     @keyframes rise {
       from { opacity: 0; transform: translateY(14px); }
       to { opacity: 1; transform: translateY(0); }
@@ -204,6 +211,7 @@
 
     .eyebrow {
       margin: 0;
+      flex-shrink: 0;
       font-size: 11px;
       font-weight: 500;
       letter-spacing: 0.18em;
@@ -212,80 +220,265 @@
     }
     h1 {
       margin: 8px 0 0;
-      max-width: 16ch;
-      font-family: "Instrument Serif", Georgia, serif;
-      font-size: clamp(1.7rem, 3.4vw, 2.35rem);
+      flex-shrink: 0;
+      max-width: none;
+      font-family: var(--serif);
+      font-size: clamp(1.65rem, 3.1vw, 2.45rem);
       font-weight: 400;
-      line-height: 1.05;
+      font-synthesis: none;
+      line-height: 1.18;
       letter-spacing: -0.02em;
+      text-wrap: balance;
     }
     .cover h1 {
-      max-width: none;
-      font-size: clamp(2.6rem, 6vw, 4.4rem);
-      line-height: 1.02;
+      max-width: 14ch;
+      font-size: clamp(2.35rem, 5.4vw, 4.1rem);
+      line-height: 1.08;
     }
     .lede {
-      margin: 18px 0 0;
+      margin: 16px 0 0;
       max-width: 28em;
-      font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+      font-size: clamp(1.02rem, 1.7vw, 1.28rem);
       color: var(--muted);
-      line-height: 1.4;
+      line-height: 1.45;
     }
     .hint {
-      margin: 28px 0 0;
+      margin: 22px 0 0;
       font-size: 0.95rem;
       color: var(--muted);
     }
-    .lines {
-      list-style: none;
-      margin: 22px 0 0;
-      padding: 0;
+
+    .grow {
+      flex: 1;
+      min-height: 0;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      margin-top: 18px;
     }
-    .lines li {
-      position: relative;
-      padding-left: 18px;
-      font-size: clamp(1.15rem, 2.1vw, 1.55rem);
-      line-height: 1.35;
-    }
-    .lines li::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0.62em;
-      width: 7px;
-      height: 7px;
-      background: var(--signal);
-      border-radius: 1px;
-    }
-    .grid {
+
+    .contrast {
+      flex: 1;
+      min-height: 0;
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      margin-top: 28px;
+      grid-template-columns: 1fr 52px 1fr;
+      gap: 12px;
+      align-items: stretch;
     }
-    .card {
+    .panel {
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 8px;
       border: 1px solid var(--line);
       background: var(--wash);
-      border-radius: 14px;
+      border-radius: 16px;
       padding: 18px 20px;
     }
-    .card h2 {
-      margin: 0 0 12px;
+    .panel.had {
+      border-color: color-mix(in srgb, var(--signal) 50%, var(--line));
+      background: color-mix(in srgb, var(--signal) 11%, var(--paper));
+    }
+    .panel h2 {
+      margin: 0;
       font-size: 11px;
       font-weight: 500;
       letter-spacing: 0.16em;
       text-transform: uppercase;
       color: var(--muted);
     }
-    .card ul { list-style: none; margin: 0; padding: 0; }
-    .card li {
-      font-size: clamp(1.05rem, 1.8vw, 1.3rem);
-      line-height: 1.45;
-      margin: 0.35rem 0;
+    .panel.had h2 { color: var(--signal); }
+    .mega {
+      margin: 4px 0 2px;
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 3.6vw, 2.7rem);
+      font-weight: 400;
+      font-synthesis: none;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
     }
+    .panel p {
+      margin: 0;
+      font-size: clamp(0.95rem, 1.5vw, 1.12rem);
+      color: var(--muted);
+      line-height: 1.45;
+    }
+    .vs {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+    .x-mark {
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1.5px solid var(--signal);
+      border-radius: 999px;
+      color: var(--signal);
+      background: var(--paper);
+    }
+    .x-mark svg { width: 16px; height: 16px; }
+
+    .job {
+      flex-shrink: 0;
+      margin-top: 14px;
+      padding: 14px 18px;
+      border-radius: 14px;
+      background: var(--ink);
+      color: var(--paper);
+      font-size: clamp(1rem, 1.7vw, 1.22rem);
+      line-height: 1.35;
+    }
+
+    .flow {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      align-items: stretch;
+      gap: 8px;
+    }
+    .step {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 8px;
+      border: 1px solid var(--line);
+      background: var(--wash);
+      border-radius: 14px;
+      padding: 16px 14px;
+    }
+    .step strong {
+      display: block;
+      font-size: clamp(1.02rem, 1.6vw, 1.22rem);
+      font-weight: 600;
+      line-height: 1.25;
+    }
+    .step span {
+      color: var(--muted);
+      font-size: clamp(0.85rem, 1.2vw, 0.98rem);
+      line-height: 1.4;
+    }
+    .n {
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      background: var(--ink);
+      color: var(--paper);
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .arrow {
+      flex-shrink: 0;
+      align-self: center;
+      color: var(--signal);
+      width: 18px;
+      height: 18px;
+    }
+
+    .trio {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+    .trio .step { padding: 18px 16px; }
+
+    .loop {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      grid-template-rows: 1fr auto 1fr;
+      gap: 10px;
+      align-items: stretch;
+    }
+    .loop .step { min-height: 88px; }
+    .loop .a { grid-column: 1; grid-row: 1; }
+    .loop .b { grid-column: 3; grid-row: 1; }
+    .loop .c { grid-column: 3; grid-row: 3; }
+    .loop .d { grid-column: 1; grid-row: 3; }
+    .loop .ab { grid-column: 2; grid-row: 1; align-self: center; }
+    .loop .bc { grid-column: 3; grid-row: 2; justify-self: center; }
+    .loop .cd { grid-column: 2; grid-row: 3; align-self: center; }
+    .loop .da { grid-column: 1; grid-row: 2; justify-self: center; }
+    .arr-down { transform: rotate(90deg); }
+    .arr-left { transform: rotate(180deg); }
+    .arr-up { transform: rotate(-90deg); }
+
+    .grid {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .card {
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--line);
+      background: var(--wash);
+      border-radius: 14px;
+      padding: 16px 18px;
+    }
+    .card.had {
+      border-color: color-mix(in srgb, var(--signal) 50%, var(--line));
+      background: color-mix(in srgb, var(--signal) 11%, var(--paper));
+    }
+    .card h2 {
+      margin: 0 0 10px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .card.had h2 { color: var(--signal); }
+    .card ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+    .card li {
+      font-size: clamp(1rem, 1.6vw, 1.22rem);
+      line-height: 1.4;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+      flex-shrink: 0;
+    }
+    .chip {
+      border: 1px solid var(--line);
+      background: var(--wash);
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .cover-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin-top: 36px;
+      width: min(100%, 720px);
+      text-align: left;
+    }
+    .cover-row .step { min-height: 108px; }
 
     .foot {
       position: relative;
@@ -377,9 +570,18 @@
     @media (max-width: 1024px) {
       .jump { display: none; }
       .sections-toggle { display: inline; }
-      .slide { padding: 22px 22px 28px; }
-      .grid { grid-template-columns: 1fr; }
+      .slide { padding: 18px 18px 22px; overflow-y: auto; }
+      .contrast, .trio, .grid, .cover-row, .loop { grid-template-columns: 1fr; }
+      .loop { grid-template-rows: none; }
+      .loop .a, .loop .b, .loop .c, .loop .d, .loop .ab, .loop .bc, .loop .cd, .loop .da {
+        grid-column: auto;
+        grid-row: auto;
+      }
+      .loop .ab, .loop .bc, .loop .cd, .loop .da { display: none; }
+      .flow { flex-direction: column; }
+      .arrow { transform: rotate(90deg); align-self: center; }
       .keys { display: none; }
+      .vs { flex-direction: row; padding: 4px 0; }
     }
   </style>
 </head>
@@ -425,6 +627,9 @@
   </div>
 
   <script>
+    const X = `<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`;
+    const AR = `<svg class="arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
     const SLIDES = [
       {
         id: "cover",
@@ -433,100 +638,163 @@
         html: `
           <p class="eyebrow">Inferact · AMD GPU Performance Engineering</p>
           <h1>ROCm + HIP on POWER9</h1>
-          <p class="lede">Hostile-stack bring-up. Correctness first, then proof.</p>
-          <p class="hint">One project, deep · stop me anytime</p>
+          <p class="lede">Wrong host. Make the GPU work. Then prove it.</p>
+          <p class="hint">One project. Stop me anytime.</p>
+          <div class="cover-row">
+            <div class="step"><span class="n">1</span><strong>Wrong host</strong><span>ROCm wanted x86. We had POWER9.</span></div>
+            <div class="step"><span class="n">2</span><strong>Make it run</strong><span>Build, drivers, libs — the ugly path.</span></div>
+            <div class="step"><span class="n">3</span><strong>Prove it</strong><span>HIP smoke, then framework GPU util.</span></div>
+          </div>
         `,
       },
       {
         id: "problem",
         nav: "Problem",
+        layout: "fill",
         html: `
           <p class="eyebrow">The problem</p>
           <h1>ROCm assumed x86. We needed POWER9.</h1>
-          <ul class="lines">
-            <li>Wrong ISA, ABI, endianness, drivers</li>
-            <li>Job: make ROCm + HIP actually run</li>
-            <li>Not a paperweight GPU</li>
-          </ul>
+          <div class="grow">
+            <div class="contrast">
+              <div class="panel">
+                <h2>What it expected</h2>
+                <p class="mega">x86</p>
+                <p>Built for normal PCs. Drivers and tools already fit.</p>
+              </div>
+              <div class="vs">
+                <span class="x-mark">${X}</span>
+                didn’t match
+              </div>
+              <div class="panel had">
+                <h2>What we had</h2>
+                <p class="mega">POWER9</p>
+                <p>IBM machine. Different CPU. Different byte order.</p>
+              </div>
+            </div>
+            <p class="job">Job: make ROCm + HIP actually run — not a paperweight GPU.</p>
+          </div>
         `,
       },
       {
         id: "owned",
         nav: "Owned",
+        layout: "fill",
         html: `
           <p class="eyebrow">What I owned</p>
-          <h1>Enablement across the stack.</h1>
-          <ul class="lines">
-            <li>CMake / build for PowerPC</li>
-            <li>ROCK kernel modules</li>
-            <li>Libs rebuilt or shimmed for the ABI</li>
-            <li>HIP proof + a documented workspace</li>
-            <li>With Christopher Sullivan — not a rewrite of ROCm</li>
-          </ul>
+          <h1>Build. Drivers. Libs. Proof.</h1>
+          <div class="grow">
+            <div class="flow">
+              <div class="step"><span class="n">1</span><strong>CMake</strong><span>Build scripts for PowerPC. x86-only deps out.</span></div>
+              ${AR}
+              <div class="step"><span class="n">2</span><strong>ROCK</strong><span>Kernel modules so the driver talked to the GPU.</span></div>
+              ${AR}
+              <div class="step"><span class="n">3</span><strong>Libs</strong><span>Rebuild for that CPU — or shim if no source.</span></div>
+              ${AR}
+              <div class="step"><span class="n">4</span><strong>HIP</strong><span>A real kernel path, plus notes so someone else could rerun it.</span></div>
+            </div>
+            <p class="job">Enablement. Not a rewrite of ROCm.</p>
+          </div>
         `,
       },
       {
         id: "hard",
         nav: "Hard",
+        layout: "fill",
         html: `
           <p class="eyebrow">Why it was hard</p>
           <h1>Not a pip install.</h1>
-          <ul class="lines">
-            <li>Endianness — silent corruption if you guess</li>
-            <li>Prebuilt x86 libs vs PowerPC ABI</li>
-            <li>Kernel drivers assumed an x86 host</li>
-          </ul>
+          <div class="grow">
+            <div class="trio">
+              <div class="step">
+                <span class="x-mark">${X}</span>
+                <strong>Byte order</strong>
+                <span>Guess wrong and numbers silently rot. That’s endianness.</span>
+              </div>
+              <div class="step">
+                <span class="x-mark">${X}</span>
+                <strong>x86 binaries</strong>
+                <span>A lot of libs were already compiled. They won’t load on PowerPC.</span>
+              </div>
+              <div class="step">
+                <span class="x-mark">${X}</span>
+                <strong>Kernel drivers</strong>
+                <span>User-mode isn’t enough. The driver thought the host was x86.</span>
+              </div>
+            </div>
+          </div>
         `,
       },
       {
         id: "proof",
         nav: "Proof",
+        layout: "fill",
         html: `
           <p class="eyebrow">Proof</p>
           <h1>Boring on purpose.</h1>
-          <ul class="lines">
-            <li>HIP matmul: alloc → copy → launch → check</li>
-            <li>PyTorch / TensorFlow smokes for GPU util</li>
-            <li>Known-good workspace so someone else could reproduce</li>
-          </ul>
+          <div class="grow">
+            <div class="flow">
+              <div class="step"><span class="n">1</span><strong>alloc</strong><span>hipMalloc on the GPU</span></div>
+              ${AR}
+              <div class="step"><span class="n">2</span><strong>copy in</strong><span>host → device</span></div>
+              ${AR}
+              <div class="step"><span class="n">3</span><strong>launch</strong><span>HIP matmul kernel</span></div>
+              ${AR}
+              <div class="step"><span class="n">4</span><strong>check</strong><span>copy back vs CPU</span></div>
+            </div>
+            <div class="chips">
+              <span class="chip">Then PyTorch / TensorFlow smokes — GPU util, not hello-world</span>
+              <span class="chip">Workspace written down so someone else could reproduce</span>
+            </div>
+          </div>
         `,
       },
       {
         id: "loop",
         nav: "Loop",
+        layout: "fill",
         html: `
           <p class="eyebrow">How I work</p>
-          <h1>Correctness → measure → one change.</h1>
-          <ul class="lines">
-            <li>Minimal HIP path green first</li>
-            <li>Then look at where it hurts</li>
-            <li>Change one layer, re-check</li>
-            <li>Same loop as DayZero AMD in vLLM</li>
-          </ul>
+          <h1>Right first. Then one change.</h1>
+          <div class="grow">
+            <div class="loop">
+              <div class="step a"><span class="n">1</span><strong>Minimal HIP</strong><span>Get one path green.</span></div>
+              <span class="ab">${AR}</span>
+              <div class="step b"><span class="n">2</span><strong>Where it hurts</strong><span>Look. Don’t guess.</span></div>
+              <span class="bc arr-down">${AR}</span>
+              <div class="step c"><span class="n">3</span><strong>One layer</strong><span>Flags, driver, or memory. Not five.</span></div>
+              <span class="cd arr-left">${AR}</span>
+              <div class="step d"><span class="n">4</span><strong>Re-check</strong><span>Still correct? Then next.</span></div>
+              <span class="da arr-up">${AR}</span>
+            </div>
+            <p class="job">Same loop I’d bring to AMD in vLLM.</p>
+          </div>
         `,
       },
       {
         id: "maps",
         nav: "This JD",
+        layout: "fill",
         html: `
           <p class="eyebrow">This JD</p>
-          <h1>How this hits the AMD seat.</h1>
-          <div class="grid">
-            <div class="card">
-              <h2>Minimum</h2>
-              <ul>
-                <li>ROCm, HIP, AMD stack</li>
-                <li>Execution, memory, toolchain</li>
-                <li>Correctness tests, then measure</li>
-              </ul>
-            </div>
-            <div class="card">
-              <h2>Preferred — honest</h2>
-              <ul>
-                <li>Serving adjacent, not a vLLM PR</li>
-                <li>LLVM / ROCm grant if you pull it</li>
-                <li>Triton: curious, not shipped</li>
-              </ul>
+          <h1>The honest map.</h1>
+          <div class="grow">
+            <div class="grid">
+              <div class="card had">
+                <h2>Minimum — I have this</h2>
+                <ul>
+                  <li>ROCm, HIP, the AMD stack</li>
+                  <li>Execution, memory, toolchain</li>
+                  <li>Tests first. Then measure.</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h2>Preferred — I won’t fake it</h2>
+                <ul>
+                  <li>Serving-adjacent. Not a vLLM PR.</li>
+                  <li>Compiler grant if you pull it.</li>
+                  <li>Triton: curious. Not shipped.</li>
+                </ul>
+              </div>
             </div>
           </div>
         `,
@@ -534,28 +802,49 @@
       {
         id: "seat",
         nav: "This seat",
+        layout: "fill",
         html: `
           <p class="eyebrow">This seat</p>
-          <h1>Defaults still assume CUDA / x86.</h1>
-          <ul class="lines">
-            <li>I've lived ROCm off the golden path</li>
-            <li>Inferact: make AMD first-class in vLLM</li>
-            <li>Bring-up + honest measurement — then the hot path</li>
-          </ul>
+          <h1>Defaults still assume CUDA.</h1>
+          <div class="grow">
+            <div class="contrast">
+              <div class="panel">
+                <h2>The golden path</h2>
+                <p class="mega">CUDA</p>
+                <p>x86 host. NVIDIA default. Most stacks just work.</p>
+              </div>
+              <div class="vs">
+                <span class="x-mark">${X}</span>
+                not here
+              </div>
+              <div class="panel had">
+                <h2>This job</h2>
+                <p class="mega">AMD</p>
+                <p>First-class in vLLM. Off-path until you make it real.</p>
+              </div>
+            </div>
+            <p class="job">I’ve lived ROCm off that golden path. Bring-up, then honest numbers, then the hot path.</p>
+          </div>
         `,
       },
       {
         id: "grant",
         nav: "Grant",
         appendix: true,
+        layout: "fill",
         html: `
           <p class="eyebrow">Only if you want a second thread</p>
-          <h1>Separate: LLVM / ROCm grant.</h1>
-          <ul class="lines">
-            <li>Measure → change a hot path → re-measure</li>
-            <li>~30% on targeted workloads — not a blanket number</li>
-            <li>Not the same story as POWER9</li>
-          </ul>
+          <h1>Separate — compiler grant.</h1>
+          <div class="grow">
+            <div class="flow">
+              <div class="step"><span class="n">1</span><strong>Measure</strong><span>Where the hot path actually is.</span></div>
+              ${AR}
+              <div class="step"><span class="n">2</span><strong>Change it</strong><span>One LLVM / ROCm path. Not a rewrite.</span></div>
+              ${AR}
+              <div class="step"><span class="n">3</span><strong>Re-measure</strong><span>~30% on those workloads. Not a blanket number.</span></div>
+            </div>
+            <p class="job">Not the same story as POWER9. Don’t mash them.</p>
+          </div>
         `,
       },
     ];
@@ -577,7 +866,7 @@
 
     SLIDES.forEach((slide) => {
       const el = document.createElement("article");
-      el.className = "slide" + (slide.layout === "cover" ? " cover" : "");
+      el.className = "slide " + (slide.layout || "fill");
       el.id = slide.id;
       el.innerHTML = slide.html;
       stage.appendChild(el);
