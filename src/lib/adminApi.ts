@@ -140,4 +140,22 @@ export async function deleteTrackedLink(slug: string): Promise<void> {
   await request(`/tracking/links/${slug}`, { method: 'DELETE' })
 }
 
+export interface CloudflareEdgeSummary {
+  today: {
+    requests: number
+    bytes: number
+    status4xxRatio: number
+    status5xxRatio: number
+    byCountry: { country: string; count: number }[]
+    byPath: { path: string; count: number }[]
+    byStatus: { status: string; count: number }[]
+    byCache: { status: string; count: number }[]
+  }
+  trend: { date: string; requests: number; uniques: number }[]
+}
+
+export async function getCloudflareEdgeSummary(): Promise<CloudflareEdgeSummary> {
+  return request<CloudflareEdgeSummary>('/tracking/cloudflare')
+}
+
 export { UnauthorizedError }

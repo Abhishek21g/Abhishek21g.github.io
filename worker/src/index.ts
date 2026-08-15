@@ -1,6 +1,8 @@
 export interface Env {
   ADMIN_KV: KVNamespace
   ADMIN_PASSWORD: string
+  CF_API_TOKEN?: string
+  CF_ZONE_ID?: string
 }
 
 type EntryType = 'travel' | 'note'
@@ -192,6 +194,133 @@ function countBy<T>(items: T[], key: (item: T) => string): { key: string; count:
     .sort((a, b) => b.count - a.count)
 }
 
+// ---- cloudflare edge analytics (real traffic, via GraphQL Analytics API) ----
+
+interface CfHttpGroupRow {
+  count: number
+  dimensions: {
+    clientCountryName?: string
+    clientRequestPath?: string
+    edgeResponseStatus?: number
+    cacheStatus?: string
+  }
+}
+
+async function queryCloudflareGraphQL<T>(env: Env, query: string, variables: Record<string, unknown>): Promise<T> {
+  const response = await fetch('https://api.cloudflare.com/client/v4/graphql', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${env.CF_API_TOKEN}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ query, variables }),
+  })
+  const body = await response.json<{ data: T | null; errors?: { message: string }[] }>()
+  if (body.errors?.length) {
+    throw new Error(body.errors.map((e) => e.message).join('; '))
+  }
+  return body.data as T
+}
+
+function sumByDimension(rows: CfHttpGroupRow[], key: keyof CfHttpGroupRow['dimensions']): { key: string; count: number }[] {
+  const totals = new Map<string, number>()
+  for (const row of rows) {
+    const value = row.dimensions[key]
+    const k = value === undefined || value === null ? 'unknown' : String(value)
+    totals.set(k, (totals.get(k) || 0) + row.count)
+  }
+  return Array.from(totals.entries())
+    .map(([k, count]) => ({ key: k, count }))
+    .sort((a, b) => b.count - a.count)
+}
+
+async function handleCloudflareEdgeSummary(env: Env, origin: string | null): Promise<Response> {
+  if (!env.CF_API_TOKEN || !env.CF_ZONE_ID) {
+    return json({ error: 'Cloudflare analytics is not configured (missing CF_API_TOKEN / CF_ZONE_ID)' }, { status: 501 }, origin)
+  }
+
+  const now = new Date()
+  const todayStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()))
+  const trendStart = new Date(todayStart.getTime() - 13 * 86400000)
+
+  try {
+    const [todayData, trendData] = await Promise.all([
+      queryCloudflareGraphQL<{
+        viewer: {
+          zones: {
+            breakdown: CfHttpGroupRow[]
+            totals: { count: number; sum: { edgeResponseBytes: number }; ratio: { status4xx: number; status5xx: number } }[]
+          }[]
+        }
+      }>(
+        env,
+        `query($zoneTag: String!, $start: Time!, $end: Time!) {
+          viewer {
+            zones(filter: { zoneTag: $zoneTag }) {
+              breakdown: httpRequestsAdaptiveGroups(
+                limit: 100
+                filter: { datetime_geq: $start, datetime_lt: $end }
+                orderBy: [count_DESC]
+              ) {
+                count
+                dimensions { clientCountryName clientRequestPath edgeResponseStatus cacheStatus }
+              }
+              totals: httpRequestsAdaptiveGroups(limit: 1, filter: { datetime_geq: $start, datetime_lt: $end }) {
+                count
+                sum { edgeResponseBytes }
+                ratio { status4xx status5xx }
+              }
+            }
+          }
+        }`,
+        { zoneTag: env.CF_ZONE_ID, start: todayStart.toISOString(), end: now.toISOString() },
+      ),
+      queryCloudflareGraphQL<{
+        viewer: { zones: { daily: { count: number; uniq: { uniques: number }; dimensions: { date: string } }[] }[] }
+      }>(
+        env,
+        `query($zoneTag: String!, $start: Date!, $end: Date!) {
+          viewer {
+            zones(filter: { zoneTag: $zoneTag }) {
+              daily: httpRequests1dGroups(limit: 14, filter: { date_geq: $start, date_leq: $end }, orderBy: [date_ASC]) {
+                count
+                uniq { uniques }
+                dimensions { date }
+              }
+            }
+          }
+        }`,
+        { zoneTag: env.CF_ZONE_ID, start: trendStart.toISOString().slice(0, 10), end: todayStart.toISOString().slice(0, 10) },
+      ),
+    ])
+
+    const zone = todayData.viewer.zones[0]
+    const rows = zone?.breakdown ?? []
+    const totals = zone?.totals?.[0] ?? { count: 0, sum: { edgeResponseBytes: 0 }, ratio: { status4xx: 0, status5xx: 0 } }
+    const daily = trendData.viewer.zones[0]?.daily ?? []
+
+    return json(
+      {
+        today: {
+          requests: totals.count,
+          bytes: totals.sum.edgeResponseBytes,
+          status4xxRatio: totals.ratio.status4xx,
+          status5xxRatio: totals.ratio.status5xx,
+          byCountry: sumByDimension(rows, 'clientCountryName').map((r) => ({ country: r.key, count: r.count })),
+          byPath: sumByDimension(rows, 'clientRequestPath').map((r) => ({ path: r.key, count: r.count })),
+          byStatus: sumByDimension(rows, 'edgeResponseStatus').map((r) => ({ status: r.key, count: r.count })),
+          byCache: sumByDimension(rows, 'cacheStatus').map((r) => ({ status: r.key, count: r.count })),
+        },
+        trend: daily.map((d) => ({ date: d.dimensions.date, requests: d.count, uniques: d.uniq.uniques })),
+      },
+      {},
+      origin,
+    )
+  } catch (err) {
+    return json({ error: err instanceof Error ? err.message : 'Cloudflare query failed' }, { status: 502 }, origin)
+  }
+}
+
 // public: record a page visit (called by the tracking beacon on every page)
 async function handleTrackVisit(request: Request, env: Env, origin: string | null): Promise<Response> {
   const body = await request.json<{ path?: string; referrer?: string }>().catch(() => null)
@@ -346,6 +475,10 @@ export default {
 
     if (parts[0] === 'tracking' && parts[1] === 'links') {
       return handleTrackingLinks(request, env, origin, parts[2])
+    }
+
+    if (parts[0] === 'tracking' && parts[1] === 'cloudflare' && request.method === 'GET') {
+      return handleCloudflareEdgeSummary(env, origin)
     }
 
     return json({ error: 'Not found' }, { status: 404 }, origin)

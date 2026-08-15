@@ -11,3 +11,6 @@ routes = [
 kv_namespaces = [
   { binding = "ADMIN_KV", id = "48d870e0af6740f48e2a682c6ac637d0" }
 ]
+
+[vars]
+CF_ZONE_ID = "49d28c5781e034ce9a6bf4d90ad67dda"
