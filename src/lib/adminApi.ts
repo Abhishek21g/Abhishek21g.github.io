@@ -151,7 +151,7 @@ export interface CloudflareEdgeSummary {
     byStatus: { status: string; count: number }[]
     byCache: { status: string; count: number }[]
   }
-  trend: { date: string; requests: number; uniques: number }[]
+  trend: { date: string; requests: number; pageViews: number; threats: number; uniques: number }[]
 }
 
 export async function getCloudflareEdgeSummary(): Promise<CloudflareEdgeSummary> {

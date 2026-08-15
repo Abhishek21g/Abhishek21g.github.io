@@ -77,7 +77,8 @@ export default function CloudflareEdgeBoard() {
 
   const { today, trend } = summary
   const errorRate = ((today.status4xxRatio + today.status5xxRatio) * 100).toFixed(1)
-  const totalTrendRequests = trend.reduce((sum, t) => sum + t.requests, 0)
+  const totalUniques = trend.reduce((sum, t) => sum + t.uniques, 0)
+  const totalThreats = trend.reduce((sum, t) => sum + t.threats, 0)
 
   return (
     <div className="flex flex-col gap-5">
@@ -101,10 +102,16 @@ export default function CloudflareEdgeBoard() {
           <strong className="mt-3 block font-serif text-4xl font-normal">{errorRate}%</strong>
         </div>
         <div className="rounded-2xl border border-white/14 bg-white/[0.07] p-5 shadow-2xl shadow-black/30 backdrop-blur-2xl">
-          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-white/45">14-day requests</p>
-          <strong className="mt-3 block font-serif text-4xl font-normal">{totalTrendRequests.toLocaleString()}</strong>
+          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-white/45">Unique visitors (14d)</p>
+          <strong className="mt-3 block font-serif text-4xl font-normal">{totalUniques.toLocaleString()}</strong>
         </div>
       </section>
+
+      {totalThreats > 0 && (
+        <p className="font-mono text-xs text-white/45">
+          {totalThreats.toLocaleString()} threats blocked at the edge in the last 14 days (bots, known-bad IPs, attack patterns).
+        </p>
+      )}
 
       <section className="rounded-2xl border border-white/14 bg-white/[0.07] p-5 shadow-2xl shadow-black/30 backdrop-blur-2xl">
         <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-white/45">Trend</p>

@@ -215,11 +215,20 @@ async function queryCloudflareGraphQL<T>(env: Env, query: string, variables: Rec
     },
     body: JSON.stringify({ query, variables }),
   })
-  const body = await response.json<{ data: T | null; errors?: { message: string }[] }>()
-  if (body.errors?.length) {
-    throw new Error(body.errors.map((e) => e.message).join('; '))
+  const text = await response.text()
+  let body: { data: T | null; errors?: { message: string }[]; success?: boolean }
+  try {
+    body = JSON.parse(text)
+  } catch {
+    throw new Error(`Cloudflare API returned non-JSON (status ${response.status}): ${text.slice(0, 300)}`)
   }
-  return body.data as T
+  if (body.errors?.length) {
+    throw new Error(`Cloudflare API error (status ${response.status}): ${body.errors.map((e) => e.message).join('; ')}`)
+  }
+  if (!body.data) {
+    throw new Error(`Cloudflare API returned no data (status ${response.status}, body: ${text.slice(0, 300)})`)
+  }
+  return body.data
 }
 
 function sumByDimension(rows: CfHttpGroupRow[], key: keyof CfHttpGroupRow['dimensions']): { key: string; count: number }[] {
@@ -276,14 +285,18 @@ async function handleCloudflareEdgeSummary(env: Env, origin: string | null): Pro
         { zoneTag: env.CF_ZONE_ID, start: todayStart.toISOString(), end: now.toISOString() },
       ),
       queryCloudflareGraphQL<{
-        viewer: { zones: { daily: { count: number; uniq: { uniques: number }; dimensions: { date: string } }[] }[] }
+        viewer: {
+          zones: {
+            daily: { sum: { requests: number; pageViews: number; threats: number }; uniq: { uniques: number }; dimensions: { date: string } }[]
+          }[]
+        }
       }>(
         env,
         `query($zoneTag: String!, $start: Date!, $end: Date!) {
           viewer {
             zones(filter: { zoneTag: $zoneTag }) {
               daily: httpRequests1dGroups(limit: 14, filter: { date_geq: $start, date_leq: $end }, orderBy: [date_ASC]) {
-                count
+                sum { requests pageViews threats }
                 uniq { uniques }
                 dimensions { date }
               }
@@ -311,7 +324,13 @@ async function handleCloudflareEdgeSummary(env: Env, origin: string | null): Pro
           byStatus: sumByDimension(rows, 'edgeResponseStatus').map((r) => ({ status: r.key, count: r.count })),
           byCache: sumByDimension(rows, 'cacheStatus').map((r) => ({ status: r.key, count: r.count })),
         },
-        trend: daily.map((d) => ({ date: d.dimensions.date, requests: d.count, uniques: d.uniq.uniques })),
+        trend: daily.map((d) => ({
+          date: d.dimensions.date,
+          requests: d.sum.requests,
+          pageViews: d.sum.pageViews,
+          threats: d.sum.threats,
+          uniques: d.uniq.uniques,
+        })),
       },
       {},
       origin,
