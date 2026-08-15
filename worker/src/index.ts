@@ -24,14 +24,33 @@ interface Entry {
 interface VisitEvent {
   ts: string
   path: string
+  ip: string
   country: string
+  region: string
+  regionCode: string
+  city: string
   referrer: string
 }
 
 interface ClickEvent {
   ts: string
+  ip: string
   country: string
+  region: string
+  regionCode: string
+  city: string
   referrer: string
+}
+
+function geoFromRequest(request: Request): { ip: string; country: string; region: string; regionCode: string; city: string } {
+  const cf = request.cf as { country?: string; region?: string; regionCode?: string; city?: string } | undefined
+  return {
+    ip: request.headers.get('CF-Connecting-IP') || 'unknown',
+    country: cf?.country || 'unknown',
+    region: cf?.region || '',
+    regionCode: cf?.regionCode || '',
+    city: cf?.city || '',
+  }
 }
 
 interface TrackedLink {
@@ -346,11 +365,10 @@ async function handleTrackVisit(request: Request, env: Env, origin: string | nul
   if (!body || typeof body.path !== 'string') {
     return json({ error: 'path is required' }, { status: 400 }, origin)
   }
-  const country = (request.cf?.country as string | undefined) || 'unknown'
   const event: VisitEvent = {
     ts: new Date().toISOString(),
     path: body.path.slice(0, 200),
-    country,
+    ...geoFromRequest(request),
     referrer: (body.referrer || '').slice(0, 300),
   }
   const visits = await readVisits(env)
@@ -366,10 +384,9 @@ async function handleLinkRedirect(request: Request, env: Env, slug: string): Pro
   const link = links.find((l) => l.slug === slug)
   if (!link) return new Response('Not found', { status: 404 })
 
-  const country = (request.cf?.country as string | undefined) || 'unknown'
   link.clicks.push({
     ts: new Date().toISOString(),
-    country,
+    ...geoFromRequest(request),
     referrer: request.headers.get('Referer') || '',
   })
   while (link.clicks.length > MAX_CLICKS_PER_LINK) link.clicks.shift()
@@ -385,6 +402,10 @@ async function handleTrackingSummary(env: Env, origin: string | null): Promise<R
 
   const byPath = countBy(visits, (v) => v.path).map((r) => ({ path: r.key, count: r.count }))
   const byCountry = countBy(visits, (v) => v.country).map((r) => ({ country: r.key, count: r.count }))
+  const byRegion = countBy(
+    visits.filter((v) => v.region),
+    (v) => `${v.region}${v.country ? `, ${v.country}` : ''}`,
+  ).map((r) => ({ region: r.key, count: r.count }))
 
   const recentVisits = visits.slice(-20).reverse()
   const linkSummaries = links
@@ -404,6 +425,7 @@ async function handleTrackingSummary(env: Env, origin: string | null): Promise<R
       totalClicks,
       byPath,
       byCountry,
+      byRegion,
       recentVisits,
       links: linkSummaries,
     },

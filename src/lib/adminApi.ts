@@ -95,7 +95,11 @@ export async function deleteEntry(id: string, type: EntryType): Promise<void> {
 
 export interface ClickEvent {
   ts: string
+  ip: string
   country: string
+  region: string
+  regionCode: string
+  city: string
   referrer: string
 }
 
@@ -111,7 +115,11 @@ export interface TrackedLink {
 export interface VisitEvent {
   ts: string
   path: string
+  ip: string
   country: string
+  region: string
+  regionCode: string
+  city: string
   referrer: string
 }
 
@@ -120,6 +128,7 @@ export interface TrackingSummary {
   totalClicks: number
   byPath: { path: string; count: number }[]
   byCountry: { country: string; count: number }[]
+  byRegion: { region: string; count: number }[]
   recentVisits: VisitEvent[]
   links: TrackedLink[]
 }

@@ -3,11 +3,17 @@
 import { FormEvent, useEffect, useState } from 'react'
 import {
   TrackingSummary,
+  VisitEvent,
   createTrackedLink,
   deleteTrackedLink,
   getTrackingSummary,
 } from '@/lib/adminApi'
 import BarList from './BarList'
+
+function formatLocation(event: Pick<VisitEvent, 'city' | 'regionCode' | 'region' | 'country'>): string {
+  const parts = [event.city, event.regionCode || event.region, event.country].filter(Boolean)
+  return parts.length > 0 ? parts.join(', ') : 'unknown'
+}
 
 export default function TrackingBoard() {
   const [summary, setSummary] = useState<TrackingSummary | null>(null)
@@ -79,6 +85,7 @@ export default function TrackingBoard() {
   }
 
   const countryRows = summary.byCountry.map((c) => ({ key: c.country, count: c.count }))
+  const regionRows = summary.byRegion.map((r) => ({ key: r.region, count: r.count }))
   const pathRows = summary.byPath.map((p) => ({ key: p.path, count: p.count }))
 
   return (
@@ -104,19 +111,26 @@ export default function TrackingBoard() {
         </div>
       </section>
 
-      <section className="grid gap-4 lg:grid-cols-2">
+      <section className="grid gap-4 lg:grid-cols-3">
         <div className="rounded-2xl border border-white/14 bg-white/[0.07] p-5 shadow-2xl shadow-black/30 backdrop-blur-2xl">
           <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-white/45">World</p>
-          <h2 className="mt-1 font-serif text-2xl font-normal">Visits by country</h2>
+          <h2 className="mt-1 font-serif text-2xl font-normal">By country</h2>
           <div className="mt-5">
             <BarList rows={countryRows} labelWidth="w-14" />
+          </div>
+        </div>
+        <div className="rounded-2xl border border-white/14 bg-white/[0.07] p-5 shadow-2xl shadow-black/30 backdrop-blur-2xl">
+          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-white/45">State / region</p>
+          <h2 className="mt-1 font-serif text-2xl font-normal">By region</h2>
+          <div className="mt-5">
+            <BarList rows={regionRows} labelWidth="w-24" />
           </div>
         </div>
         <div className="rounded-2xl border border-white/14 bg-white/[0.07] p-5 shadow-2xl shadow-black/30 backdrop-blur-2xl">
           <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-white/45">Pages</p>
           <h2 className="mt-1 font-serif text-2xl font-normal">Most visited</h2>
           <div className="mt-5">
-            <BarList rows={pathRows} labelWidth="w-40" />
+            <BarList rows={pathRows} labelWidth="w-32" />
           </div>
         </div>
       </section>
@@ -184,30 +198,43 @@ export default function TrackingBoard() {
             <p className="font-mono text-xs uppercase tracking-[0.16em] text-white/40">no links yet</p>
           )}
           {summary.links.map((link) => (
-            <div key={link.slug} className="flex flex-wrap items-center justify-between gap-3 py-4">
-              <div className="min-w-0">
-                <p className="text-sm font-semibold">{link.label}</p>
-                <p className="mt-1 font-mono text-[11px] text-white/45">
-                  enaguthi.com/l/{link.slug} → {link.destination}
-                </p>
+            <div key={link.slug} className="py-4">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold">{link.label}</p>
+                  <p className="mt-1 font-mono text-[11px] text-white/45">
+                    enaguthi.com/l/{link.slug} → {link.destination}
+                  </p>
+                </div>
+                <div className="flex shrink-0 items-center gap-2">
+                  <span className="rounded-full border border-white/10 px-3 py-1 font-mono text-[11px] text-white/55">
+                    {link.clickCount} {link.clickCount === 1 ? 'click' : 'clicks'}
+                  </span>
+                  <button
+                    onClick={() => copyLink(link.slug)}
+                    className="rounded-full border border-white/15 px-3 py-1 font-mono text-[11px] text-white/60 hover:text-white"
+                  >
+                    {copiedSlug === link.slug ? 'copied' : 'copy'}
+                  </button>
+                  <button
+                    onClick={() => handleDeleteLink(link.slug)}
+                    className="rounded-full border border-white/15 px-3 py-1 font-mono text-[11px] text-white/60 hover:border-red-400/60 hover:text-red-300"
+                  >
+                    delete
+                  </button>
+                </div>
               </div>
-              <div className="flex shrink-0 items-center gap-2">
-                <span className="rounded-full border border-white/10 px-3 py-1 font-mono text-[11px] text-white/55">
-                  {link.clickCount} {link.clickCount === 1 ? 'click' : 'clicks'}
-                </span>
-                <button
-                  onClick={() => copyLink(link.slug)}
-                  className="rounded-full border border-white/15 px-3 py-1 font-mono text-[11px] text-white/60 hover:text-white"
-                >
-                  {copiedSlug === link.slug ? 'copied' : 'copy'}
-                </button>
-                <button
-                  onClick={() => handleDeleteLink(link.slug)}
-                  className="rounded-full border border-white/15 px-3 py-1 font-mono text-[11px] text-white/60 hover:border-red-400/60 hover:text-red-300"
-                >
-                  delete
-                </button>
-              </div>
+              {link.recentClicks.length > 0 && (
+                <div className="mt-3 flex flex-col gap-1.5 border-l border-white/10 pl-3">
+                  {link.recentClicks.map((click, i) => (
+                    <div key={`${link.slug}-${click.ts}-${i}`} className="flex flex-wrap items-center gap-x-3 font-mono text-[11px] text-white/45">
+                      <span>{formatLocation(click)}</span>
+                      <span className="text-white/35">{click.ip}</span>
+                      <span className="text-white/30">{new Date(click.ts).toLocaleString()}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -221,9 +248,10 @@ export default function TrackingBoard() {
             <p className="font-mono text-xs uppercase tracking-[0.16em] text-white/40">no visits yet</p>
           )}
           {summary.recentVisits.map((visit, i) => (
-            <div key={`${visit.ts}-${i}`} className="flex items-center justify-between gap-4 py-3 text-sm">
+            <div key={`${visit.ts}-${i}`} className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 py-3 text-sm">
               <span className="min-w-0 truncate text-white/75">{visit.path}</span>
-              <span className="shrink-0 font-mono text-[11px] text-white/45">{visit.country}</span>
+              <span className="shrink-0 font-mono text-[11px] text-white/45">{formatLocation(visit)}</span>
+              <span className="shrink-0 font-mono text-[11px] text-white/35">{visit.ip}</span>
               <span className="shrink-0 font-mono text-[11px] text-white/35">{new Date(visit.ts).toLocaleString()}</span>
             </div>
           ))}
