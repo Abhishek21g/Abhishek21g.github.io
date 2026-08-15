@@ -1,0 +1,14 @@
+{
+  "name": "enaguthi-admin-api",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "secret:password": "wrangler secret put ADMIN_PASSWORD"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260811.1",
+    "wrangler": "^4.0.0"
+  }
+}

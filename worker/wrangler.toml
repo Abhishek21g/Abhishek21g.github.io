@@ -1,0 +1,11 @@
+name = "enaguthi-admin-api"
+main = "src/index.ts"
+compatibility_date = "2024-11-01"
+
+routes = [
+  { pattern = "enaguthi.com/api/admin/*", zone_name = "enaguthi.com" }
+]
+
+kv_namespaces = [
+  { binding = "ADMIN_KV", id = "48d870e0af6740f48e2a682c6ac637d0" }
+]
