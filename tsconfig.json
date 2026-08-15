@@ -31,6 +31,7 @@
     ".history",
     "agent",
     ".codex",
-    ".claude"
+    ".claude",
+    "worker"
   ]
 }
