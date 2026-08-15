@@ -3,7 +3,9 @@ main = "src/index.ts"
 compatibility_date = "2024-11-01"
 
 routes = [
-  { pattern = "enaguthi.com/api/admin/*", zone_name = "enaguthi.com" }
+  { pattern = "enaguthi.com/api/admin/*", zone_name = "enaguthi.com" },
+  { pattern = "enaguthi.com/api/track/*", zone_name = "enaguthi.com" },
+  { pattern = "enaguthi.com/l/*", zone_name = "enaguthi.com" }
 ]
 
 kv_namespaces = [

@@ -93,4 +93,51 @@ export async function deleteEntry(id: string, type: EntryType): Promise<void> {
   await request(`/entries/${id}?type=${type}`, { method: 'DELETE' })
 }
 
+export interface ClickEvent {
+  ts: string
+  country: string
+  referrer: string
+}
+
+export interface TrackedLink {
+  slug: string
+  destination: string
+  label: string
+  createdAt: string
+  clickCount: number
+  recentClicks: ClickEvent[]
+}
+
+export interface VisitEvent {
+  ts: string
+  path: string
+  country: string
+  referrer: string
+}
+
+export interface TrackingSummary {
+  totalVisits: number
+  totalClicks: number
+  byPath: { path: string; count: number }[]
+  byCountry: { country: string; count: number }[]
+  recentVisits: VisitEvent[]
+  links: TrackedLink[]
+}
+
+export async function getTrackingSummary(): Promise<TrackingSummary> {
+  return request<TrackingSummary>('/tracking/summary')
+}
+
+export async function createTrackedLink(input: { slug: string; destination: string; label?: string }): Promise<TrackedLink> {
+  const data = await request<{ link: TrackedLink }>('/tracking/links', {
+    method: 'POST',
+    body: JSON.stringify(input),
+  })
+  return data.link
+}
+
+export async function deleteTrackedLink(slug: string): Promise<void> {
+  await request(`/tracking/links/${slug}`, { method: 'DELETE' })
+}
+
 export { UnauthorizedError }

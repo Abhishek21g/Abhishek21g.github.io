@@ -1,6 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import Script from 'next/script'
 import ThemeProviderWrapper from '../components/ThemeProviderWrapper'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -21,6 +22,7 @@ export default function RootLayout({
         <ThemeProviderWrapper>
           {children}
         </ThemeProviderWrapper>
+        <Script src="/track.js" strategy="afterInteractive" />
       </body>
     </html>
   )

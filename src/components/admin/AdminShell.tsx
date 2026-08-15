@@ -8,6 +8,7 @@ const NAV = [
   { href: '/admin/', label: 'Dashboard' },
   { href: '/admin/travel/', label: 'Travel' },
   { href: '/admin/notes/', label: 'Notes' },
+  { href: '/admin/tracking/', label: 'Tracking' },
 ]
 
 export default function AdminShell({
