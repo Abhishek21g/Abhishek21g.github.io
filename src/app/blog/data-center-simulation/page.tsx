@@ -1,9 +1,9 @@
 export const metadata = {
-  title: 'Project X - Abhishek Enaguthi',
-  description: 'Project X.',
+  title: 'Data Center Simulation - Abhishek Enaguthi',
+  description: 'Data Center Simulation.',
 }
 
-export default function ProjectXPage() {
+export default function DataCenterSimulationPage() {
   return (
     <main className="min-h-screen bg-[#14110D] text-[#F6F2EA]">
       <div className="mx-auto max-w-4xl px-5 py-5 md:px-8 md:py-8">
@@ -26,7 +26,7 @@ export default function ProjectXPage() {
 
           <div className="p-6 md:p-10">
             <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.16em] text-[#E2621B]">Field notes</p>
-            <h1 className="font-serif text-4xl font-normal leading-[0.98] md:text-6xl">Project X</h1>
+            <h1 className="font-serif text-4xl font-normal leading-[0.98] md:text-6xl">Data Center Simulation</h1>
 
             <div className="mt-8 overflow-hidden rounded-md bg-black">
               <video controls playsInline poster="/project-x/poster.jpg" className="w-full">

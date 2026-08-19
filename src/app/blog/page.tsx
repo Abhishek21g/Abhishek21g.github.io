@@ -1,9 +1,9 @@
 const posts = [
   {
     date: 'October 2024',
-    excerpt: 'Project X.',
-    href: '/blog/project-x/',
-    title: 'Project X',
+    excerpt: 'Data Center Simulation.',
+    href: '/blog/data-center-simulation/',
+    title: 'Data Center Simulation',
   },
   {
     date: 'April 2025',
