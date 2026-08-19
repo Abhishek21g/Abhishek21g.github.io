@@ -33,6 +33,14 @@ export default function DataCenterSimulationPage() {
                 <source src="/project-x/project-x.mp4" type="video/mp4" />
               </video>
             </div>
+
+            <p className="mt-6 text-sm leading-6 text-[#5B5648]">
+              This system was also shown at{' '}
+              <a href="/blog/supercomputing-2024/" className="text-[#E2621B] underline hover:text-[#c9550f]">
+                Supercomputing 2024
+              </a>
+              .
+            </p>
           </div>
         </article>
       </div>
