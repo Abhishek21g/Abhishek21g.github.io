@@ -1,5 +1,11 @@
 const posts = [
   {
+    date: 'October 2024',
+    excerpt: 'Project X.',
+    href: '/blog/project-x/',
+    title: 'Project X',
+  },
+  {
     date: 'April 2025',
     excerpt:
       'A lightning talk on the CIC server-room digital twin, NVIDIA Omniverse, and making infrastructure visible.',
