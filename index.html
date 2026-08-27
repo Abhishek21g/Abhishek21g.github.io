@@ -1034,7 +1034,7 @@ class Component extends DCLogic {
     '~': ['today.txt', 'about.txt', 'principles.md', 'experience.log', 'contact.txt', 'projects/', 'gallery/', 'blog/', 'resume.txt', 'agent/'],
     '~/projects': ['certus.md', 'mocki.md', 'leetfut.md', 'bluestart.md', 'compile-your-language.md', 'treehacks-intersystems.md', 'rag-pipeline.md'],
     '~/gallery': ['treehacks-karpathy-2023.jpg', 'img_9530-2.jpg', 'img_5446.jpg', 'img_4193-2.jpg', 'img_9799.jpg', 'img_9593.jpg', 'img_4700.jpg', 'img_4698.jpg', 'img_4695.jpg', 'img_5729.jpg', 'img_2683.jpg', 'img_9125.jpg', 'img_1292.jpg', 'sc24-booth.jpg'],
-    '~/blog': ['gtc-2025.md', 'jensen-osu.md', 'treehacks-karpathy.md', 'lightning-talk.md', 'supercomputing-2024.md'],
+    '~/blog': ['supercomputing-2025.md', 'gtc-2025.md', 'jensen-osu.md', 'treehacks-karpathy.md', 'lightning-talk.md', 'supercomputing-2024.md'],
     '~/agent': ['README.md', 'status.json', 'tokens.log', 'graph.json', 'workflow.md', 'suggestions.md', 'chat']
   };
 
@@ -1108,7 +1108,7 @@ class Component extends DCLogic {
       this.setState({ shellPath: target });
       return 'entered ' + target;
     }
-    if (cmd === 'tree') return ".\n├── today.txt\n├── about.txt\n├── principles.md\n├── experience.log\n├── contact.txt\n├── resume.txt\n├── projects/\n│   ├── certus.md\n│   ├── mocki.md\n│   ├── leetfut.md\n│   ├── bluestart.md\n│   ├── compile-your-language.md\n│   ├── treehacks-intersystems.md\n│   └── rag-pipeline.md\n├── gallery/\n│   ├── sc24-booth.jpg\n│   └── aiweek-wide.jpg\n├── blog/\n│   ├── supercomputing-2024.md\n│   └── lightning-talk.md\n└── agent/\n    ├── status.json\n    ├── tokens.log\n    ├── graph.json\n    ├── workflow.md\n    └── chat";
+    if (cmd === 'tree') return ".\n├── today.txt\n├── about.txt\n├── principles.md\n├── experience.log\n├── contact.txt\n├── resume.txt\n├── projects/\n│   ├── certus.md\n│   ├── mocki.md\n│   ├── leetfut.md\n│   ├── bluestart.md\n│   ├── compile-your-language.md\n│   ├── treehacks-intersystems.md\n│   └── rag-pipeline.md\n├── gallery/\n│   ├── sc24-booth.jpg\n│   └── aiweek-wide.jpg\n├── blog/\n│   ├── supercomputing-2025.md\n│   ├── supercomputing-2024.md\n│   └── lightning-talk.md\n└── agent/\n    ├── status.json\n    ├── tokens.log\n    ├── graph.json\n    ├── workflow.md\n    └── chat";
     if (cmd === 'tokens') return "context meter\nused: 67%\nremaining: ~18k tokens\nmode: build + verify\nnote: static display for now; ready for real Codex/Claude logs.";
     if (cmd === 'graph') return this.githubGraphText();
     if (cmd === 'agent') return "rudhra-agent static shell\n\ntry: agent route recruiter\ntry: agent explain certus\ntry: agent explain mocki\ntry: agent suggest\nnote: this public site can route and summarize, but private actions stay in GitHub/Rudhra.";
@@ -1165,11 +1165,12 @@ class Component extends DCLogic {
       'compile-your-language.md': this.openTargets['compile-your-language'],
       'treehacks-intersystems.md': this.openTargets['treehacks-intersystems'],
       'rag-pipeline.md': this.openTargets['rag-pipeline'],
-      'gtc-2025.md': this.blogData[0].title + "\n" + this.blogData[0].paragraphs.join("\n\n"),
-      'jensen-osu.md': this.blogData[1].title + "\n" + this.blogData[1].paragraphs.join("\n\n"),
-      'treehacks-karpathy.md': this.blogData[2].title + "\n" + this.blogData[2].paragraphs.join("\n\n"),
-      'lightning-talk.md': this.blogData[3].title + "\n" + this.blogData[3].paragraphs.join("\n\n"),
-      'supercomputing-2024.md': this.blogData[4].title + "\n" + this.blogData[4].paragraphs.join("\n\n")
+      'supercomputing-2025.md': this.blogData[0].title + "\n" + this.blogData[0].paragraphs.join("\n\n"),
+      'gtc-2025.md': this.blogData[1].title + "\n" + this.blogData[1].paragraphs.join("\n\n"),
+      'jensen-osu.md': this.blogData[2].title + "\n" + this.blogData[2].paragraphs.join("\n\n"),
+      'treehacks-karpathy.md': this.blogData[3].title + "\n" + this.blogData[3].paragraphs.join("\n\n"),
+      'lightning-talk.md': this.blogData[4].title + "\n" + this.blogData[4].paragraphs.join("\n\n"),
+      'supercomputing-2024.md': this.blogData[5].title + "\n" + this.blogData[5].paragraphs.join("\n\n")
     };
     if (file === 'resume.txt') this.openResume();
     if (file === 'principles.md') this.openPrinciples();
@@ -1212,6 +1213,8 @@ class Component extends DCLogic {
       ['mocki', 'projects/mocki.md', 'NVIDIA Nemotron multi-agent interview coach'],
       ['gallery', 'gallery/', 'SC24 and AI Week photos'],
       ['resume', 'resume.txt', 'credential packet'],
+      ['blog', 'blog/supercomputing-2025.md', 'SC25 talk and Team Oregon'],
+      ['sc25', 'blog/supercomputing-2025.md', 'SC25 St. Louis field notes'],
       ['blog', 'blog/supercomputing-2024.md', 'SC24 field notes']
     ].filter((row) => row.join(' ').toLowerCase().indexOf(q) !== -1);
     return rows.length ? rows.map((row) => row[1] + '  ' + row[2]).join('\n') : 'no matches for ' + term;
@@ -1752,6 +1755,19 @@ class Component extends DCLogic {
   setGalleryIndex = (i) => this.setState({ galleryIndex: i });
 
   blogData = [
+    {
+      title: 'Talk and Team Oregon at Supercomputing 2025',
+      date: 'November 2025',
+      meta: 'SC25 St. Louis · Oregon Innovates',
+      hero: '/media/sc25-collage.jpg',
+      tags: ['hpc', 'supercomputing', 'team oregon'],
+      paragraphs: [
+        'SC25 put me back on a national HPC floor, this time in St. Louis. The week was three jobs at once: a booth talk at Oregon Innovates, days on the show floor with Link Oregon, and leading Team Oregon through the student competition.',
+        'At the Oregon Innovates booth I stood at the podium and talked through our work for a small floor audience. Behind me the sponsor banner was hard to miss: NVIDIA, Mark III Systems, PIVIT, and the Oregon university logos.',
+        'We lived on the Oregon Innovates floor with Link Oregon. Crater Lake backdrop, purple carpet, gray chairs, a white table with a laptop always open. Less polished demo theater than SC24, more of a working Oregon outpost on the SC25 floor.',
+        'I led Team Oregon through the competition days. Black tablecloth, laptops and power bricks everywhere, the SC25 St. Louis banner behind us. The role was pacing: who owns the next run, when to stop chasing a broken build, how to hand off without dropping the thread.'
+      ]
+    },
     {
       title: 'GTC 2025 — hallway GPUs and the compiler crowd',
       date: 'March 2025',
