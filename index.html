@@ -806,15 +806,16 @@
 <div class="blog-hero-frame">
 <img class="blog-hero-img" src="{{ activeBlogPost.hero }}" alt="{{ activeBlogPost.title }}" />
 </div>
-<div class="nd-roman" style="margin-bottom:8px;">IV. Notes · {{ activeBlogPost.date }}</div>
-<h3 class="nd-heading" style="font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:34px;line-height:0.98;color:#14110D;margin:0 0 14px;">{{ activeBlogPost.title }}</h3>
+<div class="nd-roman" style="margin-bottom:6px;">{{ activeBlogPost.meta }} · {{ activeBlogPost.date }}</div>
+<h3 class="nd-heading" style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-weight:600;font-size:22px;line-height:1.15;color:#14110D;margin:0 0 10px;">{{ activeBlogPost.title }}</h3>
 <sc-for list="{{ activeBlogPost.paragraphs }}" as="paragraph" hint-placeholder-count="4">
-<p style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:14px;line-height:1.7;color:#3B3529;margin:0 0 14px;">{{ paragraph }}</p>
+<p style="font-family:'Instrument Sans','National Park','IBM Plex Sans',sans-serif;font-size:13px;line-height:1.65;color:#3B3529;margin:0 0 12px;">{{ paragraph }}</p>
 </sc-for>
-<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;">
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;align-items:center;">
 <sc-for list="{{ activeBlogPost.tags }}" as="tag" hint-placeholder-count="3">
 <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;padding:5px 9px;border-radius:999px;background:rgba(20,17,13,0.07);color:#5B5648;">{{ tag }}</span>
 </sc-for>
+<a href="{{ activeBlogPost.href }}" style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#E2621B;text-decoration:none;margin-left:auto;">open full page →</a>
 </div>
 </div>
 </div>
@@ -1760,6 +1761,7 @@ class Component extends DCLogic {
       date: 'November 2025',
       meta: 'SC25 St. Louis · Oregon Innovates',
       hero: '/media/sc25-collage.jpg',
+      href: '/blog/supercomputing-2025/',
       tags: ['hpc', 'supercomputing', 'team oregon'],
       paragraphs: [
         'SC25 put me back on a national HPC floor, this time in St. Louis. The week was three jobs at once: a booth talk at Oregon Innovates, days on the show floor with Link Oregon, and leading Team Oregon through the student competition.',
@@ -1773,6 +1775,7 @@ class Component extends DCLogic {
       date: 'March 2025',
       meta: 'NVIDIA GTC · San Jose · Talk writeup',
       hero: '/media/img_9799.jpg',
+      href: '/blog/gtc-2025/',
       tags: ['gtc', 'nvidia', 'talk'],
       paragraphs: [
         'March 2025 at NVIDIA GTC in San Jose. Not a keynote slot. A week of short talks, demos, and hallway sessions with the people who ship GPU software.',
@@ -1786,6 +1789,7 @@ class Component extends DCLogic {
       date: 'April 2024',
       meta: 'Oregon State University · NVIDIA',
       hero: '/media/img_4193-2.jpg',
+      href: '/blog/',
       tags: ['osu', 'nvidia', 'jensen huang'],
       paragraphs: [
         'April 12, 2024. Jensen Huang came back to Oregon State for the inaugural Global Futures Forum on AI and the ceremonial groundbreaking for the Jen-Hsun Huang and Lori Mills Huang Collaborative Innovation Complex.',
@@ -1799,6 +1803,7 @@ class Component extends DCLogic {
       date: 'February 2023',
       meta: 'TreeHacks · Stanford',
       hero: '/media/treehacks-karpathy-2023.jpg',
+      href: '/blog/',
       tags: ['treehacks', 'llm', 'karpathy'],
       paragraphs: [
         'TreeHacks 2023 was early enough that “LLM product” still meant a clever demo, not a category. I was hacking on ideas around language models and systems: half research brain, half sleep deprivation.',
@@ -1812,6 +1817,7 @@ class Component extends DCLogic {
       date: 'April 2025',
       meta: 'OSU AI Week · Talk + poster',
       hero: '/media/aiweek-poster-osu.jpg',
+      href: '/blog/lightning-talk/',
       tags: ['digital twin', 'omniverse', 'ai week'],
       paragraphs: [
         'Oregon State AI Week talk and poster session. Authors: Abhishek Enaguthi, Wayne Wood, and Christopher M. Sullivan.',
@@ -1825,6 +1831,7 @@ class Component extends DCLogic {
       date: 'November 2024',
       meta: 'SC24 Atlanta · CIC Digital Twin',
       hero: '/media/sc24-booth.jpg',
+      href: '/blog/supercomputing-2024/',
       tags: ['hpc', 'supercomputing', 'digital twin'],
       paragraphs: [
         "SC24 was the first time we brought the CIC digital twin work onto a national supercomputing floor, representing Oregon State at the Link Oregon booth.",
