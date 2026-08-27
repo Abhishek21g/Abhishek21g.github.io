@@ -9,21 +9,21 @@ const posts = [
   {
     date: 'April 2025',
     excerpt:
-      'Oregon State AI Week talk and poster: digital twins, agentic AI, Omniverse, and data-center power and thermal.',
+      'Oregon State AI Week lightning talk on the CIC digital twin, Omniverse, and making the room legible on stage.',
     href: '/blog/lightning-talk/',
-    title: 'Future Infrastructure: Data Centers with Agentic AI and NVIDIA Omniverse',
+    title: 'Digital Twins, the CIC, and Our Omniverse Demo',
   },
   {
     date: 'March 2025',
     excerpt:
-      'Talk writeup from NVIDIA GTC in San Jose: what we pitched, who listened, and the Omniverse twin demo thread.',
+      'NVIDIA GTC in San Jose: twin pitch, hallway sessions, and the Future Infrastructure poster.',
     href: '/blog/gtc-2025/',
     title: 'What we took to GTC: GPUs, compilers, and the twin pitch',
   },
   {
     date: 'November 2024',
     excerpt:
-      'Talk + live demo notes from SC24: CIC Omniverse twin on the Oregon Innovates floor, Quest headset, researchers and developers.',
+      'SC24 floor notes: CIC Omniverse twin at Oregon Innovates, robot photo, Quest demo, hard questions from HPC folks.',
     href: '/blog/supercomputing-2024/',
     title: 'Omniverse digital twin on the show floor',
   },
