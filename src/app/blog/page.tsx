@@ -1,5 +1,12 @@
 const posts = [
   {
+    date: 'November 2025',
+    excerpt:
+      'Booth talk at Oregon Innovates, Link Oregon floor days, and leading Team Oregon through the SC25 competition in St. Louis.',
+    href: '/blog/supercomputing-2025/',
+    title: 'Talk and Team Oregon at Supercomputing 2025',
+  },
+  {
     date: 'October 2024',
     excerpt: 'Data Center Simulation.',
     href: '/blog/data-center-simulation/',
@@ -15,9 +22,9 @@ const posts = [
   {
     date: 'November 2024',
     excerpt:
-      'Taking OSU digital twin work to SC24 in Atlanta, with live sensor data, rack-layout tests, and HPC conversations.',
+      'Talk + live demo notes from SC24: CIC Omniverse twin on the Oregon Innovates floor, Quest headset, researchers and developers.',
     href: '/blog/supercomputing-2024/',
-    title: 'Repping OSU at Supercomputing 2024',
+    title: 'Omniverse digital twin on the show floor',
   },
 ]
 

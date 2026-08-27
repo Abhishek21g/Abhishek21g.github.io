@@ -6,16 +6,22 @@ import { useState } from 'react'
 
 const blogPosts = [
   {
+    title: "Talk and Team Oregon at Supercomputing 2025",
+    date: "November 2025",
+    slug: "supercomputing-2025",
+    excerpt: "Booth talk at Oregon Innovates, Link Oregon floor days, and leading Team Oregon at SC25 in St. Louis..."
+  },
+  {
     title: "AI Week at Oregon State University: Digital Twins, The CIC, and Our Omniverse Demo",
     date: "April 30, 2025",
     slug: "lightning-talk",
     excerpt: "Exploring digital twin technology and NVIDIA Omniverse at Oregon State University's AI Week..."
   },
   {
-    title: "Repping OSU at Supercomputing 2024: CIC Digital Twin Goes National",
+    title: "Omniverse digital twin on the show floor",
     date: "November 2024",
     slug: "supercomputing-2024",
-    excerpt: "Taking the CIC digital twin project to Atlanta for Supercomputing 2024 (SC24)..."
+    excerpt: "SC24 talk + live demo: CIC Omniverse twin, Quest on the floor, researchers and developers..."
   }
 ]
 
