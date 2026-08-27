@@ -23,9 +23,9 @@ const posts = [
   {
     date: 'November 2024',
     excerpt:
-      'SC24 floor notes: CIC Omniverse twin at Oregon Innovates, robot photo, Quest demo, hard questions from HPC folks.',
+      'SC24 floor notes: CIC Omniverse twin at Oregon Innovates / Link Oregon, Quest on the floor, hard questions from HPC folks.',
     href: '/blog/supercomputing-2024/',
-    title: 'Omniverse digital twin on the show floor',
+    title: 'Repping OSU at Supercomputing 2024',
   },
   {
     date: 'October 2024',

@@ -24,10 +24,10 @@ const blogPosts = [
     excerpt: "Talk writeup from NVIDIA GTC 2025: Omniverse, CIC twin, data center simulation on the floor."
   },
   {
-    title: "Omniverse digital twin on the show floor",
+    title: "Repping OSU at Supercomputing 2024",
     date: "November 2024",
     slug: "supercomputing-2024",
-    excerpt: "SC24 talk + live demo: CIC Omniverse twin, Quest on the floor, researchers and developers..."
+    excerpt: "SC24 floor notes: CIC Omniverse twin at Oregon Innovates, Quest on the floor, researchers and developers..."
   },
   {
     title: "Data Center Simulation",
