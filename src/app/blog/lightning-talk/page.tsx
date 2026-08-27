@@ -25,7 +25,7 @@ export default function LightningTalkPage() {
 
         <figure className="mt-8 overflow-hidden rounded-[12px] border border-[#14110D]/10 bg-[#14110D] shadow-xl">
           <img
-            src="/media/aiweek-poster-osu.jpg"
+            src="/Blog1/aiweek-poster-osu.jpg"
             alt="Abhishek Enaguthi standing next to the AI Week poster Future Infrastructure: Data Centers with Agentic AI and NVIDIA Omniverse"
             className="max-h-[720px] w-full object-contain"
           />
