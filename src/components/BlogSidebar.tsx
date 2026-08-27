@@ -12,10 +12,16 @@ const blogPosts = [
     excerpt: "Booth talk at Oregon Innovates, Link Oregon floor days, and leading Team Oregon at SC25 in St. Louis..."
   },
   {
-    title: "AI Week at Oregon State University: Digital Twins, The CIC, and Our Omniverse Demo",
-    date: "April 30, 2025",
+    title: "What we took to GTC: GPUs, compilers, and the twin pitch",
+    date: "March 2025",
+    slug: "gtc-2025",
+    excerpt: "Talk writeup from NVIDIA GTC 2025: what we pitched, audience, and Omniverse twin demo thread."
+  },
+  {
+    title: "Future Infrastructure: Data Centers with Agentic AI and NVIDIA Omniverse",
+    date: "April 2025",
     slug: "lightning-talk",
-    excerpt: "Exploring digital twin technology and NVIDIA Omniverse at Oregon State University's AI Week..."
+    excerpt: "Oregon State AI Week talk and poster on digital twins, agentic AI, Omniverse, power and thermal."
   },
   {
     title: "Omniverse digital twin on the show floor",

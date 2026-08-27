@@ -7,17 +7,18 @@ const posts = [
     title: 'Talk and Team Oregon at Supercomputing 2025',
   },
   {
-    date: 'October 2024',
-    excerpt: 'Data Center Simulation.',
-    href: '/blog/data-center-simulation/',
-    title: 'Data Center Simulation',
+    date: 'March 2025',
+    excerpt:
+      'Talk writeup from NVIDIA GTC in San Jose: what we pitched, who listened, and the Omniverse twin demo thread.',
+    href: '/blog/gtc-2025/',
+    title: 'What we took to GTC: GPUs, compilers, and the twin pitch',
   },
   {
     date: 'April 2025',
     excerpt:
-      'A lightning talk on the CIC server-room digital twin, NVIDIA Omniverse, and making infrastructure visible.',
+      'Oregon State AI Week talk and poster: digital twins, agentic AI, Omniverse, and data-center power and thermal.',
     href: '/blog/lightning-talk/',
-    title: 'Digital Twins, the CIC, and Our Omniverse Demo',
+    title: 'Future Infrastructure: Data Centers with Agentic AI and NVIDIA Omniverse',
   },
   {
     date: 'November 2024',
@@ -25,6 +26,12 @@ const posts = [
       'Talk + live demo notes from SC24: CIC Omniverse twin on the Oregon Innovates floor, Quest headset, researchers and developers.',
     href: '/blog/supercomputing-2024/',
     title: 'Omniverse digital twin on the show floor',
+  },
+  {
+    date: 'October 2024',
+    excerpt: 'Data Center Simulation.',
+    href: '/blog/data-center-simulation/',
+    title: 'Data Center Simulation',
   },
 ]
 
