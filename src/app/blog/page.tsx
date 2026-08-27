@@ -16,9 +16,9 @@ const posts = [
   {
     date: 'March 2025',
     excerpt:
-      'NVIDIA GTC in San Jose: twin pitch, hallway sessions, and the Future Infrastructure poster.',
+      'Talk writeup from NVIDIA GTC: Omniverse, the OSU CIC digital twin, and data center simulation on the floor.',
     href: '/blog/gtc-2025/',
-    title: 'What we took to GTC: GPUs, compilers, and the twin pitch',
+    title: 'Omniverse, the CIC twin, and talking data centers at GTC',
   },
   {
     date: 'November 2024',

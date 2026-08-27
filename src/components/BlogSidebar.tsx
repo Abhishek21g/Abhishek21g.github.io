@@ -18,10 +18,10 @@ const blogPosts = [
     excerpt: "Oregon State AI Week talk and poster on digital twins, agentic AI, Omniverse, power and thermal."
   },
   {
-    title: "What we took to GTC: GPUs, compilers, and the twin pitch",
+    title: "Omniverse, the CIC twin, and talking data centers at GTC",
     date: "March 2025",
     slug: "gtc-2025",
-    excerpt: "Talk writeup from NVIDIA GTC 2025: what we pitched, audience, and Omniverse twin demo thread."
+    excerpt: "Talk writeup from NVIDIA GTC 2025: Omniverse, CIC twin, data center simulation on the floor."
   },
   {
     title: "Omniverse digital twin on the show floor",

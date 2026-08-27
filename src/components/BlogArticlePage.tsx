@@ -5,7 +5,7 @@ type BlogSection = {
 
 type BlogArticlePageProps = {
   date: string
-  hero: string
+  hero?: string
   heroAlt?: string
   heroLayout?: 'side' | 'top'
   kicker: string
@@ -60,6 +60,32 @@ export default function BlogArticlePage({
     </>
   )
 
+  const articleBody = !hero ? (
+    <div className="p-6 md:p-10">{body}</div>
+  ) : heroLayout === 'top' ? (
+    <>
+      <div className="bg-[#14110D] p-3 md:p-4">
+        <img
+          src={hero}
+          alt={heroAlt}
+          className="mx-auto max-h-[640px] w-full rounded-md object-contain"
+        />
+      </div>
+      <div className="p-6 md:p-10">{body}</div>
+    </>
+  ) : (
+    <div className="grid gap-0 lg:grid-cols-[1.05fr_0.95fr]">
+      <div className="p-6 md:p-10">{body}</div>
+      <div className="bg-[#14110D] p-3">
+        <img
+          src={hero}
+          alt={heroAlt}
+          className="h-[360px] w-full rounded-md object-contain md:h-full"
+        />
+      </div>
+    </div>
+  )
+
   return (
     <main className="min-h-screen bg-[#14110D] text-[#F6F2EA]">
       <div className="mx-auto max-w-5xl px-5 py-5 md:px-8 md:py-8">
@@ -80,29 +106,7 @@ export default function BlogArticlePage({
             </span>
           </div>
 
-          {heroLayout === 'top' ? (
-            <>
-              <div className="bg-[#14110D] p-3 md:p-4">
-                <img
-                  src={hero}
-                  alt={heroAlt}
-                  className="mx-auto max-h-[640px] w-full rounded-md object-contain"
-                />
-              </div>
-              <div className="p-6 md:p-10">{body}</div>
-            </>
-          ) : (
-            <div className="grid gap-0 lg:grid-cols-[1.05fr_0.95fr]">
-              <div className="p-6 md:p-10">{body}</div>
-              <div className="bg-[#14110D] p-3">
-                <img
-                  src={hero}
-                  alt={heroAlt}
-                  className="h-[360px] w-full rounded-md object-contain md:h-full"
-                />
-              </div>
-            </div>
-          )}
+          {articleBody}
         </article>
 
         {media.length > 0 ? (
