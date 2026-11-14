@@ -2,23 +2,17 @@
   "source": "github",
   "login": "Abhishek21g",
   "status": "live",
-  "updatedAt": "2026-11-13T19:50:31.931Z",
+  "updatedAt": "2026-11-14T06:40:34.842Z",
   "windowDays": 98,
   "totals": {
-    "contributions": 1609,
+    "contributions": 1617,
     "commits": 942,
     "pullRequests": 116,
     "issues": 8,
     "repositories": 56
   },
-  "currentStreak": 0,
+  "currentStreak": 2,
   "cells": [
-    {
-      "date": "2026-08-08",
-      "count": 0,
-      "level": 0,
-      "title": "2026-08-08: 0 public contributions"
-    },
     {
       "date": "2026-08-09",
       "count": 1,
@@ -597,9 +591,15 @@
     },
     {
       "date": "2026-11-13",
-      "count": 0,
-      "level": 0,
-      "title": "2026-11-13: 0 public contributions"
+      "count": 8,
+      "level": 3,
+      "title": "2026-11-13: 8 public contributions"
+    },
+    {
+      "date": "2026-11-14",
+      "count": 1,
+      "level": 1,
+      "title": "2026-11-14: 1 public contributions"
     }
   ]
 }
